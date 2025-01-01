@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Button } from 'react-native';
-import { DrawerParamList } from '@/navigation.tsx/DrawerNavigator';
+import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 
 

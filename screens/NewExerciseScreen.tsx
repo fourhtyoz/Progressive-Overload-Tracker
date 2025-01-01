@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Button } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import { DrawerParamList } from '@/navigation.tsx/DrawerNavigator';
+import { DrawerParamList } from '@/navigation/DrawerNavigator';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'NewExercise'>;

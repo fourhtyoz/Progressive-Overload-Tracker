@@ -5,7 +5,7 @@ import { WEIGHTS } from '@/constants/weights';
 import { EXERCISES } from '@/constants/exercises';
 import { toTitleCase } from '@/utils/utils';
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import { DrawerParamList } from '@/navigation.tsx/DrawerNavigator';
+import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
