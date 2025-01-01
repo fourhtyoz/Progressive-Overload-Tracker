@@ -14,6 +14,7 @@ type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
 
 
 export default function HomeScreen({ navigation }: Props) {
+    // not a great idea to have all styles in here. Duplicates are real
     const styles = StyleSheet.create({
         input: {
             flex: 1,

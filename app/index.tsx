@@ -4,6 +4,7 @@ import DrawerNavigator from '@/navigation/DrawerNavigator';
 
 export default function App() {
     return (
+        // AuthProvider
         <NavigationContainer independent={true}>
             <DrawerNavigator />
         </NavigationContainer>

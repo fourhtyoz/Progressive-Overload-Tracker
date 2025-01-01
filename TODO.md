@@ -2,6 +2,7 @@
 
 ## General 
 
+0. Refactor styles
 1. Auth
 2. Store
 3. Offline/Online mode
