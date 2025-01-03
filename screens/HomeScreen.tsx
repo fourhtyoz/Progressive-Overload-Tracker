@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, StyleSheet, Text, Pressable, Alert } from 'react-native';
+import { View, TextInput, Text, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WEIGHTS } from '@/constants/weights';
 import { EXERCISES } from '@/constants/exercises';
@@ -8,109 +8,13 @@ import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { styles } from '@/styles/styles';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
 
 
 export default function HomeScreen({ navigation }: Props) {
-    // not a great idea to have all styles in here. Duplicates are real
-    const styles = StyleSheet.create({
-        input: {
-            flex: 1,
-            height: 40,
-            borderWidth: 1,
-            padding: 10,
-            borderColor: 'lightgray',
-            borderRadius: 5,
-            color: '#000',
-        },
-        inputWithOption: {
-            flex: 1,
-            height: 40,
-            borderWidth: 1,
-            padding: 10,
-            borderColor: 'lightgray',
-            borderTopLeftRadius: 5,
-            borderBottomLeftRadius: 5,
-            color: '#000',
-        },
-        dropdownButtonStyle: {
-            width: 45,
-            height: 40,
-            backgroundColor: '#000',
-            borderTopRightRadius: 5,
-            borderBottomRightRadius: 5,
-            flexDirection: 'row',
-            justifyContent: 'center',
-            alignItems: 'center',
-        },
-        dropdownButtonTxtStyle: {
-            color: '#FFF',
-        },
-        dropdownButtonArrowStyle: {
-            fontSize: 28,
-        },
-        dropdownMenuStyle: {
-            backgroundColor: '#E9ECEF',
-            borderRadius: 8,
-        },
-        dropdownItemStyle: {
-            width: '100%',
-            flexDirection: 'row',
-            paddingHorizontal: 12,
-            justifyContent: 'center',
-            alignItems: 'center',
-            paddingVertical: 8,
-        },
-        dropdownItemTxtStyle: {
-            flex: 1,
-            fontSize: 18,
-            fontWeight: '500',
-            color: '#151E26',
-        },
-        dropdownItemIconStyle: {
-            fontSize: 28,
-            marginRight: 8,
-        },
-        itemWrapper: {
-            display: 'flex',
-            flexDirection: 'row',
-            alignItems: 'center',
-            paddingVertical: 15
-        },
-        inputLabel: {
-            fontWeight: 'bold',
-            width: 70
-        },
-        wrapper: {
-            paddingHorizontal: 20,
-
-        },
-        exerciseText: {
-            color: '#000'
-        },
-        exerciseTextPlaceholder: {
-            color: '#a9a9a9'
-        },
-        submitButton: {
-            alignItems: 'center',
-            justifyContent: 'center',
-            paddingVertical: 15,
-            borderRadius: 5,
-            backgroundColor: 'black',
-            },
-        submitButtonText: {
-            fontSize: 16,
-            fontWeight: 'bold',
-            letterSpacing: 0.25,
-            color: 'white',
-        },
-        buttonWrapper: {
-            marginVertical: 15
-        }
-    });
-
     const [muscleGroup, setMuscleGroup] = useState('')
     const [exercise, setExercise] = useState('')
     const [repsValue, setRepsValue] = useState('')
@@ -277,21 +181,23 @@ export default function HomeScreen({ navigation }: Props) {
             </View>
             
             <View style={styles.buttonWrapper}>
-                <Pressable style={styles.submitButton} onPress={handleSubmitEntry}>
-                    <Text style={styles.submitButtonText}>Submit</Text>
-                </Pressable>
-            </View>
+                <View>
+                    <Pressable style={styles.submitButton} onPress={handleSubmitEntry}>
+                        <Text style={styles.submitButtonText}>Submit</Text>
+                    </Pressable>
+                </View>
             
-            <View>
-                <Pressable style={styles.submitButton} onPress={handleCreateExercise}>
-                    <Text style={styles.submitButtonText}>Create a new exercise</Text>
-                </Pressable>
-            </View>
+                <View>
+                    <Pressable style={styles.submitButton} onPress={handleCreateExercise}>
+                        <Text style={styles.submitButtonText}>Create a new exercise</Text>
+                    </Pressable>
+                </View>
 
-            <View style={styles.buttonWrapper}>
-                <Pressable style={styles.submitButton} onPress={handleHistory}>
-                    <Text style={styles.submitButtonText}>History</Text>
-                </Pressable>
+                <View>
+                    <Pressable style={styles.submitButton} onPress={handleHistory}>
+                        <Text style={styles.submitButtonText}>History</Text>
+                    </Pressable>
+                </View>
             </View>
         </SafeAreaView>
     );
