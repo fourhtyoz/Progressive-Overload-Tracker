@@ -9,13 +9,14 @@
 3. Offline/Online mode
 4. Settings
 5. Themes
-6. Populate the DB
+6. Populate the DB (how to sync the db with the local storage?)
 7. Hovers + Accessiblity
 8. UI/UX
 9. Tests
 10. CI/CD
 11. Delpoyment
 12. Smart watch
+13. Show "last time weight/reps" to know what weight to use
 
 
 ## Home
@@ -32,6 +33,8 @@
 5. Sorting
 6. Different colors (depenending on the result)
 7. Unique keys
+8. Delete entries
+
 
 
 ## New Exercise

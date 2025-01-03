@@ -55,7 +55,11 @@ export default function HomeScreen({ navigation }: Props) {
                 repsValue: repsValue,
                 weightValue: weightValue,
                 units: units,
-                date: new Date().toLocaleDateString()
+                date: new Date().toLocaleDateString('ru-Ru', {
+                    year: '2-digit',
+                    month: '2-digit',
+                    day: '2-digit',
+                })
             }
             storeData(exercise, data)
             Alert.alert(
