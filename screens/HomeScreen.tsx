@@ -242,7 +242,7 @@ export default function HomeScreen({ navigation }: Props) {
                     placeholderTextColor={'#a9a9a9'}
                     onChangeText={setRepsValue}
                     keyboardType='numeric'
-                    />
+                />
             </View>
             <View style={styles.itemWrapper}>
                 <Text style={styles.inputLabel}>Weight:</Text>

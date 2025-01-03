@@ -46,7 +46,7 @@ export default function DrawerNavigator() {
                 name="Home" 
                 component={HomeScreen} 
             />
-            <Drawer.Screen 
+            <Drawer.Screen
                 name="About" 
                 component={AboutScreen} 
             />
