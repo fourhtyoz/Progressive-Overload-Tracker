@@ -1,5 +1,6 @@
 # TODO
 
+
 ## General 
 
 0. Refactor styles
@@ -16,9 +17,11 @@
 11. Delpoyment
 12. Smart watch
 
+
 ## Home
 
 1. Validations
+
 
 ## History
 
