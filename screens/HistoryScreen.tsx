@@ -34,8 +34,10 @@ export default function HistoryScreen({ navigation }: Props) {
             ...(progressed === 'worse' 
                 ? { backgroundColor: '#F93827' } 
                 : progressed === 'neutral' 
-                    ? { backgroundColor: '#FFD65A' } 
-                    : { backgroundColor: '#16C47F' }
+                    ? { backgroundColor: '#FFD65A' }
+                    : progressed === 'better' 
+                    ? { backgroundColor: '#16C47F' }
+                    : { backgroundColor: '#FFF' }
             ) 
             }}>
             <Text style={styles.cell}>{item.date}</Text>
@@ -58,15 +60,15 @@ export default function HistoryScreen({ navigation }: Props) {
                     <Text style={[styles.cell, styles.headerCell]}>Reps</Text>
                 </View>
                 {data[exerciseName].map((record, index) => {
-                    let progressed = null
+                    let progressed = 'new'
                     if (index > 0) {
                         const previousSet = data[exerciseName][index - 1]
                         const previousScore = parseInt(previousSet.weightValue) * parseInt(previousSet.repsValue)
                         const currentScore = parseInt(record.weightValue) * parseInt(record.repsValue)
                         if (previousScore > currentScore) {
-                            progressed = 'better'
-                        } else if (previousScore < currentScore) {
                             progressed = 'worse'
+                        } else if (previousScore < currentScore) {
+                            progressed = 'better'
                         } else {
                             progressed = 'neutral'
                         }
