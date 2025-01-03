@@ -29,6 +29,9 @@
 2. Filters
 3. Optimization
 4. Skeleton
+5. Sorting
+6. Different colors (depenending on the result)
+7. Unique keys
 
 
 ## New Exercise

@@ -32,7 +32,7 @@ export default function HomeScreen({ navigation }: Props) {
         setError('')
     }
 
-    const storeData = async (key: string, value: string) => {
+    const storeData = async (key: string, value: any) => {
         try {
             const prevValue = await AsyncStorage.getItem(key)
             if (!prevValue) {
@@ -43,7 +43,6 @@ export default function HomeScreen({ navigation }: Props) {
                 await AsyncStorage.setItem(key, JSON.stringify(newValue))
             }
         } catch (e) {
-            console.log(e)
             console.error(e)
         }
     }
