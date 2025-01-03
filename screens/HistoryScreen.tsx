@@ -11,7 +11,7 @@ type Props = DrawerScreenProps<DrawerParamList, 'History'>;
 
 export default function HistoryScreen({ navigation }: Props) {
     const [data, setData] = useState([])
-    
+
     useEffect(() => {
         const getAllKeys = async () => {
             const allKeys = await AsyncStorage.getAllKeys()
@@ -28,8 +28,16 @@ export default function HistoryScreen({ navigation }: Props) {
 
     }, [])
 
-    const renderExercise = ({ item }: { item: any }, exerciseName: string) => (
-        <View style={styles.row}>
+    const renderExercise = ({ item }: { item: any }, exerciseName: string, progressed: any) => (
+        <View style={{
+            ...styles.row, 
+            ...(progressed === 'worse' 
+                ? { backgroundColor: '#F93827' } 
+                : progressed === 'neutral' 
+                    ? { backgroundColor: '#FFD65A' } 
+                    : { backgroundColor: '#16C47F' }
+            ) 
+            }}>
             <Text style={styles.cell}>{item.date}</Text>
             <Text style={styles.cell}>{exerciseName}</Text>
             <Text style={styles.cell}>{toTitleCase(item.muscleGroup)}</Text>
@@ -49,7 +57,23 @@ export default function HistoryScreen({ navigation }: Props) {
                     <Text style={[styles.cell, styles.headerCell]}>Weight</Text>
                     <Text style={[styles.cell, styles.headerCell]}>Reps</Text>
                 </View>
-                {data[exerciseName].map((record) => renderExercise({ item: record }, exerciseName))}
+                {data[exerciseName].map((record, index) => {
+                    let progressed = null
+                    if (index > 0) {
+                        const previousSet = data[exerciseName][index - 1]
+                        const previousScore = parseInt(previousSet.weightValue) * parseInt(previousSet.repsValue)
+                        const currentScore = parseInt(record.weightValue) * parseInt(record.repsValue)
+                        if (previousScore > currentScore) {
+                            progressed = 'better'
+                        } else if (previousScore < currentScore) {
+                            progressed = 'worse'
+                        } else {
+                            progressed = 'neutral'
+                        }
+                    }
+                    return renderExercise({ item: record }, exerciseName, progressed);
+                })}
+
             </View>
         ));
     };

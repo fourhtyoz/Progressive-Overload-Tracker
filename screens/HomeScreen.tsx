@@ -65,18 +65,14 @@ export default function HomeScreen({ navigation }: Props) {
             Alert.alert(
                 'Success', 
                 'A new entry has been added to your history', 
-                [
-                    {text: 'OK'}
-                ]
+                [{text: 'OK'}]
             )
             resetAllFields()
         } else {
             Alert.alert(
                 'Error', 
                 'To add a new entry you need to fill out all fields', 
-                [
-                    {text: 'OK'}
-                ]
+                [{text: 'OK'}]
             )
         }
     }
@@ -165,11 +161,11 @@ export default function HomeScreen({ navigation }: Props) {
                     data={WEIGHTS}
                     onSelect={(selectedItem) => setUnits(selectedItem.title)}
                     renderButton={(selectedItem) => {
-                    return (
-                        <View style={styles.dropdownButtonStyle}>
-                            <Text style={styles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || units}</Text>
-                        </View>
-                    );
+                        return (
+                            <View style={styles.dropdownButtonStyle}>
+                                <Text style={styles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || units}</Text>
+                            </View>
+                        );
                     }}
                     renderItem={(item, isSelected) => {
                         return (
