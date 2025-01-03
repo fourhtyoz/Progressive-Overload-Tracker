@@ -79,7 +79,7 @@ export default function HomeScreen({ navigation }: Props) {
     }
 
     const handleCreateExercise = () => {
-        navigation.navigate('NewExercise')
+        navigation.navigate('New Exercise')
     }
 
     const handleHistory = () => {

@@ -11,8 +11,8 @@ import HistoryScreen from '@/screens/HistoryScreen';
 export type DrawerParamList = {
     Home: undefined;
     Profile: undefined;
-    About: undefined;
-    NewExercise: undefined;
+    'About us': undefined;
+    'New Exercise': undefined;
     History: undefined;
   };
 
@@ -24,8 +24,9 @@ export default function DrawerNavigator() {
         <Drawer.Navigator 
             initialRouteName="Home" 
             screenOptions={
-                ({ route, navigation}) => 
-                    ({  title: route.name,
+                ({ route, navigation}) => (
+                    {  
+                        title: route.name,
                         headerTintColor: '#fff',
                         headerTintStyle: {
                             fontWeight: 'bold'
@@ -39,7 +40,8 @@ export default function DrawerNavigator() {
                         },
                         drawerActiveBackgroundColor: '#000',
                         drawerActiveTintColor: '#FFF'
-                    })
+                    }
+                )
             }
         >
             <Drawer.Screen 
@@ -47,11 +49,11 @@ export default function DrawerNavigator() {
                 component={HomeScreen} 
             />
             <Drawer.Screen
-                name="About" 
+                name="About us" 
                 component={AboutScreen} 
             />
             <Drawer.Screen 
-                name="NewExercise" 
+                name="New Exercise" 
                 component={NewExerciseScreen} 
             />
             <Drawer.Screen 

@@ -8,7 +8,7 @@ import { EXERCISES } from '@/constants/exercises';
 import { styles } from '@/styles/styles';
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'NewExercise'>;
+type Props = DrawerScreenProps<DrawerParamList, 'New Exercise'>;
 
 
 export default function NewExerciseScreen({ navigation }: Props) {
