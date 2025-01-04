@@ -32,7 +32,7 @@ export default function HistoryScreen({ navigation }: Props) {
     useEffect(() => {
         if (!data) return;
         const keys = Object.keys(data)
-        keys.push('All')
+        keys.splice(0, 0, 'All')
         setExerciseOptions(keys);
     }, [data]);
 
