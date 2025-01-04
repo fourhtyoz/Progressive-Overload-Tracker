@@ -36,8 +36,8 @@ export default function HistoryScreen({ navigation }: Props) {
                 : progressed === 'neutral' 
                     ? { backgroundColor: '#FFD65A' }
                     : progressed === 'better' 
-                    ? { backgroundColor: '#16C47F' }
-                    : { backgroundColor: '#FFF' }
+                        ? { backgroundColor: '#16C47F' }
+                        : { backgroundColor: '#FFF' }
             ) 
             }}>
             <Text style={styles.cell}>{item.date}</Text>
