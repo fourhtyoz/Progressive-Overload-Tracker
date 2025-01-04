@@ -18,6 +18,7 @@
 12. Smart watch
 13. Show "last time weight/reps" to know what weight to use
 14. i18n
+15. Migrate exercises and entries to Realm (settings/tokens/languages/thems are kept in AsyncStorage)
 
 
 ## Home
@@ -35,6 +36,7 @@
 6. Different colors (depenending on the result)
 7. Unique keys
 8. Delete entries
+9. Open/Show
 
 
 ## New Exercise
