@@ -81,14 +81,15 @@ export const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         paddingVertical: 15,
+        backgroundColor: '#000',
         borderRadius: 5,
-        backgroundColor: 'black',
+        borderWidth: 1,
     },
     submitButtonText: {
         fontSize: 16,
         fontWeight: 'bold',
         letterSpacing: 0.25,
-        color: 'white',
+        color: '#FFF',
     },
     buttonWrapper: {
         marginVertical: 15,

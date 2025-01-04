@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { View, Button, SafeAreaView, Text, TextInput, Pressable } from 'react-native';
+import { View, SafeAreaView, Text, TextInput } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import { toTitleCase } from '@/utils/utils';
 import { EXERCISES } from '@/constants/exercises';
 import { styles } from '@/styles/styles';
+import Button from '@/components/Button';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'New Exercise'>;
@@ -19,6 +20,10 @@ export default function NewExerciseScreen({ navigation }: Props) {
     const handleCreateExercise = () => {
         console.log('name', name)
         console.log('group', muscleGroup)
+    }
+
+    const handleGoBack = () => {
+        navigation.goBack()
     }
 
     return (
@@ -52,16 +57,26 @@ export default function NewExerciseScreen({ navigation }: Props) {
                 <TextInput onChangeText={setName} placeholder='Name of the exercise' style={styles.input} />
             </View>
             <View style={styles.buttonWrapper}>
-                <View>
-                    <Pressable style={styles.submitButton} onPress={handleCreateExercise}>
-                        <Text style={styles.submitButtonText}>Create a new exercise</Text>
-                    </Pressable>
-                </View>
-                <View>
-                    <Pressable style={styles.submitButton} onPress={() => navigation.goBack()}>
-                        <Text style={styles.submitButtonText}>Go back home</Text>
-                    </Pressable>
-                </View>
+                <Button 
+                    onPress={handleCreateExercise} 
+                    bgColor={'#000'} 
+                    pressedBgColor={'#FFF'} 
+                    borderColor={'#FFF'} 
+                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
+                    textColor={'#FFF'} 
+                    pressedTextColor={'#000'} 
+                    text={'Create a new exercise'}
+                />
+                <Button 
+                    onPress={handleGoBack} 
+                    bgColor={'#000'} 
+                    pressedBgColor={'#FFF'} 
+                    borderColor={'#FFF'} 
+                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
+                    textColor={'#FFF'} 
+                    pressedTextColor={'#000'} 
+                    text={'Go back'}
+                />
             </View>
         </SafeAreaView>
     )

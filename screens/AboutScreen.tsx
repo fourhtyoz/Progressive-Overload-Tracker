@@ -76,17 +76,18 @@ const AboutScreen = () => {
   );
 
   return (
-    <FlatList style={styles.bg} data={content} renderItem={renderItem} keyExtractor={(item) => item.key} />
+    <FlatList style={styles.wrapper} data={content} renderItem={renderItem} keyExtractor={(item) => item.key} />
   )
 };
 
 const styles = StyleSheet.create({
-    bg: {
+    wrapper: {
         backgroundColor: '#fff',
+        paddingHorizontal: 20,
+        paddingVertical: 15,
     },
     section: {
         marginBottom: 20,
-        padding: 10,
         backgroundColor: '#fff',
         borderRadius: 8,
     },
@@ -97,8 +98,9 @@ const styles = StyleSheet.create({
         color: '#333',
     },
     text: {
-        fontSize: 16,
+        textAlign: 'justify',
         lineHeight: 24,
+        fontSize: 16,
         color: '#555',
     },
     listItem: {

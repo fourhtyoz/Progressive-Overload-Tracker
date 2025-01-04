@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, TextInput, Text, Pressable, Alert } from 'react-native';
+import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { WEIGHTS } from '@/constants/weights';
 import { EXERCISES } from '@/constants/exercises';
@@ -9,6 +9,7 @@ import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '@/styles/styles';
+import Button from '@/components/Button';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
@@ -180,23 +181,36 @@ export default function HomeScreen({ navigation }: Props) {
             </View>
             
             <View style={styles.buttonWrapper}>
-                <View>
-                    <Pressable style={styles.submitButton} onPress={handleSubmitEntry}>
-                        <Text style={styles.submitButtonText}>Submit</Text>
-                    </Pressable>
-                </View>
-            
-                <View>
-                    <Pressable style={styles.submitButton} onPress={handleCreateExercise}>
-                        <Text style={styles.submitButtonText}>Create a new exercise</Text>
-                    </Pressable>
-                </View>
-
-                <View>
-                    <Pressable style={styles.submitButton} onPress={handleHistory}>
-                        <Text style={styles.submitButtonText}>History</Text>
-                    </Pressable>
-                </View>
+                <Button 
+                    onPress={handleSubmitEntry} 
+                    bgColor={'#000'} 
+                    pressedBgColor={'#FFF'} 
+                    borderColor={'#FFF'} 
+                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
+                    textColor={'#FFF'} 
+                    pressedTextColor={'#000'} 
+                    text={'Submit'}
+                />
+                <Button 
+                    onPress={handleCreateExercise} 
+                    bgColor={'#000'} 
+                    pressedBgColor={'#FFF'} 
+                    borderColor={'#FFF'} 
+                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
+                    textColor={'#FFF'} 
+                    pressedTextColor={'#000'} 
+                    text={'Create a new exercise'}
+                />
+                <Button 
+                    onPress={handleHistory} 
+                    bgColor={'#000'} 
+                    pressedBgColor={'#FFF'} 
+                    borderColor={'#FFF'} 
+                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
+                    textColor={'#FFF'} 
+                    pressedTextColor={'#000'} 
+                    text={'History'}
+                />
             </View>
         </SafeAreaView>
     );

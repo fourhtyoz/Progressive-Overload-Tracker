@@ -17,6 +17,7 @@
 11. Delpoyment
 12. Smart watch
 13. Show "last time weight/reps" to know what weight to use
+14. i18n
 
 
 ## Home
@@ -34,7 +35,6 @@
 6. Different colors (depenending on the result)
 7. Unique keys
 8. Delete entries
-
 
 
 ## New Exercise
