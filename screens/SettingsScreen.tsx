@@ -1,26 +1,32 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Switch, Alert, Pressable } from "react-native"
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { DrawerParamList } from "@/navigation/DrawerNavigator";
 import { COLORS } from "@/styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
-import Button from "@/components/Button";
+import Button from "@/components/buttons/Button";
 import SelectDropdown from "react-native-select-dropdown";
 import { UNITS, THEMES, LANGUAGES, FONT_SIZES } from "@/constants/settings";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Settings'>;
 
 
 export default function SettingsScreen({ navigation }: Props) {
-    // TODO
-    const [isEnabled, setIsEnabled] = useState(false);
-    const [defaultUnits, setDefaultUnits] = useState(null);
-    const [defaultLanguage, setDefaultLanguage] = useState(null);
-    const [defaultFontSize, setDefaultFontSize] = useState(null);
-    const [defaultTheme, setDefaultTheme] = useState(null);
+    const [settings, setSettings] = useState({
+        theme: '',
+        fontSize: '',
+        language: '',
+        units: '',
+        notifications: false,
+    });
 
-    const toggleSwitch = () => setIsEnabled(previousState => !previousState);
+    const [defaultFontSize, setDefaultFontSize] = useState(settings.fontSize || '');
+    const [defaultLanguage, setDefaultLanguage] = useState(settings.language || '');
+    const [defaultUnits, setDefaultUnits] = useState(settings.units || '');
+    const [defaultTheme, setDefaultTheme] = useState(settings.theme || '');
+    const [defaultNotifications, setDefaultNotifcations] = useState(settings.notifications || false);
 
     const handleGetInTouch = () => {
         Alert.alert(
@@ -40,9 +46,62 @@ export default function SettingsScreen({ navigation }: Props) {
         Alert.alert(
             'Are you sure?', 
             'Do you really want to delete all the data in the app? Press "YES" will delete your progress', 
-            [{text: 'Yes, please proceed', onPress: handleDeleteAllData}, {text: 'No, I\'ve changed my mind'}]
+            [
+                {text: 'Yes, please proceed', onPress: handleDeleteAllData}, 
+                {text: 'No, I\'ve changed my mind'}
+            ]
         )
     }
+
+    const handleChangeLanguage = async (lang: string) => {
+        if (!lang || typeof lang !== 'string') return;
+        setDefaultLanguage(lang)
+        await AsyncStorage.setItem('language', lang)
+    }
+
+    const handleChangeUnits = async (units: string) => {
+        if (!units || typeof units !== 'string') return;
+        setDefaultUnits(units)
+        await AsyncStorage.setItem('units', units)
+    }
+
+    const handleChangeFontSize = async (fontSize: string) => {
+        if (!fontSize || typeof fontSize !== 'string') return;
+        setDefaultFontSize(fontSize)
+        await AsyncStorage.setItem('fontSize', fontSize)
+    }
+
+    const handleChangeTheme = async (theme: string) => {
+        if (!theme || typeof theme !== 'string') return;
+        setDefaultTheme(theme)
+        await AsyncStorage.setItem('theme', theme)
+    }
+
+    const handleChangeNotifications = async (notifications: boolean) => {
+        setDefaultNotifcations(!notifications)
+        await AsyncStorage.setItem('notifications', JSON.stringify(notifications))
+    }
+
+    const loadSettings = async () => {
+        try {
+            const keys = ['theme', 'fontSize', 'language', 'units', 'notifications'];
+            const values = await AsyncStorage.multiGet(keys);
+
+            const settingsObject = {};
+            values.forEach(([key, value]) => {
+            settingsObject[key] = value;
+            });
+
+            setSettings(settingsObject);
+        } catch (error) {
+            console.error('Failed to load settings from AsyncStorage:', error);
+        }
+      };
+
+    useEffect(() => {
+        loadSettings();
+    }, []);
+
     return (
         <SafeAreaView style={s.wrapper}>
             <View>
@@ -50,15 +109,15 @@ export default function SettingsScreen({ navigation }: Props) {
                     <Text style={s.title}>Font size:</Text>
                     <SelectDropdown
                         data={FONT_SIZES}
-                        onSelect={(selectedItem) => setDefaultFontSize(selectedItem)}
+                        onSelect={(selectedItem) => handleChangeFontSize(selectedItem?.title)}
                         renderButton={(selectedItem) => {
                             return (
                                 <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.title) || defaultFontSize}</Text>
+                                    <Text style={s.dropdownText}>{(selectedItem?.title) || settings.fontSize}</Text>
                                 </View>
                             );
                         }}
-                        renderItem={(item, isSelected) => {
+                        renderItem={(item, _, isSelected) => {
                             return (
                                 <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
                                     <Text style={s.dropdownItemText}>{item.title}</Text>
@@ -76,15 +135,15 @@ export default function SettingsScreen({ navigation }: Props) {
                     <Text style={s.title}>Language:</Text>
                     <SelectDropdown
                         data={LANGUAGES}
-                        onSelect={(selectedItem) => setDefaultLanguage(selectedItem)}
+                        onSelect={(selectedItem) => handleChangeLanguage(selectedItem?.title)}
                         renderButton={(selectedItem) => {
                             return (
                                 <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.title) || defaultLanguage}</Text>
+                                    <Text style={s.dropdownText}>{(selectedItem?.title) || settings.language}</Text>
                                 </View>
                             );
                         }}
-                        renderItem={(item, isSelected) => {
+                        renderItem={(item, _, isSelected) => {
                             return (
                                 <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
                                     <Text style={s.dropdownItemText}>{item.title}</Text>
@@ -102,15 +161,15 @@ export default function SettingsScreen({ navigation }: Props) {
                     <Text style={s.title}>Units:</Text>
                     <SelectDropdown
                         data={UNITS}
-                        onSelect={(selectedItem) => setDefaultUnits(selectedItem)}
+                        onSelect={(selectedItem) => handleChangeUnits(selectedItem?.title)}
                         renderButton={(selectedItem) => {
                             return (
                                 <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.title) || defaultUnits}</Text>
+                                    <Text style={s.dropdownText}>{(selectedItem?.title) || settings.units}</Text>
                                 </View>
                             );
                         }}
-                        renderItem={(item, isSelected) => {
+                        renderItem={(item, _, isSelected) => {
                             return (
                                 <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
                                     <Text style={s.dropdownItemText}>{item.title}</Text>
@@ -128,17 +187,17 @@ export default function SettingsScreen({ navigation }: Props) {
                     <Text style={s.title}>Theme:</Text>
                     <SelectDropdown
                         data={THEMES}
-                        onSelect={(selectedItem) => setDefaultTheme(selectedItem)}
+                        onSelect={(selectedItem) => handleChangeTheme(selectedItem.title)}
                         renderButton={(selectedItem) => {
                             return (
                                 <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.title) || defaultTheme}</Text>
+                                    <Text style={s.dropdownText}>{(selectedItem?.title) || settings.theme}</Text>
                                 </View>
                             );
                         }}
-                        renderItem={(item, isSelected) => {
+                        renderItem={(item, _, isSelected) => {
                             return (
-                                <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: COLORS.orange})}}>
                                     <Text style={s.dropdownItemText}>{item.title}</Text>
                                 </View>
                             );
@@ -154,10 +213,10 @@ export default function SettingsScreen({ navigation }: Props) {
                     <Text style={s.title}>Receive notifications:</Text>
                     <Switch
                         trackColor={{ false: '#767577', true: COLORS.orange }}
-                        thumbColor={isEnabled ? COLORS.black : '#f4f3f4'}
+                        thumbColor={defaultNotifications ? COLORS.black : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
-                        onValueChange={toggleSwitch}
-                        value={isEnabled}
+                        onValueChange={() => handleChangeNotifications(defaultNotifications)}
+                        value={defaultNotifications}
                     />
                 </View>
                 <Text style={s.helpText}>Help Text</Text>
@@ -205,8 +264,7 @@ const s = StyleSheet.create({
     },
     
     dropdownButton: {
-        borderTopRightRadius: 5,
-        borderBottomRightRadius: 5,
+        width: 50,
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
@@ -214,7 +272,7 @@ const s = StyleSheet.create({
 
     dropdownText: {
         fontSize: 18,
-        fontWeight: '500',
+        // fontWeight: '500',
         color: '#151E26',
     },
 

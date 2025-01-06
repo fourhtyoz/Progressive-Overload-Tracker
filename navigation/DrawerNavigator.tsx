@@ -14,7 +14,7 @@ import SettingsScreen from '@/screens/SettingsScreen';
 
 export type DrawerParamList = {
     Home: undefined;
-    Result: undefined;
+    'Add Result': undefined;
     Profile: undefined;
     'About us': undefined;
     'New Exercise': undefined;
@@ -57,10 +57,9 @@ export default function DrawerNavigator() {
                     }
                 )
             }
-            
         >
             <Drawer.Screen name="Home" component={HomeScreen} />
-            <Drawer.Screen name="Result" component={ResultScreen} />
+            <Drawer.Screen name="Add Result" component={ResultScreen} />
             <Drawer.Screen name="About us" component={AboutScreen} />
             <Drawer.Screen name="New Exercise" component={NewExerciseScreen} />
             <Drawer.Screen name="History" component={HistoryScreen} />

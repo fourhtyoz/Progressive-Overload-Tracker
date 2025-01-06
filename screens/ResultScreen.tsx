@@ -9,10 +9,10 @@ import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '@/styles/styles';
-import Button from '@/components/Button';
+import Button from '@/components/buttons/Button';
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'Result'>;
+type Props = DrawerScreenProps<DrawerParamList, 'Add Result'>;
 
 
 export default function ResultScreen({ navigation }: Props) {
@@ -101,7 +101,7 @@ export default function ResultScreen({ navigation }: Props) {
                             </View>
                     );
                     }}
-                    renderItem={(item, index, isSelected) => {
+                    renderItem={(item, _, isSelected) => {
                     return (
                         <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
@@ -168,7 +168,7 @@ export default function ResultScreen({ navigation }: Props) {
                             </View>
                         );
                     }}
-                    renderItem={(item, isSelected) => {
+                    renderItem={(item, _, isSelected) => {
                         return (
                             <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
                                 <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
