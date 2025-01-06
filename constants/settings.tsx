@@ -4,8 +4,11 @@ export const UNITS = [
 ]
 
 export const LANGUAGES = [
-    {title: 'RU'},
-    {title: 'EN'},
+    {title: 'Русский', code: 'ru'},
+    {title: 'English', code: 'en'},
+    {title: 'Deutsch', code: 'de'},
+    {title: 'Español', code: 'es'},
+    {title: 'Türkçe', code: 'tr'},
 ]
 
 export const THEMES = [

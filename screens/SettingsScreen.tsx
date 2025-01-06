@@ -9,6 +9,8 @@ import SelectDropdown from "react-native-select-dropdown";
 import { UNITS, THEMES, LANGUAGES, FONT_SIZES } from "@/constants/settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
+import { useTranslation } from "react-i18next";
+import i18n from "@/utils/i18n";
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Settings'>;
@@ -94,7 +96,6 @@ export default function SettingsScreen({ navigation }: Props) {
         Toast.show({
             type: 'success',
             text1: 'Success',
-            text2: `Your default theme has been changed to ${theme}`,
         });
     }
 
@@ -129,9 +130,20 @@ export default function SettingsScreen({ navigation }: Props) {
         loadSettings();
     }, []);
 
+    const { t } = useTranslation();
+    const changeLanguage = (language: string) => {
+        i18n.changeLanguage(language);
+    };
+
     return (
         <SafeAreaView style={s.wrapper}>
             <View>
+                {/* <Text>{t('test')}</Text>
+                <Button text="EN" onPress={() => changeLanguage('en')} />
+                <Button text="ES" onPress={() => changeLanguage('es')} />
+                <Button text="DE" onPress={() => changeLanguage('de')} />
+                <Button text="RU" onPress={() => changeLanguage('ru')} />
+                <Button text="TR" onPress={() => changeLanguage('tr')} /> */}
                 <View style={s.row}>
                     <Text style={s.title}>Font size:</Text>
                     <SelectDropdown
@@ -291,7 +303,7 @@ const s = StyleSheet.create({
     },
     
     dropdownButton: {
-        width: 50,
+        width: 'auto',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
