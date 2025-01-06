@@ -8,6 +8,7 @@ import Button from "@/components/buttons/Button";
 import SelectDropdown from "react-native-select-dropdown";
 import { UNITS, THEMES, LANGUAGES, FONT_SIZES } from "@/constants/settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Toast from "react-native-toast-message";
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Settings'>;
@@ -57,29 +58,55 @@ export default function SettingsScreen({ navigation }: Props) {
         if (!lang || typeof lang !== 'string') return;
         setDefaultLanguage(lang)
         await AsyncStorage.setItem('language', lang)
+        Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: `Your default language has been changed to ${lang}`,
+        });
     }
 
     const handleChangeUnits = async (units: string) => {
         if (!units || typeof units !== 'string') return;
         setDefaultUnits(units)
         await AsyncStorage.setItem('units', units)
+        Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: `Your default units have been changed to ${units}`,
+        });
     }
 
     const handleChangeFontSize = async (fontSize: string) => {
         if (!fontSize || typeof fontSize !== 'string') return;
         setDefaultFontSize(fontSize)
         await AsyncStorage.setItem('fontSize', fontSize)
+        Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: `Your default font size has been changed to ${fontSize}`,
+        });
     }
 
     const handleChangeTheme = async (theme: string) => {
         if (!theme || typeof theme !== 'string') return;
         setDefaultTheme(theme)
         await AsyncStorage.setItem('theme', theme)
+        Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: `Your default theme has been changed to ${theme}`,
+        });
     }
 
+    // NOTE: looks weird
     const handleChangeNotifications = async (notifications: boolean) => {
         setDefaultNotifcations(!notifications)
         await AsyncStorage.setItem('notifications', JSON.stringify(notifications))
+        Toast.show({
+            type: 'success',
+            text1: 'Success',
+            text2: !notifications ? `Now you'll receive notifications` : `You won't receive notitications anymore` ,
+        });
     }
 
     const loadSettings = async () => {
@@ -272,7 +299,6 @@ const s = StyleSheet.create({
 
     dropdownText: {
         fontSize: 18,
-        // fontWeight: '500',
         color: '#151E26',
     },
 
