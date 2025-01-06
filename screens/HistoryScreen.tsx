@@ -5,6 +5,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { toTitleCase } from '@/utils/utils';
 import SelectDropdown from 'react-native-select-dropdown';
+import { COLORS } from '@/styles/colors';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'History'>;
@@ -42,7 +43,7 @@ export default function HistoryScreen({ navigation }: Props) {
             ...(progress === 'worse' 
                 ? { borderLeftWidth: 5, borderLeftColor: '#F93827' } 
                 : progress === 'neutral' 
-                    ? { borderLeftWidth: 5, borderLeftColor: '#FFD65A' }
+                    ? { borderLeftWidth: 5, borderLeftColor: COLORS.orange }
                     : progress === 'better' 
                         ? { borderLeftWidth: 5, borderLeftColor: '#16C47F' }
                         : { borderLeftWidth: 5, borderLeftColor: '#FFF' }

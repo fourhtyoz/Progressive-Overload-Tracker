@@ -1,5 +1,5 @@
 import React from 'react';
-import { FlatList, Text, View, StyleSheet } from 'react-native';
+import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 
 const AboutScreen = () => {
   const content = [
@@ -76,7 +76,9 @@ const AboutScreen = () => {
   );
 
   return (
-    <FlatList style={styles.wrapper} data={content} renderItem={renderItem} keyExtractor={(item) => item.key} />
+    <SafeAreaView>
+        <FlatList style={styles.wrapper} data={content} renderItem={renderItem} keyExtractor={(item) => item.key} />
+    </SafeAreaView>
   )
 };
 

@@ -9,6 +9,7 @@ import AboutScreen from '@/screens/AboutScreen';
 import NewExerciseScreen from '@/screens/NewExerciseScreen';
 import HistoryScreen from '@/screens/HistoryScreen';
 import ResultScreen from '@/screens/ResultScreen';
+import SettingsScreen from '@/screens/SettingsScreen';
 
 
 export type DrawerParamList = {
@@ -18,6 +19,7 @@ export type DrawerParamList = {
     'About us': undefined;
     'New Exercise': undefined;
     History: undefined;
+    Settings: undefined;
   };
 
 
@@ -62,6 +64,7 @@ export default function DrawerNavigator() {
             <Drawer.Screen name="About us" component={AboutScreen} />
             <Drawer.Screen name="New Exercise" component={NewExerciseScreen} />
             <Drawer.Screen name="History" component={HistoryScreen} />
+            <Drawer.Screen name="Settings" component={SettingsScreen} />
         </Drawer.Navigator>
     );
 }

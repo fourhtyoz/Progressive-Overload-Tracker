@@ -135,7 +135,7 @@ export default function ResultScreen({ navigation }: Props) {
                     }}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
-                    />
+                />
             </View>
             <View style={styles.itemWrapper}>
                 <Text style={styles.inputLabel}>Reps:</Text>
@@ -183,32 +183,14 @@ export default function ResultScreen({ navigation }: Props) {
             <View style={styles.buttonWrapper}>
                 <Button 
                     onPress={handleSubmitEntry} 
-                    bgColor={'#000'} 
-                    pressedBgColor={'#FFF'} 
-                    borderColor={'#FFF'} 
-                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
-                    textColor={'#FFF'} 
-                    pressedTextColor={'#000'} 
                     text={'Submit'}
                 />
                 <Button 
                     onPress={handleCreateExercise} 
-                    bgColor={'#000'} 
-                    pressedBgColor={'#FFF'} 
-                    borderColor={'#FFF'} 
-                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
-                    textColor={'#FFF'} 
-                    pressedTextColor={'#000'} 
                     text={'Create a new exercise'}
                 />
                 <Button 
                     onPress={handleHistory} 
-                    bgColor={'#000'} 
-                    pressedBgColor={'#FFF'} 
-                    borderColor={'#FFF'} 
-                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
-                    textColor={'#FFF'} 
-                    pressedTextColor={'#000'} 
                     text={'History'}
                 />
             </View>
