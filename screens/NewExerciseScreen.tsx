@@ -9,7 +9,7 @@ import { styles } from '@/styles/styles';
 import Button from '@/components/buttons/Button';
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'New Exercise'>;
+type Props = DrawerScreenProps<DrawerParamList, 'NewExercise'>;
 
 
 export default function NewExerciseScreen({ navigation }: Props) {

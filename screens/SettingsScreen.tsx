@@ -17,6 +17,9 @@ type Props = DrawerScreenProps<DrawerParamList, 'Settings'>;
 
 
 export default function SettingsScreen({ navigation }: Props) {
+    const { t } = useTranslation();
+
+    // NOTE: quite a weird logic of working with the app settings 
     const [settings, setSettings] = useState({
         theme: '',
         fontSize: '',
@@ -25,88 +28,87 @@ export default function SettingsScreen({ navigation }: Props) {
         notifications: false,
     });
 
-    const [defaultFontSize, setDefaultFontSize] = useState(settings.fontSize || '');
-    const [defaultLanguage, setDefaultLanguage] = useState(settings.language || '');
-    const [defaultUnits, setDefaultUnits] = useState(settings.units || '');
-    const [defaultTheme, setDefaultTheme] = useState(settings.theme || '');
+    const [lang, setLang] = useState(settings.language || 'en')
     const [defaultNotifications, setDefaultNotifcations] = useState(settings.notifications || false);
 
     const handleGetInTouch = () => {
         Alert.alert(
-            'Get in touch with us',
-            'To get in touch with us send an email to meow@gmail.com',
+            t('settings.getInTouch'),
+            `${t('settings.sendEmailTo')} meow@gmail.com`,
          )
     }
 
     const handleDeleteAllData = () => {
         Alert.alert(
-            'Success',
-            'Your data has been deleted successfully',
+            t('alerts.success'),
+            t('settings.dataDeleted'),
         )
     }
 
     const handleDeleteData = () => {
         Alert.alert(
-            'Are you sure?', 
-            'Do you really want to delete all the data in the app? Press "YES" will delete your progress', 
+            t('alerts.areYouSure'),
+            t('alerts.wantToDelete'),
             [
-                {text: 'Yes, please proceed', onPress: handleDeleteAllData}, 
-                {text: 'No, I\'ve changed my mind'}
+                {text: t('alerts.yesProceed'), onPress: handleDeleteAllData}, 
+                {text: t('alerts.noIchangedMyMind')}
             ]
         )
     }
 
-    const handleChangeLanguage = async (lang: string) => {
-        if (!lang || typeof lang !== 'string') return;
-        setDefaultLanguage(lang)
-        await AsyncStorage.setItem('language', lang)
-        Toast.show({
-            type: 'success',
-            text1: 'Success',
-            text2: `Your default language has been changed to ${lang}`,
-        });
+    const handleChangeLanguage = async (lang: any) => {
+        if (!lang) return;
+
+        await AsyncStorage.setItem('language', lang.code)
+        setLang(lang.code)
     }
 
     const handleChangeUnits = async (units: string) => {
         if (!units || typeof units !== 'string') return;
-        setDefaultUnits(units)
+        
         await AsyncStorage.setItem('units', units)
+        
         Toast.show({
             type: 'success',
-            text1: 'Success',
-            text2: `Your default units have been changed to ${units}`,
+            text1: t('toasts.success'),
+            text2: t('toasts.changedUnits'),
         });
     }
 
     const handleChangeFontSize = async (fontSize: string) => {
         if (!fontSize || typeof fontSize !== 'string') return;
-        setDefaultFontSize(fontSize)
+        
         await AsyncStorage.setItem('fontSize', fontSize)
+        
         Toast.show({
             type: 'success',
-            text1: 'Success',
-            text2: `Your default font size has been changed to ${fontSize}`,
+            text1: t('toasts.success'),
+            text2: t('toasts.changedFontSize'),
         });
     }
 
     const handleChangeTheme = async (theme: string) => {
         if (!theme || typeof theme !== 'string') return;
-        setDefaultTheme(theme)
+        
         await AsyncStorage.setItem('theme', theme)
+        
         Toast.show({
             type: 'success',
-            text1: 'Success',
+            text1: t('toasts.success'),
+            text2: t('toasts.changedTheme'),
         });
     }
 
     // NOTE: looks weird
     const handleChangeNotifications = async (notifications: boolean) => {
         setDefaultNotifcations(!notifications)
+        
         await AsyncStorage.setItem('notifications', JSON.stringify(notifications))
+        
         Toast.show({
             type: 'success',
-            text1: 'Success',
-            text2: !notifications ? `Now you'll receive notifications` : `You won't receive notitications anymore` ,
+            text1: t('toasts.success'),
+            text2: !notifications ? t('toasts.receiveNotifications') : t('toasts.notReceiveNotifications') ,
         });
     }
 
@@ -130,22 +132,22 @@ export default function SettingsScreen({ navigation }: Props) {
         loadSettings();
     }, []);
 
-    const { t } = useTranslation();
-    const changeLanguage = (language: string) => {
-        i18n.changeLanguage(language);
-    };
+    useEffect(() => {
+        if (!lang) return;
+        i18n.changeLanguage(lang)
+        // Toast.show({
+        //     type: 'success',
+        //     text1: t('toasts.success'),
+        //     text2: t('toasts.changedLanguage'),
+        // });
+    }, [lang])
+
 
     return (
         <SafeAreaView style={s.wrapper}>
             <View>
-                {/* <Text>{t('test')}</Text>
-                <Button text="EN" onPress={() => changeLanguage('en')} />
-                <Button text="ES" onPress={() => changeLanguage('es')} />
-                <Button text="DE" onPress={() => changeLanguage('de')} />
-                <Button text="RU" onPress={() => changeLanguage('ru')} />
-                <Button text="TR" onPress={() => changeLanguage('tr')} /> */}
                 <View style={s.row}>
-                    <Text style={s.title}>Font size:</Text>
+                    <Text style={s.title}>{t('settings.options.fontSize')}:</Text>
                     <SelectDropdown
                         data={FONT_SIZES}
                         onSelect={(selectedItem) => handleChangeFontSize(selectedItem?.title)}
@@ -167,25 +169,25 @@ export default function SettingsScreen({ navigation }: Props) {
                         dropdownStyle={s.dropdownMenu}
                     />
                 </View>
-                <Text style={s.helpText}>Help Text</Text>
+                <Text style={s.helpText}>{t('settings.options.fontSizeHelpText')}</Text>
             </View>
             <View>
                 <View style={s.row}>
-                    <Text style={s.title}>Language:</Text>
+                    <Text style={s.title}>{t('settings.options.language')}:</Text>
                     <SelectDropdown
                         data={LANGUAGES}
-                        onSelect={(selectedItem) => handleChangeLanguage(selectedItem?.title)}
+                        onSelect={(selectedItem) => handleChangeLanguage(selectedItem)}
                         renderButton={(selectedItem) => {
                             return (
                                 <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.title) || settings.language}</Text>
+                                    <Text style={s.dropdownText}>{(selectedItem?.code) || settings.language}</Text>
                                 </View>
                             );
                         }}
                         renderItem={(item, _, isSelected) => {
                             return (
                                 <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                    <Text style={s.dropdownItemText}>{item.title}</Text>
+                                    <Text style={s.dropdownItemText}>{item.code}</Text>
                                 </View>
                             );
                         }}
@@ -193,11 +195,11 @@ export default function SettingsScreen({ navigation }: Props) {
                         dropdownStyle={s.dropdownMenu}
                     />
                 </View>
-                <Text style={s.helpText}>Help Text</Text>
+                <Text style={s.helpText}>{t('settings.options.languageHelpText')}</Text>
             </View>
             <View>
                 <View style={s.row}>
-                    <Text style={s.title}>Units:</Text>
+                    <Text style={s.title}>{t('settings.options.units')}:</Text>
                     <SelectDropdown
                         data={UNITS}
                         onSelect={(selectedItem) => handleChangeUnits(selectedItem?.title)}
@@ -219,11 +221,11 @@ export default function SettingsScreen({ navigation }: Props) {
                         dropdownStyle={s.dropdownMenu}
                     />
                 </View>
-                <Text style={s.helpText}>Help Text</Text>
+                <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
             </View>
             <View>
                 <View style={s.row}>
-                    <Text style={s.title}>Theme:</Text>
+                    <Text style={s.title}>{t('settings.options.theme')}:</Text>
                     <SelectDropdown
                         data={THEMES}
                         onSelect={(selectedItem) => handleChangeTheme(selectedItem.title)}
@@ -245,11 +247,11 @@ export default function SettingsScreen({ navigation }: Props) {
                         dropdownStyle={s.dropdownMenu}
                     />
                 </View>
-                <Text style={s.helpText}>Help Text</Text>
+                <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
             </View>
             <View>
                 <View style={s.row}>
-                    <Text style={s.title}>Receive notifications:</Text>
+                    <Text style={s.title}>{t('settings.options.notifications')}:</Text>
                     <Switch
                         trackColor={{ false: '#767577', true: COLORS.orange }}
                         thumbColor={defaultNotifications ? COLORS.black : '#f4f3f4'}
@@ -258,13 +260,18 @@ export default function SettingsScreen({ navigation }: Props) {
                         value={defaultNotifications}
                     />
                 </View>
-                <Text style={s.helpText}>Help Text</Text>
+                <Text style={s.helpText}>{t('settings.options.notificationsHelpText')}</Text>
             </View>
             <View>
-                <Button text="Get in touch with us" onPress={handleGetInTouch} bgColor={COLORS.black} pressedBgColor={COLORS.orange} borderColor={'rgba(0, 0, 0, .1)'} pressedBorderColor={'rgba(0, 0, 0, .1)'} textColor={COLORS.white} pressedTextColor={COLORS.black} />
+                <Button 
+                    text={t('settings.getInTouch')} 
+                    onPress={handleGetInTouch} 
+                    pressedBgColor={COLORS.orange} 
+                    borderColor={'rgba(0, 0, 0, .1)'} 
+                />
             </View>
             <Pressable style={s.delete} onPress={handleDeleteData}>
-                <Text style={s.deleteText}>Delete data</Text>
+                <Text style={s.deleteText}>{t('settings.deleteData')}</Text>
             </Pressable>
         </SafeAreaView>
     )

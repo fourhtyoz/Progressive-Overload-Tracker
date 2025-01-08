@@ -10,12 +10,15 @@ import SelectDropdown from 'react-native-select-dropdown';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '@/styles/styles';
 import Button from '@/components/buttons/Button';
+import { useTranslation } from 'react-i18next';
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'Add Result'>;
+type Props = DrawerScreenProps<DrawerParamList, 'Result'>;
 
 
 export default function ResultScreen({ navigation }: Props) {
+    const { t } = useTranslation();
+
     const [muscleGroup, setMuscleGroup] = useState('')
     const [exercise, setExercise] = useState('')
     const [repsValue, setRepsValue] = useState('')
@@ -23,7 +26,7 @@ export default function ResultScreen({ navigation }: Props) {
     const [units, setUnits] = useState(WEIGHTS.filter((item) => item.title.toLowerCase() === 'kg').title || 'kg')
     const [error, setError] = useState('')
 
-    const muscleGroups = Array.from(new Set(EXERCISES.map(item => item.type)))
+    const muscleGroups = Array.from(new Set(EXERCISES.map(item => item.type)));
 
     const resetAllFields = () => {
         setRepsValue('')
@@ -31,7 +34,7 @@ export default function ResultScreen({ navigation }: Props) {
         setExercise('')
         setMuscleGroup('')
         setError('')
-    }
+    };
 
     const storeData = async (key: string, value: any) => {
         try {
@@ -46,8 +49,9 @@ export default function ResultScreen({ navigation }: Props) {
         } catch (e) {
             console.error(e)
         }
-    }
+    };
 
+    // TODO: date formats
     const handleSubmitEntry = () => {
         if (muscleGroup && exercise && repsValue && weightValue && units) {
             const data = {
@@ -63,57 +67,56 @@ export default function ResultScreen({ navigation }: Props) {
                 })
             }
             storeData(exercise, data)
-            Alert.alert(
-                'Success', 
-                'A new entry has been added to your history', 
-                [{text: 'OK'}]
-            )
             resetAllFields()
+            Alert.alert(
+                t('alerts.success'),
+                t('alerts.newEntryAddedSuccess'),
+            )
         } else {
             Alert.alert(
-                'Error', 
-                'To add a new entry you need to fill out all fields', 
-                [{text: 'OK'}]
+                t('alerts.error'),
+                t('alerts.toAddFieldsRequired'),
             )
         }
-    }
+    };
 
     const handleCreateExercise = () => {
-        navigation.navigate('New Exercise')
-    }
+        navigation.navigate('NewExercise')
+    };
 
     const handleHistory = () => {
         navigation.navigate('History')
-    }
+    };
 
     return (
         <SafeAreaView style={styles.wrapper}>
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>Type:</Text>
+                <Text style={styles.inputLabel}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleGroups}
                     onSelect={(selectedItem, index) => setMuscleGroup(selectedItem)}
                     renderButton={(selectedItem) => {
                         return (
                             <View style={styles.input}>
-                                {!muscleGroup && <Text style={styles.exerciseTextPlaceholder}>{'Choose a muscle group'}</Text>} 
+                                {!muscleGroup && <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>} 
                                 {muscleGroup && <Text style={styles.exerciseText}>{toTitleCase(selectedItem)}</Text>}
                             </View>
-                    );
+                        );
                     }}
                     renderItem={(item, _, isSelected) => {
-                    return (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                            <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
-                        </View>
-                        )
+                        return (
+                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                            </View>
+                        );
                     }}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
                 />
             </View>
+            {/* TODO: i18n exercises */}
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>Exercise:</Text>
+                <Text style={styles.inputLabel}>{t('result.options.exercise')}:</Text>
                 <SelectDropdown
                     disabled={!muscleGroup}
                     data={EXERCISES.filter(item => item.type === muscleGroup)}
@@ -121,7 +124,7 @@ export default function ResultScreen({ navigation }: Props) {
                     renderButton={(selectedItem) => {
                         return (
                             <View style={styles.input}>
-                                {!exercise && <Text style={styles.exerciseTextPlaceholder}>{'Choose an exercise'}</Text>} 
+                                {!exercise && <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>} 
                                 {exercise && <Text style={styles.exerciseText}>{(selectedItem && selectedItem.title)}</Text>}
                             </View>
                         );
@@ -138,22 +141,23 @@ export default function ResultScreen({ navigation }: Props) {
                 />
             </View>
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>Reps:</Text>
+                <Text style={styles.inputLabel}>{t('result.options.reps')}:</Text>
                 <TextInput 
                     style={styles.input} 
                     value={repsValue}
-                    placeholder='How many reps?'
+                    placeholder={t('result.options.howManyReps')}
                     placeholderTextColor={'#a9a9a9'}
                     onChangeText={setRepsValue}
                     keyboardType='numeric'
                 />
             </View>
+            {/* TODO: i18n weights */}
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>Weight:</Text>
+                <Text style={styles.inputLabel}>{t('result.options.weight')}:</Text>
                 <TextInput 
                     style={styles.inputWithOption} 
                     value={weightValue}
-                    placeholder="What weight?"
+                    placeholder={t('result.options.whatWeight')}
                     placeholderTextColor={'#a9a9a9'}
                     onChangeText={setWeightValue}
                     keyboardType='numeric' 
@@ -183,15 +187,15 @@ export default function ResultScreen({ navigation }: Props) {
             <View style={styles.buttonWrapper}>
                 <Button 
                     onPress={handleSubmitEntry} 
-                    text={'Submit'}
+                    text={t('result.buttons.submit')}
                 />
                 <Button 
                     onPress={handleCreateExercise} 
-                    text={'Create a new exercise'}
+                    text={t('result.buttons.create')}
                 />
                 <Button 
                     onPress={handleHistory} 
-                    text={'History'}
+                    text={t('result.buttons.history')}
                 />
             </View>
         </SafeAreaView>

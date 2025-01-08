@@ -10,14 +10,15 @@ import NewExerciseScreen from '@/screens/NewExerciseScreen';
 import HistoryScreen from '@/screens/HistoryScreen';
 import ResultScreen from '@/screens/ResultScreen';
 import SettingsScreen from '@/screens/SettingsScreen';
+import { useTranslation } from 'react-i18next';
 
 
 export type DrawerParamList = {
-    Home: undefined;
-    'Add Result': undefined;
+    Home: any;
+    Result: undefined;
     Profile: undefined;
-    'About us': undefined;
-    'New Exercise': undefined;
+    About: undefined;
+    NewExercise: undefined;
     History: undefined;
     Settings: undefined;
   };
@@ -26,6 +27,8 @@ export type DrawerParamList = {
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
 export default function DrawerNavigator() {
+    const { t } = useTranslation();
+
     return (
         <Drawer.Navigator 
             initialRouteName="Home" 
@@ -50,7 +53,7 @@ export default function DrawerNavigator() {
                         headerRight: () => {
                             if (navigation.canGoBack()) {
                                 return (
-                                    <GoBackButton title="Go Back" onPress={() => navigation.goBack()} />
+                                    <GoBackButton title={t('general.goBackButton')} onPress={() => navigation.goBack()} />
                                 );
                             }
                         },
@@ -58,12 +61,12 @@ export default function DrawerNavigator() {
                 )
             }
         >
-            <Drawer.Screen name="Home" component={HomeScreen} />
-            <Drawer.Screen name="Add Result" component={ResultScreen} />
-            <Drawer.Screen name="About us" component={AboutScreen} />
-            <Drawer.Screen name="New Exercise" component={NewExerciseScreen} />
-            <Drawer.Screen name="History" component={HistoryScreen} />
-            <Drawer.Screen name="Settings" component={SettingsScreen} />
+            <Drawer.Screen name="Home" component={HomeScreen} options={{ title: t('home.screenName') }} />
+            <Drawer.Screen name="Result" component={ResultScreen} options={{ title: t('result.screenName') }} />
+            <Drawer.Screen name="About" component={AboutScreen} options={{ title: t('about.screenName') }} />
+            <Drawer.Screen name="NewExercise" component={NewExerciseScreen} options={{ title: t('newExercise.screenName') }} />
+            <Drawer.Screen name="History" component={HistoryScreen} options={{ title: t('history.screenName') }} />
+            <Drawer.Screen name="Settings" component={SettingsScreen} options={{ title: t('settings.screenName') }} />
         </Drawer.Navigator>
     );
 }

@@ -6,6 +6,7 @@ import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { toTitleCase } from '@/utils/utils';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS } from '@/styles/colors';
+import { useTranslation } from 'react-i18next';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'History'>;
@@ -16,7 +17,7 @@ export default function HistoryScreen({ navigation }: Props) {
     const [exerciseOptions, setExerciseOptions] = useState([]);
     const [selectedExercise, setSelectedExercise] = useState(null);
 
-    console.log('selectedExercise', selectedExercise)
+    const { t } = useTranslation();
 
     useEffect(() => {
         const getAllKeys = async () => {
@@ -37,6 +38,7 @@ export default function HistoryScreen({ navigation }: Props) {
         setExerciseOptions(keys);
     }, [data]);
 
+    // TODO: i18n exercises
     const renderExercise = ({ item }: { item: any }, progress: any) => (
         <View style={{
             ...styles.row, 
@@ -68,10 +70,10 @@ export default function HistoryScreen({ navigation }: Props) {
                 <View style={styles.exerciseSection}>
                     <Text style={styles.exerciseHeader}>{exerciseName}</Text>
                     <View style={[styles.row, styles.headerRow]}>
-                        <Text style={[styles.cell, styles.headerCell]}>Date</Text>
-                        <Text style={[styles.cell, styles.headerCell]}>Muscle</Text>
-                        <Text style={[styles.cell, styles.headerCell]}>Weight</Text>
-                        <Text style={[styles.cell, styles.headerCell]}>Reps</Text>
+                        <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.date')}</Text>
+                        <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.muscle')}</Text>
+                        <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.weight')}</Text>
+                        <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.reps')}</Text>
                     </View>
                     {data[exerciseName].map((record, index) => {
                         let progress = 'new'

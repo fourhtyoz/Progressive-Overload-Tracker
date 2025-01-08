@@ -1,34 +1,37 @@
 import { SafeAreaView, View, Text, StyleSheet, Dimensions, Pressable, ImageBackground } from "react-native";
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { DrawerParamList } from "@/navigation/DrawerNavigator";
+import { useTranslation } from "react-i18next";
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
 
 
 export default function HomeScreen({ navigation }: Props) {
+    const { t } = useTranslation();
+
     return (
         <SafeAreaView style={s.wrapper}>
             <View style={s.top}>
                 <ImageBackground source={require('@/src/images/cards/result.jpg')} style={s.cardImage}>
-                    <Pressable style={s.firstBox}  onPress={() => navigation.navigate('Add Result')}>
-                        <Text style={s.cardTitle}>Add a result</Text>
+                    <Pressable style={s.firstBox}  onPress={() => navigation.navigate('Result')}>
+                        <Text style={s.cardTitle}>{t('home.result')}</Text>
                     </Pressable>
                 </ImageBackground>
                 <View style={s.secondColumn}>
                     <ImageBackground source={require('@/src/images/cards/about.jpg')} style={s.cardImage}>
-                        <Pressable style={s.secondBox} onPress={() => navigation.navigate('About us')}>
-                            <Text style={s.cardTitle}>About us</Text>
+                        <Pressable style={s.secondBox} onPress={() => navigation.navigate('About')}>
+                            <Text style={s.cardTitle}>{t('home.about')}</Text>
                         </Pressable>
                     </ImageBackground>
                     <ImageBackground source={require('@/src/images/cards/profile.jpg')} style={s.cardImage}>
                         <Pressable style={s.thirdBox} onPress={() => navigation.navigate('Profile')}>
-                            <Text style={s.cardTitle}>Profile</Text>
+                            <Text style={s.cardTitle}>{t('home.profile')}</Text>
                         </Pressable>
                     </ImageBackground>
                     <ImageBackground source={require('@/src/images/cards/settings.jpg')} style={s.cardImage}>
                         <Pressable style={s.forthBox} onPress={() => navigation.navigate('Settings')}>
-                            <Text style={s.cardTitle}>Settings</Text>
+                            <Text style={s.cardTitle}>{t('home.settings')}</Text>
                         </Pressable>
                     </ImageBackground>
                 </View>
@@ -36,7 +39,7 @@ export default function HomeScreen({ navigation }: Props) {
             <View style={s.bottom}>
                 <ImageBackground source={require('@/src/images/cards/history.jpg')} style={s.cardImage}>
                     <Pressable style={s.fifthBox} onPress={() => navigation.navigate('History')}>
-                        <Text style={s.cardTitle}>History</Text>
+                        <Text style={s.cardTitle}>{t('home.history')}</Text>
                     </Pressable>
                 </ImageBackground>
             </View>

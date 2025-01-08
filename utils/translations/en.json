@@ -1,3 +1,97 @@
 {
-    "test": "It's a test"
+    "home": {
+        "screenName": "Home",
+        "result": "Add a result",
+        "about": "About us",
+        "profile": "Profile",
+        "settings": "Settings",
+        "history": "History"
+    },
+    "result": {
+        "screenName": "Add result",
+        "options": {
+            "muscle": "Muscle",
+            "chooseMuscle": "Choose a muscle group",
+            "exercise": "Exercise",
+            "chooseExercise": "Choose an exercise",
+            "reps": "Reps",
+            "howManyReps": "How many reps?",
+            "weight": "Weight",
+            "whatWeight": "What weight?"
+        },
+        "buttons": {
+            "history": "History",
+            "submit": "Save",
+            "create": "Add a new exercise"
+        }
+    },
+
+    "about": {
+        "screenName": "About us"
+    },
+
+    "newExercise": {
+        "screenName": "Add a new exercise"
+    },
+
+    "history": {
+        "screenName": "History",
+        "table": {
+            "header": {
+                "date": "Date",
+                "muscle": "Muscle",
+                "weight": "Weight",
+                "reps": "Reps"
+            }
+        }
+    },
+
+    "settings": {
+        "screenName": "Settings",
+        "deleteData": "Delete data",
+        "dataDeleted": "Your data has been deleted successfully",
+        "getInTouch": "Get in touch with us",
+        "sendEmailTo": "To get in touch with us send an email to",
+        "options": {
+            "fontSize": "Font size",
+            "fontSizeHelpText": "Changed the font size in the app",
+            "language": "Language",
+            "languageHelpText": "Change the language of the app",
+            "theme": "Theme",
+            "themeHelpText": "Change the theme used in the app",
+            "units": "Units",
+            "unitsHelpText": "What units should be set to default?",
+            "notifications": "Notifications",
+            "notificationsHelpText": "Do you want to receive notifications?"
+        }
+    },
+
+    "general": {
+        "goBackButton": "Go Back",
+        "metrics": {
+            "kg": "kg",
+            "lb": "lb"
+        }
+    },
+
+    "alerts": {
+        "success": "Success",
+        "error": "Error",
+        "toAddFieldsRequired": "You need to fill out all fields to add a new result",
+        "newEntryAddedSuccess": "The result has been added to your history",
+        "areYouSure": "Are you sure?",
+        "yesProceed": "Yes, please proceed",
+        "noIchangedMyMind": "No, I've changed my mind",
+        "wantToDelete": "Do you really want to delete all the data in the app? Press 'YES' will delete your progress"
+    },
+
+    "toasts": {
+        "success": "Success",
+        "changedLanguage": "The language has been changed",
+        "changedTheme": "The theme has been changed",
+        "changedFontSize": "The font size has been changed",
+        "changedUnits": "The units have been changed",
+        "receiveNotifications": "Now you'll receive notifications from us",
+        "notReceiveNotifications": "You won't receive notifications from us"
+    }
 }

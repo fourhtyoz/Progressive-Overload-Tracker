@@ -1,3 +1,99 @@
 {
-    "test": "Это тест"
+    "home": {
+        "screenName": "Главная страница",
+        "result": "Добавить результат",
+        "about": "О нас",
+        "profile": "Профиль",
+        "settings": "Настройки",
+        "history": "История"
+    },
+
+    "result": {
+        "screenName": "Добавить результат",
+        "options": {
+            "muscle": "Группа мышц",
+            "chooseMuscle": "Выберите группу мышц",
+            "exercise": "Упражнение",
+            "chooseExercise": "Выберите упражнение",
+            "reps": "Повторений",
+            "howManyReps": "Сколько повторений?",
+            "weight": "Вес",
+            "whatWeight": "Какой вес?"
+        },
+        "buttons": {
+            "history": "История",
+            "submit": "Сохранить",
+            "create": "Добавить новое упражнение"
+        }
+    },
+
+    "about": {
+        "screenName": "О нас"
+    },
+
+    "newExercise": {
+        "screenName": "Добавить новое упражнение"
+    },
+
+    "history": {
+        "screenName": "История",
+        "table": {
+            "header": {
+                "date": "Дата",
+                "muscle": "Мышца",
+                "weight": "Вес",
+                "reps": "Кол-во повторений"
+            }
+        }
+    },
+
+    "settings": {
+        "screenName": "Настройки",
+        "deleteData": "Удалить данные",
+        "dataDeleted": "Ваши данные были успешно удалены",
+        "getInTouch": "Связаться с нами",
+        "sendEmailTo": "Чтобы связаться с нами, отправьте нам email на",
+        "options": {
+            "fontSize": "Размер шрифта",
+            "fontSizeHelpText": "Изменить размер шрифта в приложении",
+            "language": "Язык",
+            "languageHelpText": "Изменить язык приложения",
+            "theme": "Тема",
+            "themeHelpText": "Изменить тему",
+            "units": "Вес",
+            "unitsHelpText": "Система исчисления веса",
+            "notifications": "Уведомления",
+            "notificationsHelpText": "Хотите ли вы получать уведомления?"
+        }
+    },
+
+    "general": {
+        "goBackButton": "Назад",
+        "metrics": {
+            "kg": "кг",
+            "lb": "фунт"
+        }
+    },
+
+    "alerts": {
+        "success": "Успех",
+        "error": "Ошибка",
+        "toAddFieldsRequired": "Необходимо заполнить все поля, чтобы добавить новый результат",
+        "newEntryAddedSuccess": "Новый результат был успешно добвлен",
+        "areYouSure": "Вы уверены?",
+        "yesProceed": "Да, я уверен",
+        "noIchangedMyMind": "Нет, я передумал",
+        "wantToDelete": "Вы реально хотите удалить все данные из приложения? Так будет удален ваш прогресс"
+
+    },
+
+    "toasts": {
+        "success": "Успех",
+        "changedLanguage": "Язык был успешно изменен",
+        "changedTheme": "Тема была успешно изменена",
+        "changedFontSize": "Размер шрифта был успешно изменен",
+        "changedUnits": "Система исчисления была успешно изменена",
+        "receiveNotifications": "Вы будете получать уведомления",
+        "notReceiveNotifications": "Вы не будете получать уведомления"
+    }
 }
