@@ -23,9 +23,18 @@ export default function HistoryScreen({ navigation }: Props) {
         const getAllKeys = async () => {
             const allKeys = await AsyncStorage.getAllKeys()
             for (let key of allKeys) {
+                if (['theme', 'fontSize', 'language', 'units', 'notifications'].includes(key)) continue;
+
                 const keyData = await AsyncStorage.getItem(key)
-                if (!keyData) continue
-                setData(prev => ({...prev, [key]: JSON.parse(keyData)}))
+                
+                if (!keyData) continue;
+
+                try {
+                    const parsedData = JSON.parse(keyData)
+                    setData(prev => ({...prev, [key]: parsedData}))
+                } catch (e) {
+                    console.error(e)
+                }
             }
         }
         getAllKeys()
