@@ -135,11 +135,6 @@ export default function SettingsScreen({ navigation }: Props) {
     useEffect(() => {
         if (!lang) return;
         i18n.changeLanguage(lang)
-        // Toast.show({
-        //     type: 'success',
-        //     text1: t('toasts.success'),
-        //     text2: t('toasts.changedLanguage'),
-        // });
     }, [lang])
 
 
@@ -151,22 +146,18 @@ export default function SettingsScreen({ navigation }: Props) {
                     <SelectDropdown
                         data={FONT_SIZES}
                         onSelect={(selectedItem) => handleChangeFontSize(selectedItem?.title)}
-                        renderButton={(selectedItem) => {
-                            return (
-                                <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.title) || settings.fontSize}</Text>
-                                </View>
-                            );
-                        }}
-                        renderItem={(item, _, isSelected) => {
-                            return (
-                                <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                    <Text style={s.dropdownItemText}>{item.title}</Text>
-                                </View>
-                            );
-                        }}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
+                        renderButton={(selectedItem) => (
+                            <View style={s.dropdownButton}>
+                                <Text style={s.dropdownText}>{(selectedItem?.title) || settings.fontSize}</Text>
+                            </View>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <Text style={s.dropdownItemText}>{item.title}</Text>
+                            </View>
+                        )}
                     />
                 </View>
                 <Text style={s.helpText}>{t('settings.options.fontSizeHelpText')}</Text>
@@ -177,22 +168,18 @@ export default function SettingsScreen({ navigation }: Props) {
                     <SelectDropdown
                         data={LANGUAGES}
                         onSelect={(selectedItem) => handleChangeLanguage(selectedItem)}
-                        renderButton={(selectedItem) => {
-                            return (
-                                <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.code) || settings.language}</Text>
-                                </View>
-                            );
-                        }}
-                        renderItem={(item, _, isSelected) => {
-                            return (
-                                <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                    <Text style={s.dropdownItemText}>{item.code}</Text>
-                                </View>
-                            );
-                        }}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
+                        renderButton={(selectedItem) => (
+                            <View style={s.dropdownButton}>
+                                <Text style={s.dropdownText}>{(selectedItem?.code) || settings.language}</Text>
+                            </View>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <Text style={s.dropdownItemText}>{item.code}</Text>
+                            </View>
+                        )}
                     />
                 </View>
                 <Text style={s.helpText}>{t('settings.options.languageHelpText')}</Text>
@@ -203,22 +190,18 @@ export default function SettingsScreen({ navigation }: Props) {
                     <SelectDropdown
                         data={UNITS}
                         onSelect={(selectedItem) => handleChangeUnits(selectedItem?.title)}
-                        renderButton={(selectedItem) => {
-                            return (
-                                <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.title) || settings.units}</Text>
-                                </View>
-                            );
-                        }}
-                        renderItem={(item, _, isSelected) => {
-                            return (
-                                <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                    <Text style={s.dropdownItemText}>{item.title}</Text>
-                                </View>
-                            );
-                        }}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
+                        renderButton={(selectedItem) => (
+                            <View style={s.dropdownButton}>
+                                <Text style={s.dropdownText}>{(selectedItem?.title) || settings.units}</Text>
+                            </View>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                                <Text style={s.dropdownItemText}>{item.title}</Text>
+                            </View>
+                        )}
                     />
                 </View>
                 <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
@@ -229,22 +212,18 @@ export default function SettingsScreen({ navigation }: Props) {
                     <SelectDropdown
                         data={THEMES}
                         onSelect={(selectedItem) => handleChangeTheme(selectedItem.title)}
-                        renderButton={(selectedItem) => {
-                            return (
-                                <View style={s.dropdownButton}>
-                                    <Text style={s.dropdownText}>{(selectedItem?.title) || settings.theme}</Text>
-                                </View>
-                            );
-                        }}
-                        renderItem={(item, _, isSelected) => {
-                            return (
-                                <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: COLORS.orange})}}>
-                                    <Text style={s.dropdownItemText}>{item.title}</Text>
-                                </View>
-                            );
-                        }}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
+                        renderButton={(selectedItem) => (
+                            <View style={s.dropdownButton}>
+                                <Text style={s.dropdownText}>{(selectedItem?.title) || settings.theme}</Text>
+                            </View>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: COLORS.orange})}}>
+                                <Text style={s.dropdownItemText}>{item.title}</Text>
+                            </View>
+                        )}
                     />
                 </View>
                 <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>

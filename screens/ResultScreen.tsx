@@ -95,23 +95,19 @@ export default function ResultScreen({ navigation }: Props) {
                 <SelectDropdown
                     data={muscleGroups}
                     onSelect={(selectedItem, index) => setMuscleGroup(selectedItem)}
-                    renderButton={(selectedItem) => {
-                        return (
-                            <View style={styles.input}>
-                                {!muscleGroup && <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>} 
-                                {muscleGroup && <Text style={styles.exerciseText}>{toTitleCase(selectedItem)}</Text>}
-                            </View>
-                        );
-                    }}
-                    renderItem={(item, _, isSelected) => {
-                        return (
-                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
-                            </View>
-                        );
-                    }}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
+                    renderButton={(selectedItem) => (
+                        <View style={styles.input}>
+                            {!muscleGroup && <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>} 
+                            {muscleGroup && <Text style={styles.exerciseText}>{toTitleCase(selectedItem)}</Text>}
+                        </View>
+                    )}
+                    renderItem={(item, _, isSelected) => (
+                        <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                            <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                        </View>
+                    )}
                 />
             </View>
             {/* TODO: i18n exercises */}
@@ -121,23 +117,19 @@ export default function ResultScreen({ navigation }: Props) {
                     disabled={!muscleGroup}
                     data={EXERCISES.filter(item => item.type === muscleGroup)}
                     onSelect={(selectedItem, index) => setExercise(selectedItem.title)}
-                    renderButton={(selectedItem) => {
-                        return (
-                            <View style={styles.input}>
-                                {!exercise && <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>} 
-                                {exercise && <Text style={styles.exerciseText}>{(selectedItem && selectedItem.title)}</Text>}
-                            </View>
-                        );
-                    }}
-                    renderItem={(item, index, isSelected) => {
-                    return (
+                    showsVerticalScrollIndicator={false}
+                    dropdownStyle={styles.dropdownMenuStyle}
+                    renderButton={(selectedItem) => (
+                        <View style={styles.input}>
+                            {!exercise && <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>} 
+                            {exercise && <Text style={styles.exerciseText}>{(selectedItem && selectedItem.title)}</Text>}
+                        </View>
+                    )}
+                    renderItem={(item, index, isSelected) => (
                         <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
                             <Text style={styles.dropdownItemTxtStyle}>{index + 1}. {item.title}</Text>
                         </View>
-                        )
-                    }}
-                    showsVerticalScrollIndicator={false}
-                    dropdownStyle={styles.dropdownMenuStyle}
+                    )}
                 />
             </View>
             <View style={styles.itemWrapper}>
@@ -165,22 +157,18 @@ export default function ResultScreen({ navigation }: Props) {
                 <SelectDropdown
                     data={WEIGHTS}
                     onSelect={(selectedItem) => setUnits(selectedItem.title)}
-                    renderButton={(selectedItem) => {
-                        return (
-                            <View style={styles.dropdownButtonStyle}>
-                                <Text style={styles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || units}</Text>
-                            </View>
-                        );
-                    }}
-                    renderItem={(item, _, isSelected) => {
-                        return (
-                            <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
-                            </View>
-                        )
-                    }}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
+                    renderButton={(selectedItem) => (
+                        <View style={styles.dropdownButtonStyle}>
+                            <Text style={styles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || units}</Text>
+                        </View>
+                    )}
+                    renderItem={(item, _, isSelected) => (
+                        <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                            <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
+                        </View>
+                    )}
                 />
             </View>
             

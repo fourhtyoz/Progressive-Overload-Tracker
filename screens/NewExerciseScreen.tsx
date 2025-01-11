@@ -33,21 +33,17 @@ export default function NewExerciseScreen({ navigation }: Props) {
                 <SelectDropdown
                     data={muscleGroups}
                     onSelect={(selectedItem, index) => setMuscleGroup(selectedItem)}
-                    renderButton={(selectedItem) => {
-                        return (
-                            <View style={styles.input}>
-                                {!muscleGroup && <Text style={styles.exerciseTextPlaceholder}>{'Choose a muscle group'}</Text>} 
-                                {muscleGroup && <Text style={styles.exerciseText}>{toTitleCase(selectedItem)}</Text>}
-                            </View>
-                    );
-                    }}
-                    renderItem={(item, _, isSelected) => {
-                    return (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                    renderButton={(selectedItem) => (
+                        <View style={styles.input}>
+                            {!muscleGroup && <Text style={styles.exerciseTextPlaceholder}>{'Choose a muscle group'}</Text>} 
+                            {muscleGroup && <Text style={styles.exerciseText}>{toTitleCase(selectedItem)}</Text>}
+                        </View>
+                    )}
+                    renderItem={(item, _, isSelected) => (
+                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' })}}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
-                        )
-                    }}
+                    )}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
                 />

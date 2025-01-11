@@ -14,7 +14,7 @@ type Props = DrawerScreenProps<DrawerParamList, 'History'>;
 
 export default function HistoryScreen({ navigation }: Props) {
     const [data, setData] = useState([]);
-    const [exerciseOptions, setExerciseOptions] = useState([]);
+    const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
     const [selectedExercise, setSelectedExercise] = useState(null);
 
     const { t } = useTranslation();
@@ -34,7 +34,7 @@ export default function HistoryScreen({ navigation }: Props) {
                     setData(prev => ({...prev, [key]: parsedData}))
                 } catch (e) {
                     console.error(e)
-                }
+                }[]
             }
         }
         getAllKeys()
@@ -84,7 +84,7 @@ export default function HistoryScreen({ navigation }: Props) {
                         <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.weight')}</Text>
                         <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.reps')}</Text>
                     </View>
-                    {data[exerciseName].map((record, index) => {
+                    {data[exerciseName].map((record: any, index: number) => {
                         let progress = 'new'
                         if (index > 0) {
                             const previousSet = data[exerciseName][index - 1]
@@ -112,66 +112,61 @@ export default function HistoryScreen({ navigation }: Props) {
               <SelectDropdown
                     data={exerciseOptions}
                     onSelect={(selectedItem, index) => setSelectedExercise(selectedItem)}
-                    renderButton={(selectedItem) => {
-                        return (
-                            <View>
-                                {!selectedExercise && <Text>{'All'}</Text>} 
-                                <Text>{selectedItem}</Text>
-                            </View>
-                    );
-                    }}
-                    renderItem={(item, index, isSelected) => {
-                        return (
-                            <View>
-                                <Text>{item}</Text>
-                            </View>
-                        )
-                    }}
                     showsVerticalScrollIndicator={false}
+                    renderButton={(selectedItem) => (
+                        <View>
+                            {!selectedExercise && <Text>{'All'}</Text>} 
+                            <Text>{selectedItem}</Text>
+                        </View>
+                    )}
+                    renderItem={(item, index, isSelected) => (
+                        <View>
+                            <Text>{item}</Text>
+                        </View>
+                    )}
                 />
-
             {renderTable()}
         </ScrollView>
     )
 };
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    padding: 10,
-    backgroundColor: '#f8f9fa',
-  },
-  exerciseSection: {
-    marginBottom: 20,
-    backgroundColor: '#fff',
-    borderRadius: 8,
-    padding: 10,
-  },
-  exerciseHeader: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#333',
-  },
-  row: {
-    flexDirection: 'row',
-    paddingVertical: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: '#e9ecef',
-  },
-  headerRow: {
-    borderBottomWidth: 2,
-    borderBottomColor: '#dee2e6',
-    backgroundColor: '#f1f3f5',
-  },
-  cell: {
-    flex: 1,
-    textAlign: 'center',
-    fontSize: 14,
-    color: '#495057',
-  },
-  headerCell: {
-    fontWeight: 'bold',
-    color: '#343a40',
-  },
+    container: {
+        flex: 1,
+        padding: 10,
+        backgroundColor: '#f8f9fa',
+    },
+    exerciseSection: {
+        marginBottom: 20,
+        backgroundColor: '#fff',
+        borderRadius: 8,
+        padding: 10,
+    },
+    exerciseHeader: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginBottom: 10,
+        color: '#333',
+    },
+    row: {
+        flexDirection: 'row',
+        paddingVertical: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: '#e9ecef',
+    },
+    headerRow: {
+        borderBottomWidth: 2,
+        borderBottomColor: '#dee2e6',
+        backgroundColor: '#f1f3f5',
+    },
+    cell: {
+        flex: 1,
+        textAlign: 'center',
+        fontSize: 14,
+        color: '#495057',
+    },
+    headerCell: {
+        fontWeight: 'bold',
+        color: '#343a40',
+    },
 });
