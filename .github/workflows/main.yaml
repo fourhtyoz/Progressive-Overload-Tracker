@@ -1,29 +1,38 @@
-name: CI/CD Workflow
+name: Run Tests on Expo React Native App
 
 on:
   push:
     branches:
-      - main
+      - main  # Trigger the workflow on push to main branch
   pull_request:
     branches:
-      - main
+      - main  # Trigger the workflow on pull request to main branch
 
 jobs:
-  frontend_tests:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-      
-      - name: Set up Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '16'
+  test:
+    runs-on: macos-latest  # Run the tests on a macOS runner
 
-      - name: Install dependencies (frontend)
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2  # Checkout the code from your repository
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'  # Specify the Node.js version you want to use (you can adjust this)
+
+      - name: Cache Node modules
+        uses: actions/cache@v2
+        with:
+          path: node_modules
+          key: ${{ runner.os }}-node-modules-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-modules-
+
+      - name: Install dependencies
         run: |
           npm install
+          npx expo install  # Ensure Expo-related dependencies are installed
 
-      - name: Run Jest tests
-        run: |
-          npm test
+      - name: Run tests
+        run: npm run test  # Run your tests (adjust this command if you're using a custom script)
