@@ -3,18 +3,18 @@ name: Run Tests on Expo React Native App
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to main branch
+      - main
   pull_request:
     branches:
-      - main  # Trigger the workflow on pull request to main branch
+      - main
 
 jobs:
   test:
-    runs-on: macos-latest  # Run the tests on a macOS runner
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2  # Checkout the code from your repository
+        uses: actions/checkout@v2 
 
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -35,4 +35,4 @@ jobs:
           npx expo install  # Ensure Expo-related dependencies are installed
 
       - name: Run tests
-        run: npm run test  # Run your tests (adjust this command if you're using a custom script)
+        run: npm run test
