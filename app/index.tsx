@@ -43,8 +43,6 @@ export default function App() {
         i18n.changeLanguage(lang)
     }, [lang])
 
-    console.log('lang', lang)
-
     return (
         // TODO: AuthProvider
         <I18nextProvider i18n={i18n}>
