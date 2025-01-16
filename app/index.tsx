@@ -6,28 +6,12 @@ import { I18nextProvider } from 'react-i18next';
 import i18n from '@/utils/i18n';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { LANGUAGES } from '@/constants/settings';
+import { createTable } from '@/services/db';
 
-
-const toastConfig = {
-    success: (props: any) => (
-        <BaseToast
-            {...props}
-            style={{ 
-                borderLeftColor: 'lightgreen' 
-            }}
-            text1Style={{
-                fontSize: 18,
-                fontWeight: '400'
-            }}
-            text2Style={{
-                fontSize: 14,
-            }}
-        />
-    )
-};
 
 export default function App() {
-    const [lang, setLang] = useState('en')
+    const [lang, setLang] = useState('en');
+
     useEffect(() => {
         const getPreferredLanguage = async () => {
             const language = await AsyncStorage.getItem('language');
@@ -36,7 +20,10 @@ export default function App() {
             }
             setLang(language)
         }
+
+        createTable()
         getPreferredLanguage()
+
     }, [])
     
     useEffect(() => {
@@ -49,7 +36,7 @@ export default function App() {
             <NavigationContainer independent={true}>
                 <DrawerNavigator />
             </NavigationContainer>
-            <Toast config={toastConfig} />
+            <Toast config={{ success: (props: any) => (<BaseToast {...props} style={{ borderLeftColor: 'lightgreen' }} text1Style={{ fontSize: 18, fontWeight: '400' }} text2Style={{ fontSize: 14 }} />)}} />
         </I18nextProvider>
     );
 }
