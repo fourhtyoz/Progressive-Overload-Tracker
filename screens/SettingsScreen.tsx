@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, StyleSheet, Alert, Pressable, Switch } from "react-native"
 import { COLORS } from "@/styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -10,9 +10,12 @@ import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
 import { settingsStore } from "@/store/store";
 import { observer } from "mobx-react-lite";
+import ErrorMessage from "@/components/ErrorMessage";
 
 
 const SettingsScreen = observer(() => {
+    const [error, setError] = useState('')
+    
     const { t } = useTranslation();
 
     const handleGetInTouch = () => {
@@ -42,63 +45,94 @@ const SettingsScreen = observer(() => {
 
     const handleChangeLanguage = async (lang: any) => {
         if (!lang) return;
+        
+        setError('')
+        try {
+            await AsyncStorage.setItem('language', lang.code)
+            settingsStore.setLanguage(lang.code)
 
-        await AsyncStorage.setItem('language', lang.code)
-        settingsStore.setLanguage(lang.code)
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('toasts.changedLanguage'),
+            });
+        } catch (e) {
+            setError(String(e))
+        }
     }
 
     const handleChangeUnits = async (units: string) => {
         if (!units || typeof units !== 'string') return;
         
-        await AsyncStorage.setItem('units', units)
-        settingsStore.setUnits(units)
-        
-        Toast.show({
-            type: 'success',
-            text1: t('toasts.success'),
-            text2: t('toasts.changedUnits'),
-        });
+        setError('')
+        try {
+            await AsyncStorage.setItem('units', units)
+            settingsStore.setUnits(units)
+            
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('toasts.changedUnits'),
+            });
+        } catch (e) {
+            setError(String(e))
+        }
     }
 
     const handleChangeFontSize = async (fontSize: string) => {
         if (!fontSize || typeof fontSize !== 'string') return;
         
-        await AsyncStorage.setItem('fontSize', fontSize)
-        settingsStore.setFontsize(fontSize)
-        
-        Toast.show({
-            type: 'success',
-            text1: t('toasts.success'),
-            text2: t('toasts.changedFontSize'),
-        });
+        setError('')
+        try {
+            await AsyncStorage.setItem('fontSize', fontSize)
+            settingsStore.setFontsize(fontSize)
+            
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('toasts.changedFontSize'),
+            });
+        } catch (e) {
+            setError(String(e))
+        }
     }
 
     const handleChangeTheme = async (theme: string) => {
         if (!theme || typeof theme !== 'string') return;
         
-        await AsyncStorage.setItem('theme', theme)
-        settingsStore.setTheme(theme)
-        
-        Toast.show({
-            type: 'success',
-            text1: t('toasts.success'),
-            text2: t('toasts.changedTheme'),
-        });
+        setError('')
+        try {
+            await AsyncStorage.setItem('theme', theme)
+            settingsStore.setTheme(theme)
+            
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('toasts.changedTheme'),
+            });
+        } catch (e) {
+            setError(String(e))
+        }
     }
 
     const handleChangeNotifications = async () => {
-        await AsyncStorage.setItem('notifications', JSON.stringify(!settingsStore.notifications))
-        settingsStore.toggleNotifications()
-
-        Toast.show({
-            type: 'success',
-            text1: t('toasts.success'),
-            text2: !settingsStore.notifications ? t('toasts.notReceiveNotifications') : t('toasts.receiveNotifications'),
-        });
+        try {
+            await AsyncStorage.setItem('notifications', JSON.stringify(!settingsStore.notifications))
+            settingsStore.toggleNotifications()
+            
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: !settingsStore.notifications ? t('toasts.notReceiveNotifications') : t('toasts.receiveNotifications'),
+            });
+        } catch (e) {
+            setError(String(e))
+        }
     }
 
     return (
         <SafeAreaView style={s.wrapper}>
+            {error && <ErrorMessage message={error} />}
             <View>
                 <View style={s.row}>
                     <Text style={s.title}>{t('settings.options.fontSize')}:</Text>

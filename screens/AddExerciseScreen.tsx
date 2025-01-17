@@ -8,6 +8,7 @@ import { styles } from '@/styles/styles';
 import Button from '@/components/buttons/Button';
 import { muscleGroups } from '@/utils/constants';
 import { addExercise } from '@/services/db';
+import ErrorMessage from '@/components/ErrorMessage';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'AddExercise'>;
@@ -44,7 +45,7 @@ export default function AddExerciseScreen({ navigation }: Props) {
 
     return (
         <SafeAreaView style={styles.wrapper}>
-            {error && <Text>error</Text>}
+            {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} /></View>}
              <View style={styles.itemWrapper}>
                 <Text style={styles.inputLabel}>Type:</Text>
                 <SelectDropdown
@@ -81,16 +82,6 @@ export default function AddExerciseScreen({ navigation }: Props) {
                     textColor={'#FFF'} 
                     pressedTextColor={'#000'} 
                     text={'Create a new exercise'}
-                />
-                <Button 
-                    onPress={handleGoBack} 
-                    bgColor={'#000'} 
-                    pressedBgColor={'#FFF'} 
-                    borderColor={'#FFF'} 
-                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
-                    textColor={'#FFF'} 
-                    pressedTextColor={'#000'} 
-                    text={'Go back'}
                 />
             </View>
         </SafeAreaView>

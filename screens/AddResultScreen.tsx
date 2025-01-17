@@ -13,6 +13,7 @@ import { fetchExercises, addResult } from '@/services/db';
 import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
 import { Exercise } from '@/utils/types';
+import ErrorMessage from '@/components/ErrorMessage';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
@@ -27,7 +28,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const [repsValue, setRepsValue] = useState('')
     const [weightValue, setWeightValue] = useState('')
     const [units, setUnits] = useState(settingsStore.units)
-    const [error, setError] = useState('')
+    const [error, setError] = useState('FEEFFE')
 
     const muscleGroups = Array.from(new Set(exercises.map(item => item.type)));
 
@@ -87,7 +88,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     Alert.alert(
                         'Нет упражнений',
                         'У вас еще не заведены упражнения',
-                        [{text: 'Завести упражнение', onPress: handleCreateExercise}]
+                        [{text: 'Завести упражнение', onPress: () => navigation.navigate('AddExercise')}]
                     )
                 }
             } catch (e) {
@@ -98,12 +99,12 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         };
 
         getExercises()
-    }, [])
+    }, [navigation])
 
     return (
         <SafeAreaView style={styles.wrapper}>
+            {error && <ErrorMessage message={error} />}
             <View style={styles.itemWrapper}>
-                {error && <Text>{error}</Text>}
                 <Text style={styles.inputLabel}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleGroups}
@@ -161,7 +162,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 <Text style={styles.inputLabel}>{t('result.options.weight')}:</Text>
                 <TextInput 
                     style={styles.inputWithOption} 
-                    value={weightValue}
+                    value={weightValue} // 
                     placeholder={t('result.options.whatWeight')}
                     placeholderTextColor={'#a9a9a9'}
                     onChangeText={setWeightValue}

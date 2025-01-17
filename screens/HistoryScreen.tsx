@@ -8,6 +8,7 @@ import { COLORS } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
 import { fetchResults } from '@/services/db';
 import { Result, GroupedResult } from '@/utils/types';
+import ErrorMessage from '@/components/ErrorMessage';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'History'>;
@@ -18,7 +19,7 @@ export default function HistoryScreen({ navigation }: Props) {
     const [groupedResults, setGroupedResults] = useState<any>([])
     const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
     const [selectedExercise, setSelectedExercise] = useState(null);
-    const [error, setError] = useState('');
+    const [error, setError] = useState('efefef');
 
     const { t } = useTranslation();
 
@@ -115,7 +116,7 @@ export default function HistoryScreen({ navigation }: Props) {
 
     return (
         <ScrollView style={styles.container}>
-            {error && <Text>{error}</Text>}
+            {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} /></View>}
             <Text>Exercise:</Text>
               <SelectDropdown
                     data={exerciseOptions}
@@ -142,6 +143,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 10,
+        marginTop: 15,
         backgroundColor: '#f8f9fa',
     },
     exerciseSection: {

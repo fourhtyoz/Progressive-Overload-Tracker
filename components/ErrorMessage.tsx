@@ -1,0 +1,41 @@
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+
+
+export default function ErrorMessage({ message }: { message: string }) {
+    const [visible, setVisible] = useState(true);
+
+    if (!visible) return null;
+
+    return (
+        <View style={styles.container}>
+            <Text style={styles.text}>Error: {message}</Text>
+            <TouchableOpacity onPress={() => setVisible(false)} style={styles.closeButton}>
+                <Ionicons name="close" size={20} color="#721c24" />
+            </TouchableOpacity>
+        </View>
+    );
+}
+
+const styles = StyleSheet.create({
+    container: {
+        padding: 16,
+        borderRadius: 8,
+        backgroundColor: '#f8d7da',
+        borderWidth: 1,
+        borderColor: '#f5c6cb',
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    text: {
+        color: '#721c24',
+        fontSize: 16,
+        fontWeight: '600',
+        flex: 1,
+    },
+    closeButton: {
+        marginLeft: 8,
+    },
+});
