@@ -32,7 +32,7 @@ jobs:
       - name: Install dependencies
         run: |
           npm install
-          npx expo install  # Ensure Expo-related dependencies are installed
+          npx expo install
 
       - name: Run tests
         run: npm run test
