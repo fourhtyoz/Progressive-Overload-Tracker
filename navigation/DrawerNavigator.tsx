@@ -1,27 +1,26 @@
 import React from 'react';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import GoBackButton from '@/components/buttons/GoBackButton';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { COLORS } from '@/styles/colors';
+import { useTranslation } from 'react-i18next';
 
 // Screens
 import HomeScreen from '@/screens/HomeScreen';
 import AboutScreen from '@/screens/AboutScreen';
-import NewExerciseScreen from '@/screens/NewExerciseScreen';
+import AddResultScreen from '@/screens/AddResultScreen';
+import AddExerciseScreen from '@/screens/AddExerciseScreen';
 import HistoryScreen from '@/screens/HistoryScreen';
-import ResultScreen from '@/screens/ResultScreen';
 import SettingsScreen from '@/screens/SettingsScreen';
-import { useTranslation } from 'react-i18next';
 
 
 export type DrawerParamList = {
     Home: any;
-    Result: undefined;
-    Profile: undefined;
+    AddResult: undefined;
+    AddExercise: undefined;
     About: undefined;
-    NewExercise: undefined;
     History: undefined;
     Settings: undefined;
-  };
+};
 
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -62,9 +61,9 @@ export default function DrawerNavigator() {
             }
         >
             <Drawer.Screen name="Home" component={HomeScreen} options={{ title: t('home.screenName') }} />
-            <Drawer.Screen name="Result" component={ResultScreen} options={{ title: t('result.screenName') }} />
+            <Drawer.Screen name="AddResult" component={AddResultScreen} options={{ title: t('result.screenName') }} />
             <Drawer.Screen name="About" component={AboutScreen} options={{ title: t('about.screenName') }} />
-            <Drawer.Screen name="NewExercise" component={NewExerciseScreen} options={{ title: t('newExercise.screenName') }} />
+            <Drawer.Screen name="AddExercise" component={AddExerciseScreen} options={{ title: t('newExercise.screenName') }} />
             <Drawer.Screen name="History" component={HistoryScreen} options={{ title: t('history.screenName') }} />
             <Drawer.Screen name="Settings" component={SettingsScreen} options={{ title: t('settings.screenName') }} />
         </Drawer.Navigator>

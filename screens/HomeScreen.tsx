@@ -14,7 +14,7 @@ export default function HomeScreen({ navigation }: Props) {
         <SafeAreaView style={s.wrapper}>
             <View style={s.top}>
                 <ImageBackground source={require('@/src/images/cards/result.jpg')} style={s.cardImage}>
-                    <Pressable style={s.firstBox}  onPress={() => navigation.navigate('Result')}>
+                    <Pressable style={s.firstBox}  onPress={() => navigation.navigate('AddResult')}>
                         <Text style={s.cardTitle}>{t('home.result')}</Text>
                     </Pressable>
                 </ImageBackground>

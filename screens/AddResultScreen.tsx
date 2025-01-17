@@ -14,7 +14,7 @@ import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'Result'>;
+type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
 
 type Exercise = {
     title: string,
@@ -22,7 +22,7 @@ type Exercise = {
 }
 
 
-const ResultScreen = observer(({ navigation }: Props) => {
+const AddResultScreen = observer(({ navigation }: Props) => {
     const { t } = useTranslation();
 
     const [exercises, setExercises] = useState<Exercise[]>([])
@@ -74,7 +74,7 @@ const ResultScreen = observer(({ navigation }: Props) => {
     };
 
     const handleCreateExercise = () => {
-        navigation.navigate('NewExercise')
+        navigation.navigate('AddExercise')
     };
 
     const handleHistory = () => {
@@ -207,4 +207,4 @@ const ResultScreen = observer(({ navigation }: Props) => {
     );
 });
 
-export default ResultScreen;
+export default AddResultScreen;

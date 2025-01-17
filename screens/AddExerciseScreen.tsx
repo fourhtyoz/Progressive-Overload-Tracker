@@ -10,16 +10,16 @@ import { muscleGroups } from '@/utils/constants';
 import { addExercise } from '@/services/db';
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'NewExercise'>;
+type Props = DrawerScreenProps<DrawerParamList, 'AddExercise'>;
 
 
-export default function NewExerciseScreen({ navigation }: Props) {
+export default function AddExerciseScreen({ navigation }: Props) {
     const [muscleGroup, setMuscleGroup] = useState('');
     const [title, setTitle] = useState('');
     const [error, setError] = useState('');
 
     const handleSucess = () => {
-        navigation.navigate('Result')
+        navigation.navigate('AddResult')
     }
 
     const handleCreateExercise = async () => {
@@ -33,7 +33,7 @@ export default function NewExerciseScreen({ navigation }: Props) {
                 ]
             )
         } catch (e) {
-            setError(e)
+            setError(String(e))
             console.error(e)
         }
     }
