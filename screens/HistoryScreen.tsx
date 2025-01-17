@@ -20,6 +20,7 @@ type Result = {
     units: string
 }
 
+
 export default function HistoryScreen({ navigation }: Props) {
     const [results, setResults] = useState<Result[]>([])
     const [groupedResults, setGroupedResults] = useState<any>([])
@@ -81,7 +82,7 @@ export default function HistoryScreen({ navigation }: Props) {
         </View>
     );
 
-    const renderTable = (data) => {
+    const renderTable = (data: any) => {
         let keys = Object.keys(data) || []
         
         if (selectedExercise && selectedExercise !== 'All') {
@@ -115,7 +116,6 @@ export default function HistoryScreen({ navigation }: Props) {
                         }
                         return renderExercise({ item: record }, progress, key);
                     })}
-
                 </View>
             )
         })
@@ -136,7 +136,7 @@ export default function HistoryScreen({ navigation }: Props) {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View>
+                        <View key={index}>
                             <Text>{item}</Text>
                         </View>
                     )}

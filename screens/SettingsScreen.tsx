@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { View, Text, StyleSheet, Switch, Alert, Pressable } from "react-native"
+import React from "react";
+import { View, Text, StyleSheet, Alert, Pressable } from "react-native"
 import { COLORS } from "@/styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/buttons/Button";
@@ -8,24 +8,12 @@ import { UNITS, THEMES, LANGUAGES, FONT_SIZES } from "@/constants/settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
-import i18n from "@/utils/i18n";
 import { settingsStore } from "@/store/store";
 import { observer } from "mobx-react-lite";
 
 
 const SettingsScreen = observer(() => {
     const { t } = useTranslation();
-
-    // NOTE: quite a weird logic of working with the app settings 
-    const [settings, setSettings] = useState({
-        theme: settingsStore.theme,
-        fontSize: settingsStore.fontSize,
-        language: settingsStore.language,
-        units: settingsStore.units,
-        notifications: settingsStore.notifications,
-    });
-
-    const [lang, setLang] = useState(settingsStore.language)
 
     const handleGetInTouch = () => {
         Alert.alert(
@@ -56,7 +44,6 @@ const SettingsScreen = observer(() => {
         if (!lang) return;
 
         await AsyncStorage.setItem('language', lang.code)
-        setLang(lang.code)
         settingsStore.setLanguage(lang.code)
     }
 
@@ -111,7 +98,7 @@ const SettingsScreen = observer(() => {
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={s.dropdownText}>{(selectedItem?.title) || settings.fontSize}</Text>
+                                <Text style={s.dropdownText}>{(selectedItem?.title) || settingsStore.fontSize}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
@@ -133,7 +120,7 @@ const SettingsScreen = observer(() => {
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={s.dropdownText}>{(selectedItem?.code) || settings.language}</Text>
+                                <Text style={s.dropdownText}>{(selectedItem?.code) || settingsStore.language}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
@@ -155,7 +142,7 @@ const SettingsScreen = observer(() => {
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={s.dropdownText}>{(selectedItem?.title) || settings.units}</Text>
+                                <Text style={s.dropdownText}>{(selectedItem?.title) || settingsStore.units}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
@@ -177,7 +164,7 @@ const SettingsScreen = observer(() => {
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={s.dropdownText}>{(selectedItem?.title) || settings.theme}</Text>
+                                <Text style={s.dropdownText}>{(selectedItem?.title) || settingsStore.theme}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
