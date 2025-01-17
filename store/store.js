@@ -70,7 +70,16 @@ class SettingsStore {
                         break;
                     case 'notifications':
                         runInAction(() => {
-                            this.notifications = value || true ;
+                            if (value) {
+                                try {
+                                    const parsedValue = JSON.parse(value)
+                                    this.notifications = parsedValue;
+                                } catch (e) {
+                                    console.error('initialize notifications', e)
+                                }
+                            } else {
+                                this.notifications = true
+                            }
                         });
                         break;
                     default:

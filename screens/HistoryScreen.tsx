@@ -20,6 +20,10 @@ type Result = {
     units: string
 }
 
+type GroupedResult = {
+    [key: string]: Result[];
+};
+
 
 export default function HistoryScreen({ navigation }: Props) {
     const [results, setResults] = useState<Result[]>([])
@@ -82,7 +86,7 @@ export default function HistoryScreen({ navigation }: Props) {
         </View>
     );
 
-    const renderTable = (data: any) => {
+    const renderTable = (data: GroupedResult) => {
         let keys = Object.keys(data) || []
         
         if (selectedExercise && selectedExercise !== 'All') {

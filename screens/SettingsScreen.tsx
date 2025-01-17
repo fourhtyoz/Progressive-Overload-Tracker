@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, StyleSheet, Alert, Pressable } from "react-native"
+import { View, Text, StyleSheet, Alert, Pressable, Switch } from "react-native"
 import { COLORS } from "@/styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/buttons/Button";
@@ -83,6 +83,17 @@ const SettingsScreen = observer(() => {
             type: 'success',
             text1: t('toasts.success'),
             text2: t('toasts.changedTheme'),
+        });
+    }
+
+    const handleChangeNotifications = async () => {
+        await AsyncStorage.setItem('notifications', JSON.stringify(!settingsStore.notifications))
+        settingsStore.toggleNotifications()
+
+        Toast.show({
+            type: 'success',
+            text1: t('toasts.success'),
+            text2: !settingsStore.notifications ? t('toasts.notReceiveNotifications') : t('toasts.receiveNotifications'),
         });
     }
 
@@ -176,8 +187,7 @@ const SettingsScreen = observer(() => {
                 </View>
                 <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
             </View>
-            {/* TODO: fix the switcher */}
-            {/* <View>
+            <View>
                 <View style={s.row}>
                     <Text style={s.title}>{t('settings.options.notifications')}:</Text>
                     <Switch
@@ -189,7 +199,7 @@ const SettingsScreen = observer(() => {
                     />
                 </View>
                 <Text style={s.helpText}>{t('settings.options.notificationsHelpText')}</Text>
-            </View> */}
+            </View>
             <View>
                 <Button 
                     text={t('settings.getInTouch')} 

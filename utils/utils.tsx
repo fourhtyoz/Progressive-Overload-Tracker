@@ -9,8 +9,7 @@ export function groupByExercise(dataArray) {
         if (!grouped[item.exercise]) {
             grouped[item.exercise] = [];
         }
-        const { exercise, ...rest } = item;
-        grouped[item.exercise].push(rest);
+        grouped[item.exercise].push(item);
     });
 
     return grouped;
