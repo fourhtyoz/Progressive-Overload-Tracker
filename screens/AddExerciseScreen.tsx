@@ -3,7 +3,7 @@ import { View, SafeAreaView, Text, TextInput, Alert } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
-import { toTitleCase } from '@/utils/utils';
+import { toTitleCase } from '@/utils/helpFunctions';
 import { styles } from '@/styles/styles';
 import Button from '@/components/buttons/Button';
 import { muscleGroups } from '@/utils/constants';

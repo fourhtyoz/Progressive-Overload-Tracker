@@ -1,10 +1,19 @@
 # TODO
 
+1. Errors
+2. CRUD operations
+3. Validations
+4. Translations
+5. Filter/Search
+6. Apply settings (font size, theme, notifications)
+7. Optimizations
+8. Deployment
+
+
+## Backlog 
 
 ## General 
-
 0. Refactor styles
-3. Offline/Online mode
 5. Themes
 7. Hovers + Accessiblity
 8. UI/UX
@@ -22,10 +31,8 @@
 1. Styles
 2. Filters
 3. Optimization
-4. Skeleton
 5. Sorting
 8. Delete entries
-9. Open/Show
 
 
 ## New Exercise

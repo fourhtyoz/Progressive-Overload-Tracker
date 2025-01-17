@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
-import { toTitleCase, groupByExercise } from '@/utils/utils';
+import { toTitleCase, groupByExercise } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
