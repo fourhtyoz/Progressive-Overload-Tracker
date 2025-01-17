@@ -1,37 +1,28 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import DrawerNavigator from '@/navigation/DrawerNavigator';
 import Toast, { BaseToast } from 'react-native-toast-message';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '@/utils/i18n';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { LANGUAGES } from '@/constants/settings';
-import { createTable } from '@/services/db';
+import { observer } from 'mobx-react-lite';
+import { createTables } from '@/services/db';
+import { settingsStore } from '@/store/store';
+import Loader from '@/components/Loader';
 
 
-export default function App() {
-    const [lang, setLang] = useState('en');
-
+const App = observer(() => {
     useEffect(() => {
-        const getPreferredLanguage = async () => {
-            const language = await AsyncStorage.getItem('language');
-            if (!language || LANGUAGES.filter(item => item.code === language).length === 0) {
-                return;
-            }
-            setLang(language)
-        }
+        createTables();
+        settingsStore.initialize();
+    }, []);
 
-        createTable()
-        getPreferredLanguage()
-
-    }, [])
-    
-    useEffect(() => {
-        i18n.changeLanguage(lang)
-    }, [lang])
+    if (settingsStore.isLoading) {
+        return (
+            <Loader />
+        )
+    } 
 
     return (
-        // TODO: AuthProvider
         <I18nextProvider i18n={i18n}>
             <NavigationContainer independent={true}>
                 <DrawerNavigator />
@@ -39,4 +30,6 @@ export default function App() {
             <Toast config={{ success: (props: any) => (<BaseToast {...props} style={{ borderLeftColor: 'lightgreen' }} text1Style={{ fontSize: 18, fontWeight: '400' }} text2Style={{ fontSize: 14 }} />)}} />
         </I18nextProvider>
     );
-}
+});
+
+export default App

@@ -1,82 +1,96 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
-import { toTitleCase } from '@/utils/utils';
+import { toTitleCase, groupByExercise } from '@/utils/utils';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
+import { fetchResults } from '@/services/db';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'History'>;
 
+type Result = {
+    exercise: string,
+    date: string,
+    muscleGroup: string,
+    reps: number,
+    weight: number,
+    units: string
+}
 
 export default function HistoryScreen({ navigation }: Props) {
-    const [data, setData] = useState([]);
+    const [results, setResults] = useState<Result[]>([])
+    const [groupedResults, setGroupedResults] = useState<any>([])
     const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
     const [selectedExercise, setSelectedExercise] = useState(null);
+    const [error, setError] = useState('');
 
     const { t } = useTranslation();
 
     useEffect(() => {
-        const getAllKeys = async () => {
-            const allKeys = await AsyncStorage.getAllKeys()
-            for (let key of allKeys) {
-                if (['theme', 'fontSize', 'language', 'units', 'notifications'].includes(key)) continue;
-
-                const keyData = await AsyncStorage.getItem(key)
-                
-                if (!keyData) continue;
-
-                try {
-                    const parsedData = JSON.parse(keyData)
-                    setData(prev => ({...prev, [key]: parsedData}))
-                } catch (e) {
-                    console.error(e)
-                }[]
+        const getResults = async () => {
+            try {
+                const res = await fetchResults();
+                if (!Array.isArray(res)) throw new Error('fetchResults returned no array')
+                setResults(res)
+            } catch (e) {
+                const error = `Failed to fetch results: ${e}`
+                console.error(error)
+                setError(error)
             }
         }
-        getAllKeys()
-    }, [])
+
+        getResults()
+    }, [navigation])
 
     useEffect(() => {
-        if (!data) return;
-        const keys = Object.keys(data)
-        keys.splice(0, 0, 'All')
-        setExerciseOptions(keys);
-    }, [data]);
+        if (Array.isArray(results) && results.length > 0) {
+            const transformedResults = groupByExercise(results)
+            setGroupedResults(transformedResults)
+
+            // filter
+            const keys = Object.keys(transformedResults)
+            keys.splice(0, 0, 'All')
+            setExerciseOptions(keys);
+        }
+
+    }, [results])
 
     // TODO: i18n exercises
-    const renderExercise = ({ item }: { item: any }, progress: any) => (
-        <View style={{
-            ...styles.row, 
-            ...(progress === 'worse' 
-                ? { borderLeftWidth: 5, borderLeftColor: '#F93827' } 
-                : progress === 'neutral' 
-                    ? { borderLeftWidth: 5, borderLeftColor: COLORS.orange }
-                    : progress === 'better' 
-                        ? { borderLeftWidth: 5, borderLeftColor: '#16C47F' }
-                        : { borderLeftWidth: 5, borderLeftColor: '#FFF' }
-            ) 
-            }}>
+    const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
+        <View 
+            key={key} 
+            style={{
+                ...styles.row, 
+                ...(progress === 'worse' 
+                    ? { borderLeftWidth: 5, borderLeftColor: '#F93827' } 
+                    : progress === 'neutral' 
+                        ? { borderLeftWidth: 5, borderLeftColor: COLORS.orange }
+                        : progress === 'better' 
+                            ? { borderLeftWidth: 5, borderLeftColor: '#16C47F' }
+                            : { borderLeftWidth: 5, borderLeftColor: '#FFF' }
+                ) 
+            }}
+        >
             <Text style={styles.cell}>{item.date}</Text>
             <Text style={styles.cell}>{toTitleCase(item.muscleGroup)}</Text>
-            <Text style={styles.cell}>{item.weightValue} {item.units}</Text>
-            <Text style={styles.cell}>{item.repsValue}</Text>
+            <Text style={styles.cell}>{item.weight} {item.units}</Text>
+            <Text style={styles.cell}>{item.reps}</Text>
         </View>
     );
 
-    const renderTable = () => {
-        let keys = Object.keys(data)
+    const renderTable = (data) => {
+        let keys = Object.keys(data) || []
         
         if (selectedExercise && selectedExercise !== 'All') {
             keys = keys.filter(item => item === selectedExercise)
         }
 
-        return keys.map((exerciseName) => {
+        return keys.map((exerciseName, i) => {
             return (
-                <View style={styles.exerciseSection}>
+                <View key={i} style={styles.exerciseSection}>
                     <Text style={styles.exerciseHeader}>{exerciseName}</Text>
                     <View style={[styles.row, styles.headerRow]}>
                         <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.date')}</Text>
@@ -86,10 +100,11 @@ export default function HistoryScreen({ navigation }: Props) {
                     </View>
                     {data[exerciseName].map((record: any, index: number) => {
                         let progress = 'new'
+                        let key = record.id
                         if (index > 0) {
                             const previousSet = data[exerciseName][index - 1]
-                            const previousScore = parseInt(previousSet.weightValue) * parseInt(previousSet.repsValue)
-                            const currentScore = parseInt(record.weightValue) * parseInt(record.repsValue)
+                            const previousScore = previousSet.weight * previousSet.reps
+                            const currentScore = record.weight * record.reps
                             if (previousScore > currentScore) {
                                 progress = 'worse'
                             } else if (previousScore < currentScore) {
@@ -98,7 +113,7 @@ export default function HistoryScreen({ navigation }: Props) {
                                 progress = 'neutral'
                             }
                         }
-                        return renderExercise({ item: record }, progress);
+                        return renderExercise({ item: record }, progress, key);
                     })}
 
                 </View>
@@ -108,6 +123,7 @@ export default function HistoryScreen({ navigation }: Props) {
 
     return (
         <ScrollView style={styles.container}>
+            {error && <Text>{error}</Text>}
             <Text>Exercise:</Text>
               <SelectDropdown
                     data={exerciseOptions}
@@ -125,7 +141,7 @@ export default function HistoryScreen({ navigation }: Props) {
                         </View>
                     )}
                 />
-            {renderTable()}
+            {renderTable(groupedResults)}
         </ScrollView>
     )
 };

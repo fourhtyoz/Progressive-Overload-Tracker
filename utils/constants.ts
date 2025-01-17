@@ -1,0 +1,1 @@
+export const muscleGroups = ['trapezius', 'shoulders', 'chest', 'biceps', 'triceps', 'forearms', 'legs', 'glutes', 'back', 'abs', 'cardio'];

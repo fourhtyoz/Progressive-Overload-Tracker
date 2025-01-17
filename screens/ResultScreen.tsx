@@ -1,32 +1,39 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { WEIGHTS } from '@/constants/weights';
-import { EXERCISES } from '@/constants/exercises';
+import { UNITS } from '@/constants/settings';
 import { toTitleCase } from '@/utils/utils';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { styles } from '@/styles/styles';
 import Button from '@/components/buttons/Button';
 import { useTranslation } from 'react-i18next';
+import { fetchExercises, addResult } from '@/services/db';
+import { settingsStore } from '@/store/store';
+import { observer } from 'mobx-react-lite';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Result'>;
 
+type Exercise = {
+    title: string,
+    type: string
+}
 
-export default function ResultScreen({ navigation }: Props) {
+
+const ResultScreen = observer(({ navigation }: Props) => {
     const { t } = useTranslation();
 
+    const [exercises, setExercises] = useState<Exercise[]>([])
     const [muscleGroup, setMuscleGroup] = useState('')
     const [exercise, setExercise] = useState('')
     const [repsValue, setRepsValue] = useState('')
     const [weightValue, setWeightValue] = useState('')
-    const [units, setUnits] = useState(WEIGHTS.filter((item) => item.title.toLowerCase() === 'kg').title || 'kg')
+    const [units, setUnits] = useState(settingsStore.units)
     const [error, setError] = useState('')
 
-    const muscleGroups = Array.from(new Set(EXERCISES.map(item => item.type)));
+    const muscleGroups = Array.from(new Set(exercises.map(item => item.type)));
 
     const resetAllFields = () => {
         setRepsValue('')
@@ -36,42 +43,28 @@ export default function ResultScreen({ navigation }: Props) {
         setError('')
     };
 
-    const storeData = async (key: string, value: any) => {
-        try {
-            const prevValue = await AsyncStorage.getItem(key)
-            if (!prevValue) {
-                await AsyncStorage.setItem(key, JSON.stringify([value]))
-            } else {
-                const newValue = JSON.parse(prevValue)
-                newValue.push(value)
-                await AsyncStorage.setItem(key, JSON.stringify(newValue))
-            }
-        } catch (e) {
-            console.error(e)
-        }
-    };
-
     // TODO: date formats
-    const handleSubmitEntry = () => {
+    const handleSubmitEntry = async () => {
         if (muscleGroup && exercise && repsValue && weightValue && units) {
-            const data = {
-                muscleGroup: muscleGroup,
-                exercise: exercise,
-                repsValue: repsValue,
-                weightValue: weightValue,
-                units: units,
-                date: new Date().toLocaleDateString('ru-Ru', {
-                    year: '2-digit',
-                    month: '2-digit',
-                    day: '2-digit',
-                })
+            const date = new Date().toLocaleDateString('ru-Ru', { year: '2-digit', month: '2-digit', day: '2-digit'})
+            try {
+                await addResult(
+                    exercise,
+                    date,
+                    muscleGroup, 
+                    repsValue, 
+                    weightValue, 
+                    units
+                )
+                resetAllFields()
+                Alert.alert(
+                    t('alerts.success'),
+                    t('alerts.newEntryAddedSuccess'),
+                )
+            } catch (e) {
+                setError(String(e))
+                console.error(e)
             }
-            storeData(exercise, data)
-            resetAllFields()
-            Alert.alert(
-                t('alerts.success'),
-                t('alerts.newEntryAddedSuccess'),
-            )
         } else {
             Alert.alert(
                 t('alerts.error'),
@@ -88,9 +81,33 @@ export default function ResultScreen({ navigation }: Props) {
         navigation.navigate('History')
     };
 
+    useEffect(() => {
+        const getExercises = async () => {
+            try {
+                const res = await fetchExercises();
+                if (!Array.isArray(res)) throw new Error('fetchExercises return no array')
+                setExercises(res)
+                if (res?.length === 0) {
+                    Alert.alert(
+                        'Нет упражнений',
+                        'У вас еще не заведены упражнения',
+                        [{text: 'Завести упражнение', onPress: handleCreateExercise}]
+                    )
+                }
+            } catch (e) {
+                const error = `Failed to fetch exercises: ${e}`
+                console.error(error);
+                setError(error)
+            }
+        };
+
+        getExercises()
+    }, [])
+
     return (
         <SafeAreaView style={styles.wrapper}>
             <View style={styles.itemWrapper}>
+                {error && <Text>{error}</Text>}
                 <Text style={styles.inputLabel}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleGroups}
@@ -115,7 +132,7 @@ export default function ResultScreen({ navigation }: Props) {
                 <Text style={styles.inputLabel}>{t('result.options.exercise')}:</Text>
                 <SelectDropdown
                     disabled={!muscleGroup}
-                    data={EXERCISES.filter(item => item.type === muscleGroup)}
+                    data={exercises.filter(item => item.type === muscleGroup)}
                     onSelect={(selectedItem, index) => setExercise(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
@@ -155,13 +172,13 @@ export default function ResultScreen({ navigation }: Props) {
                     keyboardType='numeric' 
                 />
                 <SelectDropdown
-                    data={WEIGHTS}
+                    data={UNITS}
                     onSelect={(selectedItem) => setUnits(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={styles.dropdownButtonStyle}>
-                            <Text style={styles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || units}</Text>
+                            <Text style={styles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || settingsStore.units}</Text>
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
@@ -188,4 +205,6 @@ export default function ResultScreen({ navigation }: Props) {
             </View>
         </SafeAreaView>
     );
-}
+});
+
+export default ResultScreen;

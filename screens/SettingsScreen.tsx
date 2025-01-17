@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleSheet, Switch, Alert, Pressable } from "react-native"
-import { DrawerScreenProps } from "@react-navigation/drawer";
-import { DrawerParamList } from "@/navigation/DrawerNavigator";
 import { COLORS } from "@/styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/buttons/Button";
@@ -11,31 +9,29 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
 import i18n from "@/utils/i18n";
+import { settingsStore } from "@/store/store";
+import { observer } from "mobx-react-lite";
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'Settings'>;
-
-
-export default function SettingsScreen({ navigation }: Props) {
+const SettingsScreen = observer(() => {
     const { t } = useTranslation();
 
     // NOTE: quite a weird logic of working with the app settings 
     const [settings, setSettings] = useState({
-        theme: '',
-        fontSize: '',
-        language: '',
-        units: '',
-        notifications: false,
+        theme: settingsStore.theme,
+        fontSize: settingsStore.fontSize,
+        language: settingsStore.language,
+        units: settingsStore.units,
+        notifications: settingsStore.notifications,
     });
 
-    const [lang, setLang] = useState(settings.language || 'en')
-    const [defaultNotifications, setDefaultNotifcations] = useState(settings.notifications || false);
+    const [lang, setLang] = useState(settingsStore.language)
 
     const handleGetInTouch = () => {
         Alert.alert(
             t('settings.getInTouch'),
             `${t('settings.sendEmailTo')} meow@gmail.com`,
-         )
+        )
     }
 
     const handleDeleteAllData = () => {
@@ -61,12 +57,14 @@ export default function SettingsScreen({ navigation }: Props) {
 
         await AsyncStorage.setItem('language', lang.code)
         setLang(lang.code)
+        settingsStore.setLanguage(lang.code)
     }
 
     const handleChangeUnits = async (units: string) => {
         if (!units || typeof units !== 'string') return;
         
         await AsyncStorage.setItem('units', units)
+        settingsStore.setUnits(units)
         
         Toast.show({
             type: 'success',
@@ -79,6 +77,7 @@ export default function SettingsScreen({ navigation }: Props) {
         if (!fontSize || typeof fontSize !== 'string') return;
         
         await AsyncStorage.setItem('fontSize', fontSize)
+        settingsStore.setFontsize(fontSize)
         
         Toast.show({
             type: 'success',
@@ -91,6 +90,7 @@ export default function SettingsScreen({ navigation }: Props) {
         if (!theme || typeof theme !== 'string') return;
         
         await AsyncStorage.setItem('theme', theme)
+        settingsStore.setTheme(theme)
         
         Toast.show({
             type: 'success',
@@ -98,45 +98,6 @@ export default function SettingsScreen({ navigation }: Props) {
             text2: t('toasts.changedTheme'),
         });
     }
-
-    // NOTE: looks weird
-    const handleChangeNotifications = async (notifications: boolean) => {
-        setDefaultNotifcations(!notifications)
-        
-        await AsyncStorage.setItem('notifications', JSON.stringify(notifications))
-        
-        Toast.show({
-            type: 'success',
-            text1: t('toasts.success'),
-            text2: !notifications ? t('toasts.receiveNotifications') : t('toasts.notReceiveNotifications') ,
-        });
-    }
-
-    const loadSettings = async () => {
-        try {
-            const keys = ['theme', 'fontSize', 'language', 'units', 'notifications'];
-            const values = await AsyncStorage.multiGet(keys);
-
-            const settingsObject = {};
-            values.forEach(([key, value]) => {
-            settingsObject[key] = value;
-            });
-
-            setSettings(settingsObject);
-        } catch (error) {
-            console.error('Failed to load settings from AsyncStorage:', error);
-        }
-      };
-
-    useEffect(() => {
-        loadSettings();
-    }, []);
-
-    useEffect(() => {
-        if (!lang) return;
-        i18n.changeLanguage(lang)
-    }, [lang])
-
 
     return (
         <SafeAreaView style={s.wrapper}>
@@ -228,19 +189,20 @@ export default function SettingsScreen({ navigation }: Props) {
                 </View>
                 <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
             </View>
-            <View>
+            {/* TODO: fix the switcher */}
+            {/* <View>
                 <View style={s.row}>
                     <Text style={s.title}>{t('settings.options.notifications')}:</Text>
                     <Switch
                         trackColor={{ false: '#767577', true: COLORS.orange }}
-                        thumbColor={defaultNotifications ? COLORS.black : '#f4f3f4'}
+                        thumbColor={settingsStore.notifications ? COLORS.black : '#f4f3f4'}
                         ios_backgroundColor="#3e3e3e"
-                        onValueChange={() => handleChangeNotifications(defaultNotifications)}
-                        value={defaultNotifications}
+                        onValueChange={handleChangeNotifications}
+                        value={settingsStore.notifications}
                     />
                 </View>
                 <Text style={s.helpText}>{t('settings.options.notificationsHelpText')}</Text>
-            </View>
+            </View> */}
             <View>
                 <Button 
                     text={t('settings.getInTouch')} 
@@ -254,8 +216,7 @@ export default function SettingsScreen({ navigation }: Props) {
             </Pressable>
         </SafeAreaView>
     )
-}
-
+});
 
 const s = StyleSheet.create({
     wrapper: {
@@ -336,3 +297,4 @@ const s = StyleSheet.create({
     }
 })
 
+export default SettingsScreen;

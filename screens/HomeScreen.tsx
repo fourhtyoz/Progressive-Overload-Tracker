@@ -24,11 +24,6 @@ export default function HomeScreen({ navigation }: Props) {
                             <Text style={s.cardTitle}>{t('home.about')}</Text>
                         </Pressable>
                     </ImageBackground>
-                    <ImageBackground source={require('@/src/images/cards/profile.jpg')} style={s.cardImage}>
-                        <Pressable style={s.thirdBox} onPress={() => navigation.navigate('Profile')}>
-                            <Text style={s.cardTitle}>{t('home.profile')}</Text>
-                        </Pressable>
-                    </ImageBackground>
                     <ImageBackground source={require('@/src/images/cards/settings.jpg')} style={s.cardImage}>
                         <Pressable style={s.forthBox} onPress={() => navigation.navigate('Settings')}>
                             <Text style={s.cardTitle}>{t('home.settings')}</Text>
@@ -77,7 +72,7 @@ const s = StyleSheet.create({
     secondBox: {
         flexGrow: 1,
         borderRadius: 15, 
-        height: screenHeight / 2.5 / 3
+        height: screenHeight / 2.5 / 1.5
     },
     thirdBox: {
         flexGrow: 1,
