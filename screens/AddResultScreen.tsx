@@ -12,14 +12,10 @@ import { useTranslation } from 'react-i18next';
 import { fetchExercises, addResult } from '@/services/db';
 import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
+import { Exercise } from '@/utils/types';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
-
-type Exercise = {
-    title: string,
-    type: string
-}
 
 
 const AddResultScreen = observer(({ navigation }: Props) => {

@@ -7,22 +7,10 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
 import { fetchResults } from '@/services/db';
+import { Result, GroupedResult } from '@/utils/types';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'History'>;
-
-type Result = {
-    exercise: string,
-    date: string,
-    muscleGroup: string,
-    reps: number,
-    weight: number,
-    units: string
-}
-
-type GroupedResult = {
-    [key: string]: Result[];
-};
 
 
 export default function HistoryScreen({ navigation }: Props) {
