@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
-import { toTitleCase, groupByExercise } from '@/utils/helpFunctions';
+import { toTitleCase, groupByExercise, filterByMuscleGroup } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
 import { fetchResults } from '@/services/db';
-import { Result, GroupedResult } from '@/utils/types';
+import { GroupedResult } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
 
 
@@ -15,11 +15,12 @@ type Props = DrawerScreenProps<DrawerParamList, 'History'>;
 
 
 export default function HistoryScreen({ navigation }: Props) {
-    const [results, setResults] = useState<Result[]>([])
-    const [groupedResults, setGroupedResults] = useState<any>([])
+    const [results, setResults] = useState<GroupedResult[]>([]);
     const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
     const [selectedExercise, setSelectedExercise] = useState(null);
-    const [error, setError] = useState('efefef');
+    const [muscleOptions, setMuscleOptions] = useState<string[]>([]);
+    const [selectedMuscle, setSelectedMuscle] = useState(null);
+    const [error, setError] = useState('');
 
     const { t } = useTranslation();
 
@@ -27,30 +28,41 @@ export default function HistoryScreen({ navigation }: Props) {
         const getResults = async () => {
             try {
                 const res = await fetchResults();
-                if (!Array.isArray(res)) throw new Error('fetchResults returned no array')
-                setResults(res)
+                if (!Array.isArray(res)) {
+                    throw new Error('fetchResults returned no array')
+                }
+                if (res.length > 0) {
+                    const groupedResults: any = groupByExercise(res)
+                    setResults(groupedResults)
+        
+                    // filters
+                    // exercise
+                    const keys = Object.keys(groupedResults)
+                    keys.splice(0, 0, 'All')
+                    setExerciseOptions(keys);
+
+                    // muscles
+                    const muscleGroupSet = new Set()
+                    res.map(item => muscleGroupSet.add(item.muscleGroup))
+                    const muscleGroupArray: any = Array.from(muscleGroupSet)
+                    muscleGroupArray.splice(0, 0, 'All')
+                    setMuscleOptions(muscleGroupArray)
+                } else {
+                    // TODO:
+                    setResults([])
+                    setExerciseOptions([]);
+                    setMuscleOptions([]);
+                }
             } catch (e) {
                 const error = `Failed to fetch results: ${e}`
                 console.error(error)
                 setError(error)
             }
         }
-
+        
         getResults()
     }, [navigation])
 
-    useEffect(() => {
-        if (Array.isArray(results) && results.length > 0) {
-            const transformedResults = groupByExercise(results)
-            setGroupedResults(transformedResults)
-
-            // filter
-            const keys = Object.keys(transformedResults)
-            keys.splice(0, 0, 'All')
-            setExerciseOptions(keys);
-        }
-
-    }, [results])
 
     // TODO: i18n exercises
     const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
@@ -61,10 +73,10 @@ export default function HistoryScreen({ navigation }: Props) {
                 ...(progress === 'worse' 
                     ? { borderLeftWidth: 5, borderLeftColor: '#F93827' } 
                     : progress === 'neutral' 
-                        ? { borderLeftWidth: 5, borderLeftColor: COLORS.orange }
-                        : progress === 'better' 
-                            ? { borderLeftWidth: 5, borderLeftColor: '#16C47F' }
-                            : { borderLeftWidth: 5, borderLeftColor: '#FFF' }
+                    ? { borderLeftWidth: 5, borderLeftColor: COLORS.orange }
+                    : progress === 'better' 
+                    ? { borderLeftWidth: 5, borderLeftColor: '#16C47F' }
+                    : { borderLeftWidth: 5, borderLeftColor: COLORS.white }
                 ) 
             }}
         >
@@ -75,11 +87,17 @@ export default function HistoryScreen({ navigation }: Props) {
         </View>
     );
 
-    const renderTable = (data: GroupedResult) => {
+    const renderTable = (data: any) => {
         let keys = Object.keys(data) || []
         
         if (selectedExercise && selectedExercise !== 'All') {
             keys = keys.filter(item => item === selectedExercise)
+            console.log('keys', keys)
+        }
+
+        if (selectedMuscle && selectedMuscle !== 'All') {
+            data = filterByMuscleGroup(data, selectedMuscle)
+            keys = Object.keys(data) || []
         }
 
         return keys.map((exerciseName, i) => {
@@ -118,23 +136,46 @@ export default function HistoryScreen({ navigation }: Props) {
         <ScrollView style={styles.container}>
             {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} /></View>}
             <Text>Exercise:</Text>
-              <SelectDropdown
-                    data={exerciseOptions}
-                    onSelect={(selectedItem, index) => setSelectedExercise(selectedItem)}
-                    showsVerticalScrollIndicator={false}
-                    renderButton={(selectedItem) => (
-                        <View>
-                            {!selectedExercise && <Text>{'All'}</Text>} 
-                            <Text>{selectedItem}</Text>
-                        </View>
-                    )}
-                    renderItem={(item, index, isSelected) => (
-                        <View key={index}>
-                            <Text>{item}</Text>
-                        </View>
-                    )}
-                />
-            {renderTable(groupedResults)}
+            <SelectDropdown
+                data={exerciseOptions}
+                onSelect={(selectedItem, index) => {
+                    setSelectedExercise(selectedItem)
+                    setSelectedMuscle(null)
+                }}
+                showsVerticalScrollIndicator={false}
+                renderButton={(selectedItem) => (
+                    <View>
+                        {/* {!selectedExercise && <Text>{'All'}</Text>}  */}
+                        <Text>{selectedItem}</Text>
+                    </View>
+                )}
+                renderItem={(item, index, isSelected) => (
+                    <View key={index}>
+                        <Text>{item}</Text>
+                    </View>
+                )}
+            />
+            <Text>Muscle:</Text>
+            <SelectDropdown
+                data={muscleOptions}
+                onSelect={(selectedItem, index) => {
+                    setSelectedMuscle(selectedItem)
+                    setSelectedExercise(null)
+                }}
+                showsVerticalScrollIndicator={false}
+                renderButton={(selectedItem) => (
+                    <View>
+                        {/* {!selectedMuscle && <Text>{'All'}</Text>}  */}
+                        <Text>{selectedItem}</Text>
+                    </View>
+                )}
+                renderItem={(item, index, isSelected) => (
+                    <View key={index}>
+                        <Text>{item}</Text>
+                    </View>
+                )}
+            />
+            {renderTable(results)}
         </ScrollView>
     )
 };

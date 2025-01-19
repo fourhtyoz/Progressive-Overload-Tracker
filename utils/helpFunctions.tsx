@@ -17,3 +17,17 @@ export function groupByExercise(dataArray: Result[]) {
 
     return grouped;
 }
+
+export function filterByMuscleGroup(data, targetGroup) {
+    const filteredData = {};
+
+    for (const [exercise, records] of Object.entries(data)) {
+        const filteredRecords = records.filter(record => record.muscleGroup === targetGroup);
+        if (filteredRecords.length > 0) {
+            filteredData[exercise] = filteredRecords;
+        }
+    }
+    console.log('data', data)
+    console.log('filteredData', filteredData)
+    return filteredData;
+}
