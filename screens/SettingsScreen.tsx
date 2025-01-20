@@ -324,7 +324,8 @@ const s = StyleSheet.create({
     },
 
     helpText: {
-        color: COLORS.gray
+        color: COLORS.gray,
+        fontSize: FONT_SIZE.small
     }
 })
 

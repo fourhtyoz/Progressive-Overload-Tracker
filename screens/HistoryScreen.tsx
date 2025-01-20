@@ -105,6 +105,14 @@ export default function HistoryScreen({ navigation }: Props) {
             keys = keys.filter(item => item === selectedExercise);
         }
 
+        if (keys.length === 0) {
+            return (
+                <View style={styles.notFound}>
+                    <Text style={styles.text}>No results found</Text>
+                </View>
+            )
+        }
+
         return keys.map((exerciseName, i) => {
             return (
                 <View key={i} style={styles.exerciseSection}>
@@ -193,6 +201,16 @@ export default function HistoryScreen({ navigation }: Props) {
 };
 
 const styles = StyleSheet.create({
+    notFound: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flex: 1,
+    },
+    text: {
+        marginTop: 20,
+        fontSize: 16,
+        color: '#555',
+      },
     resetButtonTextDisabled: {
         color: '#9e9e9e',
     },
@@ -204,7 +222,7 @@ const styles = StyleSheet.create({
         paddingVertical: 12,
         borderRadius: 8,
         alignItems: 'center',
-        marginTop: 16,
+        marginVertical: 16,
       },
       resetButtonText: {
         color: '#ffffff',
@@ -242,11 +260,13 @@ const styles = StyleSheet.create({
         fontWeight: '700',
         paddingHorizontal: 10,
         alignItems: 'center',
+        width: 80,
     },
     filterWrapper: {
         flexDirection: 'row',
         textAlign: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: 5
     },
     dropdownButton: {
         width: '100%',
@@ -264,6 +284,8 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         borderRadius: 8,
         padding: 10,
+        borderWidth: 1,
+        borderColor: COLORS.blackTransparentBorder
     },
     exerciseHeader: {
         fontSize: FONT_SIZE.large,

@@ -1,7 +1,8 @@
 # TODO
 
+1. Delete / Edit entries
 4. Translations
-6. Apply settings (font size, theme, notifications) ()
+6. Apply settings (theme)
 7. Optimizations
 8. Deployment
 
@@ -11,26 +12,12 @@
 ## General 
 0. Refactor styles
 5. Themes
-7. Hovers + Accessiblity
 8. UI/UX
 11. Delpoyment
-13. Show "last time weight/reps" to know what weight to use
-
-
-## Home
-
-1. Validations
 
 
 ## History
 
 1. Styles
-2. Filters
 3. Optimization
-5. Sorting
-8. Delete entries
-
-
-## New Exercise
-
-2. Validations
+8. Delete / Edit entries
