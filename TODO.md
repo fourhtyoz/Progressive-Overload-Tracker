@@ -1,7 +1,5 @@
 # TODO
 
-1. Errors
-2. CRUD operations
 3. Validations
 4. Translations
 5. Filter/Search

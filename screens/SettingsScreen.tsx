@@ -132,7 +132,7 @@ const SettingsScreen = observer(() => {
 
     return (
         <SafeAreaView style={s.wrapper}>
-            {error && <ErrorMessage message={error} />}
+            {error && <ErrorMessage message={error} setError={setError} />}
             <View>
                 <View style={s.row}>
                     <Text style={s.title}>{t('settings.options.fontSize')}:</Text>

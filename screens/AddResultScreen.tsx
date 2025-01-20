@@ -28,7 +28,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const [repsValue, setRepsValue] = useState('')
     const [weightValue, setWeightValue] = useState('')
     const [units, setUnits] = useState(settingsStore.units)
-    const [error, setError] = useState('FEEFFE')
+    const [error, setError] = useState('')
 
     const muscleGroups = Array.from(new Set(exercises.map(item => item.type)));
 
@@ -40,12 +40,38 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         setError('')
     };
 
+    const handleChangeReps = (value) => {
+        value = Number(value)
+        if (isNaN(value)) {
+            setError(`Reps must be a number`)
+            return
+        } 
+        if (value && value < 1) {
+            setError(`Reps must be a positive number`)
+            return 
+        } 
+        setRepsValue(value)
+    }
+
+    const handleChangeWeight = (value) => {
+        value = Number(value)
+        if (isNaN(value)) {
+            setError(`Weight must be a number`)
+            return
+        } 
+        if (value && value < 1) {
+            setError(`Weight must be a positive number`)
+            return 
+        } 
+        setWeightValue(value)
+    }
+
     // TODO: date formats
     const handleSubmitEntry = async () => {
         if (muscleGroup && exercise && repsValue && weightValue && units) {
             const date = new Date().toLocaleDateString('ru-Ru', { year: '2-digit', month: '2-digit', day: '2-digit'})
             try {
-                await addResult(
+                addResult(
                     exercise,
                     date,
                     muscleGroup, 
@@ -103,7 +129,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
     return (
         <SafeAreaView style={styles.wrapper}>
-            {error && <ErrorMessage message={error} />}
+            {error && <ErrorMessage message={error} setError={setError}/>}
             <View style={styles.itemWrapper}>
                 <Text style={styles.inputLabel}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
@@ -153,7 +179,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     value={repsValue}
                     placeholder={t('result.options.howManyReps')}
                     placeholderTextColor={'#a9a9a9'}
-                    onChangeText={setRepsValue}
+                    onChangeText={(value) => handleChangeReps(value)}
                     keyboardType='numeric'
                 />
             </View>
@@ -165,7 +191,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     value={weightValue} // 
                     placeholder={t('result.options.whatWeight')}
                     placeholderTextColor={'#a9a9a9'}
-                    onChangeText={setWeightValue}
+                    onChangeText={(value) => handleChangeWeight(value)}
                     keyboardType='numeric' 
                 />
                 <SelectDropdown

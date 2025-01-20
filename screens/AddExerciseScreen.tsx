@@ -45,7 +45,7 @@ export default function AddExerciseScreen({ navigation }: Props) {
 
     return (
         <SafeAreaView style={styles.wrapper}>
-            {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} /></View>}
+            {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} setError={setError} /></View>}
              <View style={styles.itemWrapper}>
                 <Text style={styles.inputLabel}>Type:</Text>
                 <SelectDropdown

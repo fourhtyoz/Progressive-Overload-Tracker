@@ -134,7 +134,7 @@ export default function HistoryScreen({ navigation }: Props) {
 
     return (
         <ScrollView style={styles.container}>
-            {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} /></View>}
+            {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} setError={setError} /></View>}
             <Text>Exercise:</Text>
             <SelectDropdown
                 data={exerciseOptions}
