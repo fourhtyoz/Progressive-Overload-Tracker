@@ -1,4 +1,4 @@
-import { COLORS } from "@/styles/colors";
+import { COLORS, FONT_SIZE } from "@/styles/colors";
 import { Pressable, Text, StyleSheet} from "react-native"
 
 
@@ -34,10 +34,11 @@ const styles = StyleSheet.create({
     button: {
         marginRight: 10,
         padding: 10,
-        borderRadius: 5
+        borderRadius: 5,
     },
 
     text: {
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        fontSize: FONT_SIZE.large
     } 
 })
