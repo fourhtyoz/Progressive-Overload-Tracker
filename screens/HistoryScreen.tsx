@@ -116,7 +116,7 @@ export default function HistoryScreen({ navigation }: Props) {
         return keys.map((exerciseName, i) => {
             return (
                 <View key={i} style={styles.exerciseSection}>
-                    <Text style={styles.exerciseHeader}>{exerciseName}</Text>
+                    <Text style={styles.exerciseHeader}>{toTitleCase(exerciseName)}</Text>
                     <View style={[styles.row, styles.headerRow]}>
                         <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.date')}</Text>
                         <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.muscle')}</Text>
