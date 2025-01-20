@@ -40,7 +40,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         setError('')
     };
 
-    const handleChangeReps = (value) => {
+    const handleChangeReps = (value: any) => {
         value = Number(value)
         if (isNaN(value)) {
             setError(`Reps must be a number`)
@@ -53,7 +53,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         setRepsValue(value)
     }
 
-    const handleChangeWeight = (value) => {
+    const handleChangeWeight = (value: any) => {
         value = Number(value)
         if (isNaN(value)) {
             setError(`Weight must be a number`)
