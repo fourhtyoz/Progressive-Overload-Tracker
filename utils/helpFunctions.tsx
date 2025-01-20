@@ -27,7 +27,5 @@ export function filterByMuscleGroup(data, targetGroup) {
             filteredData[exercise] = filteredRecords;
         }
     }
-    console.log('data', data)
-    console.log('filteredData', filteredData)
     return filteredData;
 }

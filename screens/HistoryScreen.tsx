@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { toTitleCase, groupByExercise, filterByMuscleGroup } from '@/utils/helpFunctions';
-import SelectDropdown from 'react-native-select-dropdown';
+    import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
 import { fetchResults } from '@/services/db';
@@ -24,6 +24,13 @@ export default function HistoryScreen({ navigation }: Props) {
 
     const { t } = useTranslation();
 
+    const resetFilters = () => {
+        setSelectedExercise(null);
+        setSelectedMuscle(null);
+    };
+
+    const isResetDisabled = !selectedExercise && !selectedMuscle;
+
     useEffect(() => {
         const getResults = async () => {
             try {
@@ -34,7 +41,6 @@ export default function HistoryScreen({ navigation }: Props) {
                 if (res.length > 0) {
                     const groupedResults: any = groupByExercise(res)
                     setResults(groupedResults)
-        
                     // filters
                     // exercise
                     const keys = Object.keys(groupedResults)
@@ -88,16 +94,15 @@ export default function HistoryScreen({ navigation }: Props) {
     );
 
     const renderTable = (data: any) => {
-        let keys = Object.keys(data) || []
-        
-        if (selectedExercise && selectedExercise !== 'All') {
-            keys = keys.filter(item => item === selectedExercise)
-            console.log('keys', keys)
-        }
+        let keys = Object.keys(data) || [];
 
         if (selectedMuscle && selectedMuscle !== 'All') {
-            data = filterByMuscleGroup(data, selectedMuscle)
-            keys = Object.keys(data) || []
+            data = filterByMuscleGroup(data, selectedMuscle);
+            keys = Object.keys(data);
+        }
+
+        if (selectedExercise && selectedExercise !== 'All') {
+            keys = keys.filter(item => item === selectedExercise);
         }
 
         return keys.map((exerciseName, i) => {
@@ -135,52 +140,119 @@ export default function HistoryScreen({ navigation }: Props) {
     return (
         <ScrollView style={styles.container}>
             {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} setError={setError} /></View>}
-            <Text>Exercise:</Text>
-            <SelectDropdown
-                data={exerciseOptions}
-                onSelect={(selectedItem, index) => {
-                    setSelectedExercise(selectedItem)
-                    setSelectedMuscle(null)
-                }}
-                showsVerticalScrollIndicator={false}
-                renderButton={(selectedItem) => (
-                    <View>
-                        {/* {!selectedExercise && <Text>{'All'}</Text>}  */}
-                        <Text>{selectedItem}</Text>
-                    </View>
-                )}
-                renderItem={(item, index, isSelected) => (
-                    <View key={index}>
-                        <Text>{item}</Text>
-                    </View>
-                )}
-            />
-            <Text>Muscle:</Text>
-            <SelectDropdown
-                data={muscleOptions}
-                onSelect={(selectedItem, index) => {
-                    setSelectedMuscle(selectedItem)
-                    setSelectedExercise(null)
-                }}
-                showsVerticalScrollIndicator={false}
-                renderButton={(selectedItem) => (
-                    <View>
-                        {/* {!selectedMuscle && <Text>{'All'}</Text>}  */}
-                        <Text>{selectedItem}</Text>
-                    </View>
-                )}
-                renderItem={(item, index, isSelected) => (
-                    <View key={index}>
-                        <Text>{item}</Text>
-                    </View>
-                )}
-            />
+            <View style={styles.filterWrapper}>
+                <Text style={styles.filterTitle}>Exercise:</Text>
+                <SelectDropdown
+                    data={exerciseOptions}
+                    onSelect={(selectedItem, index) => setSelectedExercise(selectedItem)}
+                    showsVerticalScrollIndicator={false}
+                    dropdownStyle={styles.dropdownMenuStyle}
+                    renderButton={(selectedItem) => (
+                        <View style={styles.dropdownButton}>
+                            {!selectedExercise 
+                            ? <Text style={styles.selectedItem}>{'All'}</Text>
+                            : <Text style={styles.selectedItem}>{selectedItem}</Text>
+                            } 
+                        </View>
+                    )}
+                    renderItem={(item, index, isSelected) => (
+                        <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' })}}>
+                            <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                        </View>
+                    )}
+                />
+            </View>
+            <View style={styles.filterWrapper}>
+                <Text style={styles.filterTitle}>Muscle:</Text>
+                <SelectDropdown
+                    data={muscleOptions}
+                    onSelect={(selectedItem, index) => setSelectedMuscle(selectedItem)}
+                    showsVerticalScrollIndicator={false}
+                    dropdownStyle={styles.dropdownMenuStyle}
+                    renderButton={(selectedItem) => (
+                        <View style={styles.dropdownButton}>
+                            {!selectedMuscle 
+                            ? <Text style={styles.selectedItem}>{'All'}</Text>
+                            : <Text style={styles.selectedItem}>{selectedItem}</Text>
+                            } 
+                        </View>
+                    )}
+                    renderItem={(item, index, isSelected) => (
+                         <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' })}}>
+                            <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                        </View>
+                    )}
+                />
+            </View>
+            <TouchableOpacity style={[styles.resetButton, isResetDisabled && styles.resetButtonDisabled]} onPress={resetFilters} disabled={isResetDisabled}>
+                <Text style={[styles.resetButtonText, isResetDisabled && styles.resetButtonTextDisabled]}>Reset Filters</Text>
+            </TouchableOpacity>
             {renderTable(results)}
         </ScrollView>
     )
 };
 
 const styles = StyleSheet.create({
+    resetButtonTextDisabled: {
+        color: '#9e9e9e',
+    },
+    resetButtonDisabled: {
+        backgroundColor: '#e0e0e0',
+    },
+    resetButton: {
+        backgroundColor: '#dc3545',
+        paddingVertical: 12,
+        borderRadius: 8,
+        alignItems: 'center',
+        marginTop: 16,
+      },
+      resetButtonText: {
+        color: '#ffffff',
+        fontSize: 16,
+        fontWeight: '600',
+      },
+    dropdownItemStyle: {
+        width: '100%',
+        flexDirection: 'row',
+        paddingHorizontal: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 8,
+    },
+    dropdownItemTxtStyle: {
+        flex: 1,
+        fontSize: 14,
+        fontWeight: '500',
+        color: '#151E26',
+    },
+    dropdownMenuStyle: {
+        backgroundColor: '#E9ECEF',
+        borderRadius: 8,
+    },
+    dropdownWrapper: {
+        paddingHorizontal: 10
+    },
+    selectedItem: {
+        backgroundColor: COLORS.black,
+        color: COLORS.white,
+        paddingHorizontal: 10,
+        borderRadius: 6,
+    },
+    filterTitle: {
+        fontWeight: '700',
+        paddingHorizontal: 10,
+        alignItems: 'center',
+    },
+    filterWrapper: {
+        flexDirection: 'row',
+        textAlign: 'center',
+        alignItems: 'center'
+    },
+    dropdownButton: {
+        width: '100%',
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+    },
     container: {
         flex: 1,
         padding: 10,

@@ -1,6 +1,5 @@
 # TODO
 
-3. Validations
 4. Translations
 5. Filter/Search
 6. Apply settings (font size, theme, notifications)
