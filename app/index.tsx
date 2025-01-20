@@ -27,7 +27,17 @@ const App = observer(() => {
             <NavigationContainer independent={true}>
                 <DrawerNavigator />
             </NavigationContainer>
-            <Toast config={{ success: (props: any) => (<BaseToast {...props} style={{ borderLeftColor: 'lightgreen' }} text1Style={{ fontSize: 18, fontWeight: '400' }} text2Style={{ fontSize: 14 }} />)}} />
+            <Toast 
+                config={{ 
+                    success: (props: any) => (
+                    <BaseToast 
+                        {...props} 
+                        style={{ borderLeftColor: 'lightgreen' }} 
+                        text1Style={{ fontSize: 18, fontWeight: '400' }} 
+                        text2Style={{ fontSize: 14 }} 
+                    />
+                )}} 
+            />
         </I18nextProvider>
     );
 });

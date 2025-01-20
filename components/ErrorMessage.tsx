@@ -1,6 +1,7 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
+import { FONT_SIZE } from '@/styles/colors';
 
 
 type ErrorMessageProps = {
@@ -32,7 +33,7 @@ const styles = StyleSheet.create({
     },
     text: {
         color: '#721c24',
-        fontSize: 16,
+        fontSize: FONT_SIZE.normal,
         fontWeight: '600',
         flex: 1,
     },

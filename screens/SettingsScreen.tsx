@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Alert, Pressable, Switch } from "react-native"
-import { COLORS } from "@/styles/colors";
+import { COLORS, FONT_SIZE } from "@/styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/buttons/Button";
 import SelectDropdown from "react-native-select-dropdown";
@@ -133,7 +133,7 @@ const SettingsScreen = observer(() => {
     return (
         <SafeAreaView style={s.wrapper}>
             {error && <ErrorMessage message={error} setError={setError} />}
-            <View>
+            {/* <View>
                 <View style={s.row}>
                     <Text style={s.title}>{t('settings.options.fontSize')}:</Text>
                     <SelectDropdown
@@ -154,7 +154,7 @@ const SettingsScreen = observer(() => {
                     />
                 </View>
                 <Text style={s.helpText}>{t('settings.options.fontSizeHelpText')}</Text>
-            </View>
+            </View> */}
             <View>
                 <View style={s.row}>
                     <Text style={s.title}>{t('settings.options.language')}:</Text>
@@ -221,7 +221,7 @@ const SettingsScreen = observer(() => {
                 </View>
                 <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
             </View>
-            <View>
+            {/* <View>
                 <View style={s.row}>
                     <Text style={s.title}>{t('settings.options.notifications')}:</Text>
                     <Switch
@@ -233,7 +233,7 @@ const SettingsScreen = observer(() => {
                     />
                 </View>
                 <Text style={s.helpText}>{t('settings.options.notificationsHelpText')}</Text>
-            </View>
+            </View> */}
             <View>
                 <Button 
                     text={t('settings.getInTouch')} 
@@ -288,7 +288,7 @@ const s = StyleSheet.create({
     },
 
     dropdownText: {
-        fontSize: 18,
+        fontSize: FONT_SIZE.normal,
         color: '#151E26',
     },
 
@@ -303,13 +303,13 @@ const s = StyleSheet.create({
 
     dropdownItemText: {
         flex: 1,
-        fontSize: 18,
+        fontSize: FONT_SIZE.normal,
         fontWeight: '500',
         color: '#151E26',
     },
 
     optionText: {
-        fontSize: 18,
+        fontSize: FONT_SIZE.normal,
     },
 
     options: {
@@ -319,7 +319,7 @@ const s = StyleSheet.create({
     },
 
     title: {
-        fontSize: 18,
+        fontSize: FONT_SIZE.normal,
         fontWeight: 'bold'
     },
 

@@ -1,8 +1,7 @@
 # TODO
 
 4. Translations
-5. Filter/Search
-6. Apply settings (font size, theme, notifications)
+6. Apply settings (font size, theme, notifications) ()
 7. Optimizations
 8. Deployment
 

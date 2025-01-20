@@ -2,6 +2,7 @@ import { SafeAreaView, View, Text, StyleSheet, Dimensions, Pressable, ImageBackg
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { DrawerParamList } from "@/navigation/DrawerNavigator";
 import { useTranslation } from "react-i18next";
+import { FONT_SIZE } from "@/styles/colors";
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
@@ -91,7 +92,7 @@ const s = StyleSheet.create({
     cardTitle: {
         color: '#FFF',
         padding: 10,
-        fontSize: 18,
+        fontSize: FONT_SIZE.huge,
         backgroundColor: 'rgba(0, 0, 0, .4)',
         fontWeight: 'bold'
     },

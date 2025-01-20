@@ -4,7 +4,7 @@ import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { toTitleCase, groupByExercise, filterByMuscleGroup } from '@/utils/helpFunctions';
     import SelectDropdown from 'react-native-select-dropdown';
-import { COLORS } from '@/styles/colors';
+import { COLORS, FONT_SIZE } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
 import { fetchResults } from '@/services/db';
 import { GroupedResult } from '@/utils/types';
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
       },
       resetButtonText: {
         color: '#ffffff',
-        fontSize: 16,
+        fontSize: FONT_SIZE.large,
         fontWeight: '600',
       },
     dropdownItemStyle: {
@@ -221,7 +221,7 @@ const styles = StyleSheet.create({
     },
     dropdownItemTxtStyle: {
         flex: 1,
-        fontSize: 14,
+        fontSize: FONT_SIZE.normal,
         fontWeight: '500',
         color: '#151E26',
     },
@@ -266,7 +266,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     exerciseHeader: {
-        fontSize: 18,
+        fontSize: FONT_SIZE.large,
         fontWeight: 'bold',
         marginBottom: 10,
         color: '#333',
@@ -285,7 +285,7 @@ const styles = StyleSheet.create({
     cell: {
         flex: 1,
         textAlign: 'center',
-        fontSize: 14,
+        fontSize: FONT_SIZE.normal,
         color: '#495057',
     },
     headerCell: {

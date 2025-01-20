@@ -1,4 +1,5 @@
 import { StyleSheet } from "react-native";
+import { FONT_SIZE } from "./colors";
 
 export const styles = StyleSheet.create({
     input: {
@@ -9,6 +10,7 @@ export const styles = StyleSheet.create({
         borderColor: 'lightgray',
         borderRadius: 5,
         color: '#000',
+        fontSize: FONT_SIZE.normal
     },
     inputWithOption: {
         flex: 1,
@@ -34,7 +36,7 @@ export const styles = StyleSheet.create({
         color: '#FFF',
     },
     dropdownButtonArrowStyle: {
-        fontSize: 28,
+        fontSize: FONT_SIZE.normal,
     },
     dropdownMenuStyle: {
         backgroundColor: '#E9ECEF',
@@ -50,7 +52,7 @@ export const styles = StyleSheet.create({
     },
     dropdownItemTxtStyle: {
         flex: 1,
-        fontSize: 18,
+        fontSize: FONT_SIZE.normal,
         fontWeight: '500',
         color: '#151E26',
     },
@@ -66,7 +68,8 @@ export const styles = StyleSheet.create({
     },
     inputLabel: {
         fontWeight: 'bold',
-        width: 70
+        width: 70,
+        fontSize: FONT_SIZE.normal
     },
     wrapper: {
         paddingHorizontal: 20,
@@ -86,7 +89,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1,
     },
     submitButtonText: {
-        fontSize: 16,
+        fontSize: FONT_SIZE.large,
         fontWeight: 'bold',
         letterSpacing: 0.25,
         color: '#FFF',

@@ -1,3 +1,4 @@
+import { FONT_SIZE } from '@/styles/colors';
 import React from 'react';
 import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 
@@ -90,20 +91,20 @@ const styles = StyleSheet.create({
         borderRadius: 8,
     },
     subtitle: {
-        fontSize: 18,
+        fontSize: FONT_SIZE.large,
         fontWeight: 'bold',
         marginBottom: 10,
         color: '#333',
     },
     text: {
         textAlign: 'justify',
-        lineHeight: 24,
-        fontSize: 16,
+        lineHeight: FONT_SIZE.lineHeight,
+        fontSize: FONT_SIZE.normal,
         color: '#555',
     },
     listItem: {
-        fontSize: 16,
-        lineHeight: 24,
+        fontSize: FONT_SIZE.normal,
+        lineHeight: FONT_SIZE.lineHeight,
         color: '#444',
         marginBottom: 5,
     },
