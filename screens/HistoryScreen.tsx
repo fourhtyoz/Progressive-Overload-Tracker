@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-nati
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { toTitleCase, groupByExercise, filterByMuscleGroup } from '@/utils/helpFunctions';
-    import SelectDropdown from 'react-native-select-dropdown';
+import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS, FONT_SIZE } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
 import { fetchResults } from '@/services/db';
@@ -17,19 +17,19 @@ type Props = DrawerScreenProps<DrawerParamList, 'History'>;
 export default function HistoryScreen({ navigation }: Props) {
     const [results, setResults] = useState<GroupedResult[]>([]);
     const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
-    const [selectedExercise, setSelectedExercise] = useState(null);
+    const [selectedExercise, setSelectedExercise] = useState('All');
     const [muscleOptions, setMuscleOptions] = useState<string[]>([]);
-    const [selectedMuscle, setSelectedMuscle] = useState(null);
+    const [selectedMuscle, setSelectedMuscle] = useState('All');
     const [error, setError] = useState('');
 
     const { t } = useTranslation();
 
     const resetFilters = () => {
-        setSelectedExercise(null);
-        setSelectedMuscle(null);
+        setSelectedExercise('All');
+        setSelectedMuscle('All');
     };
 
-    const isResetDisabled = !selectedExercise && !selectedMuscle;
+    const isResetDisabled = selectedExercise === 'All' && selectedMuscle === 'All'
 
     useEffect(() => {
         const getResults = async () => {
@@ -41,6 +41,7 @@ export default function HistoryScreen({ navigation }: Props) {
                 if (res.length > 0) {
                     const groupedResults: any = groupByExercise(res)
                     setResults(groupedResults)
+                    
                     // filters
                     // exercise
                     const keys = Object.keys(groupedResults)
@@ -54,7 +55,6 @@ export default function HistoryScreen({ navigation }: Props) {
                     muscleGroupArray.splice(0, 0, 'All')
                     setMuscleOptions(muscleGroupArray)
                 } else {
-                    // TODO:
                     setResults([])
                     setExerciseOptions([]);
                     setMuscleOptions([]);
@@ -96,12 +96,12 @@ export default function HistoryScreen({ navigation }: Props) {
     const renderTable = (data: any) => {
         let keys = Object.keys(data) || [];
 
-        if (selectedMuscle && selectedMuscle !== 'All') {
+        if (selectedMuscle !== 'All') {
             data = filterByMuscleGroup(data, selectedMuscle);
             keys = Object.keys(data);
         }
 
-        if (selectedExercise && selectedExercise !== 'All') {
+        if (selectedExercise !== 'All') {
             keys = keys.filter(item => item === selectedExercise);
         }
 
@@ -157,7 +157,7 @@ export default function HistoryScreen({ navigation }: Props) {
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={styles.dropdownButton}>
-                            {!selectedExercise 
+                            {selectedExercise === 'All' 
                             ? <Text style={styles.selectedItem}>{'All'}</Text>
                             : <Text style={styles.selectedItem}>{selectedItem}</Text>
                             } 
@@ -179,9 +179,9 @@ export default function HistoryScreen({ navigation }: Props) {
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={styles.dropdownButton}>
-                            {!selectedMuscle 
+                            {selectedMuscle === 'All'
                             ? <Text style={styles.selectedItem}>{'All'}</Text>
-                            : <Text style={styles.selectedItem}>{selectedItem}</Text>
+                            : <Text style={styles.selectedItem}>{toTitleCase(selectedItem)}</Text>
                             } 
                         </View>
                     )}
