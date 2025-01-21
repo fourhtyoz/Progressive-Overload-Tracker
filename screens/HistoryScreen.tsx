@@ -1,20 +1,16 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useCallback } from 'react';
+import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { DrawerScreenProps } from '@react-navigation/drawer';
-import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { toTitleCase, groupByExercise, filterByMuscleGroup } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS, FONT_SIZE } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
 import { fetchResults, deleteResult } from '@/services/db';
-import { GroupedResult } from '@/utils/types';
+import { GroupedResult, Result } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'History'>;
-
-
-export default function HistoryScreen({ navigation }: Props) {
+export default function HistoryScreen() {
     const [results, setResults] = useState<GroupedResult[]>([]);
     const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
     const [selectedExercise, setSelectedExercise] = useState('All');
@@ -31,45 +27,47 @@ export default function HistoryScreen({ navigation }: Props) {
 
     const isResetDisabled = selectedExercise === 'All' && selectedMuscle === 'All'
 
-    useEffect(() => {
-        const getResults = async () => {
-            try {
-                const res = await fetchResults();
-                if (!Array.isArray(res)) {
-                    throw new Error('fetchResults returned no array')
-                }
-                if (res.length > 0) {
-                    const groupedResults: any = groupByExercise(res)
-                    setResults(groupedResults)
-                    
-                    // filters
-                    // exercise
-                    const keys = Object.keys(groupedResults)
-                    keys.splice(0, 0, 'All')
-                    setExerciseOptions(keys);
+    useFocusEffect(
+        useCallback(() => {
+            getResults()
+        }, [])
+    )
 
-                    // muscles
-                    const muscleGroupSet = new Set()
-                    res.map(item => muscleGroupSet.add(item.muscleGroup))
-                    const muscleGroupArray: any = Array.from(muscleGroupSet)
-                    muscleGroupArray.splice(0, 0, 'All')
-                    setMuscleOptions(muscleGroupArray)
-                } else {
-                    setResults([])
-                    setExerciseOptions([]);
-                    setMuscleOptions([]);
-                }
-            } catch (e) {
-                const error = `Failed to fetch results: ${e}`
-                console.error(error)
-                setError(error)
+    const getResults = async () => {
+        try {
+            const res = await fetchResults();
+            if (!Array.isArray(res)) {
+                throw new Error('fetchResults returned no array')
             }
-        }
-        
-        getResults()
-    }, [])
+            if (res.length > 0) {
+                const groupedResults: any = groupByExercise(res)
+                setResults(groupedResults)
+                
+                // filters
+                // exercise
+                const keys = Object.keys(groupedResults)
+                keys.splice(0, 0, 'All')
+                setExerciseOptions(keys);
 
-    const deleteRecord = async (item) => {
+                // muscles
+                const muscleGroupSet = new Set()
+                res.map(item => muscleGroupSet.add(item.muscleGroup))
+                const muscleGroupArray: any = Array.from(muscleGroupSet)
+                muscleGroupArray.splice(0, 0, 'All')
+                setMuscleOptions(muscleGroupArray)
+            } else {
+                setResults([])
+                setExerciseOptions([]);
+                setMuscleOptions([]);
+            }
+        } catch (e) {
+            const error = `Failed to fetch results: ${e}`
+            console.error(error)
+            setError(error)
+        }
+    }
+
+    const deleteRecord = async (item: Result) => {
         try {
             const deleted = await deleteResult(item.id);
             if (deleted) {
@@ -77,8 +75,8 @@ export default function HistoryScreen({ navigation }: Props) {
                 
                 // Update the results state after deletion
                 setResults((prevResults) => {
-                    const updatedResults = { ...prevResults };
-                    const filteredRecords = updatedResults[item.exercise].filter((record) => record.id !== item.id);
+                    const updatedResults: any = { ...prevResults };
+                    const filteredRecords = updatedResults[item.exercise].filter((record: Result) => record.id !== item.id);
     
                     if (filteredRecords.length === 0) {
                         delete updatedResults[item.exercise];
@@ -97,7 +95,7 @@ export default function HistoryScreen({ navigation }: Props) {
         }
     };
 
-    const handleDeleteRecord = (item) => {
+    const handleDeleteRecord = (item: Result) => {
         Alert.alert(
             'Are you sure?',
             'Are you sure you want to delete the following record?',
@@ -108,7 +106,7 @@ export default function HistoryScreen({ navigation }: Props) {
         )
     }
 
-    const handlePressedRecord = (item) => {
+    const handlePressedRecord = (item: Result) => {
         Alert.alert(
             'Actions', 
             'These are actions', 

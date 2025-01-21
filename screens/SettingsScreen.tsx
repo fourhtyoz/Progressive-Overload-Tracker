@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { View, Text, StyleSheet, Alert, Pressable, Switch } from "react-native"
+import { View, Text, StyleSheet, Alert, Pressable } from "react-native"
 import { COLORS, FONT_SIZE } from "@/styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/buttons/Button";
 import SelectDropdown from "react-native-select-dropdown";
-import { UNITS, THEMES, LANGUAGES, FONT_SIZES } from "@/constants/settings";
+import { UNITS, THEMES, LANGUAGES } from "@/constants/settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
@@ -79,23 +79,23 @@ const SettingsScreen = observer(() => {
         }
     }
 
-    const handleChangeFontSize = async (fontSize: string) => {
-        if (!fontSize || typeof fontSize !== 'string') return;
+    // const handleChangeFontSize = async (fontSize: string) => {
+    //     if (!fontSize || typeof fontSize !== 'string') return;
         
-        setError('')
-        try {
-            await AsyncStorage.setItem('fontSize', fontSize)
-            settingsStore.setFontsize(fontSize)
+    //     setError('')
+    //     try {
+    //         await AsyncStorage.setItem('fontSize', fontSize)
+    //         settingsStore.setFontsize(fontSize)
             
-            Toast.show({
-                type: 'success',
-                text1: t('toasts.success'),
-                text2: t('toasts.changedFontSize'),
-            });
-        } catch (e) {
-            setError(String(e))
-        }
-    }
+    //         Toast.show({
+    //             type: 'success',
+    //             text1: t('toasts.success'),
+    //             text2: t('toasts.changedFontSize'),
+    //         });
+    //     } catch (e) {
+    //         setError(String(e))
+    //     }
+    // }
 
     const handleChangeTheme = async (theme: string) => {
         if (!theme || typeof theme !== 'string') return;
@@ -115,20 +115,20 @@ const SettingsScreen = observer(() => {
         }
     }
 
-    const handleChangeNotifications = async () => {
-        try {
-            await AsyncStorage.setItem('notifications', JSON.stringify(!settingsStore.notifications))
-            settingsStore.toggleNotifications()
+    // const handleChangeNotifications = async () => {
+    //     try {
+    //         await AsyncStorage.setItem('notifications', JSON.stringify(!settingsStore.notifications))
+    //         settingsStore.toggleNotifications()
             
-            Toast.show({
-                type: 'success',
-                text1: t('toasts.success'),
-                text2: !settingsStore.notifications ? t('toasts.notReceiveNotifications') : t('toasts.receiveNotifications'),
-            });
-        } catch (e) {
-            setError(String(e))
-        }
-    }
+    //         Toast.show({
+    //             type: 'success',
+    //             text1: t('toasts.success'),
+    //             text2: !settingsStore.notifications ? t('toasts.notReceiveNotifications') : t('toasts.receiveNotifications'),
+    //         });
+    //     } catch (e) {
+    //         setError(String(e))
+    //     }
+    // }
 
     return (
         <SafeAreaView style={s.wrapper}>

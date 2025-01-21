@@ -20,8 +20,6 @@ type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
 
 
 const AddResultScreen = observer(({ navigation }: Props) => {
-    const { t } = useTranslation();
-
     const [exercises, setExercises] = useState<Exercise[]>([])
     const [muscleGroup, setMuscleGroup] = useState('')
     const [exercise, setExercise] = useState('')
@@ -29,6 +27,8 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const [weightValue, setWeightValue] = useState('')
     const [units, setUnits] = useState(settingsStore.units)
     const [error, setError] = useState('')
+
+    const { t } = useTranslation();
 
     const muscleGroups = Array.from(new Set(exercises.map(item => item.type)));
 

@@ -4,6 +4,7 @@ export type Exercise = {
 }
 
 export type Result = {
+    id: number,
     exercise: string,
     date: string,
     muscleGroup: string,
