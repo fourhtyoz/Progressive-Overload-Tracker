@@ -2,6 +2,9 @@ import { StyleSheet } from "react-native";
 import { FONT_SIZE } from "./colors";
 
 export const styles = StyleSheet.create({
+    date: {
+        marginEnd: 10
+    },
     input: {
         flex: 1,
         height: 40,

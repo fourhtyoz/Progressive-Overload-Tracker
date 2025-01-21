@@ -2,6 +2,8 @@ import { Result, GroupedResult } from "./types";
 
 
 export function toTitleCase(word: string) {
+    if (!word || word.length < 1) return word;
+    
     return (word.charAt(0).toUpperCase() + word.slice(1))
 }
 
@@ -18,11 +20,11 @@ export function groupByExercise(dataArray: Result[]) {
     return grouped;
 }
 
-export function filterByMuscleGroup(data, targetGroup) {
+export function filterByMuscleGroup(data: any, targetGroup: any) {
     const filteredData = {};
 
     for (const [exercise, records] of Object.entries(data)) {
-        const filteredRecords = records.filter(record => record.muscleGroup === targetGroup);
+        const filteredRecords = records.filter((record: Result) => record.muscleGroup === targetGroup);
         if (filteredRecords.length > 0) {
             filteredData[exercise] = filteredRecords;
         }

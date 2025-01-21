@@ -11,6 +11,7 @@ import AddResultScreen from '@/screens/AddResultScreen';
 import AddExerciseScreen from '@/screens/AddExerciseScreen';
 import HistoryScreen from '@/screens/HistoryScreen';
 import SettingsScreen from '@/screens/SettingsScreen';
+import EditResultScreen from '@/screens/EditResultScreen';
 
 
 export type DrawerParamList = {
@@ -20,6 +21,7 @@ export type DrawerParamList = {
     About: undefined;
     History: undefined;
     Settings: undefined;
+    EditResult: any;
 };
 
 
@@ -62,6 +64,7 @@ export default function DrawerNavigator() {
         >
             <Drawer.Screen name="Home" component={HomeScreen} options={{ title: t('home.screenName') }} />
             <Drawer.Screen name="AddResult" component={AddResultScreen} options={{ title: t('result.screenName') }} />
+            <Drawer.Screen name="EditResult" component={EditResultScreen} options={{ title: t('editResult.screenName') }} />
             <Drawer.Screen name="About" component={AboutScreen} options={{ title: t('about.screenName') }} />
             <Drawer.Screen name="AddExercise" component={AddExerciseScreen} options={{ title: t('newExercise.screenName') }} />
             <Drawer.Screen name="History" component={HistoryScreen} options={{ title: t('history.screenName') }} />

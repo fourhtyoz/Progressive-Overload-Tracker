@@ -8,9 +8,15 @@ import { useTranslation } from 'react-i18next';
 import { fetchResults, deleteResult } from '@/services/db';
 import { GroupedResult, Result } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
+import { Ionicons } from '@expo/vector-icons';
+import { DrawerScreenProps } from '@react-navigation/drawer';
+import { DrawerParamList } from '@/navigation/DrawerNavigator';
 
 
-export default function HistoryScreen() {
+type Props = DrawerScreenProps<DrawerParamList, 'History'>;
+
+
+export default function HistoryScreen({ navigation } : Props) {
     const [results, setResults] = useState<GroupedResult[]>([]);
     const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
     const [selectedExercise, setSelectedExercise] = useState('All');
@@ -30,6 +36,11 @@ export default function HistoryScreen() {
     useFocusEffect(
         useCallback(() => {
             getResults()
+            return () => {
+                setResults([])
+                setExerciseOptions([]);
+                setMuscleOptions([]);
+            }
         }, [])
     )
 
@@ -112,6 +123,7 @@ export default function HistoryScreen() {
             'These are actions', 
             [
                 {text: 'Delete', onPress: () => handleDeleteRecord(item)},
+                {text: 'Edit', onPress: () => navigation.navigate('EditResult', { ...item })},
                 {text: 'Close'},
             ])
     }
@@ -119,7 +131,7 @@ export default function HistoryScreen() {
 
     // TODO: i18n exercises
     const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
-        <TouchableOpacity onPress={() => handlePressedRecord(item)}>
+        <View>
             <View 
                 key={key} 
                 style={{
@@ -138,8 +150,11 @@ export default function HistoryScreen() {
                 <Text style={styles.cell}>{toTitleCase(item.muscleGroup)}</Text>
                 <Text style={styles.cell}>{item.weight} {item.units}</Text>
                 <Text style={styles.cell}>{item.reps}</Text>
+                <TouchableOpacity style={styles.cell} onPress={() => handlePressedRecord(item)}>
+                    <Ionicons style={styles.cellAction} name="settings" color={COLORS.gray} size={18} />
+                </TouchableOpacity>
             </View>
-        </TouchableOpacity>
+        </View>
     );
 
     const renderTable = (data: any) => {
@@ -157,7 +172,7 @@ export default function HistoryScreen() {
         if (keys.length === 0) {
             return (
                 <View style={styles.notFound}>
-                    <Text style={styles.text}>No results found</Text>
+                    <Text style={styles.text}>No results</Text>
                 </View>
             )
         }
@@ -171,6 +186,7 @@ export default function HistoryScreen() {
                         <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.muscle')}</Text>
                         <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.weight')}</Text>
                         <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.reps')}</Text>
+                        <Text style={[styles.cell, styles.headerCell]}>Edit</Text>
                     </View>
                     {data[exerciseName].map((record: any, index: number) => {
                         let progress = 'new'
@@ -201,7 +217,7 @@ export default function HistoryScreen() {
                 <Text style={styles.filterTitle}>Exercise:</Text>
                 <SelectDropdown
                     data={exerciseOptions}
-                    onSelect={(selectedItem, index) => setSelectedExercise(selectedItem)}
+                    onSelect={(selectedItem, _) => setSelectedExercise(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
@@ -223,7 +239,7 @@ export default function HistoryScreen() {
                 <Text style={styles.filterTitle}>Muscle:</Text>
                 <SelectDropdown
                     data={muscleOptions}
-                    onSelect={(selectedItem, index) => setSelectedMuscle(selectedItem)}
+                    onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
@@ -235,7 +251,7 @@ export default function HistoryScreen() {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                         <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' })}}>
+                        <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' })}}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
@@ -358,6 +374,9 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontSize: FONT_SIZE.normal,
         color: '#495057',
+    },
+    cellAction: {
+        textAlign: 'center',
     },
     headerCell: {
         fontWeight: 'bold',

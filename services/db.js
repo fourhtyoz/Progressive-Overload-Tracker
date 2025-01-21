@@ -101,16 +101,23 @@ const addResult = (exercise, date, muscleGroup, reps, weight, units) => {
 };
 
 
-const updateResult = (id, date, reps, weight ) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'UPDATE results SET date = ?, reps = ?, weight = ? WHERE id = ?',
-            [date, reps, weight, id],
-            (_, result) => { console.log('Data updated', result) },
-            (_, error) => { console.error('Error updating data', error) }
-        );
-    });
-};
+const updateResult = async (id, exercise, date, muscleGroup, reps, weight, units) => {
+    try {
+        const res = await new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    'UPDATE results SET exercise = ?, date = ?, muscleGroup = ?, reps = ?, weight = ?, units = ? WHERE id = ?',
+                    [exercise, date, muscleGroup, reps, weight, units, id],
+                    (_, result) => resolve(true),
+                    (_, error) => reject(error)
+                )
+            })
+        })
+        return res
+    } catch (e) {
+        console.error(e)
+    }
+}
 
 
 const deleteResult = async (id) => {
@@ -127,7 +134,7 @@ const deleteResult = async (id) => {
         })
         return res
     } catch (e) {
-        console.log(e)
+        console.error(e)
     }
 }
 
