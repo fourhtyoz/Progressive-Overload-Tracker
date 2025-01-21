@@ -39,10 +39,6 @@ export default function AddExerciseScreen({ navigation }: Props) {
         }
     }
 
-    const handleGoBack = () => {
-        navigation.goBack()
-    }
-
     return (
         <SafeAreaView style={styles.wrapper}>
             {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} setError={setError} /></View>}

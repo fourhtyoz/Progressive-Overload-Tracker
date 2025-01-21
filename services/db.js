@@ -113,17 +113,23 @@ const updateResult = (id, date, reps, weight ) => {
 };
 
 
-
-const deleteResult = (id) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'DELETE FROM results WHERE id = ?',
-            [id],
-            (_, result) => { console.log('Data deleted', result) },
-            (_, error) => { console.error('Error deleting data', error) }
-        );
-    });
-};
+const deleteResult = async (id) => {
+    try {
+        const res = await new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    'DELETE FROM results WHERE id = ?',
+                    [id],
+                    (_, result) => resolve(true),
+                    (_, error) => reject(error)
+                )
+            })
+        })
+        return res
+    } catch (e) {
+        console.log(e)
+    }
+}
 
 
 const fetchResults = async () => {

@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { toTitleCase, groupByExercise, filterByMuscleGroup } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS, FONT_SIZE } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
-import { fetchResults } from '@/services/db';
+import { fetchResults, deleteResult } from '@/services/db';
 import { GroupedResult } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
 
@@ -67,30 +67,81 @@ export default function HistoryScreen({ navigation }: Props) {
         }
         
         getResults()
-    }, [navigation])
+    }, [])
+
+    const deleteRecord = async (item) => {
+        try {
+            const deleted = await deleteResult(item.id);
+            if (deleted) {
+                Alert.alert('Success', 'The record has been deleted successfully');
+                
+                // Update the results state after deletion
+                setResults((prevResults) => {
+                    const updatedResults = { ...prevResults };
+                    const filteredRecords = updatedResults[item.exercise].filter((record) => record.id !== item.id);
+    
+                    if (filteredRecords.length === 0) {
+                        delete updatedResults[item.exercise];
+                    } else {
+                        updatedResults[item.exercise] = filteredRecords;
+                    }
+    
+                    return updatedResults;
+                });
+            } else {
+                Alert.alert('Error', 'Whoops, something happened. The record has not been deleted');
+            }
+        } catch (e) {
+            console.error(e);
+            Alert.alert('Error', `Whoops, something happened. The record has not been deleted: ${e}`);
+        }
+    };
+
+    const handleDeleteRecord = (item) => {
+        Alert.alert(
+            'Are you sure?',
+            'Are you sure you want to delete the following record?',
+            [
+                {text: 'Yes, I\'m sure', onPress: () => deleteRecord(item)},
+                {text: 'No, I\'ve changed my mind'},
+            ]
+        )
+    }
+
+    const handlePressedRecord = (item) => {
+        Alert.alert(
+            'Actions', 
+            'These are actions', 
+            [
+                {text: 'Delete', onPress: () => handleDeleteRecord(item)},
+                {text: 'Close'},
+            ])
+    }
 
 
     // TODO: i18n exercises
     const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
-        <View 
-            key={key} 
-            style={{
-                ...styles.row, 
-                ...(progress === 'worse' 
-                    ? { borderLeftWidth: 5, borderLeftColor: '#F93827' } 
-                    : progress === 'neutral' 
-                    ? { borderLeftWidth: 5, borderLeftColor: COLORS.orange }
-                    : progress === 'better' 
-                    ? { borderLeftWidth: 5, borderLeftColor: '#16C47F' }
-                    : { borderLeftWidth: 5, borderLeftColor: COLORS.white }
-                ) 
-            }}
-        >
-            <Text style={styles.cell}>{item.date}</Text>
-            <Text style={styles.cell}>{toTitleCase(item.muscleGroup)}</Text>
-            <Text style={styles.cell}>{item.weight} {item.units}</Text>
-            <Text style={styles.cell}>{item.reps}</Text>
-        </View>
+        <TouchableOpacity onPress={() => handlePressedRecord(item)}>
+            <View 
+                key={key} 
+                style={{
+                    ...styles.row, 
+                    ...(progress === 'worse' 
+                        ? { borderLeftWidth: 5, borderLeftColor: '#F93827' } 
+                        : progress === 'neutral' 
+                        ? { borderLeftWidth: 5, borderLeftColor: COLORS.orange }
+                        : progress === 'better' 
+                        ? { borderLeftWidth: 5, borderLeftColor: '#16C47F' }
+                        : { borderLeftWidth: 5, borderLeftColor: COLORS.white }
+                    ) 
+                }}
+            >
+                <Text style={styles.cell}>{item.date}</Text>
+                <Text style={styles.cell}>{toTitleCase(item.muscleGroup)}</Text>
+                <Text style={styles.cell}>{item.weight} {item.units}</Text>
+                <Text style={styles.cell}>{item.reps}</Text>
+            </View>
+        </TouchableOpacity>
     );
 
     const renderTable = (data: any) => {
