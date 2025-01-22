@@ -22,7 +22,7 @@ describe('GoBackButton Component', () => {
         const button = getByText('Go Back').parent?.parent;
         const buttonText = getByText('Go Back');
 
-        expect(button.props.style[1].backgroundColor).toBe(COLORS.orange);
+        expect(button?.props.style[1].backgroundColor).toBe(COLORS.orange);
         expect(buttonText.props.style[1].color).toBe(COLORS.black);
     });
 
@@ -41,7 +41,7 @@ describe('GoBackButton Component', () => {
         const button = getByText('Go Back').parent?.parent;
         const buttonText = getByText('Go Back');
 
-        expect(button.props.style[1].backgroundColor).toBe(COLORS.orange);
+        expect(button?.props.style[1].backgroundColor).toBe(COLORS.orange);
         expect(buttonText.props.style[1].color).toBe(COLORS.black);
     });
 });
