@@ -47,7 +47,8 @@ const addExercise = async (title, type) => {
         });
         return res;
     } catch (e) {
-        console.error('addExercise', e)
+        console.error('addExercise error', e)
+        throw new Error(e)
     }
 };
 
@@ -66,45 +67,54 @@ const fetchExercises = async () => {
         });
         return res
     } catch (e) {
-        console.error('fetchExercises', e)
+        console.error('fetchExercises error', e)
+        throw new Error(e)
     };
 };
 
 
-const updateExercise = (id, title, type) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'UPDATE exercises SET title = ?, type = ? WHERE id = ?',
-            [title, type, id],
-            (_, result) => { console.log('Data updated', result) },
-            (_, error) => { console.error('Error updating data', error) }
-        );
-    });
-};
+// const updateExercise = (id, title, type) => {
+//     db.transaction(tx => {
+//         tx.executeSql(
+//             'UPDATE exercises SET title = ?, type = ? WHERE id = ?',
+//             [title, type, id],
+//             (_, result) => { console.log('Data updated', result) },
+//             (_, error) => { console.error('Error updating data', error) }
+//         );
+//     });
+// };
 
 
-const deleteExercise = (id) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'DELETE FROM exercises WHERE id = ?',
-            [id],
-            (_, result) => { console.log('Data deleted', result) },
-            (_, error) => { console.error('Error deleting data', error) }
-        );
-    });
-};
+// const deleteExercise = (id) => {
+//     db.transaction(tx => {
+//         tx.executeSql(
+//             'DELETE FROM exercises WHERE id = ?',
+//             [id],
+//             (_, result) => { console.log('Data deleted', result) },
+//             (_, error) => { console.error('Error deleting data', error) }
+//         );
+//     });
+// };
 
 
 // RESULTS
-const addResult = (exercise, date, muscleGroup, reps, weight, units) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'INSERT INTO results (exercise, date, muscleGroup, reps, weight, units) VALUES (?, ?, ?, ?, ?, ?)',
-            [exercise, date, muscleGroup, reps, weight, units],
-            (_, result) => { console.log('Data inserted', result) },
-            (_, error) => { console.error('Error inserting data', error) }
-        );
-    });
+const addResult = async (exercise, date, muscleGroup, reps, weight, units) => {
+    try {
+        const res = await new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    'INSERT INTO results (exercise, date, muscleGroup, reps, weight, units) VALUES (?, ?, ?, ?, ?, ?)',
+                    [exercise, date, muscleGroup, reps, weight, units],
+                    (_, result) => resolve(true),
+                    (_, error) => reject(error)
+                );
+            });
+        })
+        return res;
+    } catch (e) {
+        console.error('addResult error', e)
+        throw new Error(e)
+    }
 };
 
 
@@ -122,7 +132,8 @@ const updateResult = async (id, exercise, date, muscleGroup, reps, weight, units
         })
         return res
     } catch (e) {
-        console.error(e)
+        console.error('updateResult error', e)
+        throw new Error(e)
     }
 }
 
@@ -141,7 +152,8 @@ const deleteResult = async (id) => {
         })
         return res
     } catch (e) {
-        console.error(e)
+        console.error('deleteResult error', e)
+        throw new Error(e)
     }
 }
 
@@ -160,7 +172,8 @@ const fetchResults = async () => {
         })
         return res
     } catch (e) {
-        console.error('fetchResults', e)
+        console.error('fetchResults error', e)
+        throw new Error(e)
     } 
 };
 
@@ -189,8 +202,8 @@ export {
     db,
     createTables, 
     addExercise,
-    updateExercise,
-    deleteExercise, 
+    // updateExercise,
+    // deleteExercise, 
     fetchExercises, 
     addResult,
     updateResult,

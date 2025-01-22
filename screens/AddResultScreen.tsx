@@ -72,7 +72,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         if (muscleGroup && exercise && repsValue && weightValue && units) {
             const date = new Date().toLocaleDateString('ru-Ru', { year: '2-digit', month: '2-digit', day: '2-digit'})
             try {
-                addResult(
+                await addResult(
                     exercise,
                     date,
                     muscleGroup, 
