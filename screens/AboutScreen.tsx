@@ -68,14 +68,26 @@ const AboutScreen = observer(() => {
             <Text style={[styles.subtitle, { color: settingsStore.isDark ? '#EDEDED' : '#333'}]}>{item.title}</Text>
             {Array.isArray(item.content) 
             ? item.content.map((subItem, index) => (<Text key={index} style={[styles.listItem, { color: settingsStore.isDark ?'#F5F5F5' : '#555' }]}>• {subItem}</Text>)) 
-            : <Text style={[styles.text, { color: settingsStore.isDark ?'#F5F5F5' : '#555' }]}>{item.content}</Text>
+            : <Text style={[
+                styles.text, 
+                { 
+                    color: settingsStore.isDark ?'#F5F5F5' : '#555' 
+                }
+            ]}>
+                {item.content}
+            </Text>
             }
         </View>
     );
 
     return (
         <SafeAreaView>
-            <FlatList style={styles.wrapper} data={content} renderItem={renderItem} keyExtractor={(item) => item.key} />
+            <FlatList 
+                style={styles.wrapper} 
+                data={content} 
+                renderItem={renderItem} 
+                keyExtractor={(item) => item.key} 
+            />
         </SafeAreaView>
   )
 });

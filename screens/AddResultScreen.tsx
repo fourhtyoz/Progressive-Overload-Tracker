@@ -68,9 +68,10 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         setWeightValue(value)
     }
 
-    // TODO: date formats
+    const disabledSaveButton = !(muscleGroup && exercise && repsValue && weightValue && units)
+
     const handleSubmitEntry = async () => {
-        if (muscleGroup && exercise && repsValue && weightValue && units) {
+        if (!disabledSaveButton) {
             const date = new Date().toLocaleDateString('ru-Ru', { year: '2-digit', month: '2-digit', day: '2-digit'})
             try {
                 await addResult(
@@ -242,7 +243,8 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     onPress={handleSubmitEntry} 
                     text={t('result.buttons.submit')}
                     pressedBgColor={COLORS.orange}
-                    borderColor={COLORS.blackTransparentBorder} 
+                    borderColor={COLORS.blackTransparentBorder}
+                    disabled={disabledSaveButton}
                 />
                 <Button 
                     onPress={handleCreateExercise} 

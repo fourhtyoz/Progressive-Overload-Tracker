@@ -7,6 +7,7 @@ import { settingsStore } from "@/store/store"
 type Props = {
     onPress: any,
     text: string,
+    disabled?: boolean,
     bgColor?: string,
     pressedBgColor?: string,
     borderColor?: string,
@@ -19,20 +20,23 @@ type Props = {
 export default function Button({ 
     onPress, 
     text,
+    disabled = false,
     bgColor = COLORS.black,
     pressedBgColor = COLORS.white,
     borderColor = COLORS.white,
     pressedBorderColor = COLORS.blackTransparentBorder,
     textColor = COLORS.white,
-    pressedTextColor  = COLORS.black
+    pressedTextColor  = COLORS.black,
 } : Props) {
 
     return (
         <Pressable 
             onPress={onPress}
+            disabled={disabled}
             style={({ pressed }) => [
                 styles.submitButton, 
                 { 
+                    opacity: disabled ? 0.3 : 1,
                     backgroundColor: 
                         settingsStore.isDark 
                         ? pressed ? bgColor : pressedBgColor 
