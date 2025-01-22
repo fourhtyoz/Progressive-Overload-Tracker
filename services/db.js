@@ -33,15 +33,22 @@ const createTables = () => {
 
 
 // EXERCISES
-const addExercise = (title, type) => {
-    db.transaction(tx => {
-        tx.executeSql(
-            'INSERT INTO exercises (title, type) VALUES (?, ?)', 
-            [title, type], 
-            (_, result) => { console.log('Data inserted', result) },
-            (_, error) => { console.error('Error inserting data', error) }
-        );
-    });
+const addExercise = async (title, type) => {
+    try {
+        const res = await new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    'INSERT INTO exercises (title, type) VALUES (?, ?)', 
+                    [title, type], 
+                    (_, result) => resolve(true),
+                    (_, error) => reject(error)
+                );
+            })
+        });
+        return res;
+    } catch (e) {
+        console.error('addExercise', e)
+    }
 };
 
 

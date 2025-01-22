@@ -152,7 +152,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleGroups}
-                    defaultValue={muscleGroups.find(item => item === newGroup)}
+                    defaultValue={muscleGroups.filter(item => item === newGroup)[0]}
                     onSelect={(selectedItem, _) => setNewGroup(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}

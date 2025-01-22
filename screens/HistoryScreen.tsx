@@ -37,10 +37,14 @@ export default function HistoryScreen({ navigation } : Props) {
     useFocusEffect(
         useCallback(() => {
             getResults()
+            
             return () => {
                 setResults([])
                 setExerciseOptions([]);
                 setMuscleOptions([]);
+                setSelectedExercise('All')
+                setSelectedMuscle('All')
+                setError('')
             }
         }, [])
     )
@@ -131,9 +135,8 @@ export default function HistoryScreen({ navigation } : Props) {
 
     // TODO: i18n exercises
     const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
-        <View>
+        <View key={key} >
             <View 
-                key={key} 
                 style={{
                     ...styles.row, 
                     ...(progress === 'worse' 
@@ -211,12 +214,17 @@ export default function HistoryScreen({ navigation } : Props) {
     };
 
     return (
-        <ScrollView style={styles.container}>
+        <ScrollView style={
+            [
+                styles.container,
+            ]
+        }>
             {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} setError={setError} /></View>}
             <View style={styles.filterWrapper}>
-                <Text style={styles.filterTitle}>Exercise:</Text>
+                <Text style={[styles.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Exercise:</Text>
                 <SelectDropdown
                     data={exerciseOptions}
+                    defaultValue={exerciseOptions.filter(item => item === 'All')[0]}
                     onSelect={(selectedItem, _) => setSelectedExercise(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
@@ -236,9 +244,10 @@ export default function HistoryScreen({ navigation } : Props) {
                 />
             </View>
             <View style={styles.filterWrapper}>
-                <Text style={styles.filterTitle}>Muscle:</Text>
+                <Text style={[styles.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Muscle:</Text>
                 <SelectDropdown
                     data={muscleOptions}
+                    defaultValue={muscleOptions.filter(item => item ==='All')[0]}
                     onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
@@ -342,7 +351,6 @@ const styles = StyleSheet.create({
         flex: 1,
         padding: 10,
         marginTop: 15,
-        backgroundColor: '#f8f9fa',
     },
     exerciseSection: {
         marginBottom: 20,

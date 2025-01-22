@@ -65,9 +65,11 @@ export default function DrawerNavigator({ isDarkTheme }: any) {
             <Drawer.Screen name="Home" component={HomeScreen} options={{ title: t('home.screenName') }} />
             <Drawer.Screen name="About" component={AboutScreen} options={{ title: t('about.screenName') }} />
             <Drawer.Screen name="AddResult" component={AddResultScreen} options={{ title: t('result.screenName') }} />
-            <Drawer.Screen name="AddExercise" component={AddExerciseScreen} options={{ title: t('newExercise.screenName') }} />
             <Drawer.Screen name="History" component={HistoryScreen} options={{ title: t('history.screenName') }} />
             <Drawer.Screen name="Settings" component={SettingsScreen} options={{ title: t('settings.screenName') }} />
+            
+            {/* Hidden screens */}
+            <Drawer.Screen name="AddExercise" component={AddExerciseScreen} options={{ title: t('newExercise.screenName'), drawerItemStyle: { display: 'none' } }} />
             <Drawer.Screen name="EditResult" component={EditResultScreen} options={{ title: t('settings.screenName'), drawerItemStyle: { display: 'none' } }} />
         </Drawer.Navigator>
     );

@@ -46,39 +46,46 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
         <SafeAreaView style={styles.wrapper}>
             {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} setError={setError} /></View>}
              <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>Type:</Text>
+                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Type:</Text>
                 <SelectDropdown
                     data={muscleGroups}
                     onSelect={(selectedItem, index) => setMuscleGroup(selectedItem)}
-                    showsVerticalScrollIndicator={false}
+                    showsVerticalScrollIndicator={true}
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={styles.input}>
+                        <View style={[styles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
                             {muscleGroup 
-                            ? <Text style={styles.exerciseText}>{toTitleCase(selectedItem)}</Text> 
+                            ? <Text style={[styles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(selectedItem)}</Text> 
                             : <Text style={styles.exerciseTextPlaceholder}>{'Choose a muscle group'}</Text>
                             }
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                        <View style={[
+                            styles.dropdownItemStyle,
+                            isSelected && {
+                                backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight,
+                            },
+                        ]}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
                 />
             </View>
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>Name:</Text>
-                <TextInput onChangeText={setTitle} placeholder='Name of the exercise' style={styles.input} />
+                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Name:</Text>
+                <TextInput 
+                onChangeText={setTitle} 
+                placeholder='Name of the exercise' 
+                placeholderTextColor={'#a9a9a9'}
+                style={[styles.input,  { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} />
             </View>
-            <View style={styles.buttonWrapper}>
-                <Button 
-                    onPress={handleCreateExercise} 
-                    text={'Create a new exercise'}
-                    pressedBgColor={COLORS.orange}
-                    borderColor={COLORS.blackTransparentBorder} 
-                />
-            </View>
+            <Button 
+                onPress={handleCreateExercise} 
+                text={'Create a new exercise'}
+                pressedBgColor={COLORS.orange}
+                borderColor={COLORS.blackTransparentBorder} 
+            />
         </SafeAreaView>
     )
 });
