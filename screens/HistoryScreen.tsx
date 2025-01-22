@@ -281,10 +281,11 @@ const styles = StyleSheet.create({
         color: '#555',
       },
     resetButtonTextDisabled: {
-        color: '#9e9e9e',
+        color: COLORS.black,
     },
     resetButtonDisabled: {
         backgroundColor: '#e0e0e0',
+        opacity: 0.5
     },
     resetButton: {
         backgroundColor: '#dc3545',

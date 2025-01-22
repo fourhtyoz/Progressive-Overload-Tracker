@@ -17,22 +17,19 @@ import { Ionicons } from '@expo/vector-icons';
 import { settingsStore } from '@/store/store';
 import { COLORS } from '@/styles/colors';
 import Toast from 'react-native-toast-message';
+import Loader from '@/components/Loader';
 
 const EditResultScreen = observer(({ navigation, route }: any) => {
-    const { id, date, exercise, muscleGroup, reps, units, weight } = route.params
-
-    // date parsing
-    const [day, month, year] = date.split('.').map(Number);
-    const dateObj = new Date(2000 + year, month - 1, day);
 
     const [exercises, setExercises] = useState<Exercise[]>([])
-    const [newDate, setNewDate] = useState(dateObj)
-    const [newGroup, setNewGroup] = useState(muscleGroup)
-    const [newExercise, setNewExercise] = useState(exercise)
-    const [newReps, setNewReps] = useState(reps)
-    const [newWeight, setNewWeight] = useState(weight)
-    const [newUnits, setUnits] = useState(units)
+    const [newDate, setNewDate] = useState(new Date())
+    const [newGroup, setNewGroup] = useState(null)
+    const [newExercise, setNewExercise] = useState(null)
+    const [newReps, setNewReps] = useState(null)
+    const [newWeight, setNewWeight] = useState(null)
+    const [newUnits, setUnits] = useState(null)
     const [error, setError] = useState('')
+    const [isLoading, setIsLoading] = useState(false)
 
     const { t } = useTranslation();
 
@@ -70,7 +67,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             const d = newDate.toLocaleDateString('ru-Ru', { year: '2-digit', month: '2-digit', day: '2-digit'})
             try {
                 await updateResult(
-                    id, 
+                    route.params.id, 
                     newExercise, 
                     d, 
                     newGroup, 
@@ -99,26 +96,31 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
 
     useEffect(() => {
         const getExercises = async () => {
+            setIsLoading(true)
             try {
                 const res = await fetchExercises();
                 if (!Array.isArray(res)) throw new Error('fetchExercises return no array')
                 setExercises(res)
-                if (res?.length === 0) {
-                    Alert.alert(
-                        'Нет упражнений',
-                        'У вас еще не заведены упражнения',
-                        [{text: 'Завести упражнение', onPress: () => navigation.navigate('AddExercise')}]
-                    )
-                }
+                    
+                const [day, month, year] = route.params.date.split('.').map(Number);
+                const dateObj = new Date(2000 + year, month - 1, day);
+                setNewDate(dateObj)
+                setNewReps(route.params.reps)
+                setNewWeight(route.params.weight)
+                setUnits(route.params.units)
+                setNewGroup(route.params.muscleGroup)
+                setNewExercise(route.params.exercise)
             } catch (e) {
                 const error = `Failed to fetch exercises: ${e}`
                 console.error(error);
                 setError(error)
+            } finally {
+                setIsLoading(false)
             }
         };
 
         getExercises()
-    }, [navigation])
+    }, [route])
 
     const onChange = (_: any, selectedDate: any) => {
         const currentDate = selectedDate
@@ -134,13 +136,19 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
         });
     };
 
+    if (isLoading) {
+        return (
+            <Loader />
+        )
+    }
+
     return (
         <SafeAreaView style={styles.wrapper}>
             {error && <ErrorMessage message={error} setError={setError}/>}
             <View style={styles.itemWrapper}>
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Date:</Text>
                 <Text style={[styles.date, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>
-                    {newDate.toLocaleDateString(
+                    {newDate?.toLocaleDateString(
                         'ru-Ru', 
                         {  year: '2-digit', month: '2-digit', day: '2-digit' }
                     )}
@@ -177,7 +185,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.exercise')}:</Text>
                 <SelectDropdown
                     data={exercises.filter(item => item.type === newGroup)}
-                    defaultValue={exercises.filter(item => item.title === newExercise)[0]}
+                    defaultValue={route.params.exercise}
                     onSelect={(selectedItem, _) => setNewExercise(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
@@ -201,7 +209,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.reps')}:</Text>
                 <TextInput 
                     style={[styles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
-                    value={newReps}
+                    value={`${newReps}`}
                     placeholder={t('result.options.howManyReps')}
                     placeholderTextColor={'#a9a9a9'}
                     onChangeText={(value) => handleChangeReps(value)}
@@ -213,7 +221,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.weight')}:</Text>
                 <TextInput 
                     style={[styles.inputWithOption, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
-                    value={newWeight}
+                    value={`${newWeight}`}
                     placeholder={t('result.options.whatWeight')}
                     placeholderTextColor={'#a9a9a9'}
                     onChangeText={(value) => handleChangeWeight(value)}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import DrawerNavigator from '@/navigation/DrawerNavigator';
 import Toast, { BaseToast } from 'react-native-toast-message';

@@ -2,6 +2,7 @@ import { makeAutoObservable, runInAction } from "mobx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@/utils/i18n";
 
+
 class SettingsStore {
     theme = ''
     fontSize = ''

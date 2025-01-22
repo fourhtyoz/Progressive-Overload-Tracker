@@ -7,3 +7,4 @@
 5. jest tests
 6. highload tests
 7. deployment
+8. kg/lb conversion
