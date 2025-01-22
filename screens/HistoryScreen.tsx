@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { toTitleCase, groupByExercise, filterByMuscleGroup } from '@/utils/helpFunctions';
+import { toTitleCase, groupByExercise, filterByMuscleGroup, getformattedDate } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS, FONT_SIZE } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
@@ -144,7 +144,7 @@ export default function HistoryScreen({ navigation } : Props) {
                     ) 
                 }}
             >
-                <Text style={styles.cell}>{item.date}</Text>
+                <Text style={styles.cell}>{getformattedDate(item.date)}</Text>
                 <Text style={styles.cell}>{toTitleCase(item.muscleGroup)}</Text>
                 <Text style={styles.cell}>{item.weight} {item.units}</Text>
                 <Text style={styles.cell}>{item.reps}</Text>

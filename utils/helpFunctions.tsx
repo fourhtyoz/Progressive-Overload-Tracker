@@ -1,6 +1,17 @@
 import { Result, GroupedResult } from "./types";
 
 
+export function getformattedDate(date: string | Date) {
+    if (date instanceof Date) {
+        date = date.toISOString()
+    }
+
+    const [year, month, day] = date.split('T')[0].split('-');
+    const formattedDate = `${day}.${month}.${year.slice(-2)}`;
+
+    return formattedDate
+}
+
 export function toTitleCase(word: string) {
     if (!word || word.length < 1) return word;
     

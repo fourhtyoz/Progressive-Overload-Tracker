@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UNITS } from '@/constants/settings';
-import { toTitleCase } from '@/utils/helpFunctions';
+import { getformattedDate, toTitleCase } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { styles } from '@/styles/styles';
 import Button from '@/components/buttons/Button';
@@ -64,12 +64,12 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     // TODO: date formats
     const handleSubmitEntry = async () => {
         if (newDate && newGroup && newExercise && newReps && newWeight && newUnits) {
-            const d = newDate.toLocaleDateString('ru-Ru', { year: '2-digit', month: '2-digit', day: '2-digit'})
+            const date = newDate.toISOString()
             try {
                 await updateResult(
                     route.params.id, 
                     newExercise, 
-                    d, 
+                    date, 
                     newGroup, 
                     newReps, 
                     newWeight, 
@@ -101,10 +101,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 const res = await fetchExercises();
                 if (!Array.isArray(res)) throw new Error('fetchExercises return no array')
                 setExercises(res)
-                    
-                const [day, month, year] = route.params.date.split('.').map(Number);
-                const dateObj = new Date(2000 + year, month - 1, day);
-                setNewDate(dateObj)
+                setNewDate(route.params.date)
                 setNewReps(route.params.reps)
                 setNewWeight(route.params.weight)
                 setUnits(route.params.units)
@@ -129,7 +126,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
 
     const showMode = (currentMode: any) => {
         DateTimePickerAndroid.open({
-            value: newDate,
+            value: new Date(newDate),
             onChange,
             mode: currentMode,
             is24Hour: true,
@@ -148,10 +145,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             <View style={styles.itemWrapper}>
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Date:</Text>
                 <Text style={[styles.date, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>
-                    {newDate?.toLocaleDateString(
-                        'ru-Ru', 
-                        {  year: '2-digit', month: '2-digit', day: '2-digit' }
-                    )}
+                    {getformattedDate(newDate)}
                 </Text>
                 <TouchableOpacity onPress={() => showMode('date')}>
                     <Ionicons name="calendar-outline" size={20} color={settingsStore.isDark ? COLORS.textDarkScreen : COLORS.gray}/>

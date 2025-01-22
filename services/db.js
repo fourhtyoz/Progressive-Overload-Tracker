@@ -58,7 +58,7 @@ const fetchExercises = async () => {
         const res = await new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    'SELECT * FROM exercises',
+                    'SELECT * FROM exercises ORDER BY title',
                     [],
                     (_, result) => resolve(result.rows._array),
                     (_, error) => reject(error)
@@ -163,7 +163,7 @@ const fetchResults = async () => {
         const res = await new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    'SELECT * FROM results',
+                    'SELECT * FROM results ORDER BY date',
                     [],
                     (_, result) => resolve(result.rows._array),
                     (_, error) => reject(error)
