@@ -1,17 +1,15 @@
 import { COLORS, FONT_SIZE } from "@/styles/colors";
 import { Pressable, Text, StyleSheet} from "react-native"
 import { settingsStore } from "@/store/store";
-import { useNavigation } from "@react-navigation/native";
 import { useTranslation } from "react-i18next";
 
 
-export default function GoBackButton() {
-    const navigation = useNavigation();
+export default function GoBackButton({ fn }: any) {
     const { t } = useTranslation();
 
     return (
         <Pressable 
-            onPress={() => navigation.goBack()}
+            onPress={fn}
             style={({ pressed }) => [
                 styles.button, 
                 { 

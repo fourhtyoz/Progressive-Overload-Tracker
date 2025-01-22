@@ -35,14 +35,14 @@ describe('Button Component', () => {
     it('applies custom colors correctly', () => {
         const { getByText } = render(
             <Button
-            onPress={() => {}}
-            text="Press Me"
-            bgColor="blue"
-            pressedBgColor="green"
-            borderColor="red"
-            pressedBorderColor="yellow"
-            textColor="pink"
-            pressedTextColor="purple"
+                onPress={() => {}}
+                text="Press Me"
+                bgColor="blue"
+                pressedBgColor="green"
+                borderColor="red"
+                pressedBorderColor="yellow"
+                textColor="pink"
+                pressedTextColor="purple"
             />
         );
 

@@ -54,7 +54,7 @@ export default function DrawerNavigator({ isDarkTheme }: any) {
                         headerRight: () => {
                             if (navigation.canGoBack()) {
                                 return (
-                                    <GoBackButton />
+                                    <GoBackButton fn={() => navigation.goBack()}/>
                                 );
                             }
                         },
