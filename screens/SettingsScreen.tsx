@@ -114,12 +114,12 @@ const SettingsScreen = observer(() => {
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.code) || settingsStore.language}</Text>
+                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.language}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
                             <View style={{...s.dropdownItem, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
-                                <Text style={s.dropdownItemText}>{item.code}</Text>
+                                <Text style={s.dropdownItemText}>{item.title}</Text>
                             </View>
                         )}
                     />
@@ -170,7 +170,7 @@ const SettingsScreen = observer(() => {
                         )}
                     />
                 </View>
-                <Text style={[s.helpText, { marginVertical: 10 }]}>{t('settings.options.unitsHelpText')}</Text>
+                <Text style={[s.helpText, { marginVertical: 10 }]}>{t('settings.options.themeHelpText')}</Text>
             </View>
             <View>
                 <Button 
