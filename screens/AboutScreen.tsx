@@ -1,9 +1,12 @@
 import { FONT_SIZE } from '@/styles/colors';
 import React from 'react';
 import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
+import { settingsStore } from '@/store/store';
+import { observer } from 'mobx-react-lite';
 
-
-export default function AboutScreen() {
+const AboutScreen = observer(() => {
+    const isDark = settingsStore.theme === 'dark' ? true : false;
+    
     const content = [
         {
             key: '1',
@@ -64,10 +67,10 @@ export default function AboutScreen() {
 
     const renderItem = ({ item }: { item: { title: string; content: any } }) => (
         <View style={styles.section}>
-            <Text style={styles.subtitle}>{item.title}</Text>
+            <Text style={[styles.subtitle, { color: isDark ? '#EDEDED' : '#333'}]}>{item.title}</Text>
             {Array.isArray(item.content) 
-            ? item.content.map((subItem, index) => (<Text key={index} style={styles.listItem}>• {subItem}</Text>)) 
-            : <Text style={styles.text}>{item.content}</Text>
+            ? item.content.map((subItem, index) => (<Text key={index} style={[styles.listItem, { color: isDark ?'#F5F5F5' : '#555' }]}>• {subItem}</Text>)) 
+            : <Text style={[styles.text, { color: isDark ?'#F5F5F5' : '#555' }]}>{item.content}</Text>
             }
         </View>
     );
@@ -77,35 +80,32 @@ export default function AboutScreen() {
             <FlatList style={styles.wrapper} data={content} renderItem={renderItem} keyExtractor={(item) => item.key} />
         </SafeAreaView>
   )
-};
+});
+
+export default AboutScreen;
 
 const styles = StyleSheet.create({
     wrapper: {
-        backgroundColor: '#fff',
         paddingHorizontal: 20,
         paddingVertical: 15,
     },
     section: {
         marginBottom: 20,
-        backgroundColor: '#fff',
         borderRadius: 8,
     },
     subtitle: {
         fontSize: FONT_SIZE.large,
         fontWeight: 'bold',
         marginBottom: 10,
-        color: '#333',
     },
     text: {
         textAlign: 'justify',
         lineHeight: FONT_SIZE.lineHeight,
         fontSize: FONT_SIZE.normal,
-        color: '#555',
     },
     listItem: {
         fontSize: FONT_SIZE.normal,
         lineHeight: FONT_SIZE.lineHeight,
-        color: '#444',
         marginBottom: 5,
     },
 });

@@ -1,29 +1,41 @@
 import { COLORS, FONT_SIZE } from "@/styles/colors";
 import { Pressable, Text, StyleSheet} from "react-native"
+import { settingsStore } from "@/store/store";
+import { useNavigation } from "@react-navigation/native";
+import { useTranslation } from "react-i18next";
 
 
-type Props = {
-    title: string,
-    onPress: any
-  };
+export default function GoBackButton() {
+    const isDark = settingsStore.theme === 'dark' ? true : false
+    const navigation = useNavigation();
+    const { t } = useTranslation();
 
-export default function GoBackButton({ title, onPress } : Props) {
     return (
         <Pressable 
-            onPress={onPress}
+            onPress={() => navigation.goBack()}
             style={({ pressed }) => [
                 styles.button, 
-                { backgroundColor: pressed ? COLORS.black : COLORS.orange }
+                { 
+                    backgroundColor: 
+                        isDark 
+                        ? pressed ? COLORS.orange : COLORS.black 
+                        : pressed ? COLORS.black : COLORS.orange 
+                }
             ]}
-            >
+        >
             {({ pressed }) => (
                 <Text 
                     style={[
                         styles.text, 
-                        { color: pressed ? COLORS.white : COLORS.black }
+                        { 
+                            color: 
+                                isDark 
+                                ? pressed ? COLORS.black : COLORS.white 
+                                : pressed ? COLORS.white : COLORS.black 
+                        }
                     ]}
                 >
-                    {title}
+                    {t('general.goBackButton')}
                 </Text>
             )}
         </Pressable>
@@ -36,7 +48,6 @@ const styles = StyleSheet.create({
         padding: 10,
         borderRadius: 5,
     },
-
     text: {
         fontWeight: 'bold',
         fontSize: FONT_SIZE.large

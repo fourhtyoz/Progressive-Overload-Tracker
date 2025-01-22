@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import DrawerNavigator from '@/navigation/DrawerNavigator';
 import Toast, { BaseToast } from 'react-native-toast-message';
@@ -8,6 +8,7 @@ import { observer } from 'mobx-react-lite';
 import { createTables } from '@/services/db';
 import { settingsStore } from '@/store/store';
 import Loader from '@/components/Loader';
+import { LightTheme, DarkTheme } from '@/styles/themes';
 
 
 const App = observer(() => {
@@ -22,10 +23,12 @@ const App = observer(() => {
         )
     } 
 
+    const isDark = settingsStore.theme === 'dark' ? true : false
+
     return (
         <I18nextProvider i18n={i18n}>
-            <NavigationContainer independent={true}>
-                <DrawerNavigator />
+            <NavigationContainer independent={true} theme={isDark ? DarkTheme : LightTheme}>
+                <DrawerNavigator isDarkTheme={isDark} />
             </NavigationContainer>
             <Toast 
                 config={{ 

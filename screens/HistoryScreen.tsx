@@ -128,7 +128,6 @@ export default function HistoryScreen({ navigation } : Props) {
             ])
     }
 
-
     // TODO: i18n exercises
     const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
         <View>

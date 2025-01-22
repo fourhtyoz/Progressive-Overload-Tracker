@@ -14,6 +14,7 @@ import ErrorMessage from '@/components/ErrorMessage';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
+import { settingsStore } from '@/store/store';
 
 
 const EditResultScreen = observer(({ navigation, route }: any) => {
@@ -229,7 +230,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             </View>
             
             <View style={styles.buttonWrapper}>
-                <Button onPress={handleSubmitEntry} text='Update record' />
+                <Button onPress={handleSubmitEntry} text='Update record' isDark={settingsStore.theme === 'dark' ? true : false} />
             </View>
         </SafeAreaView>
     );

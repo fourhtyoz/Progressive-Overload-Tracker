@@ -71,8 +71,8 @@ export const styles = StyleSheet.create({
     },
     inputLabel: {
         fontWeight: 'bold',
-        width: 70,
-        fontSize: FONT_SIZE.normal
+        width: 100,
+        fontSize: FONT_SIZE.normal,
     },
     wrapper: {
         paddingHorizontal: 20,

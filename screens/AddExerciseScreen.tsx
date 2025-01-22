@@ -9,12 +9,15 @@ import Button from '@/components/buttons/Button';
 import { muscleGroups } from '@/utils/constants';
 import { addExercise } from '@/services/db';
 import ErrorMessage from '@/components/ErrorMessage';
+import { settingsStore } from '@/store/store';
+import { observer } from 'mobx-react-lite';
+import { COLORS } from '@/styles/colors';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'AddExercise'>;
 
 
-export default function AddExerciseScreen({ navigation }: Props) {
+const AddExerciseScreen = observer(({ navigation }: Props) => {
     const [muscleGroup, setMuscleGroup] = useState('');
     const [title, setTitle] = useState('');
     const [error, setError] = useState('');
@@ -70,16 +73,15 @@ export default function AddExerciseScreen({ navigation }: Props) {
             </View>
             <View style={styles.buttonWrapper}>
                 <Button 
+                    isDark={settingsStore.theme === 'dark' ? true : false}
                     onPress={handleCreateExercise} 
-                    bgColor={'#000'} 
-                    pressedBgColor={'#FFF'} 
-                    borderColor={'#FFF'} 
-                    pressedBorderColor={'rgba(0, 0, 0, .1)'} 
-                    textColor={'#FFF'} 
-                    pressedTextColor={'#000'} 
                     text={'Create a new exercise'}
+                    pressedBgColor={COLORS.orange}
+                    borderColor={COLORS.blackTransparentBorder} 
                 />
             </View>
         </SafeAreaView>
     )
-}
+});
+
+export default AddExerciseScreen;

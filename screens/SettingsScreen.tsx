@@ -15,6 +15,8 @@ import ErrorMessage from "@/components/ErrorMessage";
 
 const SettingsScreen = observer(() => {
     const [error, setError] = useState('')
+    const isDark = settingsStore.theme === 'dark' ? true : false;
+    
     
     const { t } = useTranslation();
 
@@ -47,6 +49,7 @@ const SettingsScreen = observer(() => {
         if (!lang) return;
         
         setError('')
+
         try {
             await AsyncStorage.setItem('language', lang.code)
             settingsStore.setLanguage(lang.code)
@@ -65,6 +68,7 @@ const SettingsScreen = observer(() => {
         if (!units || typeof units !== 'string') return;
         
         setError('')
+
         try {
             await AsyncStorage.setItem('units', units)
             settingsStore.setUnits(units)
@@ -79,28 +83,11 @@ const SettingsScreen = observer(() => {
         }
     }
 
-    // const handleChangeFontSize = async (fontSize: string) => {
-    //     if (!fontSize || typeof fontSize !== 'string') return;
-        
-    //     setError('')
-    //     try {
-    //         await AsyncStorage.setItem('fontSize', fontSize)
-    //         settingsStore.setFontsize(fontSize)
-            
-    //         Toast.show({
-    //             type: 'success',
-    //             text1: t('toasts.success'),
-    //             text2: t('toasts.changedFontSize'),
-    //         });
-    //     } catch (e) {
-    //         setError(String(e))
-    //     }
-    // }
-
     const handleChangeTheme = async (theme: string) => {
         if (!theme || typeof theme !== 'string') return;
         
         setError('')
+
         try {
             await AsyncStorage.setItem('theme', theme)
             settingsStore.setTheme(theme)
@@ -115,49 +102,12 @@ const SettingsScreen = observer(() => {
         }
     }
 
-    // const handleChangeNotifications = async () => {
-    //     try {
-    //         await AsyncStorage.setItem('notifications', JSON.stringify(!settingsStore.notifications))
-    //         settingsStore.toggleNotifications()
-            
-    //         Toast.show({
-    //             type: 'success',
-    //             text1: t('toasts.success'),
-    //             text2: !settingsStore.notifications ? t('toasts.notReceiveNotifications') : t('toasts.receiveNotifications'),
-    //         });
-    //     } catch (e) {
-    //         setError(String(e))
-    //     }
-    // }
-
     return (
         <SafeAreaView style={s.wrapper}>
             {error && <ErrorMessage message={error} setError={setError} />}
-            {/* <View>
-                <View style={s.row}>
-                    <Text style={s.title}>{t('settings.options.fontSize')}:</Text>
-                    <SelectDropdown
-                        data={FONT_SIZES}
-                        onSelect={(selectedItem) => handleChangeFontSize(selectedItem?.title)}
-                        showsVerticalScrollIndicator={false}
-                        dropdownStyle={s.dropdownMenu}
-                        renderButton={(selectedItem) => (
-                            <View style={s.dropdownButton}>
-                                <Text style={s.dropdownText}>{(selectedItem?.title) || settingsStore.fontSize}</Text>
-                            </View>
-                        )}
-                        renderItem={(item, _, isSelected) => (
-                            <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                                <Text style={s.dropdownItemText}>{item.title}</Text>
-                            </View>
-                        )}
-                    />
-                </View>
-                <Text style={s.helpText}>{t('settings.options.fontSizeHelpText')}</Text>
-            </View> */}
             <View>
                 <View style={s.row}>
-                    <Text style={s.title}>{t('settings.options.language')}:</Text>
+                    <Text style={[s.title, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.language')}:</Text>
                     <SelectDropdown
                         data={LANGUAGES}
                         onSelect={(selectedItem) => handleChangeLanguage(selectedItem)}
@@ -165,7 +115,7 @@ const SettingsScreen = observer(() => {
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={s.dropdownText}>{(selectedItem?.code) || settingsStore.language}</Text>
+                                <Text style={[s.dropdownText, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.code) || settingsStore.language}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
@@ -179,7 +129,7 @@ const SettingsScreen = observer(() => {
             </View>
             <View>
                 <View style={s.row}>
-                    <Text style={s.title}>{t('settings.options.units')}:</Text>
+                    <Text style={[s.title, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.units')}:</Text>
                     <SelectDropdown
                         data={UNITS}
                         onSelect={(selectedItem) => handleChangeUnits(selectedItem?.title)}
@@ -187,7 +137,7 @@ const SettingsScreen = observer(() => {
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={s.dropdownText}>{(selectedItem?.title) || settingsStore.units}</Text>
+                                <Text style={[s.dropdownText, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.units}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
@@ -201,7 +151,7 @@ const SettingsScreen = observer(() => {
             </View>
             <View>
                 <View style={s.row}>
-                    <Text style={s.title}>{t('settings.options.theme')}:</Text>
+                    <Text style={[s.title, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.theme')}:</Text>
                     <SelectDropdown
                         data={THEMES}
                         onSelect={(selectedItem) => handleChangeTheme(selectedItem.title)}
@@ -209,7 +159,7 @@ const SettingsScreen = observer(() => {
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={s.dropdownText}>{(selectedItem?.title) || settingsStore.theme}</Text>
+                                <Text style={[s.dropdownText, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.theme}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
@@ -221,25 +171,13 @@ const SettingsScreen = observer(() => {
                 </View>
                 <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
             </View>
-            {/* <View>
-                <View style={s.row}>
-                    <Text style={s.title}>{t('settings.options.notifications')}:</Text>
-                    <Switch
-                        trackColor={{ false: '#767577', true: COLORS.orange }}
-                        thumbColor={settingsStore.notifications ? COLORS.black : '#f4f3f4'}
-                        ios_backgroundColor="#3e3e3e"
-                        onValueChange={handleChangeNotifications}
-                        value={settingsStore.notifications}
-                    />
-                </View>
-                <Text style={s.helpText}>{t('settings.options.notificationsHelpText')}</Text>
-            </View> */}
             <View>
                 <Button 
                     text={t('settings.getInTouch')} 
                     onPress={handleGetInTouch} 
                     pressedBgColor={COLORS.orange} 
                     borderColor={'rgba(0, 0, 0, .1)'} 
+                    isDark={isDark}
                 />
             </View>
             <Pressable style={s.delete} onPress={handleDeleteData}>
@@ -255,7 +193,6 @@ const s = StyleSheet.create({
         paddingHorizontal: 20,
         gap: 15,
     },
-
     delete: {
         marginTop: 'auto',
         marginBottom: 20,
@@ -263,35 +200,29 @@ const s = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
     },
-
     deleteText: {
         color: COLORS.red
     },
-
     row: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
     },
-
     dropdownMenu: {
         backgroundColor: '#E9ECEF',
         borderRadius: 8,
         width: 'auto',
     },
-    
     dropdownButton: {
         width: 'auto',
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
     },
-
     dropdownText: {
         fontSize: FONT_SIZE.normal,
         color: '#151E26',
     },
-
     dropdownItem: {
         width: 200,
         flexDirection: 'row',
@@ -300,29 +231,24 @@ const s = StyleSheet.create({
         alignItems: 'center',
         paddingVertical: 8,
     },
-
     dropdownItemText: {
         flex: 1,
         fontSize: FONT_SIZE.normal,
         fontWeight: '500',
         color: '#151E26',
     },
-
     optionText: {
         fontSize: FONT_SIZE.normal,
     },
-
     options: {
         flexDirection: 'row',
         borderWidth: 1,
         borderColor: COLORS.gray,
     },
-
     title: {
         fontSize: FONT_SIZE.normal,
         fontWeight: 'bold'
     },
-
     helpText: {
         color: COLORS.gray,
         fontSize: FONT_SIZE.small

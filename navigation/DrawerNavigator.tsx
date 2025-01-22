@@ -11,7 +11,6 @@ import AddResultScreen from '@/screens/AddResultScreen';
 import AddExerciseScreen from '@/screens/AddExerciseScreen';
 import HistoryScreen from '@/screens/HistoryScreen';
 import SettingsScreen from '@/screens/SettingsScreen';
-import EditResultScreen from '@/screens/EditResultScreen';
 
 
 export type DrawerParamList = {
@@ -27,34 +26,34 @@ export type DrawerParamList = {
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
-export default function DrawerNavigator() {
+export default function DrawerNavigator({ isDarkTheme }: any) {
     const { t } = useTranslation();
 
     return (
-        <Drawer.Navigator 
+        <Drawer.Navigator
             initialRouteName="Home" 
             screenOptions={
                 ({ route, navigation}) => (
                     {  
                         title: route.name,
-                        headerTintColor: '#fff',
+                        headerTintColor:  isDarkTheme ? COLORS.black : COLORS.white,
                         headerTintStyle: {
                             fontWeight: 'bold'
                         },
                         headerShadowVisible: false,
                         headerStyle: {
-                            backgroundColor: '#000',
+                            backgroundColor: isDarkTheme ? COLORS.orange : COLORS.black,
                         },
                         drawerContentStyle: {
-                            backgroundColor: COLORS.orange,
+                            backgroundColor: isDarkTheme ? COLORS.black : COLORS.orange,
                         },
-                        drawerActiveBackgroundColor: '#000',
-                        drawerActiveTintColor: '#FFF',
+                        drawerActiveBackgroundColor: isDarkTheme ? COLORS.orange : COLORS.black,
+                        drawerActiveTintColor: isDarkTheme ? COLORS.black : COLORS.white,
 
                         headerRight: () => {
                             if (navigation.canGoBack()) {
                                 return (
-                                    <GoBackButton title={t('general.goBackButton')} onPress={() => navigation.goBack()} />
+                                    <GoBackButton />
                                 );
                             }
                         },
@@ -63,9 +62,8 @@ export default function DrawerNavigator() {
             }
         >
             <Drawer.Screen name="Home" component={HomeScreen} options={{ title: t('home.screenName') }} />
-            <Drawer.Screen name="AddResult" component={AddResultScreen} options={{ title: t('result.screenName') }} />
-            <Drawer.Screen name="EditResult" component={EditResultScreen} options={{ title: t('editResult.screenName') }} />
             <Drawer.Screen name="About" component={AboutScreen} options={{ title: t('about.screenName') }} />
+            <Drawer.Screen name="AddResult" component={AddResultScreen} options={{ title: t('result.screenName') }} />
             <Drawer.Screen name="AddExercise" component={AddExerciseScreen} options={{ title: t('newExercise.screenName') }} />
             <Drawer.Screen name="History" component={HistoryScreen} options={{ title: t('history.screenName') }} />
             <Drawer.Screen name="Settings" component={SettingsScreen} options={{ title: t('settings.screenName') }} />

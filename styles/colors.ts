@@ -8,7 +8,8 @@ export const COLORS = {
     orange: '#FFC857',
     gray: '#a9a9a9',
     red: '#F93827',
-    blackTransparentBorder: 'rgba(0, 0, 0, .1)'
+    blackTransparentBorder: 'rgba(0, 0, 0, .1)',
+    textDarkScreen: '#F5F5F5'
 }
 
 export const FONT_SIZE = {
