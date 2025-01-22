@@ -232,7 +232,7 @@ export default function HistoryScreen({ navigation } : Props) {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                        <View key={index} style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
@@ -255,7 +255,7 @@ export default function HistoryScreen({ navigation } : Props) {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                        <View key={index} style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}

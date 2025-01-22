@@ -75,12 +75,14 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={[
-                            styles.dropdownItemStyle,
-                            isSelected && {
-                                backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight,
-                            },
-                        ]}>
+                        <View 
+                            style={[
+                                styles.dropdownItemStyle,
+                                isSelected && {
+                                    backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight,
+                                },
+                            ]}
+                        >
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}

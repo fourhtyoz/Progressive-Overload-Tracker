@@ -151,7 +151,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                        <View style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
@@ -191,7 +191,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                        <View style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                             <Text style={styles.dropdownItemTxtStyle}>{index + 1}. {item.title}</Text>
                         </View>
                     )}
@@ -231,7 +231,8 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                        <View style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                        
                             <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
                         </View>
                     )}
