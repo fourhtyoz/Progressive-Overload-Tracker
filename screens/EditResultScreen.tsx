@@ -16,7 +16,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { settingsStore } from '@/store/store';
 import { COLORS } from '@/styles/colors';
-
+import Toast from 'react-native-toast-message';
 
 const EditResultScreen = observer(({ navigation, route }: any) => {
     const { id, date, exercise, muscleGroup, reps, units, weight } = route.params
@@ -89,10 +89,11 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 console.error(e)
             }
         } else {
-            Alert.alert(
-                t('alerts.error'),
-                t('alerts.toAddFieldsRequired'),
-            )
+            Toast.show({
+                type: 'error',
+                text1: t('toasts.error'),
+                text2: t('alerts.toAddFieldsRequired'),
+            });
         }
     };
 

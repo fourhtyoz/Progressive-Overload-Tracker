@@ -85,26 +85,21 @@ export default function HistoryScreen({ navigation } : Props) {
 
     const deleteRecord = async (item: Result) => {
         try {
-            const deleted = await deleteResult(item.id);
-            if (deleted) {
-                Alert.alert('Success', 'The record has been deleted successfully');
-                
-                // Update the results state after deletion
-                setResults((prevResults) => {
-                    const updatedResults: any = { ...prevResults };
-                    const filteredRecords = updatedResults[item.exercise].filter((record: Result) => record.id !== item.id);
-    
-                    if (filteredRecords.length === 0) {
-                        delete updatedResults[item.exercise];
-                    } else {
-                        updatedResults[item.exercise] = filteredRecords;
-                    }
-    
-                    return updatedResults;
-                });
-            } else {
-                Alert.alert('Error', 'Whoops, something happened. The record has not been deleted');
-            }
+            await deleteResult(item.id);
+            Alert.alert('Success', 'The record has been deleted successfully');
+            
+            setResults((prevResults) => {
+                const updatedResults: any = { ...prevResults };
+                const filteredRecords = updatedResults[item.exercise].filter((record: Result) => record.id !== item.id);
+
+                if (filteredRecords.length === 0) {
+                    delete updatedResults[item.exercise];
+                } else {
+                    updatedResults[item.exercise] = filteredRecords;
+                }
+
+                return updatedResults;
+            });
         } catch (e) {
             console.error(e);
             Alert.alert('Error', `Whoops, something happened. The record has not been deleted: ${e}`);

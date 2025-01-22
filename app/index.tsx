@@ -9,6 +9,7 @@ import { createTables } from '@/services/db';
 import { settingsStore } from '@/store/store';
 import Loader from '@/components/Loader';
 import { LightTheme, DarkTheme } from '@/styles/themes';
+import { FONT_SIZE } from '@/styles/colors';
 
 
 const App = observer(() => {
@@ -31,12 +32,22 @@ const App = observer(() => {
             <Toast 
                 config={{ 
                     success: (props: any) => (
-                    <BaseToast 
-                        {...props} 
-                        style={{ borderLeftColor: 'lightgreen' }} 
-                        text1Style={{ fontSize: 18, fontWeight: '400' }} 
-                        text2Style={{ fontSize: 14 }} 
-                    />
+                        <BaseToast 
+                            {...props} 
+                            style={{ 
+                                borderLeftColor: 'lightgreen',
+                                borderLeftWidth: 10,
+                                backgroundColor: settingsStore.isDark ? '#171717' : '#f8f9fa'}} 
+                            text1Style={{ 
+                                fontSize: FONT_SIZE.large, 
+                                fontWeight: 'bold',
+                                color: settingsStore.isDark ? '#f8f9fa' : '#171717' 
+                             }} 
+                            text2Style={{ 
+                                fontSize: FONT_SIZE.normal,
+                                color: settingsStore.isDark ? '#f8f9fa' : '#171717' 
+                             }} 
+                        />
                 )}} 
             />
         </I18nextProvider>

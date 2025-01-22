@@ -15,6 +15,7 @@ import { observer } from 'mobx-react-lite';
 import { Exercise } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
 import { COLORS } from '@/styles/colors';
+import Toast from 'react-native-toast-message';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
@@ -81,19 +82,21 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     units
                 )
                 resetAllFields()
-                Alert.alert(
-                    t('alerts.success'),
-                    t('alerts.newEntryAddedSuccess'),
-                )
+                Toast.show({
+                    type: 'success',
+                    text1: t('toasts.success'),
+                    text2: t('alerts.newEntryAddedSuccess'),
+                });
             } catch (e) {
                 setError(String(e))
                 console.error(e)
             }
         } else {
-            Alert.alert(
-                t('alerts.error'),
-                t('alerts.toAddFieldsRequired'),
-            )
+            Toast.show({
+                type: 'error',
+                text1: t('toasts.error'),
+                text2: t('alerts.toAddFieldsRequired'),
+            });
         }
     };
 
