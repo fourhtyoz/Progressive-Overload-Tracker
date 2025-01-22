@@ -11,6 +11,7 @@ import ErrorMessage from '@/components/ErrorMessage';
 import { Ionicons } from '@expo/vector-icons';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
+import { settingsStore } from '@/store/store';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'History'>;
@@ -228,7 +229,7 @@ export default function HistoryScreen({ navigation } : Props) {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' })}}>
+                        <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
@@ -250,7 +251,7 @@ export default function HistoryScreen({ navigation } : Props) {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' })}}>
+                        <View key={index} style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}

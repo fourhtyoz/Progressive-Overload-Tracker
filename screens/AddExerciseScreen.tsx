@@ -9,9 +9,9 @@ import Button from '@/components/buttons/Button';
 import { muscleGroups } from '@/utils/constants';
 import { addExercise } from '@/services/db';
 import ErrorMessage from '@/components/ErrorMessage';
-import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
 import { COLORS } from '@/styles/colors';
+import { settingsStore } from '@/store/store';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'AddExercise'>;
@@ -61,7 +61,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: '#D2D9DF' })}}>
+                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
@@ -73,7 +73,6 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
             </View>
             <View style={styles.buttonWrapper}>
                 <Button 
-                    isDark={settingsStore.theme === 'dark' ? true : false}
                     onPress={handleCreateExercise} 
                     text={'Create a new exercise'}
                     pressedBgColor={COLORS.orange}

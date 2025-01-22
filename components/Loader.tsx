@@ -4,10 +4,8 @@ import { settingsStore } from '@/store/store';
 
 
 export default function Loader() {
-    const isDark = settingsStore.theme === 'dark' ? true : false
-    
     return (
-        <View style={[styles.container, { backgroundColor: isDark ? COLORS.black : COLORS.blackTransparentBorder }]} testID="loader-container">
+        <View style={[styles.container, { backgroundColor: settingsStore.isDark ? COLORS.black : COLORS.blackTransparentBorder }]} testID="loader-container">
             <ActivityIndicator size="large" color={COLORS.orange} testID="activity-indicator" />
         </View>
     );

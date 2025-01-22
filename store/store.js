@@ -9,10 +9,13 @@ class SettingsStore {
     units = ''
     notifications = false
     isLoading = true;
-    isDarkTheme = this.theme === 'dark' ? true : false
 
     constructor() {
         makeAutoObservable(this)
+    }
+
+    get isDark() {
+        return this.theme === 'dark' ? true : false
     }
 
     setTheme(value) {

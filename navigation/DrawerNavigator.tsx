@@ -11,6 +11,7 @@ import AddResultScreen from '@/screens/AddResultScreen';
 import AddExerciseScreen from '@/screens/AddExerciseScreen';
 import HistoryScreen from '@/screens/HistoryScreen';
 import SettingsScreen from '@/screens/SettingsScreen';
+import EditResultScreen from '@/screens/EditResultScreen';
 
 
 export type DrawerParamList = {
@@ -67,6 +68,7 @@ export default function DrawerNavigator({ isDarkTheme }: any) {
             <Drawer.Screen name="AddExercise" component={AddExerciseScreen} options={{ title: t('newExercise.screenName') }} />
             <Drawer.Screen name="History" component={HistoryScreen} options={{ title: t('history.screenName') }} />
             <Drawer.Screen name="Settings" component={SettingsScreen} options={{ title: t('settings.screenName') }} />
+            <Drawer.Screen name="EditResult" component={EditResultScreen} options={{ title: t('settings.screenName'), drawerItemStyle: { display: 'none' } }} />
         </Drawer.Navigator>
     );
 }

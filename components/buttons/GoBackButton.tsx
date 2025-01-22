@@ -6,7 +6,6 @@ import { useTranslation } from "react-i18next";
 
 
 export default function GoBackButton() {
-    const isDark = settingsStore.theme === 'dark' ? true : false
     const navigation = useNavigation();
     const { t } = useTranslation();
 
@@ -17,7 +16,7 @@ export default function GoBackButton() {
                 styles.button, 
                 { 
                     backgroundColor: 
-                        isDark 
+                        settingsStore.isDark 
                         ? pressed ? COLORS.orange : COLORS.black 
                         : pressed ? COLORS.black : COLORS.orange 
                 }
@@ -29,7 +28,7 @@ export default function GoBackButton() {
                         styles.text, 
                         { 
                             color: 
-                                isDark 
+                                settingsStore.isDark 
                                 ? pressed ? COLORS.black : COLORS.white 
                                 : pressed ? COLORS.white : COLORS.black 
                         }

@@ -7,7 +7,6 @@ import { settingsStore } from "@/store/store"
 type Props = {
     onPress: any,
     text: string,
-    isDark: boolean,
     bgColor?: string,
     pressedBgColor?: string,
     borderColor?: string,
@@ -20,7 +19,6 @@ type Props = {
 export default function Button({ 
     onPress, 
     text,
-    isDark,
     bgColor = COLORS.black,
     pressedBgColor = COLORS.white,
     borderColor = COLORS.white,
@@ -36,11 +34,11 @@ export default function Button({
                 styles.submitButton, 
                 { 
                     backgroundColor: 
-                        isDark 
+                        settingsStore.isDark 
                         ? pressed ? bgColor : pressedBgColor 
                         : pressed ? pressedBgColor : bgColor,
                     borderColor: 
-                        isDark 
+                        settingsStore.isDark  
                         ? pressed ? borderColor : pressedBorderColor 
                         : pressed ? pressedBorderColor : borderColor
                 }
@@ -52,7 +50,7 @@ export default function Button({
                         styles.submitButtonText, 
                         { 
                             color: 
-                            isDark 
+                            settingsStore.isDark   
                             ? pressed ? textColor : pressedTextColor 
                             : pressed ? pressedTextColor : textColor 
                         }

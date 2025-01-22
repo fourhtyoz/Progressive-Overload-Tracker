@@ -15,6 +15,7 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { settingsStore } from '@/store/store';
+import { COLORS } from '@/styles/colors';
 
 
 const EditResultScreen = observer(({ navigation, route }: any) => {
@@ -136,32 +137,35 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
         <SafeAreaView style={styles.wrapper}>
             {error && <ErrorMessage message={error} setError={setError}/>}
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>Date:</Text>
-                <Text style={styles.date}>
+                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Date:</Text>
+                <Text style={[styles.date, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>
                     {newDate.toLocaleDateString(
                         'ru-Ru', 
                         {  year: '2-digit', month: '2-digit', day: '2-digit' }
                     )}
                 </Text>
                 <TouchableOpacity onPress={() => showMode('date')}>
-                    <Ionicons name="calendar-outline" size={20} />
+                    <Ionicons name="calendar-outline" size={20} color={settingsStore.isDark ? COLORS.textDarkScreen : COLORS.gray}/>
                 </TouchableOpacity>
             </View>
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>{t('result.options.muscle')}:</Text>
+                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleGroups}
-                    onSelect={(selectedItem, index) => setNewGroup(selectedItem)}
+                    defaultValue={muscleGroups.find(item => item === newGroup)}
+                    onSelect={(selectedItem, _) => setNewGroup(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
-                    renderButton={(selectedItem) => (
-                        <View style={styles.input}>
-                            {!newGroup && <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>} 
-                            {newGroup && <Text style={styles.exerciseText}>{toTitleCase(newGroup)}</Text>}
+                    renderButton={(_) => (
+                        <View style={[styles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
+                            {newGroup 
+                            ? <Text style={[styles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newGroup)}</Text>
+                            : <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>
+                            }
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
                             <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
@@ -169,30 +173,33 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             </View>
             {/* TODO: i18n exercises */}
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>{t('result.options.exercise')}:</Text>
+                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.exercise')}:</Text>
                 <SelectDropdown
-                    disabled={!muscleGroup}
                     data={exercises.filter(item => item.type === newGroup)}
-                    onSelect={(selectedItem, index) => setNewExercise(selectedItem.title)}
+                    defaultValue={exercises.filter(item => item.title === newExercise)[0]}
+                    onSelect={(selectedItem, _) => setNewExercise(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={styles.input}>
-                            {!newExercise && <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>} 
-                            {newExercise && <Text style={styles.exerciseText}>{toTitleCase(newExercise)}</Text>}
+                        <View style={[styles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
+                            {newExercise 
+                            ? <Text style={[styles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newExercise)}</Text>
+                            : <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>
+                            }
                         </View>
                     )}
-                    renderItem={(item, index, isSelected) => (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
-                            <Text style={styles.dropdownItemTxtStyle}>{index + 1}. {item.title}</Text>
-                        </View>
-                    )}
+                    renderItem={(item, index, isSelected) => {
+                        return (
+                            <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                                <Text style={styles.dropdownItemTxtStyle}>{index + 1}. {item.title}</Text>
+                            </View>
+                    )}}
                 />
             </View>
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>{t('result.options.reps')}:</Text>
+                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.reps')}:</Text>
                 <TextInput 
-                    style={styles.input} 
+                    style={[styles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
                     value={newReps}
                     placeholder={t('result.options.howManyReps')}
                     placeholderTextColor={'#a9a9a9'}
@@ -202,9 +209,9 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             </View>
             {/* TODO: i18n weights */}
             <View style={styles.itemWrapper}>
-                <Text style={styles.inputLabel}>{t('result.options.weight')}:</Text>
+                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.weight')}:</Text>
                 <TextInput 
-                    style={styles.inputWithOption} 
+                    style={[styles.inputWithOption, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
                     value={newWeight}
                     placeholder={t('result.options.whatWeight')}
                     placeholderTextColor={'#a9a9a9'}
@@ -213,16 +220,17 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 />
                 <SelectDropdown
                     data={UNITS}
+                    defaultValue={UNITS.filter(item => item.title === settingsStore.units)[0]}
                     onSelect={(selectedItem) => setUnits(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={styles.dropdownButtonStyle}>
+                        <View style={[styles.dropdownButtonStyle, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
                             <Text style={styles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || newUnits}</Text>
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={{...styles.dropdownItemStyle, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                        <View style={{...styles.dropdownItemStyle, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
                             <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
                         </View>
                     )}
@@ -230,7 +238,12 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             </View>
             
             <View style={styles.buttonWrapper}>
-                <Button onPress={handleSubmitEntry} text='Update record' isDark={settingsStore.theme === 'dark' ? true : false} />
+                <Button 
+                    onPress={handleSubmitEntry} 
+                    text='Update record' 
+                    pressedBgColor={COLORS.orange}
+                    borderColor={COLORS.blackTransparentBorder} 
+                />
             </View>
         </SafeAreaView>
     );

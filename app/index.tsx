@@ -23,12 +23,10 @@ const App = observer(() => {
         )
     } 
 
-    const isDark = settingsStore.theme === 'dark' ? true : false
-
     return (
         <I18nextProvider i18n={i18n}>
-            <NavigationContainer independent={true} theme={isDark ? DarkTheme : LightTheme}>
-                <DrawerNavigator isDarkTheme={isDark} />
+            <NavigationContainer independent={true} theme={settingsStore.isDark ? DarkTheme : LightTheme}>
+                <DrawerNavigator isDarkTheme={settingsStore.isDark} />
             </NavigationContainer>
             <Toast 
                 config={{ 

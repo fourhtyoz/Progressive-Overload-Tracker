@@ -9,7 +9,8 @@ export const COLORS = {
     gray: '#a9a9a9',
     red: '#F93827',
     blackTransparentBorder: 'rgba(0, 0, 0, .1)',
-    textDarkScreen: '#F5F5F5'
+    textDarkScreen: '#F5F5F5',
+    selectedLight: '#D2D9DF',
 }
 
 export const FONT_SIZE = {

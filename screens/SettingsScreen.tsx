@@ -15,8 +15,6 @@ import ErrorMessage from "@/components/ErrorMessage";
 
 const SettingsScreen = observer(() => {
     const [error, setError] = useState('')
-    const isDark = settingsStore.theme === 'dark' ? true : false;
-    
     
     const { t } = useTranslation();
 
@@ -105,71 +103,74 @@ const SettingsScreen = observer(() => {
     return (
         <SafeAreaView style={s.wrapper}>
             {error && <ErrorMessage message={error} setError={setError} />}
-            <View>
+            <View style={{ marginBottom: 10 }}>
                 <View style={s.row}>
-                    <Text style={[s.title, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.language')}:</Text>
+                    <Text style={[s.title, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.language')}:</Text>
                     <SelectDropdown
                         data={LANGUAGES}
+                        defaultValue={LANGUAGES.filter(item => item.code === settingsStore.language)[0]}
                         onSelect={(selectedItem) => handleChangeLanguage(selectedItem)}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={[s.dropdownText, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.code) || settingsStore.language}</Text>
+                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.code) || settingsStore.language}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                            <View style={{...s.dropdownItem, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
                                 <Text style={s.dropdownItemText}>{item.code}</Text>
                             </View>
                         )}
                     />
                 </View>
-                <Text style={s.helpText}>{t('settings.options.languageHelpText')}</Text>
+                <Text style={[s.helpText, { marginVertical: 10 }]}>{t('settings.options.languageHelpText')}</Text>
             </View>
-            <View>
+            <View style={{ marginBottom: 10 }}>
                 <View style={s.row}>
-                    <Text style={[s.title, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.units')}:</Text>
+                    <Text style={[s.title, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.units')}:</Text>
                     <SelectDropdown
                         data={UNITS}
+                        defaultValue={UNITS.filter(item => item.title === settingsStore.units)[0]}
                         onSelect={(selectedItem) => handleChangeUnits(selectedItem?.title)}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={[s.dropdownText, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.units}</Text>
+                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.units}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: '#D2D9DF'})}}>
+                            <View style={{...s.dropdownItem, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
                                 <Text style={s.dropdownItemText}>{item.title}</Text>
                             </View>
                         )}
                     />
                 </View>
-                <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
+                <Text style={[s.helpText, { marginVertical: 10 }]}>{t('settings.options.unitsHelpText')}</Text>
             </View>
-            <View>
+            <View style={{ marginBottom: 10 }}>
                 <View style={s.row}>
-                    <Text style={[s.title, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.theme')}:</Text>
+                    <Text style={[s.title, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('settings.options.theme')}:</Text>
                     <SelectDropdown
                         data={THEMES}
+                        defaultValue={THEMES.filter(item => item.title === settingsStore.theme)[0]}
                         onSelect={(selectedItem) => handleChangeTheme(selectedItem.title)}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={[s.dropdownText, { color: isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.theme}</Text>
+                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.theme}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <View style={{...s.dropdownItem, ...(isSelected && {backgroundColor: COLORS.orange})}}>
+                            <View style={{...s.dropdownItem, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
                                 <Text style={s.dropdownItemText}>{item.title}</Text>
                             </View>
                         )}
                     />
                 </View>
-                <Text style={s.helpText}>{t('settings.options.unitsHelpText')}</Text>
+                <Text style={[s.helpText, { marginVertical: 10 }]}>{t('settings.options.unitsHelpText')}</Text>
             </View>
             <View>
                 <Button 
@@ -177,7 +178,6 @@ const SettingsScreen = observer(() => {
                     onPress={handleGetInTouch} 
                     pressedBgColor={COLORS.orange} 
                     borderColor={'rgba(0, 0, 0, .1)'} 
-                    isDark={isDark}
                 />
             </View>
             <Pressable style={s.delete} onPress={handleDeleteData}>

@@ -5,8 +5,6 @@ import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
 
 const AboutScreen = observer(() => {
-    const isDark = settingsStore.theme === 'dark' ? true : false;
-    
     const content = [
         {
             key: '1',
@@ -67,10 +65,10 @@ const AboutScreen = observer(() => {
 
     const renderItem = ({ item }: { item: { title: string; content: any } }) => (
         <View style={styles.section}>
-            <Text style={[styles.subtitle, { color: isDark ? '#EDEDED' : '#333'}]}>{item.title}</Text>
+            <Text style={[styles.subtitle, { color: settingsStore.isDark ? '#EDEDED' : '#333'}]}>{item.title}</Text>
             {Array.isArray(item.content) 
-            ? item.content.map((subItem, index) => (<Text key={index} style={[styles.listItem, { color: isDark ?'#F5F5F5' : '#555' }]}>• {subItem}</Text>)) 
-            : <Text style={[styles.text, { color: isDark ?'#F5F5F5' : '#555' }]}>{item.content}</Text>
+            ? item.content.map((subItem, index) => (<Text key={index} style={[styles.listItem, { color: settingsStore.isDark ?'#F5F5F5' : '#555' }]}>• {subItem}</Text>)) 
+            : <Text style={[styles.text, { color: settingsStore.isDark ?'#F5F5F5' : '#555' }]}>{item.content}</Text>
             }
         </View>
     );
