@@ -4,6 +4,7 @@ import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
 
+
 const AboutScreen = observer(() => {
     const content = [
         {
