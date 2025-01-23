@@ -64,7 +64,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     const handleSubmitEntry = async () => {
         if (newDate && newGroup && newExercise && newReps && newWeight && newUnits) {
             try {
-                let dateString = newDate
+                let dateString: string | Date = newDate
                 if (newDate instanceof Date) {
                     dateString = newDate.toISOString()
                 }
