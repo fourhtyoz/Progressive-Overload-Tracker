@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
-import { toTitleCase, groupByExercise, filterByMuscleGroup, getformattedDate } from '@/utils/helpFunctions';
+import { toTitleCase, groupByExercise, filterByMuscleGroup, getformattedDate, getProgress } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS, FONT_SIZE } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
@@ -24,7 +24,7 @@ export default function HistoryScreen({ navigation } : Props) {
     const [selectedExercise, setSelectedExercise] = useState('All');
     const [muscleOptions, setMuscleOptions] = useState<string[]>([]);
     const [selectedMuscle, setSelectedMuscle] = useState('All');
-    const [selectedSorting, setSelectedSorting] = useState({title: 'By date ↓', type: 'desc'});
+    const [selectedSorting, setSelectedSorting] = useState({title: 'By date (recent first)', type: 'desc'});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -200,29 +200,13 @@ export default function HistoryScreen({ navigation } : Props) {
                             const len = data[exerciseName].length
                             if (index + 1 < len) {
                                 const previousSet = data[exerciseName][index + 1]
-                                const previousScore = previousSet.weight * previousSet.reps
-                                const currentScore = record.weight * record.reps
-                                if (previousScore > currentScore) {
-                                    progress = 'worse'
-                                } else if (previousScore < currentScore) {
-                                    progress = 'better'
-                                } else {
-                                    progress = 'neutral'
-                                }
+                                progress = getProgress(record, previousSet)
                             } 
                             return renderExercise({ item: record }, progress, key);
                         } else {
                             if (index > 0) {
                                 const previousSet = data[exerciseName][index - 1]
-                                const previousScore = previousSet.weight * previousSet.reps
-                                const currentScore = record.weight * record.reps
-                                if (previousScore > currentScore) {
-                                    progress = 'worse'
-                                } else if (previousScore < currentScore) {
-                                    progress = 'better'
-                                } else {
-                                    progress = 'neutral'
-                                }
+                                progress = getProgress(record, previousSet)
                             }
                             return renderExercise({ item: record }, progress, key);
                         }
@@ -248,8 +232,8 @@ export default function HistoryScreen({ navigation } : Props) {
             <View style={styles.filterWrapper}>
                 <Text style={[styles.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Sorting:</Text>
                 <SelectDropdown
-                    data={[{title: 'By date ↓', type: 'desc'}, {title: 'By date ↑', type: 'asc'}]}
-                    defaultValue={{title: 'By date ↓', type: 'desc'}}
+                    data={[{title: 'By date (recent first)', type: 'desc'}, {title: 'By date (oldest first)', type: 'asc'}]}
+                    defaultValue={{title: 'By date (recent first)', type: 'desc'}}
                     onSelect={(selectedItem, _) => setSelectedSorting(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={styles.dropdownMenuStyle}
@@ -258,11 +242,13 @@ export default function HistoryScreen({ navigation } : Props) {
                             <Text style={styles.selectedItem}>{selectedSorting.title}</Text>
                         </View>
                     )}
-                    renderItem={(item, index, isSelected) => (
-                        <View key={index} style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                    renderItem={(item, index, isSelected) => { 
+                        return (
+                        <View key={index} style={[styles.dropdownItemStyle, item.type === selectedSorting.type && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                             <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
                         </View>
-                    )}
+
+                    )}}
                 />
             </View>
             <View style={styles.filterWrapper}>

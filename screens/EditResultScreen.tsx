@@ -202,17 +202,6 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                     )}}
                 />
             </View>
-            <View style={styles.itemWrapper}>
-                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.reps')}:</Text>
-                <TextInput 
-                    style={[styles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
-                    value={`${newReps}`}
-                    placeholder={t('result.options.howManyReps')}
-                    placeholderTextColor={'#a9a9a9'}
-                    onChangeText={(value) => handleChangeReps(value)}
-                    keyboardType='numeric'
-                />
-            </View>
             {/* TODO: i18n weights */}
             <View style={styles.itemWrapper}>
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.weight')}:</Text>
@@ -240,6 +229,17 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                             <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
                         </View>
                     )}
+                />
+            </View>
+            <View style={styles.itemWrapper}>
+                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.reps')}:</Text>
+                <TextInput 
+                    style={[styles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
+                    value={`${newReps}`}
+                    placeholder={t('result.options.howManyReps')}
+                    placeholderTextColor={'#a9a9a9'}
+                    onChangeText={(value) => handleChangeReps(value)}
+                    keyboardType='numeric'
                 />
             </View>
             
