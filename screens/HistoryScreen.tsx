@@ -138,22 +138,23 @@ export default function HistoryScreen({ navigation } : Props) {
     const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
         <View key={key} >
             <View 
-                style={{
-                    ...styles.row, 
-                    ...(progress === 'worse' 
-                        ? { borderLeftWidth: 5, borderLeftColor: '#F93827' } 
-                        : progress === 'neutral' 
-                        ? { borderLeftWidth: 5, borderLeftColor: COLORS.orange }
-                        : progress === 'better' 
-                        ? { borderLeftWidth: 5, borderLeftColor: '#16C47F' }
-                        : { borderLeftWidth: 5, borderLeftColor: COLORS.white }
-                    ) 
-                }}
+               style={[
+                styles.row,
+                {
+                    borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef',
+                    borderLeftWidth: 5,
+                    borderLeftColor:
+                        progress === 'worse' ? '#F93827' :
+                        progress === 'neutral' ? COLORS.orange :
+                        progress === 'better' ? '#16C47F' :
+                        settingsStore.isDark ? COLORS.darkGrey : COLORS.white,
+                }
+            ]}
             >
-                <Text style={styles.cell}>{getformattedDate(item.date)}</Text>
-                <Text style={styles.cell}>{toTitleCase(item.muscleGroup)}</Text>
-                <Text style={styles.cell}>{item.weight} {item.units}</Text>
-                <Text style={styles.cell}>{item.reps}</Text>
+                <Text style={[styles.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{getformattedDate(item.date)}</Text>
+                <Text style={[styles.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{toTitleCase(item.muscleGroup)}</Text>
+                <Text style={[styles.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.weight} {item.units}</Text>
+                <Text style={[styles.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.reps}</Text>
                 <TouchableOpacity style={styles.cell} onPress={() => handlePressedRecord(item)}>
                     <Ionicons style={styles.cellAction} name="settings" color={COLORS.gray} size={18} />
                 </TouchableOpacity>
@@ -183,14 +184,14 @@ export default function HistoryScreen({ navigation } : Props) {
 
         return keys.map((exerciseName, i) => {
             return (
-                <View key={i} style={styles.exerciseSection}>
-                    <Text style={styles.exerciseHeader}>{toTitleCase(exerciseName)}</Text>
-                    <View style={[styles.row, styles.headerRow]}>
-                        <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.date')}</Text>
-                        <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.muscle')}</Text>
-                        <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.weight')}</Text>
-                        <Text style={[styles.cell, styles.headerCell]}>{t('history.table.header.reps')}</Text>
-                        <Text style={[styles.cell, styles.headerCell]}>Edit</Text>
+                <View key={i} style={[styles.exerciseSection, { backgroundColor: settingsStore.isDark ? COLORS.darkGrey : COLORS.white }]}>
+                    <Text style={[styles.exerciseHeader, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#333'}]}>{toTitleCase(exerciseName)}</Text>
+                    <View style={[styles.row, styles.headerRow, { backgroundColor: settingsStore.isDark ? COLORS.darkDarkGrey :'#f1f3f5', borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef'}]}>
+                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.date')}</Text>
+                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.muscle')}</Text>
+                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.weight')}</Text>
+                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.reps')}</Text>
+                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>Edit</Text>
                     </View>
                     {data[exerciseName].map((record: any, index: number) => {
                         let key = record.id
@@ -239,15 +240,20 @@ export default function HistoryScreen({ navigation } : Props) {
                     dropdownStyle={styles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={styles.dropdownButton}>
-                            <Text style={styles.selectedItem}>{selectedSorting.title}</Text>
+                            <Text style={[
+                                styles.selectedItem, 
+                                { 
+                                    backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
+                                    color: settingsStore.isDark ? COLORS.black : COLORS.white
+                                }]}
+                            >{selectedSorting.title}</Text>
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => { 
                         return (
-                        <View key={index} style={[styles.dropdownItemStyle, item.type === selectedSorting.type && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
-                        </View>
-
+                            <View key={index} style={[styles.dropdownItemStyle, item.type === selectedSorting.type && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                                <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item.title)}</Text>
+                            </View>
                     )}}
                 />
             </View>
@@ -262,8 +268,18 @@ export default function HistoryScreen({ navigation } : Props) {
                     renderButton={(selectedItem) => (
                         <View style={styles.dropdownButton}>
                             {selectedExercise === 'All' 
-                            ? <Text style={styles.selectedItem}>{'All'}</Text>
-                            : <Text style={styles.selectedItem}>{selectedItem}</Text>
+                            ? <Text style={[
+                                styles.selectedItem, 
+                                { 
+                                    backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
+                                    color: settingsStore.isDark ? COLORS.black : COLORS.white
+                                }]}>{'All'}</Text>
+                            : <Text style={[
+                                styles.selectedItem, 
+                                { 
+                                    backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
+                                    color: settingsStore.isDark ? COLORS.black : COLORS.white
+                                }]}>{toTitleCase(selectedItem)}</Text>
                             } 
                         </View>
                     )}
@@ -285,8 +301,18 @@ export default function HistoryScreen({ navigation } : Props) {
                     renderButton={(selectedItem) => (
                         <View style={styles.dropdownButton}>
                             {selectedMuscle === 'All'
-                            ? <Text style={styles.selectedItem}>{'All'}</Text>
-                            : <Text style={styles.selectedItem}>{toTitleCase(selectedItem)}</Text>
+                            ? <Text style={[
+                                styles.selectedItem, 
+                                { 
+                                    backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
+                                    color: settingsStore.isDark ? COLORS.black : COLORS.white
+                                }]}>{'All'}</Text>
+                            : <Text style={[
+                                styles.selectedItem, 
+                                { 
+                                    backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
+                                    color: settingsStore.isDark ? COLORS.black : COLORS.white
+                                }]}>{toTitleCase(selectedItem)}</Text>
                             } 
                         </View>
                     )}
@@ -386,7 +412,6 @@ const styles = StyleSheet.create({
     },
     exerciseSection: {
         marginBottom: 20,
-        backgroundColor: '#fff',
         borderRadius: 8,
         padding: 10,
         borderWidth: 1,
@@ -396,30 +421,26 @@ const styles = StyleSheet.create({
         fontSize: FONT_SIZE.large,
         fontWeight: 'bold',
         marginBottom: 10,
-        color: '#333',
     },
     row: {
         flexDirection: 'row',
         paddingVertical: 8,
         borderBottomWidth: 1,
-        borderBottomColor: '#e9ecef',
     },
     headerRow: {
         borderBottomWidth: 2,
-        borderBottomColor: '#dee2e6',
-        backgroundColor: '#f1f3f5',
+        borderTopRightRadius: 5,
+        borderTopLeftRadius: 5
     },
     cell: {
         flex: 1,
         textAlign: 'center',
         fontSize: FONT_SIZE.normal,
-        color: '#495057',
     },
     cellAction: {
         textAlign: 'center',
     },
     headerCell: {
         fontWeight: 'bold',
-        color: '#343a40',
     },
 });

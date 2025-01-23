@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { UNITS } from '@/constants/settings';
@@ -16,6 +16,7 @@ import { Exercise } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
 import { COLORS } from '@/styles/colors';
 import Toast from 'react-native-toast-message';
+import { useFocusEffect } from 'expo-router';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
@@ -109,28 +110,31 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         navigation.navigate('History')
     };
 
-    useEffect(() => {
-        const getExercises = async () => {
-            try {
-                const res = await fetchExercises();
-                if (!Array.isArray(res)) throw new Error('fetchExercises return no array')
-                setExercises(res)
-                if (res?.length === 0) {
-                    Alert.alert(
-                        'Нет упражнений',
-                        'У вас еще не заведены упражнения',
-                        [{text: 'Завести упражнение', onPress: () => navigation.navigate('AddExercise')}]
-                    )
-                }
-            } catch (e) {
-                const error = `Failed to fetch exercises: ${e}`
-                console.error(error);
-                setError(error)
-            }
-        };
+    useFocusEffect(
+        useCallback(() => {
+            getExercises()
+        }, [])
+    )
 
-        getExercises()
-    }, [navigation])
+
+    const getExercises = async () => {
+        try {
+            const res = await fetchExercises();
+            if (!Array.isArray(res)) throw new Error('fetchExercises return no array')
+            setExercises(res)
+            if (res?.length === 0) {
+                Alert.alert(
+                    'Нет упражнений',
+                    'У вас еще не заведены упражнения',
+                    [{text: 'Завести упражнение', onPress: () => navigation.navigate('AddExercise')}]
+                )
+            }
+        } catch (e) {
+            const error = `Failed to fetch exercises: ${e}`
+            console.error(error);
+            setError(error)
+        }
+    };
 
     return (
         <SafeAreaView style={styles.wrapper}>
@@ -222,7 +226,6 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     )}
                     renderItem={(item, _, isSelected) => (
                         <View style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                        
                             <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
                         </View>
                     )}

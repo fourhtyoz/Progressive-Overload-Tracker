@@ -11,6 +11,8 @@ export const COLORS = {
     blackTransparentBorder: 'rgba(0, 0, 0, .1)',
     textDarkScreen: '#F5F5F5',
     selectedLight: '#D2D9DF',
+    darkDarkGrey: '#282828',
+    darkGrey: '#3f3f3f',
 }
 
 export const FONT_SIZE = {

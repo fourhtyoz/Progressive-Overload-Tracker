@@ -28,6 +28,8 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
 
     const disabledSaveButton = !(muscleGroup && title)
 
+    console.log('title', title)
+
     const handleSucess = () => {
         navigation.navigate('AddResult')
     }
@@ -43,6 +45,9 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                         {text: 'Отлично', onPress: handleSucess},
                     ]
                 )
+                setMuscleGroup('');
+                setTitle('');
+                setError('');
             } catch (e) {
                 setError(String(e))
                 console.error(e)
@@ -63,6 +68,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Type:</Text>
                 <SelectDropdown
                     data={muscleGroups}
+                    defaultValue={muscleGroup}
                     onSelect={(selectedItem, index) => setMuscleGroup(selectedItem)}
                     showsVerticalScrollIndicator={true}
                     dropdownStyle={styles.dropdownMenuStyle}
@@ -91,7 +97,8 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
             <View style={styles.itemWrapper}>
                 <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Name:</Text>
                 <TextInput 
-                    onChangeText={setTitle} 
+                    onChangeText={setTitle}
+                    defaultValue={title}
                     placeholder='Name of the exercise' 
                     placeholderTextColor={'#a9a9a9'}
                     style={[styles.input,  { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 

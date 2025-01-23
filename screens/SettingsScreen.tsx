@@ -118,7 +118,7 @@ const SettingsScreen = observer(() => {
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <View style={{...s.dropdownItem, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                            <View style={[s.dropdownItem, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                                 <Text style={s.dropdownItemText}>{item.title}</Text>
                             </View>
                         )}
@@ -141,7 +141,7 @@ const SettingsScreen = observer(() => {
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <View style={{...s.dropdownItem, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                            <View style={[s.dropdownItem, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                                 <Text style={s.dropdownItemText}>{item.title}</Text>
                             </View>
                         )}
@@ -164,7 +164,7 @@ const SettingsScreen = observer(() => {
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <View style={{...s.dropdownItem, ...(isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight })}}>
+                            <View style={[s.dropdownItem, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                                 <Text style={s.dropdownItemText}>{item.title}</Text>
                             </View>
                         )}
