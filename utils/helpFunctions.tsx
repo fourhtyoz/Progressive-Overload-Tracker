@@ -32,10 +32,10 @@ export function groupByExercise(dataArray: Result[]) {
 }
 
 export function filterByMuscleGroup(data: any, targetGroup: any) {
-    const filteredData = {};
+    const filteredData: any = {};
 
     for (const [exercise, records] of Object.entries(data)) {
-        const filteredRecords = records.filter((record: Result) => record.muscleGroup === targetGroup);
+        const filteredRecords = (records as Result[]).filter((record: Result) => record.muscleGroup === targetGroup);
         if (filteredRecords.length > 0) {
             filteredData[exercise] = filteredRecords;
         }

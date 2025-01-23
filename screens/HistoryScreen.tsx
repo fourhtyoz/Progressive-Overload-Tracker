@@ -12,6 +12,7 @@ import { Ionicons } from '@expo/vector-icons';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { settingsStore } from '@/store/store';
+import Loader from '@/components/Loader';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'History'>;
@@ -23,6 +24,7 @@ export default function HistoryScreen({ navigation } : Props) {
     const [selectedExercise, setSelectedExercise] = useState('All');
     const [muscleOptions, setMuscleOptions] = useState<string[]>([]);
     const [selectedMuscle, setSelectedMuscle] = useState('All');
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
     const { t } = useTranslation();
@@ -50,6 +52,7 @@ export default function HistoryScreen({ navigation } : Props) {
     )
 
     const getResults = async () => {
+        setIsLoading(true)
         try {
             const res = await fetchResults();
             if (!Array.isArray(res)) {
@@ -80,6 +83,8 @@ export default function HistoryScreen({ navigation } : Props) {
             const error = `Failed to fetch results: ${e}`
             console.error(error)
             setError(error)
+        } finally {
+            setIsLoading(false)
         }
     }
 
@@ -207,6 +212,12 @@ export default function HistoryScreen({ navigation } : Props) {
             )
         })
     };
+
+    if (isLoading) {
+        return (
+            <Loader />
+        )
+    }
 
     return (
         <ScrollView style={
