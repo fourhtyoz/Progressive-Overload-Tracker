@@ -1,3 +1,133 @@
 {
-    "test": "Es un test"
+    "home": {
+        "screenName": "Página Principal",
+        "result": "Agregar Resultado",
+        "about": "Acerca de Nosotros",
+        "profile": "Perfil",
+        "settings": "Configuración",
+        "history": "Historial"
+    },
+
+    "result": {
+        "screenName": "Agregar Resultado",
+        "options": {
+            "muscle": "Grupo Muscular",
+            "chooseMuscle": "Seleccione un grupo muscular",
+            "exercise": "Ejercicio",
+            "chooseExercise": "Seleccione un ejercicio",
+            "reps": "Repeticiones",
+            "howManyReps": "¿Cuántas repeticiones?",
+            "weight": "Peso",
+            "whatWeight": "¿Qué peso?",
+            "title": "Título",
+            "titlePlaceholder": "Título del ejercicio",
+            "createExercise": "Crear Ejercicio",
+            "date": "Fecha"
+        },
+        "buttons": {
+            "history": "Historial",
+            "submit": "Guardar",
+            "create": "Agregar Nuevo Ejercicio",
+            "updateResult": "Actualizar Resultado"
+        }
+    },
+
+    "about": {
+        "screenName": "Acerca de Nosotros"
+    },
+
+    "newExercise": {
+        "screenName": "Agregar Nuevo Ejercicio"
+    },
+
+    "history": {
+        "screenName": "Historial",
+        "table": {
+            "header": {
+                "date": "Fecha",
+                "muscle": "Músculo",
+                "exercise": "Ejercicio",
+                "weight": "Peso",
+                "reps": "Repeticiones",
+                "edit": "Editar"
+            }
+        },
+        "resetFilter": "Restablecer Filtro",
+        "sorting": "Ordenar",
+        "byDateRecentFirst": "Por Fecha (más recientes primero)",
+        "byDateOldestFirst": "Por Fecha (más antiguos primero)",
+        "noResults": "Sin Resultados"
+    },
+
+    "settings": {
+        "screenName": "Configuración",
+        "deleteData": "Eliminar Datos",
+        "dataDeleted": "Sus datos han sido eliminados correctamente",
+        "getInTouch": "Contáctanos",
+        "sendEmailTo": "Para contactarnos, envíenos un correo electrónico a",
+        "options": {
+            "fontSize": "Tamaño de Fuente",
+            "fontSizeHelpText": "Cambiar el tamaño de la fuente en la aplicación",
+            "language": "Idioma",
+            "languageHelpText": "Cambiar el idioma de la aplicación",
+            "theme": "Tema",
+            "themeHelpText": "Cambiar el tema de la aplicación",
+            "units": "Unidades de Peso",
+            "unitsHelpText": "Seleccionar el sistema de medida de peso",
+            "notifications": "Notificaciones",
+            "notificationsHelpText": "¿Desea recibir notificaciones?"
+        }
+    },
+
+    "general": {
+        "goBackButton": "Regresar",
+        "metrics": {
+            "kg": "kg",
+            "lb": "lb"
+        }
+    },
+
+    "alerts": {
+        "success": "Éxito",
+        "error": "Error",
+        "toAddFieldsRequired": "Debe completar todos los campos para agregar un nuevo resultado",
+        "newEntryAddedSuccess": "Nuevo resultado agregado correctamente",
+        "areYouSure": "¿Está seguro?",
+        "yesProceed": "Sí, estoy seguro",
+        "noIchangedMyMind": "No, cambié de opinión",
+        "wantToDelete": "¿Realmente desea eliminar todos los datos de la aplicación? Esto eliminará su progreso",
+        "sureToDeleteRecord": "¿Realmente desea eliminar este resultado?",
+        "exerciseAdded": "Ejercicio agregado correctamente",
+        "great": "Genial",
+        "noExerciseTitle": "No hay ejercicios",
+        "noExercise": "Aún no ha agregado ejercicios",
+        "addExercise": "Agregar Ejercicio",
+        "recordDeleted": "El resultado ha sido eliminado",
+        "failedDeletingRecord": "Se produjo un error al eliminar el resultado",
+        "chooseAction": "Seleccione una acción",
+        "delete": "Eliminar",
+        "edit": "Editar",
+        "close": "Cerrar",
+        "goToHistory": "Ir al Historial"
+    },
+
+    "toasts": {
+        "success": "Éxito",
+        "changedLanguage": "Idioma cambiado correctamente",
+        "changedTheme": "Tema cambiado correctamente",
+        "changedFontSize": "Tamaño de fuente cambiado correctamente",
+        "changedUnits": "Sistema de medida cambiado correctamente",
+        "receiveNotifications": "Recibirá notificaciones",
+        "notReceiveNotifications": "No recibirá notificaciones"
+    },
+
+    "errors": {
+        "repsMustBeNumber": "Las repeticiones deben ser un número",
+        "repsMustBePositive": "Las repeticiones deben ser mayores a 0",
+        "weightMustBeNumber": "El peso debe ser un número",
+        "weightMustBePositive": "El peso debe ser mayor a 0",
+        "failedFetchExercises": "No se pudieron cargar los ejercicios",
+        "failedFetchResults": "No se pudieron cargar los resultados",
+        "failedUpdateResult": "No se pudo actualizar el resultado"
+    }
 }

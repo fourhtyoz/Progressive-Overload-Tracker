@@ -1,3 +1,133 @@
 {
-    "test": "Bu testtir"
+    "home": {
+        "screenName": "Ana Sayfa",
+        "result": "Sonuç Ekle",
+        "about": "Hakkımızda",
+        "profile": "Profil",
+        "settings": "Ayarlar",
+        "history": "Geçmiş"
+    },
+
+    "result": {
+        "screenName": "Sonuç Ekle",
+        "options": {
+            "muscle": "Kas Grubu",
+            "chooseMuscle": "Bir kas grubu seçin",
+            "exercise": "Egzersiz",
+            "chooseExercise": "Bir egzersiz seçin",
+            "reps": "Tekrarlar",
+            "howManyReps": "Kaç tekrar?",
+            "weight": "Ağırlık",
+            "whatWeight": "Hangi ağırlık?",
+            "title": "Başlık",
+            "titlePlaceholder": "Egzersiz adı",
+            "createExercise": "Egzersiz Oluştur",
+            "date": "Tarih"
+        },
+        "buttons": {
+            "history": "Geçmiş",
+            "submit": "Kaydet",
+            "create": "Yeni Egzersiz Ekle",
+            "updateResult": "Sonucu Güncelle"
+        }
+    },
+
+    "about": {
+        "screenName": "Hakkımızda"
+    },
+
+    "newExercise": {
+        "screenName": "Yeni Egzersiz Ekle"
+    },
+
+    "history": {
+        "screenName": "Geçmiş",
+        "table": {
+            "header": {
+                "date": "Tarih",
+                "muscle": "Kas",
+                "exercise": "Egzersiz",
+                "weight": "Ağırlık",
+                "reps": "Tekrarlar",
+                "edit": "Düzenle"
+            }
+        },
+        "resetFilter": "Filtreyi Sıfırla",
+        "sorting": "Sıralama",
+        "byDateRecentFirst": "Tarihe Göre (En Yeni İlk)",
+        "byDateOldestFirst": "Tarihe Göre (En Eski İlk)",
+        "noResults": "Sonuç Yok"
+    },
+
+    "settings": {
+        "screenName": "Ayarlar",
+        "deleteData": "Verileri Sil",
+        "dataDeleted": "Verileriniz başarıyla silindi",
+        "getInTouch": "Bizimle İletişime Geçin",
+        "sendEmailTo": "Bizimle iletişime geçmek için şu adrese e-posta gönderin",
+        "options": {
+            "fontSize": "Yazı Boyutu",
+            "fontSizeHelpText": "Uygulamanın yazı boyutunu değiştirin",
+            "language": "Dil",
+            "languageHelpText": "Uygulamanın dilini değiştirin",
+            "theme": "Tema",
+            "themeHelpText": "Uygulama temasını değiştirin",
+            "units": "Ağırlık Birimi",
+            "unitsHelpText": "Ağırlık ölçüm birimini seçin",
+            "notifications": "Bildirimler",
+            "notificationsHelpText": "Bildirim almak istiyor musunuz?"
+        }
+    },
+
+    "general": {
+        "goBackButton": "Geri Dön",
+        "metrics": {
+            "kg": "kg",
+            "lb": "lb"
+        }
+    },
+
+    "alerts": {
+        "success": "Başarılı",
+        "error": "Hata",
+        "toAddFieldsRequired": "Yeni bir sonuç eklemek için tüm alanlar doldurulmalıdır",
+        "newEntryAddedSuccess": "Yeni sonuç başarıyla eklendi",
+        "areYouSure": "Emin misiniz?",
+        "yesProceed": "Evet, eminim",
+        "noIchangedMyMind": "Hayır, fikrimi değiştirdim",
+        "wantToDelete": "Uygulamadaki tüm verileri silmek istediğinize emin misiniz? Bu, ilerlemenizi silecek",
+        "sureToDeleteRecord": "Bu sonucu silmek istediğinize emin misiniz?",
+        "exerciseAdded": "Egzersiz başarıyla eklendi",
+        "great": "Harika",
+        "noExerciseTitle": "Egzersiz Yok",
+        "noExercise": "Henüz bir egzersiz eklemediniz",
+        "addExercise": "Egzersiz Ekle",
+        "recordDeleted": "Sonuç silindi",
+        "failedDeletingRecord": "Sonuç silinirken bir hata oluştu",
+        "chooseAction": "Bir eylem seçin",
+        "delete": "Sil",
+        "edit": "Düzenle",
+        "close": "Kapat",
+        "goToHistory": "Geçmişe Git"
+    },
+
+    "toasts": {
+        "success": "Başarılı",
+        "changedLanguage": "Dil başarıyla değiştirildi",
+        "changedTheme": "Tema başarıyla değiştirildi",
+        "changedFontSize": "Yazı boyutu başarıyla değiştirildi",
+        "changedUnits": "Ölçüm birimi başarıyla değiştirildi",
+        "receiveNotifications": "Bildirim alacaksınız",
+        "notReceiveNotifications": "Bildirim almayacaksınız"
+    },
+
+    "errors": {
+        "repsMustBeNumber": "Tekrarlar bir sayı olmalıdır",
+        "repsMustBePositive": "Tekrarlar 0'dan büyük olmalıdır",
+        "weightMustBeNumber": "Ağırlık bir sayı olmalıdır",
+        "weightMustBePositive": "Ağırlık 0'dan büyük olmalıdır",
+        "failedFetchExercises": "Egzersizler yüklenemedi",
+        "failedFetchResults": "Sonuçlar yüklenemedi",
+        "failedUpdateResult": "Sonuç güncellenemedi"
+    }
 }

@@ -12,8 +12,8 @@ export const LANGUAGES = [
 ]
 
 export const THEMES = [
-    {title: 'light', ru: 'Светлая', en: 'Light', de: 'a', es: 'b', tr: 'c'},
-    {title: 'dark',  ru: 'Темная', en: 'Dark', de: 'a', es: 'b', tr: 'c'},
+    { title: 'light', ru: 'Светлая', en: 'Light', de: 'Hell', es: 'Claro', tr: 'Açık' },
+    { title: 'dark', ru: 'Темная', en: 'Dark', de: 'Dunkel', es: 'Oscuro', tr: 'Koyu' }
 ]
 
 export const FONT_SIZES = [
@@ -23,18 +23,15 @@ export const FONT_SIZES = [
 ]
 
 export const MUSCLES = [
-    {title: 'trapezius', ru: 'трапеция', en: 'trapezius', de: 'a', es: 'b', tr: 'c'},
-    {title: 'shoulders', ru: 'плечи', en: 'shoulders', de: 'a', es: 'b', tr: 'c'},
+    { title: 'trapezius', ru: 'трапеция', en: 'trapezius', de: 'Trapezmuskel', es: 'trapecio', tr: 'trapez' },
+    { title: 'shoulders', ru: 'плечи', en: 'shoulders', de: 'Schultern', es: 'hombros', tr: 'omuzlar' },
+    { title: 'chest', ru: 'грудь', en: 'chest', de: 'Brust', es: 'pecho', tr: 'göğüs' },
+    { title: 'biceps', ru: 'бицепс', en: 'biceps', de: 'Bizeps', es: 'bíceps', tr: 'biseps' },
+    { title: 'triceps', ru: 'трицепс', en: 'triceps', de: 'Trizeps', es: 'tríceps', tr: 'triseps' },
+    { title: 'forearms', ru: 'предплечья', en: 'forearms', de: 'Unterarme', es: 'antebrazos', tr: 'önkollar' },
+    { title: 'legs', ru: 'ноги', en: 'legs', de: 'Beine', es: 'piernas', tr: 'bacaklar' },
+    { title: 'glutes', ru: 'ягодицы', en: 'glutes', de: 'Gesäßmuskeln', es: 'glúteos', tr: 'kalçalar' },
+    { title: 'back', ru: 'спина', en: 'back', de: 'Rücken', es: 'espalda', tr: 'sırt' },
+    { title: 'abs', ru: 'пресс', en: 'abs', de: 'Bauchmuskeln', es: 'abdominales', tr: 'karın kasları' },
+    { title: 'cardio', ru: 'кардио', en: 'cardio', de: 'Kardio', es: 'cardio', tr: 'kardiyo' }
 ]
-
-    // 'trapezius', 
-    // 'shoulders', 
-    // 'chest', 
-    // 'biceps', 
-    // 'triceps', 
-    // 'forearms', 
-    // 'legs', 
-    // 'glutes',
-    // 'back', 
-    // 'abs', 
-    // 'cardio'

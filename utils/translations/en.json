@@ -1,37 +1,43 @@
 {
     "home": {
-        "screenName": "Home",
-        "result": "Add a result",
-        "about": "About us",
+        "screenName": "Home Page",
+        "result": "Add Result",
+        "about": "About Us",
         "profile": "Profile",
         "settings": "Settings",
         "history": "History"
     },
+
     "result": {
-        "screenName": "Add result",
+        "screenName": "Add Result",
         "options": {
-            "muscle": "Muscle",
+            "muscle": "Muscle Group",
             "chooseMuscle": "Choose a muscle group",
             "exercise": "Exercise",
             "chooseExercise": "Choose an exercise",
-            "reps": "Reps",
-            "howManyReps": "How many reps?",
+            "reps": "Repetitions",
+            "howManyReps": "How many repetitions?",
             "weight": "Weight",
-            "whatWeight": "What weight?"
+            "whatWeight": "What weight?",
+            "title": "Title",
+            "titlePlaceholder": "Exercise title",
+            "createExercise": "Create Exercise",
+            "date": "Date"
         },
         "buttons": {
             "history": "History",
             "submit": "Save",
-            "create": "Add a new exercise"
+            "create": "Add New Exercise",
+            "updateResult": "Update Result"
         }
     },
 
     "about": {
-        "screenName": "About us"
+        "screenName": "About Us"
     },
 
     "newExercise": {
-        "screenName": "Add a new exercise"
+        "screenName": "Add New Exercise"
     },
 
     "history": {
@@ -40,34 +46,41 @@
             "header": {
                 "date": "Date",
                 "muscle": "Muscle",
+                "exercise": "Exercise",
                 "weight": "Weight",
-                "reps": "Reps"
+                "reps": "Repetitions",
+                "edit": "Edit"
             }
-        }
+        },
+        "resetFilter": "Reset Filter",
+        "sorting": "Sorting",
+        "byDateRecentFirst": "By Date (Newest First)",
+        "byDateOldestFirst": "By Date (Oldest First)",
+        "noResults": "No Results"
     },
 
     "settings": {
         "screenName": "Settings",
-        "deleteData": "Delete data",
-        "dataDeleted": "Your data has been deleted successfully",
-        "getInTouch": "Get in touch with us",
-        "sendEmailTo": "To get in touch with us send an email to",
+        "deleteData": "Delete Data",
+        "dataDeleted": "Your data has been successfully deleted",
+        "getInTouch": "Get in Touch",
+        "sendEmailTo": "To contact us, send an email to",
         "options": {
-            "fontSize": "Font size",
-            "fontSizeHelpText": "Changed the font size in the app",
+            "fontSize": "Font Size",
+            "fontSizeHelpText": "Change the font size in the app",
             "language": "Language",
-            "languageHelpText": "Change the language of the app",
+            "languageHelpText": "Change the app's language",
             "theme": "Theme",
-            "themeHelpText": "Change the theme used in the app",
-            "units": "Units",
-            "unitsHelpText": "What units should be set to default?",
+            "themeHelpText": "Change the app's theme",
+            "units": "Weight Units",
+            "unitsHelpText": "Select the weight measurement system",
             "notifications": "Notifications",
             "notificationsHelpText": "Do you want to receive notifications?"
         }
     },
 
     "general": {
-        "goBackButton": "Go Back",
+        "goBackButton": "Back",
         "metrics": {
             "kg": "kg",
             "lb": "lb"
@@ -77,21 +90,44 @@
     "alerts": {
         "success": "Success",
         "error": "Error",
-        "toAddFieldsRequired": "You need to fill out all fields to add a new result",
-        "newEntryAddedSuccess": "The result has been added to your history",
+        "toAddFieldsRequired": "All fields must be filled to add a new result",
+        "newEntryAddedSuccess": "New result successfully added",
         "areYouSure": "Are you sure?",
-        "yesProceed": "Yes, please proceed",
-        "noIchangedMyMind": "No, I've changed my mind",
-        "wantToDelete": "Do you really want to delete all the data in the app? Press 'YES' will delete your progress"
+        "yesProceed": "Yes, I'm sure",
+        "noIchangedMyMind": "No, I changed my mind",
+        "wantToDelete": "Do you really want to delete all data from the app? This will erase your progress",
+        "sureToDeleteRecord": "Do you really want to delete this result?",
+        "exerciseAdded": "Exercise successfully added",
+        "great": "Great",
+        "noExerciseTitle": "No Exercises",
+        "noExercise": "You haven't added any exercises yet",
+        "addExercise": "Add Exercise",
+        "recordDeleted": "Result has been deleted",
+        "failedDeletingRecord": "An error occurred while deleting the result",
+        "chooseAction": "Choose Action",
+        "delete": "Delete",
+        "edit": "Edit",
+        "close": "Close",
+        "goToHistory": "Go to History"
     },
 
     "toasts": {
         "success": "Success",
-        "changedLanguage": "The language has been changed",
-        "changedTheme": "The theme has been changed",
-        "changedFontSize": "The font size has been changed",
-        "changedUnits": "The units have been changed",
-        "receiveNotifications": "Now you'll receive notifications from us",
-        "notReceiveNotifications": "You won't receive notifications from us"
+        "changedLanguage": "Language successfully changed",
+        "changedTheme": "Theme successfully changed",
+        "changedFontSize": "Font size successfully changed",
+        "changedUnits": "Weight measurement system successfully changed",
+        "receiveNotifications": "You will receive notifications",
+        "notReceiveNotifications": "You will not receive notifications"
+    },
+
+    "errors": {
+        "repsMustBeNumber": "Repetitions must be a number",
+        "repsMustBePositive": "Repetitions must be greater than 0",
+        "weightMustBeNumber": "Weight must be a number",
+        "weightMustBePositive": "Weight must be greater than 0",
+        "failedFetchExercises": "Failed to load exercises",
+        "failedFetchResults": "Failed to load results",
+        "failedUpdateResult": "Failed to update the result"
     }
 }

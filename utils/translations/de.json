@@ -1,3 +1,133 @@
 {
-    "test": "Es ist ein Test"
+    "home": {
+        "screenName": "Startseite",
+        "result": "Ergebnis hinzufügen",
+        "about": "Über uns",
+        "profile": "Profil",
+        "settings": "Einstellungen",
+        "history": "Verlauf"
+    },
+
+    "result": {
+        "screenName": "Ergebnis hinzufügen",
+        "options": {
+            "muscle": "Muskelgruppe",
+            "chooseMuscle": "Wählen Sie eine Muskelgruppe",
+            "exercise": "Übung",
+            "chooseExercise": "Wählen Sie eine Übung",
+            "reps": "Wiederholungen",
+            "howManyReps": "Wie viele Wiederholungen?",
+            "weight": "Gewicht",
+            "whatWeight": "Welches Gewicht?",
+            "title": "Titel",
+            "titlePlaceholder": "Übungstitel",
+            "createExercise": "Übung erstellen",
+            "date": "Datum"
+        },
+        "buttons": {
+            "history": "Verlauf",
+            "submit": "Speichern",
+            "create": "Neue Übung hinzufügen",
+            "updateResult": "Ergebnis aktualisieren"
+        }
+    },
+
+    "about": {
+        "screenName": "Über uns"
+    },
+
+    "newExercise": {
+        "screenName": "Neue Übung hinzufügen"
+    },
+
+    "history": {
+        "screenName": "Verlauf",
+        "table": {
+            "header": {
+                "date": "Datum",
+                "muscle": "Muskel",
+                "exercise": "Übung",
+                "weight": "Gewicht",
+                "reps": "Wiederholungen",
+                "edit": "Bearbeiten"
+            }
+        },
+        "resetFilter": "Filter zurücksetzen",
+        "sorting": "Sortierung",
+        "byDateRecentFirst": "Nach Datum (neueste zuerst)",
+        "byDateOldestFirst": "Nach Datum (älteste zuerst)",
+        "noResults": "Keine Ergebnisse"
+    },
+
+    "settings": {
+        "screenName": "Einstellungen",
+        "deleteData": "Daten löschen",
+        "dataDeleted": "Ihre Daten wurden erfolgreich gelöscht",
+        "getInTouch": "Kontakt aufnehmen",
+        "sendEmailTo": "Um uns zu kontaktieren, senden Sie eine E-Mail an",
+        "options": {
+            "fontSize": "Schriftgröße",
+            "fontSizeHelpText": "Die Schriftgröße in der App ändern",
+            "language": "Sprache",
+            "languageHelpText": "Die Sprache der App ändern",
+            "theme": "Thema",
+            "themeHelpText": "Das App-Thema ändern",
+            "units": "Gewichtseinheiten",
+            "unitsHelpText": "Das Gewichtsmesssystem auswählen",
+            "notifications": "Benachrichtigungen",
+            "notificationsHelpText": "Möchten Sie Benachrichtigungen erhalten?"
+        }
+    },
+
+    "general": {
+        "goBackButton": "Zurück",
+        "metrics": {
+            "kg": "kg",
+            "lb": "Pfund"
+        }
+    },
+
+    "alerts": {
+        "success": "Erfolg",
+        "error": "Fehler",
+        "toAddFieldsRequired": "Alle Felder müssen ausgefüllt sein, um ein neues Ergebnis hinzuzufügen",
+        "newEntryAddedSuccess": "Neues Ergebnis erfolgreich hinzugefügt",
+        "areYouSure": "Sind Sie sicher?",
+        "yesProceed": "Ja, ich bin sicher",
+        "noIchangedMyMind": "Nein, ich habe es mir anders überlegt",
+        "wantToDelete": "Möchten Sie wirklich alle Daten aus der App löschen? Dadurch wird Ihr Fortschritt gelöscht",
+        "sureToDeleteRecord": "Möchten Sie dieses Ergebnis wirklich löschen?",
+        "exerciseAdded": "Übung erfolgreich hinzugefügt",
+        "great": "Großartig",
+        "noExerciseTitle": "Keine Übungen",
+        "noExercise": "Sie haben noch keine Übungen hinzugefügt",
+        "addExercise": "Übung hinzufügen",
+        "recordDeleted": "Ergebnis wurde gelöscht",
+        "failedDeletingRecord": "Fehler beim Löschen des Ergebnisses aufgetreten",
+        "chooseAction": "Aktion auswählen",
+        "delete": "Löschen",
+        "edit": "Bearbeiten",
+        "close": "Schließen",
+        "goToHistory": "Zum Verlauf gehen"
+    },
+
+    "toasts": {
+        "success": "Erfolg",
+        "changedLanguage": "Sprache erfolgreich geändert",
+        "changedTheme": "Thema erfolgreich geändert",
+        "changedFontSize": "Schriftgröße erfolgreich geändert",
+        "changedUnits": "Gewichtsmesssystem erfolgreich geändert",
+        "receiveNotifications": "Sie werden Benachrichtigungen erhalten",
+        "notReceiveNotifications": "Sie werden keine Benachrichtigungen erhalten"
+    },
+
+    "errors": {
+        "repsMustBeNumber": "Wiederholungen müssen eine Zahl sein",
+        "repsMustBePositive": "Wiederholungen müssen größer als 0 sein",
+        "weightMustBeNumber": "Gewicht muss eine Zahl sein",
+        "weightMustBePositive": "Gewicht muss größer als 0 sein",
+        "failedFetchExercises": "Übungen konnten nicht geladen werden",
+        "failedFetchResults": "Ergebnisse konnten nicht geladen werden",
+        "failedUpdateResult": "Ergebnis konnte nicht aktualisiert werden"
+    }
 }

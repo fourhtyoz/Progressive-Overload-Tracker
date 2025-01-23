@@ -155,7 +155,7 @@ const SettingsScreen = observer(() => {
                     <SelectDropdown
                         data={THEMES}
                         defaultValue={THEMES.filter(item => item.title === settingsStore.theme)[0]}
-                        onSelect={(selectedItem) => handleChangeTheme(selectedItem[settingsStore.language])}
+                        onSelect={(selectedItem) => handleChangeTheme(selectedItem.title)}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
