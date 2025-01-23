@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { UNITS } from '@/constants/settings';
 import { getformattedDate, toTitleCase } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
-import { styles } from '@/styles/styles';
+import { globalStyles } from '@/styles/globalStyles';
 import Button from '@/components/buttons/Button';
 import { useTranslation } from 'react-i18next';
 import { fetchExercises, updateResult } from '@/services/db';
@@ -143,70 +143,70 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     }
 
     return (
-        <SafeAreaView style={styles.wrapper}>
+        <SafeAreaView style={globalStyles.wrapper}>
             {error && <ErrorMessage message={error} setError={setError}/>}
-            <View style={styles.itemWrapper}>
-                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Date:</Text>
-                <Text style={[styles.date, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>
+            <View style={globalStyles.itemWrapper}>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Date:</Text>
+                <Text style={[globalStyles.date, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>
                     {getformattedDate(newDate)}
                 </Text>
                 <TouchableOpacity onPress={() => showMode('date')}>
                     <Ionicons name="calendar-outline" size={20} color={settingsStore.isDark ? COLORS.textDarkScreen : COLORS.gray}/>
                 </TouchableOpacity>
             </View>
-            <View style={styles.itemWrapper}>
-                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
+            <View style={globalStyles.itemWrapper}>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleGroups}
                     defaultValue={muscleGroups.filter(item => item === newGroup)[0]}
                     onSelect={(selectedItem, _) => setNewGroup(selectedItem)}
                     showsVerticalScrollIndicator={false}
-                    dropdownStyle={styles.dropdownMenuStyle}
+                    dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(_) => (
-                        <View style={[styles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
+                        <View style={[globalStyles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
                             {newGroup 
-                            ? <Text style={[styles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newGroup)}</Text>
-                            : <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>
+                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newGroup)}</Text>
+                            : <Text style={globalStyles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>
                             }
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                        <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
                 />
             </View>
             {/* TODO: i18n exercises */}
-            <View style={styles.itemWrapper}>
-                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.exercise')}:</Text>
+            <View style={globalStyles.itemWrapper}>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.exercise')}:</Text>
                 <SelectDropdown
                     data={exercises.filter(item => item.type === newGroup)}
                     defaultValue={route.params.exercise}
                     onSelect={(selectedItem, _) => setNewExercise(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
-                    dropdownStyle={styles.dropdownMenuStyle}
+                    dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={[styles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
+                        <View style={[globalStyles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
                             {newExercise 
-                            ? <Text style={[styles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newExercise)}</Text>
-                            : <Text style={styles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>
+                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newExercise)}</Text>
+                            : <Text style={globalStyles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>
                             }
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => {
                         return (
-                            <View style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                                <Text style={styles.dropdownItemTxtStyle}>{index + 1}. {item.title}</Text>
+                            <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                                <Text style={globalStyles.dropdownItemTxtStyle}>{index + 1}. {item.title}</Text>
                             </View>
                     )}}
                 />
             </View>
             {/* TODO: i18n weights */}
-            <View style={styles.itemWrapper}>
-                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.weight')}:</Text>
+            <View style={globalStyles.itemWrapper}>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.weight')}:</Text>
                 <TextInput 
-                    style={[styles.inputWithOption, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
+                    style={[globalStyles.inputWithOption, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
                     value={`${newWeight}`}
                     placeholder={t('result.options.whatWeight')}
                     placeholderTextColor={'#a9a9a9'}
@@ -218,23 +218,23 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                     defaultValue={UNITS.filter(item => item.title === settingsStore.units)[0]}
                     onSelect={(selectedItem) => setUnits(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
-                    dropdownStyle={styles.dropdownMenuStyle}
+                    dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={[styles.dropdownButtonStyle, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
-                            <Text style={styles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || newUnits}</Text>
+                        <View style={[globalStyles.dropdownButtonStyle, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
+                            <Text style={globalStyles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || newUnits}</Text>
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
+                        <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{item.title}</Text>
                         </View>
                     )}
                 />
             </View>
-            <View style={styles.itemWrapper}>
-                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.reps')}:</Text>
+            <View style={globalStyles.itemWrapper}>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.reps')}:</Text>
                 <TextInput 
-                    style={[styles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
+                    style={[globalStyles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
                     value={`${newReps}`}
                     placeholder={t('result.options.howManyReps')}
                     placeholderTextColor={'#a9a9a9'}
@@ -243,7 +243,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 />
             </View>
             
-            <View style={styles.buttonWrapper}>
+            <View style={globalStyles.buttonWrapper}>
                 <Button 
                     onPress={handleSubmitEntry} 
                     text='Update record' 

@@ -1,7 +1,7 @@
 import { StyleSheet } from "react-native";
-import { FONT_SIZE } from "./colors";
+import { COLORS, FONT_SIZE } from "./colors";
 
-export const styles = StyleSheet.create({
+export const globalStyles = StyleSheet.create({
     date: {
         marginEnd: 10
     },
@@ -12,7 +12,7 @@ export const styles = StyleSheet.create({
         padding: 10,
         borderColor: 'lightgray',
         borderRadius: 5,
-        color: '#000',
+        color: COLORS.black,
         fontSize: FONT_SIZE.normal
     },
     inputWithOption: {
@@ -23,12 +23,12 @@ export const styles = StyleSheet.create({
         borderColor: 'lightgray',
         borderTopLeftRadius: 5,
         borderBottomLeftRadius: 5,
-        color: '#000',
+        color: COLORS.black,
     },
     dropdownButtonStyle: {
         width: 45,
         height: 40,
-        backgroundColor: '#000',
+        backgroundColor: COLORS.black,
         borderTopRightRadius: 5,
         borderBottomRightRadius: 5,
         flexDirection: 'row',
@@ -37,7 +37,7 @@ export const styles = StyleSheet.create({
         borderWidth: 1
     },
     dropdownButtonTxtStyle: {
-        color: '#FFF',
+        color: COLORS.white,
     },
     dropdownButtonArrowStyle: {
         fontSize: FONT_SIZE.normal,
@@ -79,25 +79,12 @@ export const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     exerciseText: {
-        color: '#000'
+        color: COLORS.black
     },
     exerciseTextPlaceholder: {
         color: '#a9a9a9'
     },
-    submitButton: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 15,
-        backgroundColor: '#000',
-        borderRadius: 5,
-        borderWidth: 1,
-    },
-    submitButtonText: {
-        fontSize: FONT_SIZE.large,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: '#FFF',
-    },
+
     buttonWrapper: {
         marginVertical: 15,
         gap: 15

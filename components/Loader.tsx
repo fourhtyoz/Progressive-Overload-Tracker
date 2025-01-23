@@ -5,13 +5,13 @@ import { settingsStore } from '@/store/store';
 
 export default function Loader() {
     return (
-        <View style={[styles.container, { backgroundColor: settingsStore.isDark ? COLORS.black : COLORS.blackTransparentBorder }]} testID="loader-container">
+        <View style={[s.container, { backgroundColor: settingsStore.isDark ? COLORS.black : COLORS.blackTransparentBorder }]} testID="loader-container">
             <ActivityIndicator size="large" color={COLORS.orange} testID="activity-indicator" />
         </View>
     );
 };
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
     container: {
         flex: 1,
         justifyContent: "center",

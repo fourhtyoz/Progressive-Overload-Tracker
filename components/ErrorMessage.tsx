@@ -11,16 +11,16 @@ type ErrorMessageProps = {
 
 export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
     return (
-        <View style={styles.container}>
-            <Text style={styles.text}>Error: {message}</Text>
-            <TouchableOpacity onPress={() => setError('')} style={styles.closeButton}>
+        <View style={s.container}>
+            <Text style={s.text}>Error: {message}</Text>
+            <TouchableOpacity onPress={() => setError('')} style={s.closeButton}>
                 <Ionicons name="close" size={20} color="#721c24" />
             </TouchableOpacity>
         </View>
     );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
     container: {
         padding: 16,
         borderRadius: 8,

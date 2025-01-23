@@ -1,6 +1,5 @@
-import { Pressable, Text } from "react-native"
-import { styles } from "@/styles/styles"
-import { COLORS } from "@/styles/colors"
+import { Pressable, Text, StyleSheet } from "react-native"
+import { COLORS, FONT_SIZE } from "@/styles/colors"
 import { settingsStore } from "@/store/store"
 
 
@@ -34,7 +33,7 @@ export default function Button({
             onPress={onPress}
             disabled={disabled}
             style={({ pressed }) => [
-                styles.submitButton, 
+                s.button, 
                 { 
                     opacity: disabled ? 0.3 : 1,
                     backgroundColor: 
@@ -51,7 +50,7 @@ export default function Button({
             {({ pressed }) => (
                 <Text 
                     style={[
-                        styles.submitButtonText, 
+                        s.text, 
                         { 
                             color: 
                             settingsStore.isDark   
@@ -67,3 +66,19 @@ export default function Button({
     )
 }
 
+const s = StyleSheet.create({
+    button: {
+        alignItems: 'center',
+        justifyContent: 'center',
+        paddingVertical: 15,
+        backgroundColor: COLORS.black,
+        borderRadius: 5,
+        borderWidth: 1,
+    },
+    text: {
+        fontSize: FONT_SIZE.large,
+        fontWeight: 'bold',
+        letterSpacing: 0.25,
+        color: COLORS.white,
+    },
+})

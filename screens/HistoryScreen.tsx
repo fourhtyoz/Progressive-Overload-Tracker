@@ -139,7 +139,7 @@ export default function HistoryScreen({ navigation } : Props) {
         <View key={key} >
             <View 
                style={[
-                styles.row,
+                s.row,
                 {
                     borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef',
                     borderLeftWidth: 5,
@@ -151,12 +151,12 @@ export default function HistoryScreen({ navigation } : Props) {
                 }
             ]}
             >
-                <Text style={[styles.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{getformattedDate(item.date)}</Text>
-                <Text style={[styles.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{toTitleCase(item.muscleGroup)}</Text>
-                <Text style={[styles.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.weight} {item.units}</Text>
-                <Text style={[styles.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.reps}</Text>
-                <TouchableOpacity style={styles.cell} onPress={() => handlePressedRecord(item)}>
-                    <Ionicons style={styles.cellAction} name="settings" color={COLORS.gray} size={18} />
+                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{getformattedDate(item.date)}</Text>
+                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{toTitleCase(item.muscleGroup)}</Text>
+                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.weight} {item.units}</Text>
+                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.reps}</Text>
+                <TouchableOpacity style={s.cell} onPress={() => handlePressedRecord(item)}>
+                    <Ionicons style={s.cellAction} name="settings" color={COLORS.gray} size={18} />
                 </TouchableOpacity>
             </View>
         </View>
@@ -176,22 +176,22 @@ export default function HistoryScreen({ navigation } : Props) {
 
         if (keys.length === 0) {
             return (
-                <View style={styles.notFound}>
-                    <Text style={styles.text}>No results</Text>
+                <View style={s.notFound}>
+                    <Text style={s.text}>No results</Text>
                 </View>
             )
         }
 
         return keys.map((exerciseName, i) => {
             return (
-                <View key={i} style={[styles.exerciseSection, { backgroundColor: settingsStore.isDark ? COLORS.darkGrey : COLORS.white }]}>
-                    <Text style={[styles.exerciseHeader, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#333'}]}>{toTitleCase(exerciseName)}</Text>
-                    <View style={[styles.row, styles.headerRow, { backgroundColor: settingsStore.isDark ? COLORS.darkDarkGrey :'#f1f3f5', borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef'}]}>
-                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.date')}</Text>
-                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.muscle')}</Text>
-                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.weight')}</Text>
-                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.reps')}</Text>
-                        <Text style={[styles.cell, styles.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>Edit</Text>
+                <View key={i} style={[s.exerciseSection, { backgroundColor: settingsStore.isDark ? COLORS.darkGrey : COLORS.white }]}>
+                    <Text style={[s.exerciseHeader, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#333'}]}>{toTitleCase(exerciseName)}</Text>
+                    <View style={[s.row, s.headerRow, { backgroundColor: settingsStore.isDark ? COLORS.darkDarkGrey :'#f1f3f5', borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef'}]}>
+                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.date')}</Text>
+                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.muscle')}</Text>
+                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.weight')}</Text>
+                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.reps')}</Text>
+                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>Edit</Text>
                     </View>
                     {data[exerciseName].map((record: any, index: number) => {
                         let key = record.id
@@ -226,22 +226,22 @@ export default function HistoryScreen({ navigation } : Props) {
     return (
         <ScrollView style={
             [
-                styles.container,
+                s.container,
             ]
         }>
             {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} setError={setError} /></View>}
-            <View style={styles.filterWrapper}>
-                <Text style={[styles.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Sorting:</Text>
+            <View style={s.filterWrapper}>
+                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Sorting:</Text>
                 <SelectDropdown
                     data={[{title: 'By date (recent first)', type: 'desc'}, {title: 'By date (oldest first)', type: 'asc'}]}
                     defaultValue={{title: 'By date (recent first)', type: 'desc'}}
                     onSelect={(selectedItem, _) => setSelectedSorting(selectedItem)}
                     showsVerticalScrollIndicator={false}
-                    dropdownStyle={styles.dropdownMenuStyle}
+                    dropdownStyle={s.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={styles.dropdownButton}>
+                        <View style={s.dropdownButton}>
                             <Text style={[
-                                styles.selectedItem, 
+                                s.selectedItem, 
                                 { 
                                     backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
                                     color: settingsStore.isDark ? COLORS.black : COLORS.white
@@ -251,31 +251,31 @@ export default function HistoryScreen({ navigation } : Props) {
                     )}
                     renderItem={(item, index, isSelected) => { 
                         return (
-                            <View key={index} style={[styles.dropdownItemStyle, item.type === selectedSorting.type && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                                <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item.title)}</Text>
+                            <View key={index} style={[s.dropdownItemStyle, item.type === selectedSorting.type && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                                <Text style={s.dropdownItemTxtStyle}>{toTitleCase(item.title)}</Text>
                             </View>
                     )}}
                 />
             </View>
-            <View style={styles.filterWrapper}>
-                <Text style={[styles.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Exercise:</Text>
+            <View style={s.filterWrapper}>
+                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Exercise:</Text>
                 <SelectDropdown
                     data={exerciseOptions}
                     defaultValue={exerciseOptions.filter(item => item === 'All')[0]}
                     onSelect={(selectedItem, _) => setSelectedExercise(selectedItem)}
                     showsVerticalScrollIndicator={false}
-                    dropdownStyle={styles.dropdownMenuStyle}
+                    dropdownStyle={s.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={styles.dropdownButton}>
+                        <View style={s.dropdownButton}>
                             {selectedExercise === 'All' 
                             ? <Text style={[
-                                styles.selectedItem, 
+                                s.selectedItem, 
                                 { 
                                     backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
                                     color: settingsStore.isDark ? COLORS.black : COLORS.white
                                 }]}>{'All'}</Text>
                             : <Text style={[
-                                styles.selectedItem, 
+                                s.selectedItem, 
                                 { 
                                     backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
                                     color: settingsStore.isDark ? COLORS.black : COLORS.white
@@ -284,31 +284,31 @@ export default function HistoryScreen({ navigation } : Props) {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View key={index} style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                        <View key={index} style={[s.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                            <Text style={s.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
                 />
             </View>
-            <View style={styles.filterWrapper}>
-                <Text style={[styles.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Muscle:</Text>
+            <View style={s.filterWrapper}>
+                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Muscle:</Text>
                 <SelectDropdown
                     data={muscleOptions}
                     defaultValue={muscleOptions.filter(item => item ==='All')[0]}
                     onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
                     showsVerticalScrollIndicator={false}
-                    dropdownStyle={styles.dropdownMenuStyle}
+                    dropdownStyle={s.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={styles.dropdownButton}>
+                        <View style={s.dropdownButton}>
                             {selectedMuscle === 'All'
                             ? <Text style={[
-                                styles.selectedItem, 
+                                s.selectedItem, 
                                 { 
                                     backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
                                     color: settingsStore.isDark ? COLORS.black : COLORS.white
                                 }]}>{'All'}</Text>
                             : <Text style={[
-                                styles.selectedItem, 
+                                s.selectedItem, 
                                 { 
                                     backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
                                     color: settingsStore.isDark ? COLORS.black : COLORS.white
@@ -317,21 +317,21 @@ export default function HistoryScreen({ navigation } : Props) {
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View key={index} style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                        <View key={index} style={[s.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                            <Text style={s.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
                 />
             </View>
-            <TouchableOpacity style={[styles.resetButton, isResetDisabled && styles.resetButtonDisabled]} onPress={resetFilters} disabled={isResetDisabled}>
-                <Text style={[styles.resetButtonText, isResetDisabled && styles.resetButtonTextDisabled]}>Reset Filters</Text>
+            <TouchableOpacity style={[s.resetButton, isResetDisabled && s.resetButtonDisabled]} onPress={resetFilters} disabled={isResetDisabled}>
+                <Text style={[s.resetButtonText, isResetDisabled && s.resetButtonTextDisabled]}>Reset Filters</Text>
             </TouchableOpacity>
             {renderTable(results)}
         </ScrollView>
     )
 };
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
     notFound: {
         justifyContent: 'center',
         alignItems: 'center',

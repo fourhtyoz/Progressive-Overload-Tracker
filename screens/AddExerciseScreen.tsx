@@ -4,7 +4,7 @@ import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import { toTitleCase } from '@/utils/helpFunctions';
-import { styles } from '@/styles/styles';
+import { globalStyles } from '@/styles/globalStyles';
 import Button from '@/components/buttons/Button';
 import { muscleGroups } from '@/utils/constants';
 import { addExercise } from '@/services/db';
@@ -62,46 +62,46 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     }
 
     return (
-        <SafeAreaView style={styles.wrapper}>
+        <SafeAreaView style={globalStyles.wrapper}>
             {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} setError={setError} /></View>}
-             <View style={styles.itemWrapper}>
-                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Type:</Text>
+             <View style={globalStyles.itemWrapper}>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Type:</Text>
                 <SelectDropdown
                     data={muscleGroups}
                     defaultValue={muscleGroup}
                     onSelect={(selectedItem, index) => setMuscleGroup(selectedItem)}
                     showsVerticalScrollIndicator={true}
-                    dropdownStyle={styles.dropdownMenuStyle}
+                    dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={[styles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
+                        <View style={[globalStyles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
                             {muscleGroup 
-                            ? <Text style={[styles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(selectedItem)}</Text> 
-                            : <Text style={styles.exerciseTextPlaceholder}>{'Choose a muscle group'}</Text>
+                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(selectedItem)}</Text> 
+                            : <Text style={globalStyles.exerciseTextPlaceholder}>{'Choose a muscle group'}</Text>
                             }
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
                         <View 
                             style={[
-                                styles.dropdownItemStyle,
+                                globalStyles.dropdownItemStyle,
                                 isSelected && {
                                     backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight,
                                 },
                             ]}
                         >
-                            <Text style={styles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
                 />
             </View>
-            <View style={styles.itemWrapper}>
-                <Text style={[styles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Name:</Text>
+            <View style={globalStyles.itemWrapper}>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Name:</Text>
                 <TextInput 
                     onChangeText={setTitle}
                     defaultValue={title}
                     placeholder='Name of the exercise' 
                     placeholderTextColor={'#a9a9a9'}
-                    style={[styles.input,  { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 
+                    style={[globalStyles.input,  { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 
                 />
             </View>
             <Button 

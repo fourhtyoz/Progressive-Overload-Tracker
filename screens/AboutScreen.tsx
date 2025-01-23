@@ -65,12 +65,12 @@ const AboutScreen = observer(() => {
     ];
 
     const renderItem = ({ item }: { item: { title: string; content: any } }) => (
-        <View style={styles.section}>
-            <Text style={[styles.subtitle, { color: settingsStore.isDark ? '#EDEDED' : '#333'}]}>{item.title}</Text>
+        <View style={s.section}>
+            <Text style={[s.subtitle, { color: settingsStore.isDark ? '#EDEDED' : '#333'}]}>{item.title}</Text>
             {Array.isArray(item.content) 
-            ? item.content.map((subItem, index) => (<Text key={index} style={[styles.listItem, { color: settingsStore.isDark ?'#F5F5F5' : '#555' }]}>• {subItem}</Text>)) 
+            ? item.content.map((subItem, index) => (<Text key={index} style={[s.listItem, { color: settingsStore.isDark ?'#F5F5F5' : '#555' }]}>• {subItem}</Text>)) 
             : <Text style={[
-                styles.text, 
+                s.text, 
                 { 
                     color: settingsStore.isDark ?'#F5F5F5' : '#555' 
                 }
@@ -84,7 +84,7 @@ const AboutScreen = observer(() => {
     return (
         <SafeAreaView>
             <FlatList 
-                style={styles.wrapper} 
+                style={s.wrapper} 
                 data={content} 
                 renderItem={renderItem} 
                 keyExtractor={(item) => item.key} 
@@ -95,7 +95,7 @@ const AboutScreen = observer(() => {
 
 export default AboutScreen;
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
     wrapper: {
         paddingHorizontal: 20,
         paddingVertical: 15,

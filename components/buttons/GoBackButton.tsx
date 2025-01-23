@@ -11,7 +11,7 @@ export default function GoBackButton({ fn }: any) {
         <Pressable 
             onPress={fn}
             style={({ pressed }) => [
-                styles.button, 
+                s.button, 
                 { 
                     backgroundColor: 
                         settingsStore.isDark 
@@ -23,7 +23,7 @@ export default function GoBackButton({ fn }: any) {
             {({ pressed }) => (
                 <Text 
                     style={[
-                        styles.text, 
+                        s.text, 
                         { 
                             color: 
                                 settingsStore.isDark 
@@ -39,7 +39,7 @@ export default function GoBackButton({ fn }: any) {
     )
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
     button: {
         marginRight: 10,
         padding: 10,
@@ -47,6 +47,7 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: 'bold',
-        fontSize: FONT_SIZE.large
+        fontSize: FONT_SIZE.large,
+        letterSpacing: 0.25,
     } 
 })
