@@ -6,7 +6,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { toTitleCase } from '@/utils/helpFunctions';
 import { globalStyles } from '@/styles/globalStyles';
 import Button from '@/components/buttons/Button';
-import { muscleGroups } from '@/utils/constants';
+import { MUSCLES } from '@/constants/settings';
 import { addExercise } from '@/services/db';
 import ErrorMessage from '@/components/ErrorMessage';
 import { observer } from 'mobx-react-lite';
@@ -28,8 +28,6 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
 
     const disabledSaveButton = !(muscleGroup && title)
 
-    console.log('title', title)
-
     const handleSucess = () => {
         navigation.navigate('AddResult')
     }
@@ -39,11 +37,9 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
             try {
                 await addExercise(title, muscleGroup)
                 Alert.alert(
-                    'Успех',
-                    'Упражнение было успешно добавлено',
-                    [
-                        {text: 'Отлично', onPress: handleSucess},
-                    ]
+                    t('alerts.success'),
+                    t('alert.exerciseAdded'),
+                    [{text: t('alert.great'), onPress: handleSucess}]
                 )
                 setMuscleGroup('');
                 setTitle('');
@@ -65,18 +61,17 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
         <SafeAreaView style={globalStyles.wrapper}>
             {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} setError={setError} /></View>}
              <View style={globalStyles.itemWrapper}>
-                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Type:</Text>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
-                    data={muscleGroups}
-                    defaultValue={muscleGroup}
-                    onSelect={(selectedItem, index) => setMuscleGroup(selectedItem)}
+                    data={MUSCLES}
+                    onSelect={(selectedItem, _) => setMuscleGroup(selectedItem.title)}
                     showsVerticalScrollIndicator={true}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={[globalStyles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
                             {muscleGroup 
-                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(selectedItem)}</Text> 
-                            : <Text style={globalStyles.exerciseTextPlaceholder}>{'Choose a muscle group'}</Text>
+                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(selectedItem[settingsStore.language])}</Text> 
+                            : <Text style={globalStyles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>
                             }
                         </View>
                     )}
@@ -89,24 +84,24 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                                 },
                             ]}
                         >
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item[settingsStore.language])}</Text>
                         </View>
                     )}
                 />
             </View>
             <View style={globalStyles.itemWrapper}>
-                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Name:</Text>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.title')}:</Text>
                 <TextInput 
                     onChangeText={setTitle}
                     defaultValue={title}
-                    placeholder='Name of the exercise' 
+                    placeholder={t('result.options.titlePlaceholder')}
                     placeholderTextColor={'#a9a9a9'}
                     style={[globalStyles.input,  { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 
                 />
             </View>
             <Button 
                 onPress={handleCreateExercise} 
-                text={'Create a new exercise'}
+                text={t('result.options.createExercise')}
                 pressedBgColor={COLORS.orange}
                 borderColor={COLORS.blackTransparentBorder} 
                 disabled={disabledSaveButton}

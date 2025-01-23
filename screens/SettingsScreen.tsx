@@ -132,17 +132,17 @@ const SettingsScreen = observer(() => {
                     <SelectDropdown
                         data={UNITS}
                         defaultValue={UNITS.filter(item => item.title === settingsStore.units)[0]}
-                        onSelect={(selectedItem) => handleChangeUnits(selectedItem?.title)}
+                        onSelect={(selectedItem) => handleChangeUnits(selectedItem[settingsStore.language])}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.units}</Text>
+                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem && selectedItem[settingsStore.language]) || settingsStore.units}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
                             <View style={[s.dropdownItem, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                                <Text style={s.dropdownItemText}>{item.title}</Text>
+                                <Text style={s.dropdownItemText}>{item[settingsStore.language]}</Text>
                             </View>
                         )}
                     />
@@ -155,17 +155,17 @@ const SettingsScreen = observer(() => {
                     <SelectDropdown
                         data={THEMES}
                         defaultValue={THEMES.filter(item => item.title === settingsStore.theme)[0]}
-                        onSelect={(selectedItem) => handleChangeTheme(selectedItem.title)}
+                        onSelect={(selectedItem) => handleChangeTheme(selectedItem[settingsStore.language])}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
                             <View style={s.dropdownButton}>
-                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem?.title) || settingsStore.theme}</Text>
+                                <Text style={[s.dropdownText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem && selectedItem[settingsStore.language]) || settingsStore.theme}</Text>
                             </View>
                         )}
                         renderItem={(item, _, isSelected) => (
                             <View style={[s.dropdownItem, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                                <Text style={s.dropdownItemText}>{item.title}</Text>
+                                <Text style={s.dropdownItemText}>{item[settingsStore.language]}</Text>
                             </View>
                         )}
                     />
@@ -177,7 +177,7 @@ const SettingsScreen = observer(() => {
                     text={t('settings.getInTouch')} 
                     onPress={handleGetInTouch} 
                     pressedBgColor={COLORS.orange} 
-                    borderColor={'rgba(0, 0, 0, .1)'} 
+                    borderColor={COLORS.blackTransparentBorder} 
                 />
             </View>
             <Pressable style={s.delete} onPress={handleDeleteData}>

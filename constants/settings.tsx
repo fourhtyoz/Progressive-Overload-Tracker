@@ -1,6 +1,6 @@
 export const UNITS = [
-    {title: 'kg'},
-    {title: 'lb'}
+    {title: 'kg', ru: 'кг', en: 'kg', de: 'kg', es: 'kg', tr: 'kg'},
+    {title: 'lb', ru: 'lb', en: 'lb', de: 'lb', es: 'lb', tr: 'lb'}
 ]
 
 export const LANGUAGES = [
@@ -12,8 +12,8 @@ export const LANGUAGES = [
 ]
 
 export const THEMES = [
-    {title: 'light'},
-    {title: 'dark'},
+    {title: 'light', ru: 'Светлая', en: 'Light', de: 'a', es: 'b', tr: 'c'},
+    {title: 'dark',  ru: 'Темная', en: 'Dark', de: 'a', es: 'b', tr: 'c'},
 ]
 
 export const FONT_SIZES = [
@@ -21,3 +21,20 @@ export const FONT_SIZES = [
     {title: 'normal', size: 18},   
     {title: 'large', size: 22},   
 ]
+
+export const MUSCLES = [
+    {title: 'trapezius', ru: 'трапеция', en: 'trapezius', de: 'a', es: 'b', tr: 'c'},
+    {title: 'shoulders', ru: 'плечи', en: 'shoulders', de: 'a', es: 'b', tr: 'c'},
+]
+
+    // 'trapezius', 
+    // 'shoulders', 
+    // 'chest', 
+    // 'biceps', 
+    // 'triceps', 
+    // 'forearms', 
+    // 'legs', 
+    // 'glutes',
+    // 'back', 
+    // 'abs', 
+    // 'cardio'

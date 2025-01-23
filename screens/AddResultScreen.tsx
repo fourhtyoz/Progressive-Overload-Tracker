@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { UNITS } from '@/constants/settings';
+import { MUSCLES, UNITS } from '@/constants/settings';
 import { toTitleCase } from '@/utils/helpFunctions';
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
@@ -33,7 +33,12 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
     const { t } = useTranslation();
 
-    const muscleGroups = Array.from(new Set(exercises.map(item => item.type)));
+    let muscleGroups = []
+    for (let title of Array.from(new Set(exercises.map(item => item.type)))) {
+        const translatedName = MUSCLES.filter(item => item.title === title)[0][settingsStore.language]
+        const muscleObject = {title: title, translation: translatedName}
+        muscleGroups.push(muscleObject)
+    }
 
     const resetAllFields = () => {
         setRepsValue('')
@@ -46,11 +51,11 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const handleChangeReps = (value: any) => {
         value = Number(value)
         if (isNaN(value)) {
-            setError(`Reps must be a number`)
+            setError(t('errors.repsMustBeNumber'))
             return
         } 
         if (value && value < 1) {
-            setError(`Reps must be a positive number`)
+            setError(t('errors.repsMustBePositive'))
             return 
         } 
         setRepsValue(value)
@@ -59,17 +64,17 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const handleChangeWeight = (value: any) => {
         value = Number(value)
         if (isNaN(value)) {
-            setError(`Weight must be a number`)
+            setError(t('errors.weightMustBeNumber'))
             return
         } 
         if (value && value < 1) {
-            setError(`Weight must be a positive number`)
+            setError(t('errors.weightMustBePositive'))
             return 
         } 
         setWeightValue(value)
     }
 
-    const disabledSaveButton = !(muscleGroup && exercise && repsValue && weightValue && units)
+    const disabledSaveButton = !(muscleGroup.title && exercise && repsValue && weightValue && units)
 
     const handleSubmitEntry = async () => {
         if (!disabledSaveButton) {
@@ -78,7 +83,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 await addResult(
                     exercise,
                     date,
-                    muscleGroup, 
+                    muscleGroup.title,
                     repsValue, 
                     weightValue, 
                     units
@@ -120,17 +125,17 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const getExercises = async () => {
         try {
             const res = await fetchExercises();
-            if (!Array.isArray(res)) throw new Error('fetchExercises return no array')
+            if (!Array.isArray(res)) throw new Error('fetchExercises returned no array')
             setExercises(res)
             if (res?.length === 0) {
                 Alert.alert(
-                    'Нет упражнений',
-                    'У вас еще не заведены упражнения',
-                    [{text: 'Завести упражнение', onPress: () => navigation.navigate('AddExercise')}]
+                    t('alerts.noExerciseTitle'),
+                    t('alerts.noExercise'),
+                    [{text:  t('alerts.addExercise'), onPress: () => navigation.navigate('AddExercise')}]
                 )
             }
         } catch (e) {
-            const error = `Failed to fetch exercises: ${e}`
+            const error = `${t('errors.failedFetchExercises')} ${e}`
             console.error(error);
             setError(error)
         }
@@ -149,14 +154,14 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     renderButton={(selectedItem) => (
                         <View style={[globalStyles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
                             {muscleGroup 
-                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(selectedItem)}</Text>
+                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(selectedItem.translation)}</Text>
                             : <Text style={globalStyles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>
                             }
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
                         <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item.translation)}</Text>
                         </View>
                     )}
                 />
@@ -175,7 +180,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 </Text>
                 <SelectDropdown
                     disabled={!muscleGroup}
-                    data={exercises.filter(item => item.type === muscleGroup)}
+                    data={exercises.filter(item => item.type === muscleGroup.title)}
                     onSelect={(selectedItem, _) => setExercise(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
@@ -216,17 +221,17 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 <SelectDropdown
                     data={UNITS}
                     defaultValue={UNITS.filter(item => item.title === settingsStore.units)[0]}
-                    onSelect={(selectedItem) => setUnits(selectedItem.title)}
+                    onSelect={(selectedItem) => setUnits(selectedItem[settingsStore.language])}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={[globalStyles.dropdownButtonStyle, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
-                            <Text style={globalStyles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || settingsStore.units}</Text>
+                            <Text style={globalStyles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem[settingsStore.language]) || settingsStore.units}</Text>
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
                         <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{item.title}</Text>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{item[settingsStore.language]}</Text>
                         </View>
                     )}
                 />

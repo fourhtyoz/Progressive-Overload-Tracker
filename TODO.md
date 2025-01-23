@@ -1,8 +1,8 @@
 # TODO
 
-2. fix styles (a complete mess)
-3. translations/texts
-4. optimizations
-5. jest tests
-6. highload tests
-7. deployment
+0. Exercise named Add
+1. translations/texts
+2. optimizations
+3. jest tests
+4. highload tests
+5. deployment

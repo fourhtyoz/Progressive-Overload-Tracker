@@ -18,12 +18,17 @@
             "reps": "Повторений",
             "howManyReps": "Сколько повторений?",
             "weight": "Вес",
-            "whatWeight": "Какой вес?"
+            "whatWeight": "Какой вес?",
+            "title": "Название",
+            "titlePlaceholder": "Название упражнение",
+            "createExercise": "Создать упражнение",
+            "date": "Дата"
         },
         "buttons": {
             "history": "История",
             "submit": "Сохранить",
-            "create": "Добавить новое упражнение"
+            "create": "Добавить новое упражнение",
+            "updateResult": "Обновить результат"
         }
     },
 
@@ -41,10 +46,17 @@
             "header": {
                 "date": "Дата",
                 "muscle": "Мышца",
+                "exercise": "Упражнение",
                 "weight": "Вес",
-                "reps": "Кол-во повторений"
+                "reps": "Повторения",
+                "edit": "Изменить"
             }
-        }
+        },
+        "resetFilter": "Сбросить фильтр",
+        "sorting": "Сортировка",
+        "byDateRecentFirst": "По дате (новые вначале)",
+        "byDateOldestFirst": "По дате (старые вначале)",
+        "noResults": "Нет результатов"
     },
 
     "settings": {
@@ -79,12 +91,24 @@
         "success": "Успех",
         "error": "Ошибка",
         "toAddFieldsRequired": "Необходимо заполнить все поля, чтобы добавить новый результат",
-        "newEntryAddedSuccess": "Новый результат был успешно добвлен",
+        "newEntryAddedSuccess": "Новый результат был успешно добавлен",
         "areYouSure": "Вы уверены?",
         "yesProceed": "Да, я уверен",
         "noIchangedMyMind": "Нет, я передумал",
-        "wantToDelete": "Вы реально хотите удалить все данные из приложения? Так будет удален ваш прогресс"
-
+        "wantToDelete": "Вы реально хотите удалить все данные из приложения? Так будет удален ваш прогресс",
+        "sureToDeleteRecord": "Вы реально хотите удалить этот результат?",
+        "exerciseAdded": "Упражнение было успешно добавлено",
+        "great": "Отлично",
+        "noExerciseTitle": "Нет упражнений",
+        "noExercise": "У вас еще не заведены упражнения",
+        "addExercise": "Завести упражнение",
+        "recordDeleted": "Результат был удален",
+        "failedDeletingRecord": "Произошла ошибка при удалении результата",
+        "chooseAction": "Выберите действие",
+        "delete": "Удалить",
+        "edit": "Изменить",
+        "close": "Закрыть",
+        "goToHistory": "Перейти в историю"
     },
 
     "toasts": {
@@ -95,5 +119,15 @@
         "changedUnits": "Система исчисления была успешно изменена",
         "receiveNotifications": "Вы будете получать уведомления",
         "notReceiveNotifications": "Вы не будете получать уведомления"
+    },
+
+    "errors": {
+        "repsMustBeNumber": "Повторения должны быть числом",
+        "repsMustBePositive": "Повторения должны быть больше 0",
+        "weightMustBeNumber": "Вес должен быть числом",
+        "weightMustBePositive": "Вес должен быть больше 0",
+        "failedFetchExercises": "Не удалось загрузить упражнения",
+        "failedFetchResults": "Не удалось загрузить результаты",
+        "failedUpdateResult": "Не удалось обновить результат"
     }
 }

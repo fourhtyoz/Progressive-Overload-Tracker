@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { UNITS } from '@/constants/settings';
+import { MUSCLES, UNITS } from '@/constants/settings';
 import { getformattedDate, toTitleCase } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { globalStyles } from '@/styles/globalStyles';
@@ -34,29 +34,34 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
 
     const { t } = useTranslation();
 
-    const muscleGroups = Array.from(new Set(exercises.map(item => item.type)));
+    let muscleGroups = []
+    for (let title of Array.from(new Set(exercises.map(item => item.type)))) {
+        const translatedName = MUSCLES.filter(item => item.title === title)[0][settingsStore.language]
+        const muscleObject = {title: title, translation: translatedName}
+        muscleGroups.push(muscleObject)
+    }
 
     const handleChangeReps = (value: any) => {
         value = Number(value)
         if (isNaN(value)) {
-            setError(`Reps must be a number`)
+            setError(t('errors.repsMustBeNumber'))
             return
         } 
         if (value && value < 1) {
-            setError(`Reps must be a positive number`)
+            setError(t('errors.repsMustBePositive'))
             return 
-        } 
+        }
         setNewReps(value)
     }
 
     const handleChangeWeight = (value: any) => {
         value = Number(value)
         if (isNaN(value)) {
-            setError(`Weight must be a number`)
+            setError(t('errors.weightMustBeNumber'))
             return
         } 
         if (value && value < 1) {
-            setError(`Weight must be a positive number`)
+            setError(t('errors.weightMustBePositive'))
             return 
         } 
         setNewWeight(value)
@@ -69,11 +74,12 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 if (newDate instanceof Date) {
                     dateString = newDate.toISOString()
                 }
+                const muscle = newGroup?.title || newGroup
                 await updateResult(
                     route.params.id, 
                     newExercise, 
                     dateString, 
-                    newGroup, 
+                    muscle, 
                     newReps, 
                     newWeight, 
                     newUnits
@@ -82,11 +88,12 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 Alert.alert(
                     t('alerts.success'),
                     t('alerts.newEntryAddedSuccess'),
-                    [{text: 'Go to history', onPress: () => navigation.navigate('History')}]
+                    [{text: t('alerts.goToHistory'), onPress: () => navigation.navigate('History')}]
                 )
             } catch (e) {
-                setError(String(e))
-                console.error(e)
+                const error = `${t('errors.failedUpdateResult')} ${e}`
+                console.error(error);
+                setError(error)
             }
         } else {
             Toast.show({
@@ -102,7 +109,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             setIsLoading(true)
             try {
                 const res = await fetchExercises();
-                if (!Array.isArray(res)) throw new Error('fetchExercises return no array')
+                if (!Array.isArray(res)) throw new Error('fetchExercises returned no array')
                 setExercises(res)
                 setNewDate(route.params.date)
                 setNewReps(route.params.reps)
@@ -111,7 +118,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 setNewGroup(route.params.muscleGroup)
                 setNewExercise(route.params.exercise)
             } catch (e) {
-                const error = `Failed to fetch exercises: ${e}`
+                const error = `${t('errors.failedFetchExercises')} ${e}`
                 console.error(error);
                 setError(error)
             } finally {
@@ -146,7 +153,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
         <SafeAreaView style={globalStyles.wrapper}>
             {error && <ErrorMessage message={error} setError={setError}/>}
             <View style={globalStyles.itemWrapper}>
-                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Date:</Text>
+                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.date')}:</Text>
                 <Text style={[globalStyles.date, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>
                     {getformattedDate(newDate)}
                 </Text>
@@ -158,21 +165,21 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleGroups}
-                    defaultValue={muscleGroups.filter(item => item === newGroup)[0]}
+                    defaultValue={muscleGroups.filter(item => item.title === newGroup)[0]}
                     onSelect={(selectedItem, _) => setNewGroup(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
-                    renderButton={(_) => (
+                    renderButton={(selectedItem) => (
                         <View style={[globalStyles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
                             {newGroup 
-                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newGroup)}</Text>
+                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{selectedItem && selectedItem.translation || newGroup}</Text>
                             : <Text style={globalStyles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>
                             }
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
                         <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item.translation)}</Text>
                         </View>
                     )}
                 />
@@ -181,7 +188,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             <View style={globalStyles.itemWrapper}>
                 <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.exercise')}:</Text>
                 <SelectDropdown
-                    data={exercises.filter(item => item.type === newGroup)}
+                    data={exercises.filter(item => item.type === newGroup).length === 0 ? exercises.filter(item => item.type === newGroup.title) : exercises.filter(item => item.type === newGroup)}
                     defaultValue={route.params.exercise}
                     onSelect={(selectedItem, _) => setNewExercise(selectedItem.title)}
                     showsVerticalScrollIndicator={false}
@@ -216,17 +223,17 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <SelectDropdown
                     data={UNITS}
                     defaultValue={UNITS.filter(item => item.title === settingsStore.units)[0]}
-                    onSelect={(selectedItem) => setUnits(selectedItem.title)}
+                    onSelect={(selectedItem) => setUnits(selectedItem[settingsStore.language])}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={[globalStyles.dropdownButtonStyle, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
-                            <Text style={globalStyles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem.title) || newUnits}</Text>
+                            <Text style={globalStyles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem[settingsStore.language]) || newUnits}</Text>
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
                         <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{item.title}</Text>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{item[settingsStore.language]}</Text>
                         </View>
                     )}
                 />
@@ -246,7 +253,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             <View style={globalStyles.buttonWrapper}>
                 <Button 
                     onPress={handleSubmitEntry} 
-                    text='Update record' 
+                    text={t('result.buttons.updateResult')}
                     pressedBgColor={COLORS.orange}
                     borderColor={COLORS.blackTransparentBorder} 
                 />

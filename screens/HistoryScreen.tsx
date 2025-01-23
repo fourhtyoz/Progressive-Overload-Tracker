@@ -13,22 +13,24 @@ import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/navigation/DrawerNavigator';
 import { settingsStore } from '@/store/store';
 import Loader from '@/components/Loader';
+import { MUSCLES, UNITS } from '@/constants/settings';
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'History'>;
 
 
 export default function HistoryScreen({ navigation } : Props) {
+    const { t } = useTranslation();
+
     const [results, setResults] = useState<GroupedResult[]>([]);
     const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
     const [selectedExercise, setSelectedExercise] = useState('All');
     const [muscleOptions, setMuscleOptions] = useState<string[]>([]);
     const [selectedMuscle, setSelectedMuscle] = useState('All');
-    const [selectedSorting, setSelectedSorting] = useState({title: 'By date (recent first)', type: 'desc'});
+    const [selectedSorting, setSelectedSorting] = useState({title: t('history.byDateRecentFirst'), type: 'desc'});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
-    const { t } = useTranslation();
 
     const resetFilters = () => {
         setSelectedExercise('All');
@@ -81,8 +83,8 @@ export default function HistoryScreen({ navigation } : Props) {
                 setMuscleOptions([]);
             }
         } catch (e) {
-            const error = `Failed to fetch results: ${e}`
-            console.error(error)
+            const error = `${t('errors.failedFetchResults')} ${e}`
+            console.error(error);
             setError(error)
         } finally {
             setIsLoading(false)
@@ -92,7 +94,10 @@ export default function HistoryScreen({ navigation } : Props) {
     const deleteRecord = async (item: Result) => {
         try {
             await deleteResult(item.id);
-            Alert.alert('Success', 'The record has been deleted successfully');
+            Alert.alert(
+                t('alerts.success'),
+                t('alerts.recordDeleted'),
+            );
             
             setResults((prevResults) => {
                 const updatedResults: any = { ...prevResults };
@@ -108,29 +113,32 @@ export default function HistoryScreen({ navigation } : Props) {
             });
         } catch (e) {
             console.error(e);
-            Alert.alert('Error', `Whoops, something happened. The record has not been deleted: ${e}`);
+            Alert.alert(
+                t('alerts.error'),
+                t('alerts.failedDeletingRecord'),
+            );
         }
     };
 
     const handleDeleteRecord = (item: Result) => {
         Alert.alert(
-            'Are you sure?',
-            'Are you sure you want to delete the following record?',
+            t('alerts.areYouSure'),
+            t('alerts.sureToDeleteRecord'),
             [
-                {text: 'Yes, I\'m sure', onPress: () => deleteRecord(item)},
-                {text: 'No, I\'ve changed my mind'},
+                {text: t('alerts.yesProceed'), onPress: () => deleteRecord(item)},
+                {text: t('alerts.noIchangedMyMind')},
             ]
         )
     }
 
     const handlePressedRecord = (item: Result) => {
         Alert.alert(
-            'Actions', 
-            'These are actions', 
+            t('alerts.chooseAction'), 
+            '', 
             [
-                {text: 'Delete', onPress: () => handleDeleteRecord(item)},
-                {text: 'Edit', onPress: () => navigation.navigate('EditResult', { ...item })},
-                {text: 'Close'},
+                {text: t('alerts.delete'), onPress: () => handleDeleteRecord(item)},
+                {text: t('alerts.edit'), onPress: () => navigation.navigate('EditResult', { ...item })},
+                {text: t('alerts.close')},
             ])
     }
 
@@ -152,8 +160,8 @@ export default function HistoryScreen({ navigation } : Props) {
             ]}
             >
                 <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{getformattedDate(item.date)}</Text>
-                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{toTitleCase(item.muscleGroup)}</Text>
-                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.weight} {item.units}</Text>
+                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{MUSCLES.filter(i => i.title === item.muscleGroup)[0][settingsStore.language]}</Text>
+                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.weight} {UNITS.filter(i => i.title === item.units)[0][settingsStore.language]}</Text>
                 <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.reps}</Text>
                 <TouchableOpacity style={s.cell} onPress={() => handlePressedRecord(item)}>
                     <Ionicons style={s.cellAction} name="settings" color={COLORS.gray} size={18} />
@@ -177,7 +185,7 @@ export default function HistoryScreen({ navigation } : Props) {
         if (keys.length === 0) {
             return (
                 <View style={s.notFound}>
-                    <Text style={s.text}>No results</Text>
+                    <Text style={s.text}>{t('history.noResults')}</Text>
                 </View>
             )
         }
@@ -191,7 +199,7 @@ export default function HistoryScreen({ navigation } : Props) {
                         <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.muscle')}</Text>
                         <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.weight')}</Text>
                         <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.reps')}</Text>
-                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>Edit</Text>
+                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.edit')}</Text>
                     </View>
                     {data[exerciseName].map((record: any, index: number) => {
                         let key = record.id
@@ -224,21 +232,17 @@ export default function HistoryScreen({ navigation } : Props) {
     }
 
     return (
-        <ScrollView style={
-            [
-                s.container,
-            ]
-        }>
+        <ScrollView style={s.container}>
             {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} setError={setError} /></View>}
             <View style={s.filterWrapper}>
-                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Sorting:</Text>
+                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('history.sorting')}:</Text>
                 <SelectDropdown
-                    data={[{title: 'By date (recent first)', type: 'desc'}, {title: 'By date (oldest first)', type: 'asc'}]}
-                    defaultValue={{title: 'By date (recent first)', type: 'desc'}}
+                    data={[{title: t('history.byDateRecentFirst'), type: 'desc'}, {title: t('history.byDateOldestFirst'), type: 'asc'}]}
+                    defaultValue={{title: t('history.byDateRecentFirst'), type: 'desc'}}
                     onSelect={(selectedItem, _) => setSelectedSorting(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={s.dropdownMenuStyle}
-                    renderButton={(selectedItem) => (
+                    renderButton={(_) => (
                         <View style={s.dropdownButton}>
                             <Text style={[
                                 s.selectedItem, 
@@ -249,7 +253,7 @@ export default function HistoryScreen({ navigation } : Props) {
                             >{selectedSorting.title}</Text>
                         </View>
                     )}
-                    renderItem={(item, index, isSelected) => { 
+                    renderItem={(item, index, _) => { 
                         return (
                             <View key={index} style={[s.dropdownItemStyle, item.type === selectedSorting.type && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
                                 <Text style={s.dropdownItemTxtStyle}>{toTitleCase(item.title)}</Text>
@@ -258,7 +262,7 @@ export default function HistoryScreen({ navigation } : Props) {
                 />
             </View>
             <View style={s.filterWrapper}>
-                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Exercise:</Text>
+                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('history.table.header.exercise')}:</Text>
                 <SelectDropdown
                     data={exerciseOptions}
                     defaultValue={exerciseOptions.filter(item => item === 'All')[0]}
@@ -291,7 +295,7 @@ export default function HistoryScreen({ navigation } : Props) {
                 />
             </View>
             <View style={s.filterWrapper}>
-                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Muscle:</Text>
+                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('history.table.header.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleOptions}
                     defaultValue={muscleOptions.filter(item => item ==='All')[0]}
@@ -324,7 +328,7 @@ export default function HistoryScreen({ navigation } : Props) {
                 />
             </View>
             <TouchableOpacity style={[s.resetButton, isResetDisabled && s.resetButtonDisabled]} onPress={resetFilters} disabled={isResetDisabled}>
-                <Text style={[s.resetButtonText, isResetDisabled && s.resetButtonTextDisabled]}>Reset Filters</Text>
+                <Text style={[s.resetButtonText, isResetDisabled && s.resetButtonTextDisabled]}>{t('history.resetFilter')}</Text>
             </TouchableOpacity>
             {renderTable(results)}
         </ScrollView>
