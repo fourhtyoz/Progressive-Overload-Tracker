@@ -24,6 +24,7 @@ export default function HistoryScreen({ navigation } : Props) {
     const [selectedExercise, setSelectedExercise] = useState('All');
     const [muscleOptions, setMuscleOptions] = useState<string[]>([]);
     const [selectedMuscle, setSelectedMuscle] = useState('All');
+    const [selectedSorting, setSelectedSorting] = useState({title: 'By date ↓', type: 'desc'});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
@@ -48,13 +49,13 @@ export default function HistoryScreen({ navigation } : Props) {
                 setSelectedMuscle('All')
                 setError('')
             }
-        }, [])
+        }, [selectedSorting])
     )
 
     const getResults = async () => {
         setIsLoading(true)
         try {
-            const res = await fetchResults();
+            const res = await fetchResults(selectedSorting.type);
             if (!Array.isArray(res)) {
                 throw new Error('fetchResults returned no array')
             }
@@ -192,21 +193,39 @@ export default function HistoryScreen({ navigation } : Props) {
                         <Text style={[styles.cell, styles.headerCell]}>Edit</Text>
                     </View>
                     {data[exerciseName].map((record: any, index: number) => {
-                        let progress = 'new'
                         let key = record.id
-                        if (index > 0) {
-                            const previousSet = data[exerciseName][index - 1]
-                            const previousScore = previousSet.weight * previousSet.reps
-                            const currentScore = record.weight * record.reps
-                            if (previousScore > currentScore) {
-                                progress = 'worse'
-                            } else if (previousScore < currentScore) {
-                                progress = 'better'
-                            } else {
-                                progress = 'neutral'
+                        let progress = 'new'
+
+                        if (selectedSorting.type === 'desc') {
+                            const len = data[exerciseName].length
+                            if (index + 1 < len) {
+                                const previousSet = data[exerciseName][index + 1]
+                                const previousScore = previousSet.weight * previousSet.reps
+                                const currentScore = record.weight * record.reps
+                                if (previousScore > currentScore) {
+                                    progress = 'worse'
+                                } else if (previousScore < currentScore) {
+                                    progress = 'better'
+                                } else {
+                                    progress = 'neutral'
+                                }
+                            } 
+                            return renderExercise({ item: record }, progress, key);
+                        } else {
+                            if (index > 0) {
+                                const previousSet = data[exerciseName][index - 1]
+                                const previousScore = previousSet.weight * previousSet.reps
+                                const currentScore = record.weight * record.reps
+                                if (previousScore > currentScore) {
+                                    progress = 'worse'
+                                } else if (previousScore < currentScore) {
+                                    progress = 'better'
+                                } else {
+                                    progress = 'neutral'
+                                }
                             }
+                            return renderExercise({ item: record }, progress, key);
                         }
-                        return renderExercise({ item: record }, progress, key);
                     })}
                 </View>
             )
@@ -226,6 +245,26 @@ export default function HistoryScreen({ navigation } : Props) {
             ]
         }>
             {error && <View style={{ marginBottom: 15 }}><ErrorMessage message={error} setError={setError} /></View>}
+            <View style={styles.filterWrapper}>
+                <Text style={[styles.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Sorting:</Text>
+                <SelectDropdown
+                    data={[{title: 'By date ↓', type: 'desc'}, {title: 'By date ↑', type: 'asc'}]}
+                    defaultValue={{title: 'By date ↓', type: 'desc'}}
+                    onSelect={(selectedItem, _) => setSelectedSorting(selectedItem)}
+                    showsVerticalScrollIndicator={false}
+                    dropdownStyle={styles.dropdownMenuStyle}
+                    renderButton={(selectedItem) => (
+                        <View style={styles.dropdownButton}>
+                            <Text style={styles.selectedItem}>{selectedSorting.title}</Text>
+                        </View>
+                    )}
+                    renderItem={(item, index, isSelected) => (
+                        <View key={index} style={[styles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
+                            <Text style={styles.dropdownItemTxtStyle}>{item.title}</Text>
+                        </View>
+                    )}
+                />
+            </View>
             <View style={styles.filterWrapper}>
                 <Text style={[styles.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>Exercise:</Text>
                 <SelectDropdown

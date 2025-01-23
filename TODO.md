@@ -8,3 +8,4 @@
 6. highload tests
 7. deployment
 8. kg/lb conversion
+9. sorting by date

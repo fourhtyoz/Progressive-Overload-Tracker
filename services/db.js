@@ -158,12 +158,12 @@ const deleteResult = async (id) => {
 }
 
 
-const fetchResults = async () => {
+const fetchResults = async (sorting = 'asc') => {
     try {
         const res = await new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    'SELECT * FROM results ORDER BY date',
+                    `SELECT * FROM results ORDER BY date ${sorting}`,
                     [],
                     (_, result) => resolve(result.rows._array),
                     (_, error) => reject(error)

@@ -61,15 +61,17 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
         setNewWeight(value)
     }
 
-    // TODO: date formats
     const handleSubmitEntry = async () => {
         if (newDate && newGroup && newExercise && newReps && newWeight && newUnits) {
-            const date = newDate.toISOString()
             try {
+                let dateString = newDate
+                if (newDate instanceof Date) {
+                    dateString = newDate.toISOString()
+                }
                 await updateResult(
                     route.params.id, 
                     newExercise, 
-                    date, 
+                    dateString, 
                     newGroup, 
                     newReps, 
                     newWeight, 
