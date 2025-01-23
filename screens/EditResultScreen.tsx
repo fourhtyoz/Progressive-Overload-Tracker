@@ -19,6 +19,7 @@ import { COLORS } from '@/styles/colors';
 import Toast from 'react-native-toast-message';
 import Loader from '@/components/Loader';
 
+
 const EditResultScreen = observer(({ navigation, route }: any) => {
 
     const [exercises, setExercises] = useState<Exercise[]>([])
