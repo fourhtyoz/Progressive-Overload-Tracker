@@ -5,15 +5,21 @@ import Toast, { BaseToast } from 'react-native-toast-message';
 import { I18nextProvider } from 'react-i18next';
 import i18n from '@/utils/i18n';
 import { observer } from 'mobx-react-lite';
-import { createTables } from '@/services/db';
+import { createTables, deleteTables } from '@/services/db';
 import { settingsStore } from '@/store/store';
 import Loader from '@/components/Loader';
 import { LightTheme, DarkTheme } from '@/styles/themes';
 import { FONT_SIZE } from '@/styles/colors';
+import { clearAsyncStorage } from '@/utils/helpFunctions';
+import { generateExercises, generateResults } from '@/utils/helpFunctions';
 
 
 const App = observer(() => {
     useEffect(() => {
+        // for development
+        // clearAsyncStorage();
+        // deleteTables();
+
         createTables();
         settingsStore.initialize();
     }, []);
