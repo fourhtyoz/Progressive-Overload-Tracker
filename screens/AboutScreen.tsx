@@ -3,66 +3,43 @@ import React from 'react';
 import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
+import { useTranslation } from 'react-i18next';
 
 
 const AboutScreen = observer(() => {
+    const { t } = useTranslation();
     const isDark = settingsStore.isDark
 
     const content = [
         {
             key: '1',
-            title: 'What is Progressive Overload?',
-            content:
-                'Progressive overload is a principle that involves gradually increasing the demands placed on the muscles or body to continue making progress in strength, endurance, or performance.',
+            title: t('about.definitionTitle'),
+            content: t('about.definitionContent'),
         },
         {
             key: '2',
-            title: 'Key Concepts',
-            content: [
-                '1. Gradual Increase in Stress: Continuously challenge the body beyond its current ability.',
-                '2. Adaptation: The body becomes stronger and more efficient in response to stress.',
-                '3. Plateaus: Without progressive overload, the body stops adapting, leading to stagnation.',
-            ],
+            title:  t('about.conceptTitle'),
+            content: t('about.conceptContent'),
         },
         {
             key: '3',
-            title: 'Methods of Applying Progressive Overload',
-            content: [
-                'Increase Weight',
-                'Increase Repetitions or Sets',
-                'Increase Training Frequency',
-                'Improve Technique',
-                'Decrease Rest Time',
-                'Increase Training Volume',
-                'Increase Exercise Complexity',
-            ],
+            title:  t('about.methodsTitle'),
+            content: t('about.methodsContent'),
         },
         {
             key: '4',
-            title: 'Why Is Progressive Overload Important?',
-            content: [
-                'Prevents Plateaus: Avoids stagnation by continuously challenging the body.',
-                'Builds Strength and Muscle: Stimulates growth and increased strength.',
-                'Enhances Endurance: Improves cardiovascular and muscular endurance.',
-                'Boosts Motivation: Tracks progress toward fitness goals.',
-            ],
+            title:  t('about.importanceTitle'),
+            content: t('about.importanceContent'),
         },
         {
             key: '5',
-            title: 'Practical Example',
-            content:
-                'Scenario: You want to increase your squat strength.\n- Week 1: Squat 50 kg for 3 sets of 10 reps.\n- Week 2: Squat 52.5 kg for 3 sets of 10 reps.\n- Week 3: Squat 55 kg for 3 sets of 8 reps.\n- Week 4: Add an additional set or reduce rest time between sets.',
+            title:  t('about.exampleTitle'),
+            content: t('about.exampleContent'),
         },
         {
             key: '6',
-            title: 'Tips for Effective Progressive Overload',
-            content: [
-                'Start Slow: Avoid drastic increases to prevent injury or overtraining.',
-                'Track Progress: Use a workout journal or app to monitor weights, reps, and sets.',
-                'Focus on Recovery: Proper rest, nutrition, and sleep are essential for adaptation.',
-                'Be Consistent: Gradual, consistent effort is more sustainable than quick, drastic changes.',
-                'Listen to Your Body: Avoid overloading too quickly, which can lead to fatigue or injury.',
-            ],
+            title:  t('about.tipsTitle'),
+            content: t('about.tipsContent'),
         },
     ];
 

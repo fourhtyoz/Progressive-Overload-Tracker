@@ -33,7 +33,19 @@
     },
 
     "about": {
-        "screenName": "Hakkımızda"
+        "screenName": "Hakkımızda",
+        "definitionTitle": "Progresif Aşırı Yüklenme Nedir?",
+        "definitionContent": "Progresif aşırı yüklenme, kaslara veya vücuda uygulanan talepleri kademeli olarak artırmayı içeren bir prensiptir. Bu, güç, dayanıklılık veya performansta ilerleme kaydetmeye devam etmeyi sağlar.",
+        "conceptTitle": "Temel Kavramlar",
+        "conceptContent": "- Stresin Kademeli Artışı: Vücudu mevcut kapasitesinin ötesinde sürekli zorlayın.\n- Adaptasyon: Vücut strese yanıt olarak daha güçlü ve daha verimli hale gelir.\n- Platolar: Progresif aşırı yüklenme olmadan, vücut adapte olmayı bırakır ve bu duraklamaya yol açar.",
+        "methodsTitle": "Progresif Aşırı Yüklenme Uygulama Yöntemleri",
+        "methodsContent": "- Ağırlık Artırma\n- Tekrar veya Set Sayısını Artırma\n- Antrenman Sıklığını Artırma\n- Tekniği Geliştirme\n- Dinlenme Süresini Azaltma\n- Antrenman Hacmini Artırma\n- Egzersiz Zorluk Seviyesini Artırma",
+        "importanceTitle": "Progresif Aşırı Yüklenme Neden Önemlidir?",
+        "importanceContent": "- Platoları Önler: Vücudu sürekli zorlayarak duraklamayı engeller.\n- Güç ve Kas Geliştirir: Büyümeyi ve gücü teşvik eder.\n- Dayanıklılığı Artırır: Kardiyovasküler ve kas dayanıklılığını geliştirir.\n- Motivasyonu Artırır: Fitness hedeflerine doğru ilerlemeyi takip eder.",
+        "exampleTitle": "Pratik Örnek",
+        "exampleContent": "Senaryo: Squat gücünüzü artırmak istiyorsunuz.\n- 1. Hafta: 50 kg ile 3 set, 10 tekrar squat.\n- 2. Hafta: 52,5 kg ile 3 set, 10 tekrar squat.\n- 3. Hafta: 55 kg ile 3 set, 8 tekrar squat.\n- 4. Hafta: Ek bir set ekleyin veya setler arasındaki dinlenme süresini azaltın.",
+        "tipsTitle": "Etkili Progresif Aşırı Yüklenme İçin İpuçları",
+        "tipsContent": "- Yavaş Başlayın: Yaralanmayı veya aşırı antrenmanı önlemek için ani artışlardan kaçının.\n- İlerlemeyi Takip Edin: Ağırlıkları, tekrarları ve setleri izlemek için bir günlük veya uygulama kullanın.\n- İyileşmeye Odaklanın: Uygun dinlenme, beslenme ve uyku adaptasyon için gereklidir.\n- Tutarlı Olun: Yavaş ve sürekli çaba, hızlı ve ani değişikliklerden daha sürdürülebilirdir.\n- Vücudunuzu Dinleyin: Çok hızlı aşırı yüklenmekten kaçının, bu yorgunluğa veya yaralanmaya yol açabilir."
     },
 
     "newExercise": {

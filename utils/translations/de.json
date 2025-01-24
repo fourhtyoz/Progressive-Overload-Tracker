@@ -33,7 +33,19 @@
     },
 
     "about": {
-        "screenName": "Über uns"
+        "screenName": "Über uns",
+        "definitionTitle": "Was ist Progressive Überlastung?",
+        "definitionContent": "Progressive Überlastung ist ein Prinzip, das beinhaltet, die Anforderungen an die Muskeln oder den Körper schrittweise zu erhöhen, um weiterhin Fortschritte in Stärke, Ausdauer oder Leistung zu erzielen.",
+        "conceptTitle": "Schlüsselkonzepte",
+        "conceptContent": "- Stufenweise Erhöhung der Belastung: Fordere den Körper kontinuierlich über seine aktuelle Fähigkeit hinaus heraus.\n- Anpassung: Der Körper wird durch die Belastung stärker und effizienter.\n- Plateaus: Ohne progressive Überlastung hört der Körper auf, sich anzupassen, was zu einem Stillstand führt.",
+        "methodsTitle": "Methoden zur Anwendung der Progressiven Überlastung",
+        "methodsContent": "- Gewicht erhöhen\n- Wiederholungen oder Sätze erhöhen\n- Trainingshäufigkeit steigern\n- Technik verbessern\n- Pausenzeiten verkürzen\n- Trainingsvolumen erhöhen\n- Übungskomplexität steigern",
+        "importanceTitle": "Warum ist Progressive Überlastung wichtig?",
+        "importanceContent": "- Verhindert Plateaus: Vermeidet Stillstand, indem der Körper kontinuierlich herausgefordert wird.\n- Baut Stärke und Muskeln auf: Stimuliert Wachstum und steigert die Stärke.\n- Verbessert die Ausdauer: Steigert die kardiovaskuläre und muskuläre Ausdauer.\n- Steigert die Motivation: Verfolgt Fortschritte auf dem Weg zu Fitnesszielen.",
+        "exampleTitle": "Praktisches Beispiel",
+        "exampleContent": "Szenario: Du möchtest deine Kniebeugenstärke verbessern.\n- Woche 1: Kniebeugen mit 50 kg für 3 Sätze à 10 Wiederholungen.\n- Woche 2: Kniebeugen mit 52,5 kg für 3 Sätze à 10 Wiederholungen.\n- Woche 3: Kniebeugen mit 55 kg für 3 Sätze à 8 Wiederholungen.\n- Woche 4: Füge einen zusätzlichen Satz hinzu oder verkürze die Pausenzeiten zwischen den Sätzen.",
+        "tipsTitle": "Tipps für eine effektive Progressive Überlastung",
+        "tipsContent": "- Langsam beginnen: Vermeide drastische Erhöhungen, um Verletzungen oder Übertraining zu vermeiden.\n- Fortschritt verfolgen: Verwende ein Trainingstagebuch oder eine App, um Gewichte, Wiederholungen und Sätze zu überwachen.\n- Fokus auf Erholung: Ausreichender Schlaf, Ernährung und Ruhe sind essenziell für die Anpassung.\n- Sei konsequent: Ein schrittweiser, gleichmäßiger Aufwand ist nachhaltiger als schnelle, drastische Änderungen.\n- Höre auf deinen Körper: Vermeide eine zu schnelle Überlastung, die zu Ermüdung oder Verletzungen führen kann."
     },
 
     "newExercise": {
