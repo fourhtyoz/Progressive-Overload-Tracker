@@ -50,8 +50,8 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                 await addExercise(title, muscleGroup)
                 Alert.alert(
                     t('alerts.success'),
-                    t('alert.exerciseAdded'),
-                    [{text: t('alert.great'), onPress: handleSucess}]
+                    t('alerts.exerciseAdded'),
+                    [{text: t('alerts.great'), onPress: handleSucess}]
                 )
                 setMuscleGroup('');
                 setTitle('');
