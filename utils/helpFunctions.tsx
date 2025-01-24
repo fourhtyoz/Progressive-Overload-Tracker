@@ -7,15 +7,13 @@ export function getProgress(currentSet: Result, previousSet: Result) {
 
     let progress = ''
 
-    // * 0.453 to kg
-    // * 2.205 to lb
     let previousScore = previousSet.weight * previousSet.reps
     if (previousSet.units !== defaultUnits) {
         if (defaultUnits === 'kg') {
-            previousScore = previousScore * 0.453
+            previousScore = previousScore * 0.453  // * 0.453 to kg
         }
         if (defaultUnits === 'lb') {
-            previousScore = previousScore * 2.205
+            previousScore = previousScore * 2.205  // * 2.205 to lb
         }
     }
 
@@ -27,6 +25,14 @@ export function getProgress(currentSet: Result, previousSet: Result) {
         if (defaultUnits === 'lb') {
             currentScore = currentScore * 2.205
         }
+    }
+
+    if (currentSet.weight === 0) {
+        currentScore = currentSet.reps
+    }
+
+    if (previousSet.weight === 0) {
+        previousScore = previousSet.reps
     }
 
     if (previousScore > currentScore) {

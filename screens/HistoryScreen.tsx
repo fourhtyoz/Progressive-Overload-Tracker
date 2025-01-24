@@ -150,9 +150,9 @@ export default function HistoryScreen({ navigation } : Props) {
                     borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef',
                     borderLeftWidth: 5,
                     borderLeftColor:
-                        progress === 'worse' ? '#F93827' :
+                        progress === 'worse' ? COLORS.red :
                         progress === 'neutral' ? COLORS.orange :
-                        progress === 'better' ? '#16C47F' :
+                        progress === 'better' ? COLORS.green :
                         settingsStore.isDark ? COLORS.darkGrey : COLORS.white,
                 }
             ]}
@@ -191,7 +191,7 @@ export default function HistoryScreen({ navigation } : Props) {
         return keys.map((exerciseName, i) => {
             return (
                 <View key={i} style={[s.exerciseSection, { backgroundColor: settingsStore.isDark ? COLORS.darkGrey : COLORS.white }]}>
-                    <Text style={[s.exerciseHeader, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#333'}]}>{toTitleCase(exerciseName)}</Text>
+                    <Text style={[s.exerciseHeader, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textTitleColorLight}]}>{toTitleCase(exerciseName)}</Text>
                     <View style={[s.row, s.headerRow, { backgroundColor: settingsStore.isDark ? COLORS.darkDarkGrey :'#f1f3f5', borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef'}]}>
                         <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.date')}</Text>
                         <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.muscle')}</Text>
@@ -353,14 +353,14 @@ const s = StyleSheet.create({
         opacity: 0.5
     },
     resetButton: {
-        backgroundColor: '#dc3545',
+        backgroundColor: COLORS.red,
         paddingVertical: 12,
         borderRadius: 8,
         alignItems: 'center',
         marginVertical: 16,
       },
       resetButtonText: {
-        color: '#ffffff',
+        color: COLORS.white,
         fontSize: FONT_SIZE.large,
         fontWeight: '600',
       },

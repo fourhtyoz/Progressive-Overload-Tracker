@@ -1,4 +1,4 @@
-import { FONT_SIZE } from '@/styles/colors';
+import { COLORS, FONT_SIZE } from '@/styles/colors';
 import React from 'react';
 import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { settingsStore } from '@/store/store';
@@ -6,6 +6,8 @@ import { observer } from 'mobx-react-lite';
 
 
 const AboutScreen = observer(() => {
+    const isDark = settingsStore.isDark
+
     const content = [
         {
             key: '1',
@@ -66,13 +68,13 @@ const AboutScreen = observer(() => {
 
     const renderItem = ({ item }: { item: { title: string; content: any } }) => (
         <View style={s.section}>
-            <Text style={[s.subtitle, { color: settingsStore.isDark ? '#EDEDED' : '#333'}]}>{item.title}</Text>
+            <Text style={[s.subtitle, { color: isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}]}>{item.title}</Text>
             {Array.isArray(item.content) 
-            ? item.content.map((subItem, index) => (<Text key={index} style={[s.listItem, { color: settingsStore.isDark ?'#F5F5F5' : '#555' }]}>• {subItem}</Text>)) 
+            ? item.content.map((subItem, index) => (<Text key={index} style={[s.listItem, { color: isDark ? COLORS.textColorDark : COLORS.textColorLight }]}>• {subItem}</Text>)) 
             : <Text style={[
                 s.text, 
                 { 
-                    color: settingsStore.isDark ?'#F5F5F5' : '#555' 
+                    color: isDark ? COLORS.textColorDark : COLORS.textColorLight
                 }
             ]}>
                 {item.content}

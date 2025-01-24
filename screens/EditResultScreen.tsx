@@ -27,7 +27,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     const [newGroup, setNewGroup] = useState<any>(null)
     const [newExercise, setNewExercise] = useState(null)
     const [newReps, setNewReps] = useState(null)
-    const [newWeight, setNewWeight] = useState(null)
+    const [newWeight, setNewWeight] = useState<any>(null)
     const [newUnits, setUnits] = useState(null)
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
@@ -60,15 +60,11 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             setError(t('errors.weightMustBeNumber'))
             return
         } 
-        if (value && value < 1) {
-            setError(t('errors.weightMustBePositive'))
-            return 
-        } 
         setNewWeight(value)
     }
 
     const handleSubmitEntry = async () => {
-        if (newDate && newGroup && newExercise && newReps && newWeight && newUnits) {
+        if (newDate && newGroup && newExercise && newReps && !isNaN(newWeight) && newUnits) {
             try {
                 let dateString: string | Date = newDate
                 if (newDate instanceof Date) {
@@ -214,7 +210,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                     style={[globalStyles.inputWithOption, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
                     value={`${newWeight}`}
                     placeholder={t('result.options.whatWeight')}
-                    placeholderTextColor={'#a9a9a9'}
+                    placeholderTextColor={COLORS.placeholderTextLight}
                     onChangeText={(value) => handleChangeWeight(value)}
                     keyboardType='numeric' 
                 />
@@ -242,7 +238,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                     style={[globalStyles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
                     value={`${newReps}`}
                     placeholder={t('result.options.howManyReps')}
-                    placeholderTextColor={'#a9a9a9'}
+                    placeholderTextColor={COLORS.placeholderTextLight}
                     onChangeText={(value) => handleChangeReps(value)}
                     keyboardType='numeric'
                 />

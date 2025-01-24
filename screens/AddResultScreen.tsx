@@ -27,7 +27,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const [muscleGroup, setMuscleGroup] = useState({title: null, translation: null})
     const [exercise, setExercise] = useState('')
     const [repsValue, setRepsValue] = useState('')
-    const [weightValue, setWeightValue] = useState('')
+    const [weightValue, setWeightValue] = useState<any>('')
     const [units, setUnits] = useState(settingsStore.units)
     const [error, setError] = useState('')
 
@@ -67,14 +67,10 @@ const AddResultScreen = observer(({ navigation }: Props) => {
             setError(t('errors.weightMustBeNumber'))
             return
         } 
-        if (value && value < 1) {
-            setError(t('errors.weightMustBePositive'))
-            return 
-        } 
         setWeightValue(value)
     }
 
-    const disabledSaveButton = !(muscleGroup.title && exercise && repsValue && weightValue && units)
+    const disabledSaveButton = !(muscleGroup.title && exercise && repsValue && !isNaN(weightValue) && units)
 
     const handleSubmitEntry = async () => {
         if (!disabledSaveButton) {
@@ -212,7 +208,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     style={[globalStyles.inputWithOption, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 
                     value={weightValue} // 
                     placeholder={t('result.options.whatWeight')}
-                    placeholderTextColor={'#a9a9a9'}
+                    placeholderTextColor={COLORS.placeholderTextLight}
                     onChangeText={(value) => handleChangeWeight(value)}
                     keyboardType='numeric' 
                 />
@@ -240,7 +236,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     style={[globalStyles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 
                     value={repsValue}
                     placeholder={t('result.options.howManyReps')}
-                    placeholderTextColor={'#a9a9a9'}
+                    placeholderTextColor={COLORS.placeholderTextLight}
                     onChangeText={(value) => handleChangeReps(value)}
                     keyboardType='numeric'
                 />

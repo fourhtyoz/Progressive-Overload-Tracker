@@ -32,6 +32,18 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
         navigation.navigate('AddResult')
     }
 
+    const handleChangeTitle = (value: string) => {
+        if (!value) {
+            setError(t('errors.titleCantBeEmpty'));
+            return;
+        }
+        if (value === '-') {
+            setError(t('errors.titleCantBeThis'))
+            return
+        }
+        setTitle(value)
+    }
+
     const handleCreateExercise = async () => {
         if (!disabledSaveButton) {
             try {
@@ -92,10 +104,10 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
             <View style={globalStyles.itemWrapper}>
                 <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.title')}:</Text>
                 <TextInput 
-                    onChangeText={setTitle}
+                    onChangeText={(value) => handleChangeTitle(value)}
                     defaultValue={title}
                     placeholder={t('result.options.titlePlaceholder')}
-                    placeholderTextColor={'#a9a9a9'}
+                    placeholderTextColor={COLORS.placeholderTextLight}
                     style={[globalStyles.input,  { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 
                 />
             </View>

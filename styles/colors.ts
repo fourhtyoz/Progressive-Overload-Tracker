@@ -7,12 +7,18 @@ export const COLORS = {
     white: '#FFF',
     orange: '#FFC857',
     gray: '#a9a9a9',
-    red: '#F93827',
+    placeholderTextLight: '#a9a9a9',
+    red: '#DC3545',
+    green: '#16C47F',
     blackTransparentBorder: 'rgba(0, 0, 0, .1)',
     textDarkScreen: '#F5F5F5',
     selectedLight: '#D2D9DF',
     darkDarkGrey: '#282828',
     darkGrey: '#3f3f3f',
+    textTitleColorDark: '#EDEDED',
+    textColorDark: '#F5F5F5',
+    textTitleColorLight: '#333',
+    textColorLight: '#555' 
 }
 
 export const FONT_SIZE = {

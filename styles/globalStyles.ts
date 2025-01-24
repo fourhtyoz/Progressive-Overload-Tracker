@@ -85,7 +85,6 @@ export const globalStyles = StyleSheet.create({
     exerciseTextPlaceholder: {
         color: '#a9a9a9'
     },
-
     buttonWrapper: {
         marginVertical: 15,
         gap: 15
