@@ -1,6 +1,7 @@
-import { StyleSheet } from "react-native";
+import { StyleSheet, Dimensions } from "react-native";
 import { COLORS, FONT_SIZE } from "./colors";
 
+const { width: screenWidth } = Dimensions.get('window');
 export const globalStyles = StyleSheet.create({
     date: {
         marginEnd: 10
@@ -72,7 +73,7 @@ export const globalStyles = StyleSheet.create({
     },
     inputLabel: {
         fontWeight: 'bold',
-        width: 100,
+        width: screenWidth / 3,
         fontSize: FONT_SIZE.normal,
     },
     wrapper: {

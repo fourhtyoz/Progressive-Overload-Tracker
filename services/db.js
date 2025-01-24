@@ -35,6 +35,21 @@ const createTables = () => {
 // EXERCISES
 const addExercise = async (title, type) => {
     try {
+        const exists = await new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    'SELECT COUNT(*) AS count FROM exercises WHERE title = ?',
+                    [title],
+                    (_, result) => resolve(result.rows.item(0).count > 0),
+                    (_, error) => reject(error)
+                );
+            });
+        });
+
+        if (exists) {
+            throw new Error('This exercise alread exists')
+        }
+
         const res = await new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
@@ -43,12 +58,12 @@ const addExercise = async (title, type) => {
                     (_, result) => resolve(true),
                     (_, error) => reject(error)
                 );
-            })
+            });
         });
         return res;
     } catch (e) {
         console.error('addExercise error', e)
-        throw new Error(e)
+        throw new Error(e. message || e)
     }
 };
 

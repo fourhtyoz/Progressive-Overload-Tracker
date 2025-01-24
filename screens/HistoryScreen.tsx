@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Dimensions } from 'react-native';
 import { toTitleCase, groupByExercise, filterByMuscleGroup, getformattedDate, getProgress } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
 import { COLORS, FONT_SIZE } from '@/styles/colors';
@@ -335,6 +335,7 @@ export default function HistoryScreen({ navigation } : Props) {
     )
 };
 
+const { width: screenWidth } = Dimensions.get('window');
 const s = StyleSheet.create({
     notFound: {
         justifyContent: 'center',
@@ -396,13 +397,13 @@ const s = StyleSheet.create({
         fontWeight: '700',
         paddingHorizontal: 10,
         alignItems: 'center',
-        width: 80,
+        width: screenWidth / 3,
     },
     filterWrapper: {
         flexDirection: 'row',
         textAlign: 'center',
         alignItems: 'center',
-        marginTop: 5
+        marginTop: 5,
     },
     dropdownButton: {
         width: '100%',
