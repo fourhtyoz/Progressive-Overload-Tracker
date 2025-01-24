@@ -24,20 +24,20 @@ export default function HistoryScreen({ navigation } : Props) {
 
     const [results, setResults] = useState<GroupedResult[]>([]);
     const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
-    const [selectedExercise, setSelectedExercise] = useState('All');
+    const [selectedExercise, setSelectedExercise] = useState('-');
     const [muscleOptions, setMuscleOptions] = useState<string[]>([]);
-    const [selectedMuscle, setSelectedMuscle] = useState('All');
+    const [selectedMuscle, setSelectedMuscle] = useState('-');
     const [selectedSorting, setSelectedSorting] = useState({title: t('history.byDateRecentFirst'), type: 'desc'});
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState('');
 
 
     const resetFilters = () => {
-        setSelectedExercise('All');
-        setSelectedMuscle('All');
+        setSelectedExercise('-');
+        setSelectedMuscle('-');
     };
 
-    const isResetDisabled = selectedExercise === 'All' && selectedMuscle === 'All'
+    const isResetDisabled = selectedExercise === '-' && selectedMuscle === '-'
 
     useFocusEffect(
         useCallback(() => {
@@ -47,8 +47,8 @@ export default function HistoryScreen({ navigation } : Props) {
                 setResults([])
                 setExerciseOptions([]);
                 setMuscleOptions([]);
-                setSelectedExercise('All')
-                setSelectedMuscle('All')
+                setSelectedExercise('-')
+                setSelectedMuscle('-')
                 setError('')
             }
         }, [selectedSorting])
@@ -67,14 +67,14 @@ export default function HistoryScreen({ navigation } : Props) {
                 
                 // filters exercise
                 const keys = Object.keys(groupedResults)
-                keys.splice(0, 0, 'All')
+                keys.splice(0, 0, '-')
                 setExerciseOptions(keys);
 
                 // filters muscles
                 const muscleGroupSet = new Set()
                 res.map(item => muscleGroupSet.add(item.muscleGroup))
                 const muscleGroupArray: any = Array.from(muscleGroupSet)
-                muscleGroupArray.splice(0, 0, 'All')
+                muscleGroupArray.splice(0, 0, '-')
                 setMuscleOptions(muscleGroupArray)
             } else {
                 setResults([])
@@ -171,12 +171,12 @@ export default function HistoryScreen({ navigation } : Props) {
     const renderTable = (data: any) => {
         let keys = Object.keys(data) || [];
 
-        if (selectedMuscle !== 'All') {
+        if (selectedMuscle !== '-') {
             data = filterByMuscleGroup(data, selectedMuscle);
             keys = Object.keys(data);
         }
 
-        if (selectedExercise !== 'All') {
+        if (selectedExercise !== '-') {
             keys = keys.filter(item => item === selectedExercise);
         }
 
@@ -263,19 +263,19 @@ export default function HistoryScreen({ navigation } : Props) {
                 <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('history.table.header.exercise')}:</Text>
                 <SelectDropdown
                     data={exerciseOptions}
-                    defaultValue={exerciseOptions.filter(item => item === 'All')[0]}
+                    defaultValue={exerciseOptions.filter(item => item === '-')[0]}
                     onSelect={(selectedItem, _) => setSelectedExercise(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={s.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={s.dropdownButton}>
-                            {selectedExercise === 'All' 
+                            {selectedExercise === '-' 
                             ? <Text style={[
                                 s.selectedItem, 
                                 { 
                                     backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
                                     color: settingsStore.isDark ? COLORS.black : COLORS.white
-                                }]}>{'All'}</Text>
+                                }]}>{'-'}</Text>
                             : <Text style={[
                                 s.selectedItem, 
                                 { 
@@ -296,19 +296,19 @@ export default function HistoryScreen({ navigation } : Props) {
                 <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('history.table.header.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleOptions}
-                    defaultValue={muscleOptions.filter(item => item ==='All')[0]}
+                    defaultValue={muscleOptions.filter(item => item ==='-')[0]}
                     onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={s.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={s.dropdownButton}>
-                            {selectedMuscle === 'All'
+                            {selectedMuscle === '-'
                             ? <Text style={[
                                 s.selectedItem, 
                                 { 
                                     backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
                                     color: settingsStore.isDark ? COLORS.black : COLORS.white
-                                }]}>{'All'}</Text>
+                                }]}>{'-'}</Text>
                             : <Text style={[
                                 s.selectedItem, 
                                 { 

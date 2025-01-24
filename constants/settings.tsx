@@ -23,15 +23,15 @@ export const FONT_SIZES = [
 ]
 
 export const MUSCLES: any[] = [
-    { title: 'trapezius', ru: 'трапеция', en: 'trapezius', de: 'Trapezmuskel', es: 'trapecio', tr: 'trapez' },
-    { title: 'shoulders', ru: 'плечи', en: 'shoulders', de: 'Schultern', es: 'hombros', tr: 'omuzlar' },
-    { title: 'chest', ru: 'грудь', en: 'chest', de: 'Brust', es: 'pecho', tr: 'göğüs' },
-    { title: 'biceps', ru: 'бицепс', en: 'biceps', de: 'Bizeps', es: 'bíceps', tr: 'biseps' },
-    { title: 'triceps', ru: 'трицепс', en: 'triceps', de: 'Trizeps', es: 'tríceps', tr: 'triseps' },
-    { title: 'forearms', ru: 'предплечья', en: 'forearms', de: 'Unterarme', es: 'antebrazos', tr: 'önkollar' },
-    { title: 'legs', ru: 'ноги', en: 'legs', de: 'Beine', es: 'piernas', tr: 'bacaklar' },
-    { title: 'glutes', ru: 'ягодицы', en: 'glutes', de: 'Gesäßmuskeln', es: 'glúteos', tr: 'kalçalar' },
-    { title: 'back', ru: 'спина', en: 'back', de: 'Rücken', es: 'espalda', tr: 'sırt' },
-    { title: 'abs', ru: 'пресс', en: 'abs', de: 'Bauchmuskeln', es: 'abdominales', tr: 'karın kasları' },
-    { title: 'cardio', ru: 'кардио', en: 'cardio', de: 'Kardio', es: 'cardio', tr: 'kardiyo' }
+    { title: 'trapezius', ru: 'Трапеция', en: 'Trapezius', de: 'Trapezmuskel', es: 'Trapecio', tr: 'Trapez' },
+    { title: 'shoulders', ru: 'Плечи', en: 'Shoulders', de: 'Schultern', es: 'Hombros', tr: 'Omuzlar' },
+    { title: 'chest', ru: 'Грудь', en: 'Chest', de: 'Brust', es: 'Pecho', tr: 'Göğüs' },
+    { title: 'biceps', ru: 'Бицепс', en: 'Biceps', de: 'Bizeps', es: 'Bíceps', tr: 'Biseps' },
+    { title: 'triceps', ru: 'Трицепс', en: 'Triceps', de: 'Trizeps', es: 'Tríceps', tr: 'Triseps' },
+    { title: 'forearms', ru: 'Предплечья', en: 'Forearms', de: 'Unterarme', es: 'Antebrazos', tr: 'Önkollar' },
+    { title: 'legs', ru: 'Ноги', en: 'Legs', de: 'Beine', es: 'Piernas', tr: 'Bacaklar' },
+    { title: 'glutes', ru: 'Ягодицы', en: 'Glutes', de: 'Gesäßmuskeln', es: 'Glúteos', tr: 'Kalçalar' },
+    { title: 'back', ru: 'Спина', en: 'Back', de: 'Rücken', es: 'Espalda', tr: 'Sırt' },
+    { title: 'abs', ru: 'Пресс', en: 'Abs', de: 'Bauchmuskeln', es: 'Abdominales', tr: 'Karın kasları' },
+    { title: 'cardio', ru: 'Кардио', en: 'Cardio', de: 'Kardio', es: 'Cardio', tr: 'Kardiyo' }
 ]

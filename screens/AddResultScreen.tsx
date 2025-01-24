@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { fetchExercises, addResult } from '@/services/db';
 import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
-import { Exercise, Muscle } from '@/utils/types';
+import { Exercise } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
 import { COLORS } from '@/styles/colors';
 import Toast from 'react-native-toast-message';
