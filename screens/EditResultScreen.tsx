@@ -36,7 +36,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
 
     let muscleGroups = []
     for (let title of Array.from(new Set(exercises.map(item => item.type)))) {
-        const translatedName = MUSCLES.filter(item => item.title === title)[0][settingsStore.language]
+        const translatedName = MUSCLES.find(item => item.title === title)?.[settingsStore.language]
         const muscleObject = {title: title, translation: translatedName}
         muscleGroups.push(muscleObject)
     }
