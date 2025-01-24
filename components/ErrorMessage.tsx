@@ -13,7 +13,7 @@ export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
     return (
         <View style={s.container}>
             <Text style={s.text}>Error: {message}</Text>
-            <TouchableOpacity onPress={() => setError('')} style={s.closeButton}>
+            <TouchableOpacity onPress={() => setError('')} style={s.closeButton} testID="close-button">
                 <Ionicons name="close" size={20} color="#721c24" />
             </TouchableOpacity>
         </View>

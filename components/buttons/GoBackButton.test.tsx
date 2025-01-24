@@ -10,7 +10,7 @@ describe('GoBackButton Component', () => {
         const mockOnPress = jest.fn();
         const { getByText } = render(<GoBackButton fn={mockOnPress}/>);
 
-        const buttonText = getByText('Go Back');
+        const buttonText = getByText('Back');
 
         expect(buttonText).toBeTruthy();
     });
@@ -19,8 +19,8 @@ describe('GoBackButton Component', () => {
         const mockOnPress = jest.fn();
         const { getByText } = render(<GoBackButton fn={mockOnPress}/>);
 
-        const button = getByText('Go Back').parent?.parent;
-        const buttonText = getByText('Go Back');
+        const button = getByText('Back').parent?.parent;
+        const buttonText = getByText('Back');
 
         expect(button?.props.style[1].backgroundColor).toBe(COLORS.orange);
         expect(buttonText.props.style[1].color).toBe(COLORS.black);
@@ -30,7 +30,7 @@ describe('GoBackButton Component', () => {
         const mockOnPress = jest.fn();
         const { getByText } = render(<GoBackButton fn={mockOnPress}/>);
 
-        fireEvent.press(getByText('Go Back'));
+        fireEvent.press(getByText('Back'));
         expect(mockOnPress).toHaveBeenCalled();
     });
 
@@ -38,8 +38,8 @@ describe('GoBackButton Component', () => {
         const mockOnPress = jest.fn();
         const { getByText } = render(<GoBackButton fn={mockOnPress}/>);
 
-        const button = getByText('Go Back').parent?.parent;
-        const buttonText = getByText('Go Back');
+        const button = getByText('Back').parent?.parent;
+        const buttonText = getByText('Back');
 
         expect(button?.props.style[1].backgroundColor).toBe(COLORS.orange);
         expect(buttonText.props.style[1].color).toBe(COLORS.black);
