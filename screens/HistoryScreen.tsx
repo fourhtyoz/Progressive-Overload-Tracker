@@ -65,13 +65,12 @@ export default function HistoryScreen({ navigation } : Props) {
                 const groupedResults: any = groupByExercise(res)
                 setResults(groupedResults)
                 
-                // filters
-                // exercise
+                // filters exercise
                 const keys = Object.keys(groupedResults)
                 keys.splice(0, 0, 'All')
                 setExerciseOptions(keys);
 
-                // muscles
+                // filters muscles
                 const muscleGroupSet = new Set()
                 res.map(item => muscleGroupSet.add(item.muscleGroup))
                 const muscleGroupArray: any = Array.from(muscleGroupSet)
@@ -142,7 +141,6 @@ export default function HistoryScreen({ navigation } : Props) {
             ])
     }
 
-    // TODO: i18n exercises
     const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
         <View key={key} >
             <View 
@@ -160,8 +158,8 @@ export default function HistoryScreen({ navigation } : Props) {
             ]}
             >
                 <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{getformattedDate(item.date)}</Text>
-                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{MUSCLES.filter(i => i.title === item.muscleGroup)[0][settingsStore.language]}</Text>
-                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.weight} {UNITS.filter(i => i.title === item.units)[0][settingsStore.language]}</Text>
+                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{MUSCLES.find((i: any) => i.title === item.muscleGroup)?.[settingsStore.language]}</Text>
+                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.weight} {UNITS.find((i: any) => i.title === item.units)?.[settingsStore.language]}</Text>
                 <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.reps}</Text>
                 <TouchableOpacity style={s.cell} onPress={() => handlePressedRecord(item)}>
                     <Ionicons style={s.cellAction} name="settings" color={COLORS.gray} size={18} />

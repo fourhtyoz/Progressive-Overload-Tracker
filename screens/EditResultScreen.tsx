@@ -24,7 +24,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
 
     const [exercises, setExercises] = useState<Exercise[]>([])
     const [newDate, setNewDate] = useState(new Date())
-    const [newGroup, setNewGroup] = useState(null)
+    const [newGroup, setNewGroup] = useState<any>(null)
     const [newExercise, setNewExercise] = useState(null)
     const [newReps, setNewReps] = useState(null)
     const [newWeight, setNewWeight] = useState(null)
@@ -184,7 +184,6 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                     )}
                 />
             </View>
-            {/* TODO: i18n exercises */}
             <View style={globalStyles.itemWrapper}>
                 <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.exercise')}:</Text>
                 <SelectDropdown
@@ -209,7 +208,6 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                     )}}
                 />
             </View>
-            {/* TODO: i18n weights */}
             <View style={globalStyles.itemWrapper}>
                 <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.weight')}:</Text>
                 <TextInput 
@@ -249,7 +247,6 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                     keyboardType='numeric'
                 />
             </View>
-            
             <View style={globalStyles.buttonWrapper}>
                 <Button 
                     onPress={handleSubmitEntry} 

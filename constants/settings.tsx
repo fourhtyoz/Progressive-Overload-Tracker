@@ -1,4 +1,4 @@
-export const UNITS = [
+export const UNITS: any[] = [
     {title: 'kg', ru: 'кг', en: 'kg', de: 'kg', es: 'kg', tr: 'kg'},
     {title: 'lb', ru: 'lb', en: 'lb', de: 'lb', es: 'lb', tr: 'lb'}
 ]
@@ -22,7 +22,7 @@ export const FONT_SIZES = [
     {title: 'large', size: 22},   
 ]
 
-export const MUSCLES = [
+export const MUSCLES: any[] = [
     { title: 'trapezius', ru: 'трапеция', en: 'trapezius', de: 'Trapezmuskel', es: 'trapecio', tr: 'trapez' },
     { title: 'shoulders', ru: 'плечи', en: 'shoulders', de: 'Schultern', es: 'hombros', tr: 'omuzlar' },
     { title: 'chest', ru: 'грудь', en: 'chest', de: 'Brust', es: 'pecho', tr: 'göğüs' },

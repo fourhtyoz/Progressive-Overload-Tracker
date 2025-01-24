@@ -16,3 +16,12 @@ export type Result = {
 export type GroupedResult = {
     [key: string]: Result[];
 };
+
+export type Muscle = {
+    title: string;
+    ru: string;
+    en: string;
+    de: string;
+    es: string;
+    tr: string;
+}
