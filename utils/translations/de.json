@@ -122,6 +122,8 @@
     },
 
     "errors": {
+        "titleCantBeEmpty": "Der Name der Übung darf nicht leer sein",
+        "titleCantBeThis": "Dieser Übungsname ist nicht geeignet",
         "repsMustBeNumber": "Wiederholungen müssen eine Zahl sein",
         "repsMustBePositive": "Wiederholungen müssen größer als 0 sein",
         "weightMustBeNumber": "Gewicht muss eine Zahl sein",

@@ -122,6 +122,8 @@
     },
 
     "errors": {
+        "titleCantBeEmpty": "Egzersiz adı boş olamaz",
+        "titleCantBeThis": "Bu egzersiz adı uygun değil",
         "repsMustBeNumber": "Tekrarlar bir sayı olmalıdır",
         "repsMustBePositive": "Tekrarlar 0'dan büyük olmalıdır",
         "weightMustBeNumber": "Ağırlık bir sayı olmalıdır",

@@ -122,6 +122,8 @@
     },
 
     "errors": {
+        "titleCantBeEmpty": "Название упражнения не может быть пустым",
+        "titleCantBeThis": "Такое название упражнения не подходит",
         "repsMustBeNumber": "Повторения должны быть числом",
         "repsMustBePositive": "Повторения должны быть больше 0",
         "weightMustBeNumber": "Вес должен быть числом",

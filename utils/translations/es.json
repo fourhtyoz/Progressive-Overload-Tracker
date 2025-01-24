@@ -122,6 +122,8 @@
     },
 
     "errors": {
+        "titleCantBeEmpty": "El nombre del ejercicio no puede estar vacío",
+        "titleCantBeThis": "Este nombre de ejercicio no es apropiado",
         "repsMustBeNumber": "Las repeticiones deben ser un número",
         "repsMustBePositive": "Las repeticiones deben ser mayores a 0",
         "weightMustBeNumber": "El peso debe ser un número",
