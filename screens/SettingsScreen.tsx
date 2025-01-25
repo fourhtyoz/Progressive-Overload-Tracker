@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import { settingsStore } from "@/store/store";
 import { observer } from "mobx-react-lite";
 import ErrorMessage from "@/components/ErrorMessage";
+import { deleteTables, createTables } from "@/services/db";
 
 
 const SettingsScreen = observer(() => {
@@ -26,6 +27,8 @@ const SettingsScreen = observer(() => {
     }
 
     const handleDeleteAllData = () => {
+        deleteTables()
+        createTables()
         Alert.alert(
             t('alerts.success'),
             t('settings.dataDeleted'),
