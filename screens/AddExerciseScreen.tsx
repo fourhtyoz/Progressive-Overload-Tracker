@@ -73,7 +73,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
         <SafeAreaView style={globalStyles.wrapper}>
             {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} setError={setError} /></View>}
              <View style={globalStyles.itemWrapper}>
-                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
+                <Text testID='result-muscle' style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
                 <SelectDropdown
                     data={MUSCLES}
                     onSelect={(selectedItem, _) => setMuscleGroup(selectedItem.title)}
@@ -102,7 +102,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                 />
             </View>
             <View style={globalStyles.itemWrapper}>
-                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.title')}:</Text>
+                <Text testID='result-title' style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.title')}:</Text>
                 <TextInput 
                     onChangeText={(value) => handleChangeTitle(value)}
                     defaultValue={title}
@@ -112,6 +112,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                 />
             </View>
             <Button 
+                testID='result-createExercise'
                 onPress={handleCreateExercise} 
                 text={t('result.options.createExercise')}
                 pressedBgColor={COLORS.orange}

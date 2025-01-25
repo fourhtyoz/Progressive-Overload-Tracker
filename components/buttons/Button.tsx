@@ -13,6 +13,7 @@ type Props = {
     pressedBorderColor?: string,
     textColor?: string,
     pressedTextColor?: string,
+    testID?: string
 }
 
 
@@ -26,10 +27,12 @@ export default function Button({
     pressedBorderColor = COLORS.blackTransparentBorder,
     textColor = COLORS.white,
     pressedTextColor  = COLORS.black,
+    testID = '',
 } : Props) {
 
     return (
         <Pressable 
+            testID={testID}
             onPress={onPress}
             disabled={disabled}
             style={({ pressed }) => [

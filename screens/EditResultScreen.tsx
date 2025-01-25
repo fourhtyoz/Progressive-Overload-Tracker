@@ -21,7 +21,6 @@ import Loader from '@/components/Loader';
 
 
 const EditResultScreen = observer(({ navigation, route }: any) => {
-
     const [exercises, setExercises] = useState<Exercise[]>([])
     const [newDate, setNewDate] = useState(new Date())
     const [newGroup, setNewGroup] = useState<any>(null)
@@ -206,7 +205,8 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             </View>
             <View style={globalStyles.itemWrapper}>
                 <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.weight')}:</Text>
-                <TextInput 
+                <TextInput
+                    testID='input-weight' 
                     style={[globalStyles.inputWithOption, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
                     value={`${newWeight}`}
                     placeholder={t('result.options.whatWeight')}
@@ -234,7 +234,8 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             </View>
             <View style={globalStyles.itemWrapper}>
                 <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.reps')}:</Text>
-                <TextInput 
+                <TextInput
+                    testID='input-reps' 
                     style={[globalStyles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}
                     value={`${newReps}`}
                     placeholder={t('result.options.howManyReps')}
