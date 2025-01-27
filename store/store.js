@@ -1,6 +1,7 @@
 import { makeAutoObservable, runInAction } from "mobx";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@/utils/i18n";
+import { getDeviceLanuguage, getDeviceMeasurementSystem } from "@/utils/i18n";
 
 
 class SettingsStore {
@@ -65,12 +66,12 @@ class SettingsStore {
                         break;
                     case 'language':
                         runInAction(() => {
-                            this.setLanguage(value || 'en')
+                            this.setLanguage(value || getDeviceLanuguage())
                         });
                         break;
                     case 'units':
                         runInAction(() => {
-                            this.units = value || 'kg' ;
+                            this.units = value || getDeviceMeasurementSystem() ;
                         });
                         break;
                     case 'notifications':
