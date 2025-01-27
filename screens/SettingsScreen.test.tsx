@@ -75,7 +75,7 @@ describe('SettingsScreen', () => {
 
     expect(alertSpy).toHaveBeenCalledWith(
       'Get in Touch',
-      'Send an email to meow@gmail.com',
+      'Send an email to hualua@gmail.com',
     );
   });
 

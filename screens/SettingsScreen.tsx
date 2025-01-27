@@ -22,7 +22,7 @@ const SettingsScreen = observer(() => {
     const handleGetInTouch = () => {
         Alert.alert(
             t('settings.getInTouch'),
-            `${t('settings.sendEmailTo')} meow@gmail.com`,
+            `${t('settings.sendEmailTo')} hualua@gmail.com`,
         )
     }
 
