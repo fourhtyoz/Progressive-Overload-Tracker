@@ -125,7 +125,7 @@ export function generateExercises(quantity: number = 100) {
 export async function generateResults(quantity: number = 1000) {
     console.log('generateResults start')
     for (let i = 0; i < quantity; i++) {
-        const exerciseObject = await getRandomExercise()
+        const exerciseObject: any = await getRandomExercise()
         const date = generateRandomDate()
         const reps = Math.floor(Math.random() * 20)
         const weight =  Math.floor(Math.random() * 150)
