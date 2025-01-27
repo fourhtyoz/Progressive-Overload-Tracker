@@ -3,10 +3,12 @@
     "name": "progressive_overload_tracker",
     "slug": "progressive_overload_tracker",
     "version": "1.0.0",
+    "icon": "./src/icon.png",
     "orientation": "portrait",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
+      "image": "./src/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
