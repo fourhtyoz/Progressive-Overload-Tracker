@@ -1,12 +1,14 @@
 import { COLORS, FONT_SIZE } from '@/styles/colors';
-import React from 'react';
+import React, { useState } from 'react';
 import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 
 const AboutScreen = observer(() => {
+    const [showHowTo, setShowHowTo] = useState(false);
     const { t } = useTranslation();
     const isDark = settingsStore.isDark
 
@@ -46,22 +48,26 @@ const AboutScreen = observer(() => {
     const renderItem = ({ item }: { item: { title: string; content: any } }) => (
         <View style={s.section}>
             <Text style={[s.subtitle, { color: isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}]}>{item.title}</Text>
-            {Array.isArray(item.content) 
-            ? item.content.map((subItem, index) => (<Text key={index} style={[s.listItem, { color: isDark ? COLORS.textColorDark : COLORS.textColorLight }]}>• {subItem}</Text>)) 
-            : <Text style={[
-                s.text, 
-                { 
-                    color: isDark ? COLORS.textColorDark : COLORS.textColorLight
-                }
-            ]}>
-                {item.content}
-            </Text>
-            }
+            <Text style={[s.text, { color: isDark ? COLORS.textColorDark : COLORS.textColorLight }]}>{item.content}</Text>
         </View>
     );
 
     return (
         <SafeAreaView>
+            <TouchableOpacity onPress={() => setShowHowTo(prev => !prev)} style={[s.howto, { borderColor: isDark ? COLORS.orange : COLORS.black }]} >
+                <View style={s.section}>
+                    <Text style={[s.subtitle, { color: isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}]}>{t('about.howToTitle')}</Text>
+                    {showHowTo &&
+                    <Text style={[s.text, { color: isDark ? COLORS.textColorDark : COLORS.textColorLight }]}>
+                        {t('about.howToContent')}
+                        <Text style={{ color: COLORS.green }}>{t('about.green')}</Text>
+                        <Text style={{ color: COLORS.orange }}>{t('about.yellow')}</Text>
+                        <Text style={{ color: COLORS.red }}>{t('about.red')}</Text>
+                        {t('about.lastSentence')}
+                    </Text>
+                    }
+                </View>
+            </TouchableOpacity>
             <FlatList 
                 style={s.wrapper} 
                 data={content} 
@@ -75,6 +81,12 @@ const AboutScreen = observer(() => {
 export default AboutScreen;
 
 const s = StyleSheet.create({
+    howto: {
+        paddingHorizontal: 20,
+        paddingTop: 15,
+        borderWidth: 1,
+        margin: 10
+    },
     wrapper: {
         paddingHorizontal: 20,
         paddingVertical: 15,
@@ -89,7 +101,7 @@ const s = StyleSheet.create({
         marginBottom: 10,
     },
     text: {
-        textAlign: 'justify',
+        // textAlign: 'justify',
         lineHeight: FONT_SIZE.lineHeight,
         fontSize: FONT_SIZE.normal,
     },

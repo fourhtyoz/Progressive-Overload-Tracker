@@ -45,7 +45,13 @@
         "exampleTitle": "Pratik Örnek",
         "exampleContent": "Senaryo: Squat gücünüzü artırmak istiyorsunuz.\n- 1. Hafta: 50 kg ile 3 set, 10 tekrar squat.\n- 2. Hafta: 52,5 kg ile 3 set, 10 tekrar squat.\n- 3. Hafta: 55 kg ile 3 set, 8 tekrar squat.\n- 4. Hafta: Ek bir set ekleyin veya setler arasındaki dinlenme süresini azaltın.",
         "tipsTitle": "Etkili Progresif Aşırı Yüklenme İçin İpuçları",
-        "tipsContent": "- Yavaş Başlayın: Yaralanmayı veya aşırı antrenmanı önlemek için ani artışlardan kaçının.\n- İlerlemeyi Takip Edin: Ağırlıkları, tekrarları ve setleri izlemek için bir günlük veya uygulama kullanın.\n- İyileşmeye Odaklanın: Uygun dinlenme, beslenme ve uyku adaptasyon için gereklidir.\n- Tutarlı Olun: Yavaş ve sürekli çaba, hızlı ve ani değişikliklerden daha sürdürülebilirdir.\n- Vücudunuzu Dinleyin: Çok hızlı aşırı yüklenmekten kaçının, bu yorgunluğa veya yaralanmaya yol açabilir."
+        "tipsContent": "- Yavaş Başlayın: Yaralanmayı veya aşırı antrenmanı önlemek için ani artışlardan kaçının.\n- İlerlemeyi Takip Edin: Ağırlıkları, tekrarları ve setleri izlemek için bir günlük veya uygulama kullanın.\n- İyileşmeye Odaklanın: Uygun dinlenme, beslenme ve uyku adaptasyon için gereklidir.\n- Tutarlı Olun: Yavaş ve sürekli çaba, hızlı ve ani değişikliklerden daha sürdürülebilirdir.\n- Vücudunuzu Dinleyin: Çok hızlı aşırı yüklenmekten kaçının, bu yorgunluğa veya yaralanmaya yol açabilir.",
+        "howToTitle": "Bu uygulama nasıl kullanılır?",
+        "howToContent": "Bu uygulama, ilerlemenizi takip etmenizi sağlar. Egzersizleri ekleyin, sonuçlarınızı girin ve geçmiş ekranını kontrol ederek, görebilirsiniz sonuçlarınızın",
+        "green": "\n - iyileşip iyileşmediğini (yeşil işaretçi)",
+        "yellow": "\n - ncekiyle aynı olup olmadığını (sarı işaretçi)",
+        "red": "\n - veya kötüleşip kötüleşmediğini (kırmızı işaretçi)",
+        "lastSentence": "\nAynı egzersiz için iki sonuç girdikten sonra işaretçi, sonucun sol tarafında görünecektir."
     },
 
     "newExercise": {

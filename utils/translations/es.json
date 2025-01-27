@@ -45,7 +45,13 @@
         "exampleTitle": "Ejemplo Práctico",
         "exampleContent": "Escenario: Quieres aumentar tu fuerza en sentadillas.\n- Semana 1: Realiza sentadillas con 50 kg durante 3 series de 10 repeticiones.\n- Semana 2: Realiza sentadillas con 52.5 kg durante 3 series de 10 repeticiones.\n- Semana 3: Realiza sentadillas con 55 kg durante 3 series de 8 repeticiones.\n- Semana 4: Agrega una serie adicional o reduce el tiempo de descanso entre series.",
         "tipsTitle": "Consejos para una Sobrecarga Progresiva Efectiva",
-        "tipsContent": "- Comienza Despacio: Evita incrementos drásticos para prevenir lesiones o sobreentrenamiento.\n- Registra el Progreso: Usa un diario de entrenamiento o una aplicación para monitorear pesos, repeticiones y series.\n- Enfócate en la Recuperación: El descanso adecuado, la nutrición y el sueño son esenciales para la adaptación.\n- Sé Consistente: Un esfuerzo gradual y constante es más sostenible que cambios rápidos y drásticos.\n- Escucha a tu Cuerpo: Evita sobrecargar demasiado rápido, lo que puede provocar fatiga o lesiones."
+        "tipsContent": "- Comienza Despacio: Evita incrementos drásticos para prevenir lesiones o sobreentrenamiento.\n- Registra el Progreso: Usa un diario de entrenamiento o una aplicación para monitorear pesos, repeticiones y series.\n- Enfócate en la Recuperación: El descanso adecuado, la nutrición y el sueño son esenciales para la adaptación.\n- Sé Consistente: Un esfuerzo gradual y constante es más sostenible que cambios rápidos y drásticos.\n- Escucha a tu Cuerpo: Evita sobrecargar demasiado rápido, lo que puede provocar fatiga o lesiones.",
+        "howToTitle": "¿Cómo usar esta aplicación?",
+        "howToContent": "Esta aplicación te permite hacer un seguimiento de tu progreso. Simplemente agrega ejercicios, registra tus resultados y revisa la pantalla de historial para ver si has",
+        "green": "\n - mejorado tu resultado (marcador verde)",
+        "yellow": "\n - mantenido el mismo resultado que antes (marcador amarillo)",
+        "red": "\n - o empeorado (marcador rojo)",
+        "lastSentence": "\nEl marcador aparecerá a la izquierda del resultado una vez que hayas ingresado dos resultados del mismo ejercicio."
     },
 
     "newExercise": {

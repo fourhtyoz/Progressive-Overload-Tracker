@@ -45,7 +45,13 @@
         "exampleTitle": "Praktisches Beispiel",
         "exampleContent": "Szenario: Du möchtest deine Kniebeugenstärke verbessern.\n- Woche 1: Kniebeugen mit 50 kg für 3 Sätze à 10 Wiederholungen.\n- Woche 2: Kniebeugen mit 52,5 kg für 3 Sätze à 10 Wiederholungen.\n- Woche 3: Kniebeugen mit 55 kg für 3 Sätze à 8 Wiederholungen.\n- Woche 4: Füge einen zusätzlichen Satz hinzu oder verkürze die Pausenzeiten zwischen den Sätzen.",
         "tipsTitle": "Tipps für eine effektive Progressive Überlastung",
-        "tipsContent": "- Langsam beginnen: Vermeide drastische Erhöhungen, um Verletzungen oder Übertraining zu vermeiden.\n- Fortschritt verfolgen: Verwende ein Trainingstagebuch oder eine App, um Gewichte, Wiederholungen und Sätze zu überwachen.\n- Fokus auf Erholung: Ausreichender Schlaf, Ernährung und Ruhe sind essenziell für die Anpassung.\n- Sei konsequent: Ein schrittweiser, gleichmäßiger Aufwand ist nachhaltiger als schnelle, drastische Änderungen.\n- Höre auf deinen Körper: Vermeide eine zu schnelle Überlastung, die zu Ermüdung oder Verletzungen führen kann."
+        "tipsContent": "- Langsam beginnen: Vermeide drastische Erhöhungen, um Verletzungen oder Übertraining zu vermeiden.\n- Fortschritt verfolgen: Verwende ein Trainingstagebuch oder eine App, um Gewichte, Wiederholungen und Sätze zu überwachen.\n- Fokus auf Erholung: Ausreichender Schlaf, Ernährung und Ruhe sind essenziell für die Anpassung.\n- Sei konsequent: Ein schrittweiser, gleichmäßiger Aufwand ist nachhaltiger als schnelle, drastische Änderungen.\n- Höre auf deinen Körper: Vermeide eine zu schnelle Überlastung, die zu Ermüdung oder Verletzungen führen kann.",
+        "howToTitle": "Wie benutzt man diese App?",
+        "howToContent": "Diese App ermöglicht es dir, deinen Fortschritt zu verfolgen. Füge einfach Übungen hinzu, trage deine Ergebnisse ein und überprüfe den Verlauf, um zu sehen, ob du dein Ergebnis",
+        "green": "\n - verbessert hast (grüner Marker)",
+        "yellow": "\n - das gleiche Ergebnis wie vorher erreicht hast (gelber Marker)",
+        "red": "\n - oder es verschlechtert hast (roter Marker)",
+        "lastSentence": "\n Der Marker erscheint links vom Ergebnis, sobald du zwei Ergebnisse für dieselbe Übung eingegeben hast."
     },
 
     "newExercise": {
