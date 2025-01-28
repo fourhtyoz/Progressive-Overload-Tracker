@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "progressive_overload_tracker",
+    "name": "Progressive Overload Tracker",
     "slug": "progressive_overload_tracker",
     "version": "1.0.0",
     "icon": "./src/icon.png",
@@ -17,6 +17,7 @@
     },
     "android": {
       "adaptiveIcon": {
+        "foregroundImage": "./src/icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.fourhtyoz.progressive_overload_tracker"
