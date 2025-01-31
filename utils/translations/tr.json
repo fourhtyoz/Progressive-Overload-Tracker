@@ -130,6 +130,7 @@
     },
 
     "toasts": {
+        "error": "Hata",
         "success": "Başarılı",
         "changedLanguage": "Dil başarıyla değiştirildi",
         "changedTheme": "Tema başarıyla değiştirildi",

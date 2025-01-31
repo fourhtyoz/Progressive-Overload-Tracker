@@ -1,9 +1,10 @@
-export type Exercise = {
+export type TExercise = {
+    id: number,
     title: string,
     type: string
 }
 
-export type Result = {
+export type TResult = {
     id: number,
     exercise: string,
     date: string,
@@ -13,11 +14,11 @@ export type Result = {
     units: string
 }
 
-export type GroupedResult = {
+export type TGroupedResult = {
     [key: string]: Result[];
 };
 
-export type Muscle = {
+export type TMuscle = {
     title: string;
     ru: string;
     en: string;

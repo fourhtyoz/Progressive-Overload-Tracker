@@ -130,6 +130,7 @@
     },
 
     "toasts": {
+        "error": "Ошибка",
         "success": "Успех",
         "changedLanguage": "Язык был успешно изменен",
         "changedTheme": "Тема была успешно изменена",

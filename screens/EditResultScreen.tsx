@@ -7,9 +7,9 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { globalStyles } from '@/styles/globalStyles';
 import Button from '@/components/buttons/Button';
 import { useTranslation } from 'react-i18next';
-import { fetchExercises, updateResult } from '@/services/db';
+import { fetchExercises, fetchResultById, updateResult } from '@/services/db';
 import { observer } from 'mobx-react-lite';
-import { Exercise } from '@/utils/types';
+import { TExercise } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -21,13 +21,13 @@ import Loader from '@/components/Loader';
 
 
 const EditResultScreen = observer(({ navigation, route }: any) => {
-    const [exercises, setExercises] = useState<Exercise[]>([])
+    const [exercises, setExercises] = useState<TExercise[]>([])
     const [newDate, setNewDate] = useState(new Date())
     const [newGroup, setNewGroup] = useState<any>(null)
-    const [newExercise, setNewExercise] = useState(null)
-    const [newReps, setNewReps] = useState(null)
-    const [newWeight, setNewWeight] = useState<any>(null)
-    const [newUnits, setUnits] = useState(null)
+    const [newExercise, setNewExercise] = useState<any>(null)
+    const [newReps, setNewReps] = useState('')
+    const [newWeight, setNewWeight] = useState<any>('')
+    const [newUnits, setNewUnits] = useState(null)
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false)
 
@@ -41,6 +41,10 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     }
 
     const handleChangeReps = (value: any) => {
+        if (!value) {
+            setNewReps('')
+            return
+        }
         value = Number(value)
         if (isNaN(value)) {
             setError(t('errors.repsMustBeNumber'))
@@ -54,6 +58,10 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     }
 
     const handleChangeWeight = (value: any) => {
+        if (!value) {
+            setNewWeight('')
+            return
+        }
         value = Number(value)
         if (isNaN(value)) {
             setError(t('errors.weightMustBeNumber'))
@@ -61,6 +69,8 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
         } 
         setNewWeight(value)
     }
+
+    console.log('newGroup', newGroup)
 
     const handleSubmitEntry = async () => {
         if (newDate && newGroup && newExercise && newReps && !isNaN(newWeight) && newUnits) {
@@ -71,8 +81,9 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 }
                 const muscle = newGroup?.title || newGroup
                 await updateResult(
-                    route.params.id, 
-                    newExercise, 
+                    route.params.resultId, 
+                    newExercise.title,
+                    newExercise.id,
                     dateString, 
                     muscle, 
                     newReps, 
@@ -100,18 +111,31 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     };
 
     useEffect(() => {
+        const getResult = async (resultId: number) => {
+            setIsLoading(true)
+            try {
+                const res = await fetchResultById(resultId)
+
+                setNewDate(res.date)
+                setNewExercise({id: res.exercise_id, title: res.exercise})
+                setNewGroup(res.muscleGroup)
+                setNewReps(res.reps)
+                setNewWeight(res.weight)
+                setNewUnits(res.units)
+
+            } catch (e) {
+                const error = `getResult ${e}`
+                console.error(error);
+                setError(error)
+            } finally {
+                setIsLoading(false)
+            }
+        }
         const getExercises = async () => {
             setIsLoading(true)
             try {
                 const res = await fetchExercises();
-                if (!Array.isArray(res)) throw new Error('fetchExercises returned no array')
                 setExercises(res)
-                setNewDate(route.params.date)
-                setNewReps(route.params.reps)
-                setNewWeight(route.params.weight)
-                setUnits(route.params.units)
-                setNewGroup(route.params.muscleGroup)
-                setNewExercise(route.params.exercise)
             } catch (e) {
                 const error = `${t('errors.failedFetchExercises')} ${e}`
                 console.error(error);
@@ -121,6 +145,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
             }
         };
 
+        getResult(route.params.resultId)
         getExercises()
     }, [route])
 
@@ -161,7 +186,10 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <SelectDropdown
                     data={muscleGroups}
                     defaultValue={muscleGroups.filter(item => item.title === newGroup)[0]}
-                    onSelect={(selectedItem, _) => setNewGroup(selectedItem)}
+                    onSelect={(selectedItem, _) => {
+                        setNewGroup(selectedItem)
+                        setNewExercise(null)
+                    }}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
@@ -183,14 +211,16 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.exercise')}:</Text>
                 <SelectDropdown
                     data={exercises.filter(item => item.type === newGroup).length === 0 ? exercises.filter(item => item.type === newGroup.title) : exercises.filter(item => item.type === newGroup)}
-                    defaultValue={route.params.exercise}
-                    onSelect={(selectedItem, _) => setNewExercise(selectedItem.title)}
+                    defaultValue={newExercise}
+                    onSelect={selectedItem => {
+                        setNewExercise(selectedItem)
+                    }}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={[globalStyles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
                             {newExercise 
-                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newExercise)}</Text>
+                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(newExercise.title)}</Text>
                             : <Text style={globalStyles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>
                             }
                         </View>
@@ -217,7 +247,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 <SelectDropdown
                     data={UNITS}
                     defaultValue={UNITS.filter(item => item.title === settingsStore.units)[0]}
-                    onSelect={(selectedItem) => setUnits(selectedItem[settingsStore.language])}
+                    onSelect={(selectedItem) => setNewUnits(selectedItem[settingsStore.language])}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (

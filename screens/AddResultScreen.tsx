@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 import { fetchExercises, addResult } from '@/services/db';
 import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
-import { Exercise } from '@/utils/types';
+import { TExercise } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
 import { COLORS } from '@/styles/colors';
 import Toast from 'react-native-toast-message';
@@ -23,9 +23,9 @@ type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
 
 
 const AddResultScreen = observer(({ navigation }: Props) => {
-    const [exercises, setExercises] = useState<Exercise[]>([])
+    const [exercises, setExercises] = useState<TExercise[]>([])
     const [muscleGroup, setMuscleGroup] = useState({title: null, translation: null})
-    const [exercise, setExercise] = useState('')
+    const [exercise, setExercise] = useState<any>('')
     const [repsValue, setRepsValue] = useState('')
     const [weightValue, setWeightValue] = useState<any>('')
     const [units, setUnits] = useState(settingsStore.units)
@@ -77,7 +77,8 @@ const AddResultScreen = observer(({ navigation }: Props) => {
             const date = new Date().toISOString()
             try {
                 await addResult(
-                    exercise,
+                    exercise.title,
+                    exercise.id,
                     date,
                     muscleGroup.title,
                     repsValue, 
@@ -177,7 +178,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 <SelectDropdown
                     disabled={!muscleGroup.title}
                     data={exercises.filter(item => item.type === muscleGroup.title)}
-                    onSelect={(selectedItem, _) => setExercise(selectedItem.title)}
+                    onSelect={(selectedItem, _) => setExercise(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
