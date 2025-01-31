@@ -1,7 +1,7 @@
 import React from 'react';
 import GoBackButton from '@/components/buttons/GoBackButton';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { COLORS } from '@/styles/colors';
+import { COLORS } from '@/styles/globalStyles';
 import { useTranslation } from 'react-i18next';
 
 // Screens

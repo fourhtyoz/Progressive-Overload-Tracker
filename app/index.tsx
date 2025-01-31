@@ -8,8 +8,8 @@ import { observer } from 'mobx-react-lite';
 import { createTables, deleteTables } from '@/services/db';
 import { settingsStore } from '@/store/store';
 import Loader from '@/components/Loader';
-import { LightTheme, DarkTheme } from '@/styles/themes';
-import { FONT_SIZE } from '@/styles/colors';
+import { LightTheme, DarkTheme } from '@/styles/globalStyles';
+import { FONT_SIZE } from '@/styles/globalStyles';
 import { clearAsyncStorage } from '@/utils/helpFunctions';
 import { generateExercises, generateResults } from '@/utils/helpFunctions';
 

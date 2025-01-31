@@ -1,4 +1,4 @@
-import { COLORS, FONT_SIZE } from '@/styles/colors';
+import { COLORS, FONT_SIZE } from '@/styles/globalStyles';
 import React, { useState } from 'react';
 import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
 import { settingsStore } from '@/store/store';

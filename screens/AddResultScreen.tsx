@@ -14,7 +14,7 @@ import { settingsStore } from '@/store/store';
 import { observer } from 'mobx-react-lite';
 import { TExercise } from '@/utils/types';
 import ErrorMessage from '@/components/ErrorMessage';
-import { COLORS } from '@/styles/colors';
+import { COLORS } from '@/styles/globalStyles';
 import Toast from 'react-native-toast-message';
 import { useFocusEffect } from 'expo-router';
 

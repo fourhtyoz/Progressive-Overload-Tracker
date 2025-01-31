@@ -10,7 +10,7 @@ import { MUSCLES } from '@/constants/settings';
 import { addExercise } from '@/services/db';
 import ErrorMessage from '@/components/ErrorMessage';
 import { observer } from 'mobx-react-lite';
-import { COLORS } from '@/styles/colors';
+import { COLORS } from '@/styles/globalStyles';
 import { settingsStore } from '@/store/store';
 import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';

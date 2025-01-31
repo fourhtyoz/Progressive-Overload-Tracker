@@ -1,13 +1,13 @@
 import React from "react"
 import { Text, View, TouchableOpacity, Alert, StyleSheet } from "react-native"
-import { COLORS } from "@/styles/colors"
+import { COLORS } from "@/styles/globalStyles"
 import { settingsStore } from "@/store/store"
 import { getformattedDate } from "@/utils/helpFunctions"
 import { UNITS } from "@/constants/settings"
 import { Ionicons } from "@expo/vector-icons"
 import { useNavigation } from "@react-navigation/native"
 import { useTranslation } from "react-i18next"
-import { FONT_SIZE } from "@/styles/colors"
+import { FONT_SIZE } from "@/styles/globalStyles"
 
 
 export default function Result({ resultId, date, weight, reps, units, progress, deleteResult }: any) {

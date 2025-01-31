@@ -2,7 +2,7 @@ import { SafeAreaView, View, Text, StyleSheet, Dimensions, Pressable, ImageBackg
 import { DrawerScreenProps } from "@react-navigation/drawer";
 import { DrawerParamList } from "@/navigation/DrawerNavigator";
 import { useTranslation } from "react-i18next";
-import { FONT_SIZE } from "@/styles/colors";
+import { FONT_SIZE } from "@/styles/globalStyles";
 
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
