@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import DrawerNavigator from '@/navigation/DrawerNavigator';
 import Toast, { BaseToast } from 'react-native-toast-message';
 import { I18nextProvider } from 'react-i18next';
-import i18n from '@/utils/i18n';
+import { NavigationContainer } from '@react-navigation/native';
+
 import { observer } from 'mobx-react-lite';
-import { createTables, deleteTables } from '@/services/db';
-import { settingsStore } from '@/store/store';
+
+import i18n from '@/utils/i18n';
 import Loader from '@/components/Loader';
-import { LightTheme, DarkTheme } from '@/styles/globalStyles';
-import { FONT_SIZE } from '@/styles/globalStyles';
-import { clearAsyncStorage } from '@/utils/helpFunctions';
-import { generateExercises, generateResults } from '@/utils/helpFunctions';
+import { settingsStore } from '@/store/store';
+import DrawerNavigator from '@/navigation/DrawerNavigator';
+import { createTables, deleteTables } from '@/services/db';
+import { LightTheme, DarkTheme, FONT_SIZE } from '@/styles/globalStyles';
+import { generateExercises, generateResults, clearAsyncStorage } from '@/utils/helpFunctions';
 
 
 const App = observer(() => {
