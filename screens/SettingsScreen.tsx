@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Alert, Pressable } from "react-native"
-import { COLORS, FONT_SIZE } from "@/styles/colors";
+import { COLORS, FONT_SIZE } from "@/styles/globalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import Button from "@/components/buttons/Button";
 import SelectDropdown from "react-native-select-dropdown";

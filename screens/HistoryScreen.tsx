@@ -9,7 +9,7 @@ import Exercise from '@/components/Exercise';
 import ErrorMessage from '@/components/ErrorMessage';
 import { settingsStore } from '@/store/store';
 import { fetchExercises } from '@/services/db';
-import { COLORS, FONT_SIZE } from '@/styles/colors';
+import { COLORS, FONT_SIZE } from '@/styles/globalStyles';
 import { toTitleCase } from '@/utils/helpFunctions';
 import { TExercise } from '@/utils/types';
 

@@ -1,5 +1,5 @@
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
-import { COLORS } from '@/styles/colors';
+import { COLORS } from '@/styles/globalStyles';
 import { settingsStore } from '@/store/store';
 
 

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { Text, View, StyleSheet, ActivityIndicator, Alert } from "react-native"
 import { settingsStore } from "@/store/store"
-import { COLORS } from "@/styles/colors"
+import { COLORS } from "@/styles/globalStyles"
 import { getProgress, toTitleCase } from "@/utils/helpFunctions"
 import { useTranslation } from "react-i18next";
-import { FONT_SIZE } from "@/styles/colors"
+import { FONT_SIZE } from "@/styles/globalStyles"
 import { TouchableOpacity } from "react-native-gesture-handler"
 import { fetchResultByExerciseId } from "@/services/db"
 import Result from "@/components/Result";

@@ -1,7 +1,59 @@
 import { StyleSheet, Dimensions } from "react-native";
-import { COLORS, FONT_SIZE } from "./colors";
+import { DefaultTheme, DarkTheme as DT } from '@react-navigation/native';
+
 
 const { width: screenWidth } = Dimensions.get('window');
+
+
+export const COLORS = {
+    black: '#000',
+    white: '#FFF',
+    orange: '#FFC857',
+    gray: '#a9a9a9',
+    placeholderTextLight: '#a9a9a9',
+    red: '#DC3545',
+    green: '#16C47F',
+    blackTransparentBorder: 'rgba(0, 0, 0, .1)',
+    textDarkScreen: '#F5F5F5',
+    selectedLight: '#D2D9DF',
+    darkDarkGrey: '#282828',
+    darkGrey: '#3f3f3f',
+    textTitleColorDark: '#EDEDED',
+    textColorDark: '#F5F5F5',
+    textTitleColorLight: '#333',
+    textColorLight: '#555' 
+}
+
+
+export const LightTheme = {
+    ...DefaultTheme,
+    colors: {
+        ...DefaultTheme.colors,
+        background: '#f8f9fa',
+        text: COLORS.black
+    },
+  };
+  
+
+export const DarkTheme = {
+    ...DT,
+    colors: {
+        ...DT.colors,
+        background: '#171717',
+        text: COLORS.textDarkScreen
+    },
+};
+
+
+export const FONT_SIZE = {
+    normal: screenWidth <= 360 ? 16 : 14,
+    small: screenWidth <= 360 ? 14 : 12,
+    large: screenWidth <= 360 ? 18 : 16,
+    huge: screenWidth <= 360 ? 20 : 18, 
+    lineHeight: screenWidth <= 360 ? 24 : 21
+};
+
+
 export const globalStyles = StyleSheet.create({
     date: {
         marginEnd: 10

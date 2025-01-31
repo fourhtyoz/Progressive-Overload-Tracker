@@ -15,7 +15,7 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { Ionicons } from '@expo/vector-icons';
 import { settingsStore } from '@/store/store';
-import { COLORS } from '@/styles/colors';
+import { COLORS } from '@/styles/globalStyles';
 import Toast from 'react-native-toast-message';
 import Loader from '@/components/Loader';
 

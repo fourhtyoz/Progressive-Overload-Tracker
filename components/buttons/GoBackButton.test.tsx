@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent } from '@testing-library/react-native';
 import GoBackButton from './GoBackButton';
-import { COLORS } from '@/styles/colors';
+import { COLORS } from '@/styles/globalStyles';
 
 
 describe('GoBackButton Component', () => {
