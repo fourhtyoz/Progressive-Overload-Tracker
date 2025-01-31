@@ -15,7 +15,7 @@ export type TResult = {
 }
 
 export type TGroupedResult = {
-    [key: string]: Result[];
+    [key: string]: TResult[];
 };
 
 export type TMuscle = {

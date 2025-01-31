@@ -10,6 +10,7 @@ import { fetchResultByExerciseId } from "@/services/db"
 import Result from "@/components/Result";
 import { deleteResult } from "@/services/db"
 import { TResult } from "@/utils/types"
+import { MUSCLES } from "@/constants/settings"
 
 
 export default function Exercise({ id, title, type, sorting, setError }: any) {
@@ -72,7 +73,7 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
         <>
         <View style={[s.exerciseSection, { backgroundColor: settingsStore.isDark ? COLORS.darkGrey : COLORS.white }]}>
         <TouchableOpacity onPress={() => setIsOpen(prev => !prev)}>
-            <Text style={[s.exerciseHeader, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textTitleColorLight}]}>{toTitleCase(title)} ({type})</Text>
+            <Text style={[s.exerciseHeader, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textTitleColorLight}]}>{toTitleCase(title)} ({MUSCLES.find(item => item.title === type   )?.[settingsStore.language]})</Text>
             {isOpen &&
             <View style={[s.row, s.headerRow, { backgroundColor: settingsStore.isDark ? COLORS.darkDarkGrey :'#f1f3f5', borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef'}]}>
                 <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.date')}</Text>
