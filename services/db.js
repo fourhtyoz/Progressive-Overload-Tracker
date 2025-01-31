@@ -1,7 +1,7 @@
 import * as SQLite from 'expo-sqlite/legacy';
 
 
-const db = SQLite.openDatabase('db.db');
+const db = SQLite.openDatabase('progressive_overload_tracker.db');
 
 const createTables = () => {
     // exercises
@@ -20,13 +20,18 @@ const createTables = () => {
         tx.executeSql(
             `CREATE TABLE IF NOT EXISTS results (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
+                exercise_id INTEGER NOT NULL,
                 exercise TEXT NOT NULL,
                 date TEXT NOT NULL,
                 muscleGroup TEXT NOT NULL,
                 reps INTEGER NOT NULL,
                 weight INTEGER NOT NULL,
-                units TEXT NOT NULL
-            );`
+                units TEXT NOT NULL,
+                FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
+            );`, 
+            [],  
+            (_, result) => console.log('result', result),
+            (_, error) => console.log('error', error)
         );
     });
 };
@@ -38,8 +43,8 @@ const addExercise = async (title, type) => {
         const exists = await new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    'SELECT COUNT(*) AS count FROM exercises WHERE title = ?',
-                    [title],
+                    'SELECT COUNT(*) AS count FROM exercises WHERE title = ? AND type = ?',
+                    [title, type],
                     (_, result) => resolve(result.rows.item(0).count > 0),
                     (_, error) => reject(error)
                 );
@@ -47,7 +52,7 @@ const addExercise = async (title, type) => {
         });
 
         if (exists) {
-            throw new Error('This exercise alread exists')
+            throw new Error('This exercise already exists')
         }
 
         const res = await new Promise((resolve, reject) => {
@@ -113,15 +118,19 @@ const fetchExercises = async () => {
 
 
 // RESULTS
-const addResult = async (exercise, date, muscleGroup, reps, weight, units) => {
+const addResult = async (exercise, exercise_id, date, muscleGroup, reps, weight, units) => {
     try {
         const res = await new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    'INSERT INTO results (exercise, date, muscleGroup, reps, weight, units) VALUES (?, ?, ?, ?, ?, ?)',
-                    [exercise, date, muscleGroup, reps, weight, units],
-                    (_, result) => resolve(true),
-                    (_, error) => reject(error)
+                    'INSERT INTO results (exercise, exercise_id, date, muscleGroup, reps, weight, units) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    [exercise, exercise_id, date, muscleGroup, reps, weight, units],
+                    (_, result) => {
+                        resolve(true)
+                    },
+                    (_, error) => {
+                        reject(error)
+                    }
                 );
             });
         })
@@ -133,13 +142,13 @@ const addResult = async (exercise, date, muscleGroup, reps, weight, units) => {
 };
 
 
-const updateResult = async (id, exercise, date, muscleGroup, reps, weight, units) => {
+const updateResult = async (id, exercise, exercise_id, date, muscleGroup, reps, weight, units) => {
     try {
         const res = await new Promise((resolve, reject) => {
             db.transaction(tx => {
                 tx.executeSql(
-                    'UPDATE results SET exercise = ?, date = ?, muscleGroup = ?, reps = ?, weight = ?, units = ? WHERE id = ?',
-                    [exercise, date, muscleGroup, reps, weight, units, id],
+                    'UPDATE results SET exercise = ?, exercise_id = ?, date = ?, muscleGroup = ?, reps = ?, weight = ?, units = ? WHERE id = ?',
+                    [exercise, exercise_id, date, muscleGroup, reps, weight, units, id],
                     (_, result) => resolve(true),
                     (_, error) => reject(error)
                 )
@@ -172,6 +181,43 @@ const deleteResult = async (id) => {
     }
 }
 
+const fetchResultById = async (id) => {
+    try {
+        const res = await new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `SELECT * FROM results WHERE id = ?`,
+                    [id],
+                    (_, result) => resolve(result.rows._array[0]),
+                    (_, error) => reject(error)
+                )
+            })
+        })
+        return res
+    } catch (e) {
+        console.error('fetchResultById error', e)
+        throw new Error(e)
+    }
+}
+
+const fetchResultByExerciseId = async (exercise_id) => {
+    try {
+        const res = await new Promise((resolve, reject) => {
+            db.transaction(tx => {
+                tx.executeSql(
+                    `SELECT * from results WHERE exercise_id = ?`,
+                    [exercise_id],
+                    (_, result) => resolve(result.rows._array),
+                    (_, error) => reject(error)
+                )
+            })
+        })
+        return res
+    } catch (e) {
+        console.error('fetchResultByExercise error', e)
+        throw new Error(e)
+    }
+}
 
 const fetchResults = async (sorting = 'asc') => {
     try {
@@ -219,10 +265,12 @@ export {
     addExercise,
     // updateExercise,
     // deleteExercise, 
-    fetchExercises, 
+    fetchExercises,
     addResult,
     updateResult,
     deleteResult,
     fetchResults,
+    fetchResultByExerciseId,
+    fetchResultById,
     deleteTables
 }

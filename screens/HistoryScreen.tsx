@@ -1,30 +1,23 @@
 import React, { useState, useCallback } from 'react';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Alert, Dimensions } from 'react-native';
-import { toTitleCase, groupByExercise, filterByMuscleGroup, getformattedDate, getProgress } from '@/utils/helpFunctions';
 import SelectDropdown from 'react-native-select-dropdown';
-import { COLORS, FONT_SIZE } from '@/styles/colors';
 import { useTranslation } from 'react-i18next';
-import { fetchResults, deleteResult } from '@/services/db';
-import { GroupedResult, Result } from '@/utils/types';
-import ErrorMessage from '@/components/ErrorMessage';
-import { Ionicons } from '@expo/vector-icons';
-import { DrawerScreenProps } from '@react-navigation/drawer';
-import { DrawerParamList } from '@/navigation/DrawerNavigator';
-import { settingsStore } from '@/store/store';
+
 import Loader from '@/components/Loader';
-import { MUSCLES, UNITS } from '@/constants/settings';
+import Exercise from '@/components/Exercise';
+import ErrorMessage from '@/components/ErrorMessage';
+import { settingsStore } from '@/store/store';
+import { fetchExercises } from '@/services/db';
+import { COLORS, FONT_SIZE } from '@/styles/colors';
+import { toTitleCase } from '@/utils/helpFunctions';
+import { TExercise } from '@/utils/types';
 
 
-type Props = DrawerScreenProps<DrawerParamList, 'History'>;
-
-
-export default function HistoryScreen({ navigation } : Props) {
+export default function HistoryScreen() {
     const { t } = useTranslation();
 
-    const [results, setResults] = useState<GroupedResult[]>([]);
-    const [exerciseOptions, setExerciseOptions] = useState<string[]>([]);
-    const [selectedExercise, setSelectedExercise] = useState('-');
+    const [exercises, setExercises] = useState<any>([]);
     const [muscleOptions, setMuscleOptions] = useState<string[]>([]);
     const [selectedMuscle, setSelectedMuscle] = useState('-');
     const [selectedSorting, setSelectedSorting] = useState({title: t('history.byDateRecentFirst'), type: 'desc'});
@@ -33,54 +26,35 @@ export default function HistoryScreen({ navigation } : Props) {
 
 
     const resetFilters = () => {
-        setSelectedExercise('-');
         setSelectedMuscle('-');
     };
 
-    const isResetDisabled = selectedExercise === '-' && selectedMuscle === '-'
+
+    const isResetDisabled = selectedMuscle === '-'
 
     useFocusEffect(
         useCallback(() => {
-            getResults()
+            getExercises()
             
             return () => {
-                setResults([])
-                setExerciseOptions([]);
                 setMuscleOptions([]);
-                setSelectedExercise('-')
                 setSelectedMuscle('-')
                 setError('')
             }
         }, [selectedSorting])
     )
 
-    const getResults = async () => {
+    const getExercises = async () => {
         setIsLoading(true)
         try {
-            const res = await fetchResults(selectedSorting.type);
+            const res = await fetchExercises()
             if (!Array.isArray(res)) {
-                throw new Error('fetchResults returned no array')
+                throw new Error('fetchExercises returned no array')
             }
-            if (res.length > 0) {
-                const groupedResults: any = groupByExercise(res)
-                setResults(groupedResults)
-                
-                // filters exercise
-                const keys = Object.keys(groupedResults)
-                keys.splice(0, 0, '-')
-                setExerciseOptions(keys);
+            setExercises(res)
 
-                // filters muscles
-                const muscleGroupSet = new Set()
-                res.map(item => muscleGroupSet.add(item.muscleGroup))
-                const muscleGroupArray: any = Array.from(muscleGroupSet)
-                muscleGroupArray.splice(0, 0, '-')
-                setMuscleOptions(muscleGroupArray)
-            } else {
-                setResults([])
-                setExerciseOptions([]);
-                setMuscleOptions([]);
-            }
+            const types = Array.from(new Set(res.map(item => item.type)))
+            setMuscleOptions(types)
         } catch (e) {
             const error = `${t('errors.failedFetchResults')} ${e}`
             console.error(error);
@@ -89,139 +63,6 @@ export default function HistoryScreen({ navigation } : Props) {
             setIsLoading(false)
         }
     }
-
-    const deleteRecord = async (item: Result) => {
-        try {
-            await deleteResult(item.id);
-            Alert.alert(
-                t('alerts.success'),
-                t('alerts.recordDeleted'),
-            );
-            
-            setResults((prevResults) => {
-                const updatedResults: any = { ...prevResults };
-                const filteredRecords = updatedResults[item.exercise].filter((record: Result) => record.id !== item.id);
-
-                if (filteredRecords.length === 0) {
-                    delete updatedResults[item.exercise];
-                } else {
-                    updatedResults[item.exercise] = filteredRecords;
-                }
-
-                return updatedResults;
-            });
-        } catch (e) {
-            console.error(e);
-            Alert.alert(
-                t('alerts.error'),
-                t('alerts.failedDeletingRecord'),
-            );
-        }
-    };
-
-    const handleDeleteRecord = (item: Result) => {
-        Alert.alert(
-            t('alerts.areYouSure'),
-            t('alerts.sureToDeleteRecord'),
-            [
-                {text: t('alerts.yesProceed'), onPress: () => deleteRecord(item)},
-                {text: t('alerts.noIchangedMyMind')},
-            ]
-        )
-    }
-
-    const handlePressedRecord = (item: Result) => {
-        Alert.alert(
-            t('alerts.chooseAction'), 
-            '', 
-            [
-                {text: t('alerts.delete'), onPress: () => handleDeleteRecord(item)},
-                {text: t('alerts.edit'), onPress: () => navigation.navigate('EditResult', { ...item })},
-                {text: t('alerts.close')},
-            ])
-    }
-
-    const renderExercise = ({ item }: { item: any }, progress: any, key: number) => (
-        <View key={key} >
-            <View 
-               style={[
-                s.row,
-                {
-                    borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef',
-                    borderLeftWidth: 5,
-                    borderLeftColor:
-                        progress === 'worse' ? COLORS.red :
-                        progress === 'neutral' ? COLORS.orange :
-                        progress === 'better' ? COLORS.green :
-                        settingsStore.isDark ? COLORS.darkGrey : COLORS.white,
-                }
-            ]}
-            >
-                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{getformattedDate(item.date)}</Text>
-                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{MUSCLES.find((i: any) => i.title === item.muscleGroup)?.[settingsStore.language]}</Text>
-                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.weight} {UNITS.find((i: any) => i.title === item.units)?.[settingsStore.language]}</Text>
-                <Text style={[s.cell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{item.reps}</Text>
-                <TouchableOpacity style={s.cell} onPress={() => handlePressedRecord(item)}>
-                    <Ionicons style={s.cellAction} name="settings" color={COLORS.gray} size={18} />
-                </TouchableOpacity>
-            </View>
-        </View>
-    );
-
-    const renderTable = (data: any) => {
-        let keys = Object.keys(data) || [];
-
-        if (selectedMuscle !== '-') {
-            data = filterByMuscleGroup(data, selectedMuscle);
-            keys = Object.keys(data);
-        }
-
-        if (selectedExercise !== '-') {
-            keys = keys.filter(item => item === selectedExercise);
-        }
-
-        if (keys.length === 0) {
-            return (
-                <View style={s.notFound}>
-                    <Text style={s.text}>{t('history.noResults')}</Text>
-                </View>
-            )
-        }
-
-        return keys.map((exerciseName, i) => {
-            return (
-                <View key={i} style={[s.exerciseSection, { backgroundColor: settingsStore.isDark ? COLORS.darkGrey : COLORS.white }]}>
-                    <Text style={[s.exerciseHeader, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textTitleColorLight}]}>{toTitleCase(exerciseName)}</Text>
-                    <View style={[s.row, s.headerRow, { backgroundColor: settingsStore.isDark ? COLORS.darkDarkGrey :'#f1f3f5', borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef'}]}>
-                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.date')}</Text>
-                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.muscle')}</Text>
-                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.weight')}</Text>
-                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.reps')}</Text>
-                        <Text style={[s.cell, s.headerCell, { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057'}]}>{t('history.table.header.edit')}</Text>
-                    </View>
-                    {data[exerciseName].map((record: any, index: number) => {
-                        let key = record.id
-                        let progress = 'new'
-
-                        if (selectedSorting.type === 'desc') {
-                            const len = data[exerciseName].length
-                            if (index + 1 < len) {
-                                const previousSet = data[exerciseName][index + 1]
-                                progress = getProgress(record, previousSet)
-                            } 
-                            return renderExercise({ item: record }, progress, key);
-                        } else {
-                            if (index > 0) {
-                                const previousSet = data[exerciseName][index - 1]
-                                progress = getProgress(record, previousSet)
-                            }
-                            return renderExercise({ item: record }, progress, key);
-                        }
-                    })}
-                </View>
-            )
-        })
-    };
 
     if (isLoading) {
         return (
@@ -260,39 +101,6 @@ export default function HistoryScreen({ navigation } : Props) {
                 />
             </View>
             <View style={s.filterWrapper}>
-                <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('history.table.header.exercise')}:</Text>
-                <SelectDropdown
-                    data={exerciseOptions}
-                    defaultValue={exerciseOptions.filter(item => item === '-')[0]}
-                    onSelect={(selectedItem, _) => setSelectedExercise(selectedItem)}
-                    showsVerticalScrollIndicator={false}
-                    dropdownStyle={s.dropdownMenuStyle}
-                    renderButton={(selectedItem) => (
-                        <View style={s.dropdownButton}>
-                            {selectedExercise === '-' 
-                            ? <Text style={[
-                                s.selectedItem, 
-                                { 
-                                    backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
-                                    color: settingsStore.isDark ? COLORS.black : COLORS.white
-                                }]}>{'-'}</Text>
-                            : <Text style={[
-                                s.selectedItem, 
-                                { 
-                                    backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.black,
-                                    color: settingsStore.isDark ? COLORS.black : COLORS.white
-                                }]}>{toTitleCase(selectedItem)}</Text>
-                            } 
-                        </View>
-                    )}
-                    renderItem={(item, index, isSelected) => (
-                        <View key={index} style={[s.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={s.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
-                        </View>
-                    )}
-                />
-            </View>
-            <View style={s.filterWrapper}>
                 <Text style={[s.filterTitle, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('history.table.header.muscle')}:</Text>
                 <SelectDropdown
                     data={muscleOptions}
@@ -328,7 +136,10 @@ export default function HistoryScreen({ navigation } : Props) {
             <TouchableOpacity style={[s.resetButton, isResetDisabled && s.resetButtonDisabled]} onPress={resetFilters} disabled={isResetDisabled}>
                 <Text style={[s.resetButtonText, isResetDisabled && s.resetButtonTextDisabled]}>{t('history.resetFilter')}</Text>
             </TouchableOpacity>
-            {renderTable(results)}
+            {selectedMuscle !== '-' 
+            ? exercises.filter((item: TExercise) => item.type === selectedMuscle).map((item: TExercise) => (<Exercise key={item.id} id={item.id} title={item.title} type={item.type} sorting={selectedSorting.type} setError={setError} />))
+            : exercises.map((item: TExercise) => (<Exercise key={item.id} id={item.id} title={item.title} type={item.type} sorting={selectedSorting.type} setError={setError} />))
+            }
         </ScrollView>
     )
 };
@@ -344,7 +155,7 @@ const s = StyleSheet.create({
         marginTop: 20,
         fontSize: 16,
         color: '#555',
-      },
+    },
     resetButtonTextDisabled: {
         color: COLORS.black,
     },

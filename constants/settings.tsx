@@ -16,12 +16,6 @@ export const THEMES = [
     { title: 'dark', ru: 'Темная', en: 'Dark', de: 'Dunkel', es: 'Oscuro', tr: 'Koyu' }
 ]
 
-export const FONT_SIZES = [
-    {title: 'small', size: 14},
-    {title: 'normal', size: 18},   
-    {title: 'large', size: 22},   
-]
-
 export const MUSCLES: any[] = [
     { title: 'trapezius', ru: 'Трапеция', en: 'Trapezius', de: 'Trapezmuskel', es: 'Trapecio', tr: 'Trapez' },
     { title: 'shoulders', ru: 'Плечи', en: 'Shoulders', de: 'Schultern', es: 'Hombros', tr: 'Omuzlar' },

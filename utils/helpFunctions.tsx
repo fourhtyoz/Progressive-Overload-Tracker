@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { Result, GroupedResult } from "./types";
+import { TResult, TGroupedResult } from "./types";
 import { settingsStore } from "@/store/store";
 import { MUSCLES } from "@/constants/settings";
 import { UNITS } from "@/constants/settings";
@@ -7,7 +7,7 @@ import { addExercise, addResult } from "@/services/db";
 import { db } from "@/services/db";
 
 
-export function getProgress(currentSet: Result, previousSet: Result) {
+export function getProgress(currentSet: TResult, previousSet: TResult) {
     const defaultUnits = settingsStore.units
 
     let progress = ''
@@ -70,10 +70,10 @@ export function toTitleCase(word: string) {
 }
 
 
-export function groupByExercise(dataArray: Result[]) {
-    const grouped: GroupedResult = {};
+export function groupByExercise(dataArray: TResult[]) {
+    const grouped: TGroupedResult = {};
 
-    dataArray.forEach((item: Result) => {
+    dataArray.forEach((item: TResult) => {
         if (!grouped[item.exercise]) {
             grouped[item.exercise] = [];
         }
@@ -88,7 +88,7 @@ export function filterByMuscleGroup(data: any, targetGroup: any) {
     const filteredData: any = {};
 
     for (const [exercise, records] of Object.entries(data)) {
-        const filteredRecords = (records as Result[]).filter((record: Result) => record.muscleGroup === targetGroup);
+        const filteredRecords = (records as TResult[]).filter((record: TResult) => record.muscleGroup === targetGroup);
         if (filteredRecords.length > 0) {
             filteredData[exercise] = filteredRecords;
         }

@@ -70,7 +70,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     }
 
     return (
-        <SafeAreaView style={globalStyles.wrapper}>
+        <SafeAreaView style={[globalStyles.wrapper, { marginTop: 25 }]}>
             {error && <View style={{ marginTop: 25 }}><ErrorMessage message={error} setError={setError} /></View>}
              <View style={globalStyles.itemWrapper}>
                 <Text testID='result-muscle' style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>

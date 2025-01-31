@@ -21,7 +21,7 @@ export type DrawerParamList = {
     About: undefined;
     History: undefined;
     Settings: undefined;
-    EditResult: any;
+    EditResult: undefined;
 };
 
 
