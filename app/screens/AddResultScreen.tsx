@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MUSCLES, UNITS } from '@/app/constants/settings';
@@ -9,14 +9,12 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { globalStyles } from '@/app/styles/globalStyles';
 import Button from '@/app/components/buttons/Button';
 import { useTranslation } from 'react-i18next';
-import { fetchExercises, addResult } from '@/app/services/db';
-import { settingsStore } from '@/app/store/store';
+import { addResult } from '@/app/services/db';
+import { settingsStore } from '@/app/store/settingsStore';
 import { observer } from 'mobx-react-lite';
-import { TExercise } from '@/app/types';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { COLORS } from '@/app/styles/globalStyles';
 import Toast from 'react-native-toast-message';
-import { useFocusEffect } from 'expo-router';
 import { exerciseStore } from '../store/exerciseStore';
 
 

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import { Text, View, StyleSheet, ActivityIndicator, Alert } from "react-native"
-import { settingsStore } from "@/app/store/store"
+import { settingsStore } from "@/app/store/settingsStore"
 import { getProgress, toTitleCase } from "@/app/utils/utils"
 import { useTranslation } from "react-i18next";
 import { FONT_SIZE, COLORS } from "@/app/styles/globalStyles"
@@ -42,7 +42,7 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
                 getResultsByExercise()
             }
         }
-    }, [isOpen, results.length, id, setError])
+    }, [isOpen, results, id, setError])
     
 
     const handleDeleteResult = async (resultId: number) => {

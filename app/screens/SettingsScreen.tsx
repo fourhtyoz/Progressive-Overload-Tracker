@@ -8,7 +8,7 @@ import { UNITS, THEMES, LANGUAGES } from "@/app/constants/settings";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Toast from "react-native-toast-message";
 import { useTranslation } from "react-i18next";
-import { settingsStore } from "@/app/store/store";
+import { settingsStore } from "@/app/store/settingsStore";
 import { observer } from "mobx-react-lite";
 import ErrorMessage from "@/app/components/ErrorMessage";
 import { deleteTables, createTables } from "@/app/services/db";

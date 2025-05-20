@@ -26,7 +26,7 @@ jest.mock('react-i18next', () => ({
 }));
 
 // Mock the `settingsStore`
-jest.mock('@/app/store/store', () => ({
+jest.mock('@/app/store/settingsStore', () => ({
   settingsStore: {
     isDark: false, // Default to light mode for testing
   },

@@ -2,23 +2,19 @@ import React, { useEffect } from 'react';
 import Toast, { BaseToast } from 'react-native-toast-message';
 import { I18nextProvider } from 'react-i18next';
 import { NavigationContainer } from '@react-navigation/native';
-
 import { observer } from 'mobx-react-lite';
-
 import i18n from '@/app/translations/i18n';
 import Loader from '@/app/components/Loader';
-import { settingsStore } from '@/app/store/store';
+import { settingsStore } from '@/app/store/settingsStore';
 import DrawerNavigator from '@/app/navigation/DrawerNavigator';
-import { createTables, deleteTables } from '@/app/services/db';
+import { createTables } from '@/app/services/db';
 import { LightTheme, DarkTheme, FONT_SIZE } from '@/app/styles/globalStyles';
-import { generateExercises, generateResults, clearAsyncStorage } from '@/app/utils/utils';
 
 
 const App = observer(() => {
     useEffect(() => {
         // for development
         // clearAsyncStorage();
-        // deleteTables();
         createTables();
     }, []);
 

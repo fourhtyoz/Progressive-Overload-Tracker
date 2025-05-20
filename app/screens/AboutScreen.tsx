@@ -1,7 +1,7 @@
 import { COLORS, FONT_SIZE } from '@/app/styles/globalStyles';
 import React, { useState } from 'react';
 import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
-import { settingsStore } from '@/app/store/store';
+import { settingsStore } from '@/app/store/settingsStore';
 import { observer } from 'mobx-react-lite';
 import { useTranslation } from 'react-i18next';
 import { TouchableOpacity } from 'react-native-gesture-handler';

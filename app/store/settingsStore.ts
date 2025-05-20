@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import i18n from "@/app/translations/i18n";
 import { getDeviceLanuguage, getDeviceMeasurementSystem } from "@/app/translations/i18n";
 
-
 class SettingsStore {
     theme = ''
     fontSize = ''
@@ -13,28 +12,28 @@ class SettingsStore {
     isLoading = true;
 
     constructor() {
-        this.initialize()
         makeAutoObservable(this)
+        this.initialize()
     }
 
     get isDark() {
         return this.theme === 'dark' ? true : false
     }
 
-    setTheme(value) {
+    setTheme(value: string) {
         this.theme = value
     }
 
-    setFontsize(value) {
+    setFontsize(value: string) {
         this.fontSize = value
     }
 
-    setLanguage(value) {
+    setLanguage(value: string) {
         this.language = value
         i18n.changeLanguage(value)
     }
 
-    setUnits(value) {
+    setUnits(value: string) {
         this.units = value
     }
 
@@ -42,7 +41,7 @@ class SettingsStore {
         this.notifications = !this.notifications
     }
     
-    setIsLoading(value) {
+    setIsLoading(value: boolean) {
         this.isLoading = value
     }
 
