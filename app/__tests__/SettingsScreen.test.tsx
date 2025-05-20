@@ -41,7 +41,7 @@ jest.mock('react-i18next', () => ({
   }),
 }));
 
-jest.mock('@/app/store/store', () => ({
+jest.mock('@/app/store/settingsStore', () => ({
   settingsStore: {
     isDark: false,
     language: 'en',

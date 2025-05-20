@@ -1,6 +1,7 @@
 import { View, ActivityIndicator, StyleSheet } from 'react-native';
 import { COLORS } from '@/app/styles/globalStyles';
-import { settingsStore } from '@/app/store/store';
+import { settingsStore } from "@/app/store/settingsStore"
+
 
 
 export default function Loader() {

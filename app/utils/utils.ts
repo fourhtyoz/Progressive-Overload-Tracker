@@ -1,6 +1,6 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { TResult, TGroupedResult } from "../types";
-import { settingsStore } from "@/app/store/store";
+import { settingsStore } from "@/app/store/settingsStore";
 import { MUSCLES } from "@/app/constants/settings";
 import { UNITS } from "@/app/constants/settings";
 import { addExercise, addResult } from "@/app/services/db";

@@ -1,6 +1,5 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
-import { useFocusEffect } from '@react-navigation/native';
 import SelectDropdown from 'react-native-select-dropdown';
 import { useTranslation } from 'react-i18next';
 import { exerciseStore } from '../store/exerciseStore';
@@ -9,7 +8,7 @@ import { observer } from 'mobx-react-lite';
 import Loader from '@/app/components/Loader';
 import Exercise from '@/app/components/Exercise';
 import ErrorMessage from '@/app/components/ErrorMessage';
-import { settingsStore } from '@/app/store/store';
+import { settingsStore } from '@/app/store/settingsStore';
 import { COLORS, FONT_SIZE } from '@/app/styles/globalStyles';
 import { toTitleCase } from '@/app/utils/utils';
 import { TExercise } from '@/app/types';
@@ -27,14 +26,6 @@ export default observer(function HistoryScreen() {
     };
 
     const isResetDisabled = selectedMuscle === '-'
-
-    // useFocusEffect(
-    //     useCallback(() => {
-    //         return () => {
-    //             setSelectedMuscle('-')
-    //         }
-    //     }, [])
-    // )
 
     if (isLoading) {
         return (

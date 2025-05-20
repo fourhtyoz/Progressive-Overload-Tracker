@@ -1,6 +1,6 @@
 import { COLORS, FONT_SIZE } from "@/app/styles/globalStyles";
 import { Pressable, Text, StyleSheet} from "react-native"
-import { settingsStore } from "@/app/store/store";
+import { settingsStore } from "@/app/store/settingsStore";
 import { useTranslation } from "react-i18next";
 
 

@@ -1,6 +1,6 @@
 import React from "react"
 import { Text, View, TouchableOpacity, Alert, StyleSheet } from "react-native"
-import { settingsStore } from "@/app/store/store"
+import { settingsStore } from '@/app/store/settingsStore';
 import { getformattedDate } from "@/app/utils/utils"
 import { UNITS } from "@/app/constants/settings"
 import { Ionicons } from "@expo/vector-icons"

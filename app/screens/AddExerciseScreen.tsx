@@ -10,7 +10,7 @@ import { addExercise } from '@/app/services/db';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { observer } from 'mobx-react-lite';
 import { COLORS, globalStyles} from '@/app/styles/globalStyles';
-import { settingsStore } from '@/app/store/store';
+import { settingsStore } from '@/app/store/settingsStore';
 import { useTranslation } from 'react-i18next';
 
 

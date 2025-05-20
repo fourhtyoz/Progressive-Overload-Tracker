@@ -5,7 +5,7 @@ import HistoryScreen from '../screens/HistoryScreen';
 import { useFocusEffect } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import SelectDropdown from 'react-native-select-dropdown';
-import { settingsStore } from '@/app/store/store';
+import { settingsStore } from '@/app/store/settingsStore';
 import { fetchExercises } from '@/app/services/db';
 import Loader from '@/app/components/Loader';
 import ErrorMessage from '@/app/components/ErrorMessage';
@@ -15,7 +15,7 @@ jest.mock('@react-navigation/native', () => ({
     useFocusEffect: jest.fn(),
 }));
 
-jest.mock('@/app/store/store', () => ({
+jest.mock('@/app/store/settingsStore', () => ({
     settingsStore: {
       isDark: false,
       language: 'en',

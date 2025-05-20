@@ -1,6 +1,6 @@
 import { Pressable, Text, StyleSheet } from "react-native"
 import { COLORS, FONT_SIZE } from "@/app/styles/globalStyles"
-import { settingsStore } from "@/app/store/store"
+import { settingsStore } from "@/app/store/settingsStore"
 
 
 type Props = {
