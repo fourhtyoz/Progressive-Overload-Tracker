@@ -18,56 +18,54 @@ const resources = {
         translation: es,
     },
     de: {
-        translation: de
+        translation: de,
     },
     ru: {
-        translation: ru
+        translation: ru,
     },
     tr: {
-        translation: tr
+        translation: tr,
     },
 };
 
-export const getDeviceMeasurementSystem= () => {
+export const getDeviceMeasurementSystem = () => {
     try {
-        const locales = Localization.getLocales()
-        const measurementSystem = locales[0].measurementSystem
+        const locales = Localization.getLocales();
+        const measurementSystem = locales[0].measurementSystem;
         if (measurementSystem === 'metric') {
-            return 'kg'
+            return 'kg';
         } else {
-            return 'lb'
+            return 'lb';
         }
     } catch (e) {
-        console.error(`getDeviceMeasurementSystem error: ${e}`)
-        return 'kg'
+        console.error(`getDeviceMeasurementSystem error: ${e}`);
+        return 'kg';
     }
 };
 
 export const getDeviceLanuguage = () => {
     try {
-        const supportedLanguages = LANGUAGES.map(item => item.code)
-        
-        const locales = Localization.getLocales()
-        const languageCode = locales[0]?.languageCode
+        const supportedLanguages = LANGUAGES.map((item) => item.code);
+
+        const locales = Localization.getLocales();
+        const languageCode = locales[0]?.languageCode;
         if (languageCode && supportedLanguages.includes(languageCode?.toLowerCase())) {
-            return languageCode
+            return languageCode;
         } else {
-            return 'en'
+            return 'en';
         }
     } catch (e) {
-        console.error(`getDeviceLanuguage error: ${e}`)
-        return 'en'
+        console.error(`getDeviceLanuguage error: ${e}`);
+        return 'en';
     }
 };
 
-i18n
-    .use(initReactI18next)
-    .init({
-        resources,
-        fallbackLng: getDeviceLanuguage() || 'en',
-        interpolation: {
-            escapeValue: false
-        }
+i18n.use(initReactI18next).init({
+    resources,
+    fallbackLng: getDeviceLanuguage() || 'en',
+    interpolation: {
+        escapeValue: false,
+    },
 });
 
 export default i18n;

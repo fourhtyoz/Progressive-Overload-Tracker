@@ -1,18 +1,18 @@
 export type TExercise = {
-    id: number,
-    title: string,
-    type: string
-}
+    id: number;
+    title: string;
+    type: string;
+};
 
 export type TResult = {
-    id: number,
-    exercise: string,
-    date: string,
-    muscleGroup: string,
-    reps: number,
-    weight: number,
-    units: string
-}
+    id: number;
+    exercise: string;
+    date: string;
+    muscleGroup: string;
+    reps: number;
+    weight: number;
+    units: string;
+};
 
 export type TGroupedResult = {
     [key: string]: TResult[];
@@ -25,4 +25,4 @@ export type TMuscle = {
     de: string;
     es: string;
     tr: string;
-}
+};

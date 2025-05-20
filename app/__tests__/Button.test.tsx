@@ -3,7 +3,6 @@ import { render, fireEvent } from '@testing-library/react-native';
 import Button from '../components/buttons/Button';
 import { COLORS } from '@/app/styles/globalStyles';
 
-
 describe('Button Component', () => {
     it('renders correctly with a given text', () => {
         const { getByText } = render(<Button onPress={() => {}} text="Press Me" />);
@@ -17,7 +16,7 @@ describe('Button Component', () => {
         const { getByText } = render(<Button onPress={() => {}} text="Press Me" />);
 
         const button = getByText('Press Me').parent?.parent;
-        const buttonText = getByText('Press Me')
+        const buttonText = getByText('Press Me');
 
         expect(button?.props.style[1].backgroundColor).toBe(COLORS.black);
         expect(button?.props.style[1].borderColor).toBe(COLORS.white);
@@ -46,7 +45,7 @@ describe('Button Component', () => {
             />
         );
 
-        const button = getByText('Press Me').parent?.parent
+        const button = getByText('Press Me').parent?.parent;
         const buttonText = getByText('Press Me');
 
         expect(button?.props.style[1].backgroundColor).toBe('blue');

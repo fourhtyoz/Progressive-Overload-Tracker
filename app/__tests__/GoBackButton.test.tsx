@@ -3,12 +3,10 @@ import { render, fireEvent } from '@testing-library/react-native';
 import GoBackButton from '../components/buttons/GoBackButton';
 import { COLORS } from '@/app/styles/globalStyles';
 
-
 describe('GoBackButton Component', () => {
-
     it('renders correctly with a title', () => {
         const mockOnPress = jest.fn();
-        const { getByText } = render(<GoBackButton fn={mockOnPress}/>);
+        const { getByText } = render(<GoBackButton fn={mockOnPress} />);
 
         const buttonText = getByText('Back');
 
@@ -17,7 +15,7 @@ describe('GoBackButton Component', () => {
 
     it('renders correctly with default colors', () => {
         const mockOnPress = jest.fn();
-        const { getByText } = render(<GoBackButton fn={mockOnPress}/>);
+        const { getByText } = render(<GoBackButton fn={mockOnPress} />);
 
         const button = getByText('Back').parent?.parent;
         const buttonText = getByText('Back');
@@ -28,7 +26,7 @@ describe('GoBackButton Component', () => {
 
     it('triggers onPress callback when pressed', () => {
         const mockOnPress = jest.fn();
-        const { getByText } = render(<GoBackButton fn={mockOnPress}/>);
+        const { getByText } = render(<GoBackButton fn={mockOnPress} />);
 
         fireEvent.press(getByText('Back'));
         expect(mockOnPress).toHaveBeenCalled();
@@ -36,7 +34,7 @@ describe('GoBackButton Component', () => {
 
     it('applies custom colors correctly', () => {
         const mockOnPress = jest.fn();
-        const { getByText } = render(<GoBackButton fn={mockOnPress}/>);
+        const { getByText } = render(<GoBackButton fn={mockOnPress} />);
 
         const button = getByText('Back').parent?.parent;
         const buttonText = getByText('Back');

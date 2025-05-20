@@ -14,6 +14,9 @@ describe('Loader Component', () => {
         const { getByTestId } = render(<Loader />);
         const container = getByTestId('loader-container');
 
-        expect(container.props.style).toMatchObject([{"alignItems": "center", "backgroundColor": "#000", "flex": 1, "justifyContent": "center"}, {"backgroundColor": "rgba(0, 0, 0, .1)"}]);
+        expect(container.props.style).toMatchObject([
+            { alignItems: 'center', backgroundColor: '#000', flex: 1, justifyContent: 'center' },
+            { backgroundColor: 'rgba(0, 0, 0, .1)' },
+        ]);
     });
 });

@@ -1,53 +1,53 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import i18n from "@/app/translations/i18n";
-import { getDeviceLanuguage, getDeviceMeasurementSystem } from "@/app/translations/i18n";
+import { makeAutoObservable, runInAction } from 'mobx';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import i18n from '@/app/translations/i18n';
+import { getDeviceLanuguage, getDeviceMeasurementSystem } from '@/app/translations/i18n';
 
 class SettingsStore {
-    theme = ''
-    fontSize = ''
-    language = ''
-    units = ''
-    notifications = false
+    theme = '';
+    fontSize = '';
+    language = '';
+    units = '';
+    notifications = false;
     isLoading = true;
 
     constructor() {
-        makeAutoObservable(this)
-        this.initialize()
+        makeAutoObservable(this);
+        this.initialize();
     }
 
     get isDark() {
-        return this.theme === 'dark' ? true : false
+        return this.theme === 'dark' ? true : false;
     }
 
     setTheme(value: string) {
-        this.theme = value
+        this.theme = value;
     }
 
     setFontsize(value: string) {
-        this.fontSize = value
+        this.fontSize = value;
     }
 
     setLanguage(value: string) {
-        this.language = value
-        i18n.changeLanguage(value)
+        this.language = value;
+        i18n.changeLanguage(value);
     }
 
     setUnits(value: string) {
-        this.units = value
+        this.units = value;
     }
 
     toggleNotifications() {
-        this.notifications = !this.notifications
+        this.notifications = !this.notifications;
     }
-    
+
     setIsLoading(value: boolean) {
-        this.isLoading = value
+        this.isLoading = value;
     }
 
     async initialize() {
         runInAction(() => {
-            this.isLoading = true
+            this.isLoading = true;
         });
         try {
             const keys = ['theme', 'fontSize', 'language', 'units', 'notifications'];
@@ -61,42 +61,42 @@ class SettingsStore {
                         break;
                     case 'fontSize':
                         runInAction(() => {
-                            this.fontSize = value || 'normal' ;
+                            this.fontSize = value || 'normal';
                         });
                         break;
                     case 'language':
                         runInAction(() => {
-                            this.setLanguage(value || getDeviceLanuguage())
+                            this.setLanguage(value || getDeviceLanuguage());
                         });
                         break;
                     case 'units':
                         runInAction(() => {
-                            this.units = value || getDeviceMeasurementSystem() ;
+                            this.units = value || getDeviceMeasurementSystem();
                         });
                         break;
                     case 'notifications':
                         runInAction(() => {
                             if (value) {
                                 try {
-                                    const parsedValue = JSON.parse(value)
+                                    const parsedValue = JSON.parse(value);
                                     this.notifications = parsedValue;
                                 } catch (e) {
-                                    console.error('initialize notifications', e)
+                                    console.error('initialize notifications', e);
                                 }
                             } else {
-                                this.notifications = true
+                                this.notifications = true;
                             }
                         });
                         break;
                     default:
                         break;
                 }
-            })
+            });
         } catch (error) {
-            console.error("Error initializing settings:", error);
+            console.error('Error initializing settings:', error);
         } finally {
             runInAction(() => {
-                this.isLoading = false
+                this.isLoading = false;
             });
         }
     }

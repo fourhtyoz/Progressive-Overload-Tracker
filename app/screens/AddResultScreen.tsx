@@ -17,228 +17,341 @@ import { COLORS } from '@/app/styles/globalStyles';
 import Toast from 'react-native-toast-message';
 import { exerciseStore } from '../store/exerciseStore';
 
-
 type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
 
-
 const AddResultScreen = observer(({ navigation }: Props) => {
-    const { exercises, muscleOptions } = exerciseStore
+    const { exercises, muscleOptions } = exerciseStore;
 
-    const [muscleGroup, setMuscleGroup] = useState({title: null, translation: null})
-    const [exercise, setExercise] = useState<any>('')
-    const [repsValue, setRepsValue] = useState('')
-    const [weightValue, setWeightValue] = useState<any>('')
-    const [units, setUnits] = useState(settingsStore.units)
-    const [error, setError] = useState('')
+    const [muscleGroup, setMuscleGroup] = useState({ title: null, translation: null });
+    const [exercise, setExercise] = useState<any>('');
+    const [repsValue, setRepsValue] = useState('');
+    const [weightValue, setWeightValue] = useState<any>('');
+    const [units, setUnits] = useState(settingsStore.units);
+    const [error, setError] = useState('');
 
     const { t } = useTranslation();
 
-    let muscleGroups = []
+    let muscleGroups = [];
     for (let title of muscleOptions) {
-        const translatedName = MUSCLES.find((item: any) => item.title === title)?.[settingsStore.language];
-        const muscleObject = {title: title, translation: translatedName}
-        muscleGroups.push(muscleObject)
+        const translatedName = MUSCLES.find((item: any) => item.title === title)?.[
+            settingsStore.language
+        ];
+        const muscleObject = { title: title, translation: translatedName };
+        muscleGroups.push(muscleObject);
     }
 
     const resetAllFields = () => {
-        setRepsValue('')
-        setWeightValue('')
-        setExercise('')
-        setMuscleGroup({title: null, translation: null})
-        setError('')
+        setRepsValue('');
+        setWeightValue('');
+        setExercise('');
+        setMuscleGroup({ title: null, translation: null });
+        setError('');
     };
 
     const handleChangeReps = (value: any) => {
-        value = Number(value)
+        value = Number(value);
         if (isNaN(value)) {
-            setError(t('errors.repsMustBeNumber'))
-            return
-        } 
+            setError(t('errors.repsMustBeNumber'));
+            return;
+        }
         if (value && value < 1) {
-            setError(t('errors.repsMustBePositive'))
-            return 
-        } 
-        setRepsValue(value)
-    }
+            setError(t('errors.repsMustBePositive'));
+            return;
+        }
+        setRepsValue(value);
+    };
 
     const handleChangeWeight = (value: any) => {
-        value = Number(value)
+        value = Number(value);
         if (isNaN(value)) {
-            setError(t('errors.weightMustBeNumber'))
-            return
-        } 
-        setWeightValue(value)
-    }
+            setError(t('errors.weightMustBeNumber'));
+            return;
+        }
+        setWeightValue(value);
+    };
 
-    const disabledSaveButton = !(muscleGroup.title && exercise && repsValue && !isNaN(weightValue) && units)
+    const disabledSaveButton = !(
+        muscleGroup.title &&
+        exercise &&
+        repsValue &&
+        !isNaN(weightValue) &&
+        units
+    );
 
     const handleSubmitEntry = async () => {
-        const date = new Date().toISOString()
+        const date = new Date().toISOString();
         const res = await addResult(
             exercise.title,
             exercise.id,
             date,
             muscleGroup.title,
-            repsValue, 
-            weightValue, 
+            repsValue,
+            weightValue,
             units
-        )
-        const { success, error } = res
+        );
+        const { success, error } = res;
         if (success) {
-            resetAllFields()
+            resetAllFields();
             Toast.show({
                 type: 'success',
                 text1: t('toasts.success'),
                 text2: t('alerts.newEntryAddedSuccess'),
             });
-        }
-        else {
-            setError(String(error))
+        } else {
+            setError(String(error));
         }
     };
 
     const handleCreateExercise = () => {
-        navigation.navigate('AddExercise')
+        navigation.navigate('AddExercise');
     };
 
     const handleHistory = () => {
-        navigation.navigate('History')
+        navigation.navigate('History');
     };
-
 
     useEffect(() => {
         if (exercises.length === 0) {
-            Alert.alert(
-                t('alerts.noExerciseTitle'),
-                t('alerts.noExercise'),
-                [{text:  t('alerts.addExercise'), onPress: () => navigation.navigate('AddExercise')}]
-            )
+            Alert.alert(t('alerts.noExerciseTitle'), t('alerts.noExercise'), [
+                {
+                    text: t('alerts.addExercise'),
+                    onPress: () => navigation.navigate('AddExercise'),
+                },
+            ]);
         }
-    }, [])
+    }, []);
 
     return (
         <SafeAreaView style={globalStyles.wrapper}>
-            {error && <ErrorMessage message={error} setError={setError}/>}
+            {error && <ErrorMessage message={error} setError={setError} />}
             <View style={globalStyles.itemWrapper}>
-                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.muscle')}:</Text>
+                <Text
+                    style={[
+                        globalStyles.inputLabel,
+                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
+                    ]}
+                >
+                    {t('result.options.muscle')}:
+                </Text>
                 <SelectDropdown
                     data={muscleGroups}
                     onSelect={(selectedItem, _) => setMuscleGroup(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={[globalStyles.input, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]}>
-                            {muscleGroup.title
-                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{toTitleCase(selectedItem.translation)}</Text>
-                            : <Text style={globalStyles.exerciseTextPlaceholder}>{t('result.options.chooseMuscle')}</Text>
-                            }
+                        <View
+                            style={[
+                                globalStyles.input,
+                                { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray },
+                            ]}
+                        >
+                            {muscleGroup.title ? (
+                                <Text
+                                    style={[
+                                        globalStyles.exerciseText,
+                                        {
+                                            color: settingsStore.isDark
+                                                ? COLORS.textDarkScreen
+                                                : COLORS.black,
+                                        },
+                                    ]}
+                                >
+                                    {toTitleCase(selectedItem.translation)}
+                                </Text>
+                            ) : (
+                                <Text style={globalStyles.exerciseTextPlaceholder}>
+                                    {t('result.options.chooseMuscle')}
+                                </Text>
+                            )}
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item.translation)}</Text>
+                        <View
+                            style={[
+                                globalStyles.dropdownItemStyle,
+                                isSelected && {
+                                    backgroundColor: settingsStore.isDark
+                                        ? COLORS.orange
+                                        : COLORS.selectedLight,
+                                },
+                            ]}
+                        >
+                            <Text style={globalStyles.dropdownItemTxtStyle}>
+                                {toTitleCase(item.translation)}
+                            </Text>
                         </View>
                     )}
                 />
             </View>
             <View style={globalStyles.itemWrapper}>
-                <Text style={
-                    [
-                        globalStyles.inputLabel, 
-                        { 
+                <Text
+                    style={[
+                        globalStyles.inputLabel,
+                        {
                             color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black,
                             opacity: !muscleGroup.title ? 0.3 : 1,
-                        }
-                    ]
-                }>{
-                    t('result.options.exercise')}:
+                        },
+                    ]}
+                >
+                    {t('result.options.exercise')}:
                 </Text>
                 <SelectDropdown
                     disabled={!muscleGroup.title}
-                    data={exercises.filter(item => item.type === muscleGroup.title)}
+                    data={exercises.filter((item) => item.type === muscleGroup.title)}
                     onSelect={(selectedItem, _) => setExercise(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={[
-                            globalStyles.input, 
-                            { 
-                                borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
-                                opacity: !muscleGroup.title ? 0.3 : 1,
-                            }
-                            ]
-                        }>
-                            {exercise 
-                            ? <Text style={[globalStyles.exerciseText, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{(selectedItem && selectedItem.title)}</Text>
-                            : <Text style={globalStyles.exerciseTextPlaceholder}>{t('result.options.chooseExercise')}</Text>
-                            }
+                        <View
+                            style={[
+                                globalStyles.input,
+                                {
+                                    borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
+                                    opacity: !muscleGroup.title ? 0.3 : 1,
+                                },
+                            ]}
+                        >
+                            {exercise ? (
+                                <Text
+                                    style={[
+                                        globalStyles.exerciseText,
+                                        {
+                                            color: settingsStore.isDark
+                                                ? COLORS.textDarkScreen
+                                                : COLORS.black,
+                                        },
+                                    ]}
+                                >
+                                    {selectedItem && selectedItem.title}
+                                </Text>
+                            ) : (
+                                <Text style={globalStyles.exerciseTextPlaceholder}>
+                                    {t('result.options.chooseExercise')}
+                                </Text>
+                            )}
                         </View>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{index + 1}. {item.title}</Text>
+                        <View
+                            style={[
+                                globalStyles.dropdownItemStyle,
+                                isSelected && {
+                                    backgroundColor: settingsStore.isDark
+                                        ? COLORS.orange
+                                        : COLORS.selectedLight,
+                                },
+                            ]}
+                        >
+                            <Text style={globalStyles.dropdownItemTxtStyle}>
+                                {index + 1}. {item.title}
+                            </Text>
                         </View>
                     )}
                 />
             </View>
             <View style={globalStyles.itemWrapper}>
-                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.weight')}:</Text>
-                <TextInput 
-                    style={[globalStyles.inputWithOption, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 
-                    value={weightValue} // 
+                <Text
+                    style={[
+                        globalStyles.inputLabel,
+                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
+                    ]}
+                >
+                    {t('result.options.weight')}:
+                </Text>
+                <TextInput
+                    style={[
+                        globalStyles.inputWithOption,
+                        {
+                            color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black,
+                            borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
+                        },
+                    ]}
+                    value={weightValue} //
                     placeholder={t('result.options.whatWeight')}
                     placeholderTextColor={COLORS.placeholderTextLight}
                     onChangeText={(value) => handleChangeWeight(value)}
-                    keyboardType='numeric' 
+                    keyboardType="numeric"
                 />
                 <SelectDropdown
                     data={UNITS}
-                    defaultValue={UNITS.filter(item => item.title === settingsStore.units)[0]}
+                    defaultValue={UNITS.filter((item) => item.title === settingsStore.units)[0]}
                     onSelect={(selectedItem) => setUnits(selectedItem[settingsStore.language])}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={[globalStyles.dropdownButtonStyle, { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray}]}>
-                            <Text style={globalStyles.dropdownButtonTxtStyle}>{(selectedItem && selectedItem[settingsStore.language]) || settingsStore.units}</Text>
+                        <View
+                            style={[
+                                globalStyles.dropdownButtonStyle,
+                                { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray },
+                            ]}
+                        >
+                            <Text style={globalStyles.dropdownButtonTxtStyle}>
+                                {(selectedItem && selectedItem[settingsStore.language]) ||
+                                    settingsStore.units}
+                            </Text>
                         </View>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View style={[globalStyles.dropdownItemStyle, isSelected && { backgroundColor: settingsStore.isDark ? COLORS.orange : COLORS.selectedLight }]}>
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{item[settingsStore.language]}</Text>
+                        <View
+                            style={[
+                                globalStyles.dropdownItemStyle,
+                                isSelected && {
+                                    backgroundColor: settingsStore.isDark
+                                        ? COLORS.orange
+                                        : COLORS.selectedLight,
+                                },
+                            ]}
+                        >
+                            <Text style={globalStyles.dropdownItemTxtStyle}>
+                                {item[settingsStore.language]}
+                            </Text>
                         </View>
                     )}
                 />
             </View>
             <View style={globalStyles.itemWrapper}>
-                <Text style={[globalStyles.inputLabel, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black }]}>{t('result.options.reps')}:</Text>
-                <TextInput 
-                    style={[globalStyles.input, { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black, borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray }]} 
+                <Text
+                    style={[
+                        globalStyles.inputLabel,
+                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
+                    ]}
+                >
+                    {t('result.options.reps')}:
+                </Text>
+                <TextInput
+                    style={[
+                        globalStyles.input,
+                        {
+                            color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black,
+                            borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
+                        },
+                    ]}
                     value={repsValue}
                     placeholder={t('result.options.howManyReps')}
                     placeholderTextColor={COLORS.placeholderTextLight}
                     onChangeText={(value) => handleChangeReps(value)}
-                    keyboardType='numeric'
+                    keyboardType="numeric"
                 />
             </View>
             <View style={globalStyles.buttonWrapper}>
-                <Button 
-                    onPress={handleSubmitEntry} 
+                <Button
+                    onPress={handleSubmitEntry}
                     text={t('result.buttons.submit')}
                     pressedBgColor={COLORS.orange}
                     borderColor={COLORS.blackTransparentBorder}
                     disabled={disabledSaveButton}
                 />
-                <Button 
-                    onPress={handleCreateExercise} 
+                <Button
+                    onPress={handleCreateExercise}
                     text={t('result.buttons.create')}
                     pressedBgColor={COLORS.orange}
-                    borderColor={COLORS.blackTransparentBorder} 
+                    borderColor={COLORS.blackTransparentBorder}
                 />
-                <Button 
-                    onPress={handleHistory} 
+                <Button
+                    onPress={handleHistory}
                     text={t('result.buttons.history')}
                     pressedBgColor={COLORS.orange}
-                    borderColor={COLORS.blackTransparentBorder} 
+                    borderColor={COLORS.blackTransparentBorder}
                 />
             </View>
         </SafeAreaView>
