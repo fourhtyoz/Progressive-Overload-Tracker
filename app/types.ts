@@ -26,3 +26,9 @@ export type TMuscle = {
     es: string;
     tr: string;
 };
+
+export interface DBResult<T = any> {
+  success: boolean;
+  data?: T;
+  error?: string;
+}

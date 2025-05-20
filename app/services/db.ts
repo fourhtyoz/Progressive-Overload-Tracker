@@ -1,4 +1,5 @@
 import * as SQLite from 'expo-sqlite/legacy';
+import { DBResult, TExercise } from '../types';
 
 const db = SQLite.openDatabase('progressive_overload_tracker.db');
 
@@ -30,65 +31,82 @@ const createTables = () => {
             );`,
             [],
             (_, result) => console.log('createTables', result),
-            (_, error) => console.log('createTables error', error)
         );
     });
 };
 
 // EXERCISES
-const addExercise = async (title, type) => {
+const exerciseExist = async (title: string, type: string): Promise<boolean> => {
     try {
-        const exists = await new Promise((resolve, reject) => {
+        const exists = await new Promise<boolean>((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
-                    'SELECT COUNT(*) AS count FROM exercises WHERE title = ? AND type = ?',
+                    'SELECT 1 FROM exercises WHERE title = ? AND type = ? LIMIT 1',
                     [title, type],
-                    (_, result) => resolve(result.rows.length > 0),
-                    (_, error) => reject(error)
+                    (_, result) => {
+                        resolve(result.rows.length > 0)
+                        return true
+                    },
+                    (_, error): boolean => {
+                        reject(error)
+                        return false
+                    }
                 );
             });
         });
+        return exists
+    } catch (e) {
+        console.error('exerciseExist error', e);
+        return false
+    }
+}
 
-        if (exists) {
-            return {
-                success: false,
-                error: 'Exercise already exists',
-            };
-        }
-
-        const res = await new Promise((resolve, reject) => {
+const addExercise = async (title: string, type: string) => {
+    try {
+        const data = await new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
                     'INSERT INTO exercises (title, type) VALUES (?, ?)',
                     [title, type],
                     (_, result) => resolve(result.insertId),
-                    (_, error) => reject(error)
+                    (_, error) => {
+                        reject(error)
+                        return false
+                    }
                 );
             });
         });
-        return { success: true, data: res };
+        return { success: true, data };
     } catch (e) {
         console.error('addExercise error', e);
-        return { success: false, error: e?.message || 'Failed to add exercise' };
+        const errorMessage = e instanceof Error ? e.message : 'Failed to add exercise';
+        return { success: false, error: errorMessage };
     }
 };
 
-const fetchExercises = async () => {
+const fetchExercises = async (): Promise<DBResult<TExercise[]>> => {
     try {
-        const res = await new Promise((resolve, reject) => {
+        const data = await new Promise<TExercise[]>((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
                     'SELECT * FROM exercises ORDER BY title',
                     [],
-                    (_, result) => resolve(result.rows._array),
-                    (_, error) => reject(error)
+                    (_, result) => {
+                        const exercises: TExercise[] = result.rows._array;
+                        resolve(exercises);
+                    },
+                    (_, error): boolean => {
+                        reject(error);
+                        return false;
+                    }
                 );
             });
         });
-        return { success: true, data: res };
+        return { success: true, data };
     } catch (e) {
         console.error('fetchExercises error', e);
-        return { success: false, error: e?.message || 'Failed to fetch exercises' };
+        const errorMessage = e instanceof Error ? e.message : 'Failed to fetch exercises';
+        return { success: false, error: errorMessage };
     }
 };
 
@@ -261,4 +279,5 @@ export {
     fetchResultsByExerciseId,
     fetchResultById,
     deleteTables,
+    exerciseExist
 };
