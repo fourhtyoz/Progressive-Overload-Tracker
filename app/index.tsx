@@ -5,13 +5,13 @@ import { NavigationContainer } from '@react-navigation/native';
 
 import { observer } from 'mobx-react-lite';
 
-import i18n from '@/utils/i18n';
-import Loader from '@/components/Loader';
-import { settingsStore } from '@/store/store';
-import DrawerNavigator from '@/navigation/DrawerNavigator';
-import { createTables, deleteTables } from '@/services/db';
-import { LightTheme, DarkTheme, FONT_SIZE } from '@/styles/globalStyles';
-import { generateExercises, generateResults, clearAsyncStorage } from '@/utils/helpFunctions';
+import i18n from '@/app/translations/i18n';
+import Loader from '@/app/components/Loader';
+import { settingsStore } from '@/app/store/store';
+import DrawerNavigator from '@/app/navigation/DrawerNavigator';
+import { createTables, deleteTables } from '@/app/services/db';
+import { LightTheme, DarkTheme, FONT_SIZE } from '@/app/styles/globalStyles';
+import { generateExercises, generateResults, clearAsyncStorage } from '@/app/utils/utils';
 
 
 const App = observer(() => {
@@ -19,9 +19,7 @@ const App = observer(() => {
         // for development
         // clearAsyncStorage();
         // deleteTables();
-
         createTables();
-        settingsStore.initialize();
     }, []);
 
     if (settingsStore.isLoading) {

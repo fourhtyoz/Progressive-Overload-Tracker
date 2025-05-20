@@ -3,21 +3,21 @@
     "name": "Progressive Overload Tracker",
     "slug": "progressive_overload_tracker",
     "version": "1.0.0",
-    "icon": "./src/icon.png",
+    "icon": "./public/icon.png",
     "orientation": "portrait",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "splash": {
-      "image": "./src/icon.png",
+      "image": "./public/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+    "supportsTablet": true
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./src/icon.png",
+        "foregroundImage": "./public/icon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.fourhtyoz.progressive_overload_tracker"
