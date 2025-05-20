@@ -1,24 +1,22 @@
-import { Pressable, Text, StyleSheet } from "react-native"
-import { COLORS, FONT_SIZE } from "@/app/styles/globalStyles"
-import { settingsStore } from "@/app/store/settingsStore"
-
+import { Pressable, Text, StyleSheet } from 'react-native';
+import { COLORS, FONT_SIZE } from '@/app/styles/globalStyles';
+import { settingsStore } from '@/app/store/settingsStore';
 
 type Props = {
-    onPress: any,
-    text: string,
-    disabled?: boolean,
-    bgColor?: string,
-    pressedBgColor?: string,
-    borderColor?: string,
-    pressedBorderColor?: string,
-    textColor?: string,
-    pressedTextColor?: string,
-    testID?: string
-}
+    onPress: any;
+    text: string;
+    disabled?: boolean;
+    bgColor?: string;
+    pressedBgColor?: string;
+    borderColor?: string;
+    pressedBorderColor?: string;
+    textColor?: string;
+    pressedTextColor?: string;
+    testID?: string;
+};
 
-
-export default function Button({ 
-    onPress, 
+export default function Button({
+    onPress,
     text,
     disabled = false,
     bgColor = COLORS.black,
@@ -26,47 +24,55 @@ export default function Button({
     borderColor = COLORS.white,
     pressedBorderColor = COLORS.blackTransparentBorder,
     textColor = COLORS.white,
-    pressedTextColor  = COLORS.black,
+    pressedTextColor = COLORS.black,
     testID = '',
-} : Props) {
-
+}: Props) {
     return (
-        <Pressable 
+        <Pressable
             testID={testID}
             onPress={onPress}
             disabled={disabled}
             style={({ pressed }) => [
-                s.button, 
-                { 
+                s.button,
+                {
                     opacity: disabled ? 0.3 : 1,
-                    backgroundColor: 
-                        settingsStore.isDark 
-                        ? pressed ? bgColor : pressedBgColor 
-                        : pressed ? pressedBgColor : bgColor,
-                    borderColor: 
-                        settingsStore.isDark  
-                        ? pressed ? borderColor : pressedBorderColor 
-                        : pressed ? pressedBorderColor : borderColor
-                }
+                    backgroundColor: settingsStore.isDark
+                        ? pressed
+                            ? bgColor
+                            : pressedBgColor
+                        : pressed
+                          ? pressedBgColor
+                          : bgColor,
+                    borderColor: settingsStore.isDark
+                        ? pressed
+                            ? borderColor
+                            : pressedBorderColor
+                        : pressed
+                          ? pressedBorderColor
+                          : borderColor,
+                },
             ]}
-            >
+        >
             {({ pressed }) => (
-                <Text 
+                <Text
                     style={[
-                        s.text, 
-                        { 
-                            color: 
-                            settingsStore.isDark   
-                            ? pressed ? textColor : pressedTextColor 
-                            : pressed ? pressedTextColor : textColor 
-                        }
+                        s.text,
+                        {
+                            color: settingsStore.isDark
+                                ? pressed
+                                    ? textColor
+                                    : pressedTextColor
+                                : pressed
+                                  ? pressedTextColor
+                                  : textColor,
+                        },
                     ]}
                 >
                     {text}
                 </Text>
             )}
         </Pressable>
-    )
+    );
 }
 
 const s = StyleSheet.create({
@@ -84,4 +90,4 @@ const s = StyleSheet.create({
         letterSpacing: 0.25,
         color: COLORS.white,
     },
-})
+});

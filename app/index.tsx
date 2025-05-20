@@ -10,7 +10,6 @@ import DrawerNavigator from '@/app/navigation/DrawerNavigator';
 import { createTables } from '@/app/services/db';
 import { LightTheme, DarkTheme, FONT_SIZE } from '@/app/styles/globalStyles';
 
-
 const App = observer(() => {
     useEffect(() => {
         // for development
@@ -19,39 +18,42 @@ const App = observer(() => {
     }, []);
 
     if (settingsStore.isLoading) {
-        return (
-            <Loader />
-        )
-    } 
+        return <Loader />;
+    }
 
     return (
         <I18nextProvider i18n={i18n}>
-            <NavigationContainer independent={true} theme={settingsStore.isDark ? DarkTheme : LightTheme}>
+            <NavigationContainer
+                independent={true}
+                theme={settingsStore.isDark ? DarkTheme : LightTheme}
+            >
                 <DrawerNavigator isDarkTheme={settingsStore.isDark} />
             </NavigationContainer>
-            <Toast 
-                config={{ 
+            <Toast
+                config={{
                     success: (props: any) => (
-                        <BaseToast 
-                            {...props} 
-                            style={{ 
+                        <BaseToast
+                            {...props}
+                            style={{
                                 borderLeftColor: 'lightgreen',
                                 borderLeftWidth: 10,
-                                backgroundColor: settingsStore.isDark ? '#171717' : '#f8f9fa'}} 
-                            text1Style={{ 
-                                fontSize: FONT_SIZE.large, 
+                                backgroundColor: settingsStore.isDark ? '#171717' : '#f8f9fa',
+                            }}
+                            text1Style={{
+                                fontSize: FONT_SIZE.large,
                                 fontWeight: 'bold',
-                                color: settingsStore.isDark ? '#f8f9fa' : '#171717' 
-                             }} 
-                            text2Style={{ 
+                                color: settingsStore.isDark ? '#f8f9fa' : '#171717',
+                            }}
+                            text2Style={{
                                 fontSize: FONT_SIZE.normal,
-                                color: settingsStore.isDark ? '#f8f9fa' : '#171717' 
-                             }} 
+                                color: settingsStore.isDark ? '#f8f9fa' : '#171717',
+                            }}
                         />
-                )}} 
+                    ),
+                }}
             />
         </I18nextProvider>
     );
 });
 
-export default App
+export default App;

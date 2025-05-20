@@ -1,42 +1,47 @@
-import { COLORS, FONT_SIZE } from "@/app/styles/globalStyles";
-import { Pressable, Text, StyleSheet} from "react-native"
-import { settingsStore } from "@/app/store/settingsStore";
-import { useTranslation } from "react-i18next";
-
+import { COLORS, FONT_SIZE } from '@/app/styles/globalStyles';
+import { Pressable, Text, StyleSheet } from 'react-native';
+import { settingsStore } from '@/app/store/settingsStore';
+import { useTranslation } from 'react-i18next';
 
 export default function GoBackButton({ fn }: any) {
     const { t } = useTranslation();
 
     return (
-        <Pressable 
+        <Pressable
             onPress={fn}
             style={({ pressed }) => [
-                s.button, 
-                { 
-                    backgroundColor: 
-                        settingsStore.isDark 
-                        ? pressed ? COLORS.orange : COLORS.black 
-                        : pressed ? COLORS.black : COLORS.orange 
-                }
+                s.button,
+                {
+                    backgroundColor: settingsStore.isDark
+                        ? pressed
+                            ? COLORS.orange
+                            : COLORS.black
+                        : pressed
+                          ? COLORS.black
+                          : COLORS.orange,
+                },
             ]}
         >
             {({ pressed }) => (
-                <Text 
+                <Text
                     style={[
-                        s.text, 
-                        { 
-                            color: 
-                                settingsStore.isDark 
-                                ? pressed ? COLORS.black : COLORS.white 
-                                : pressed ? COLORS.white : COLORS.black 
-                        }
+                        s.text,
+                        {
+                            color: settingsStore.isDark
+                                ? pressed
+                                    ? COLORS.black
+                                    : COLORS.white
+                                : pressed
+                                  ? COLORS.white
+                                  : COLORS.black,
+                        },
                     ]}
                 >
                     {t('general.goBackButton')}
                 </Text>
             )}
         </Pressable>
-    )
+    );
 }
 
 const s = StyleSheet.create({
@@ -49,5 +54,5 @@ const s = StyleSheet.create({
         fontWeight: 'bold',
         fontSize: FONT_SIZE.large,
         letterSpacing: 0.25,
-    } 
-})
+    },
+});

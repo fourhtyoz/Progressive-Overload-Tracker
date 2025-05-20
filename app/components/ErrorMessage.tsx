@@ -3,17 +3,20 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { FONT_SIZE } from '@/app/styles/globalStyles';
 
-
 type ErrorMessageProps = {
     message: string;
-    setError: (value: string) => void; 
-  }
+    setError: (value: string) => void;
+};
 
 export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
     return (
         <View style={s.container}>
             <Text style={s.text}>Error: {message}</Text>
-            <TouchableOpacity onPress={() => setError('')} style={s.closeButton} testID="close-button">
+            <TouchableOpacity
+                onPress={() => setError('')}
+                style={s.closeButton}
+                testID="close-button"
+            >
                 <Ionicons name="close" size={20} color="#721c24" />
             </TouchableOpacity>
         </View>

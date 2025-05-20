@@ -1,12 +1,12 @@
-import { makeAutoObservable, runInAction } from "mobx";
-import { fetchExercises } from "../services/db";
-import { TExercise } from "../types";
+import { makeAutoObservable, runInAction } from 'mobx';
+import { fetchExercises } from '../services/db';
+import { TExercise } from '../types';
 
 class ExerciseStore {
     isLoading = false;
     error = '';
     exercises: TExercise[] = [];
-    muscleOptions: string[] = []
+    muscleOptions: string[] = [];
 
     constructor() {
         makeAutoObservable(this);
@@ -18,28 +18,28 @@ class ExerciseStore {
             this.isLoading = true;
             this.error = '';
         });
-        
+
         const res = await fetchExercises();
         const { success, data, error } = res;
         runInAction(() => {
             if (success) {
                 this.exercises = data;
-                this.muscleOptions = Array.from(new Set(this.exercises.map(item => item.type)));
+                this.muscleOptions = Array.from(new Set(this.exercises.map((item) => item.type)));
             } else {
-                this.error = error?.message || "Failed to load exercises";
+                this.error = error?.message || 'Failed to load exercises';
             }
         });
 
         runInAction(() => {
-            this.isLoading = false
-        })
+            this.isLoading = false;
+        });
     }
 
     resetError = () => {
         runInAction(() => {
-            this.error = ''
-        })
-    }
+            this.error = '';
+        });
+    };
 }
 
 export const exerciseStore = new ExerciseStore();

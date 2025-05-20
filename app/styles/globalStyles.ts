@@ -1,9 +1,7 @@
-import { StyleSheet, Dimensions } from "react-native";
+import { StyleSheet, Dimensions } from 'react-native';
 import { DefaultTheme, DarkTheme as DT } from '@react-navigation/native';
 
-
 const { width: screenWidth } = Dimensions.get('window');
-
 
 export const COLORS = {
     black: '#000',
@@ -21,42 +19,38 @@ export const COLORS = {
     textTitleColorDark: '#EDEDED',
     textColorDark: '#F5F5F5',
     textTitleColorLight: '#333',
-    textColorLight: '#555' 
-}
-
+    textColorLight: '#555',
+};
 
 export const LightTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
         background: '#f8f9fa',
-        text: COLORS.black
+        text: COLORS.black,
     },
-  };
-  
+};
 
 export const DarkTheme = {
     ...DT,
     colors: {
         ...DT.colors,
         background: '#171717',
-        text: COLORS.textDarkScreen
+        text: COLORS.textDarkScreen,
     },
 };
-
 
 export const FONT_SIZE = {
     normal: screenWidth <= 360 ? 16 : 14,
     small: screenWidth <= 360 ? 14 : 12,
     large: screenWidth <= 360 ? 18 : 16,
-    huge: screenWidth <= 360 ? 20 : 18, 
-    lineHeight: screenWidth <= 360 ? 24 : 21
+    huge: screenWidth <= 360 ? 20 : 18,
+    lineHeight: screenWidth <= 360 ? 24 : 21,
 };
-
 
 export const globalStyles = StyleSheet.create({
     date: {
-        marginEnd: 10
+        marginEnd: 10,
     },
     input: {
         flex: 1,
@@ -66,7 +60,7 @@ export const globalStyles = StyleSheet.create({
         borderColor: 'lightgray',
         borderRadius: 5,
         color: COLORS.black,
-        fontSize: FONT_SIZE.normal
+        fontSize: FONT_SIZE.normal,
     },
     inputWithOption: {
         flex: 1,
@@ -87,7 +81,7 @@ export const globalStyles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         alignItems: 'center',
-        borderWidth: 1
+        borderWidth: 1,
     },
     dropdownButtonTxtStyle: {
         color: COLORS.white,
@@ -121,7 +115,7 @@ export const globalStyles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        paddingVertical: 15
+        paddingVertical: 15,
     },
     inputLabel: {
         fontWeight: 'bold',
@@ -132,13 +126,13 @@ export const globalStyles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     exerciseText: {
-        color: COLORS.black
+        color: COLORS.black,
     },
     exerciseTextPlaceholder: {
-        color: '#a9a9a9'
+        color: '#a9a9a9',
     },
     buttonWrapper: {
         marginVertical: 15,
-        gap: 15
-    }
+        gap: 15,
+    },
 });
