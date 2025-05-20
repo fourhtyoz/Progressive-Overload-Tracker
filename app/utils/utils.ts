@@ -141,7 +141,6 @@ export async function getRandomExercise() {
                     'SELECT title, type FROM exercises ORDER BY RANDOM() LIMIT 1;',
                     [],
                     (_, { rows }) => resolve(rows._array[0]),
-                    (_, error) => reject(error)
                 );
             });
         });
