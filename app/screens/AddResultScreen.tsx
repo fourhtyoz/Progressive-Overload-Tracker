@@ -89,8 +89,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
             weightValue,
             units
         );
-        const { success, error } = res;
-        if (success) {
+        if (res.success) {
             resetAllFields();
             Toast.show({
                 type: 'success',
@@ -98,7 +97,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 text2: t('alerts.newEntryAddedSuccess'),
             });
         } else {
-            setError(String(error));
+            setError(error);
         }
     };
 

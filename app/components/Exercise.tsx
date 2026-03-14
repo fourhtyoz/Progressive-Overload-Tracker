@@ -15,6 +15,7 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
     const { t } = useTranslation();
 
     const [isLoading, setIsLoading] = useState(false);
+    const [isLoaded, setIsLoaded] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const [results, setResults] = useState<TResult[]>([]);
 
@@ -23,25 +24,25 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
             ? results.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
             : results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
+    // TODO: AbortController on closing the exercise
     useEffect(() => {
         const getResultsByExercise = async () => {
             setIsLoading(true);
             const res = await fetchResultsByExerciseId(id);
-            if (res.success) {
+            console.log('res', res)
+            if (res.success && Array.isArray(res.data)) {
                 setResults(res.data);
             } else {
                 setError(res.error);
             }
             setIsLoading(false);
+            setIsLoaded(true)
         };
 
-        if (isOpen) {
-            // avoid queries every time the window is open
-            if (results.length < 1) {
+        if (isOpen && !isLoaded) {
                 getResultsByExercise();
-            }
         }
-    }, [isOpen, results, id, setError]);
+    }, [isOpen, isLoaded, isLoading, results, id, setError]);
 
     const handleDeleteResult = async (resultId: number) => {
         const res = await deleteResult(resultId);
@@ -165,15 +166,18 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
                             </Text>
                         </View>
                     )}
-                    {isOpen && isLoading && <ActivityIndicator />}
                 </TouchableOpacity>
-                {isOpen && filteredResults.length < 1 && (
-                    <View style={s.notFound}>
-                        <Text style={s.text}>{t('history.noResults')}</Text>
-                    </View>
-                )}
-                {isOpen &&
-                    filteredResults.map((item, index) => {
+                {isOpen && isLoading && <ActivityIndicator />}
+                {isOpen && isLoaded &&
+                    filteredResults.map((item, index, arr) => {
+                        if (arr.length < 1) {
+                            return (
+                             <View style={s.notFound}>
+                                <Text style={s.text}>{t('history.noResults')}</Text>
+                            </View>
+                            )
+                        }
+
                         let progress = 'new';
 
                         if (sorting === 'desc') {

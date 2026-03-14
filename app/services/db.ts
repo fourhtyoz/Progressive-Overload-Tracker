@@ -1,9 +1,10 @@
 import * as SQLite from 'expo-sqlite/legacy';
-import { DBResult, TExercise } from '../types';
+import { DBResult, TExercise, TResult } from '../types';
+import { handleTransactionError } from '../utils/utils';
 
-const db = SQLite.openDatabase('progressive_overload_tracker.db');
+export const db = SQLite.openDatabase('progressive_overload_tracker.db');
 
-const createTables = () => {
+export const createTables = () => {
     // exercises
     db.transaction((tx) => {
         tx.executeSql(
@@ -36,7 +37,7 @@ const createTables = () => {
 };
 
 // EXERCISES
-const exerciseExist = async (title: string, type: string): Promise<boolean> => {
+export const exerciseExist = async (title: string, type: string): Promise<boolean> => {
     try {
         const exists = await new Promise<boolean>((resolve, reject) => {
             db.transaction((tx) => {
@@ -61,7 +62,7 @@ const exerciseExist = async (title: string, type: string): Promise<boolean> => {
     }
 }
 
-const addExercise = async (title: string, type: string) => {
+export const addExercise = async (title: string, type: string) => {
     try {
         const data = await new Promise((resolve, reject) => {
             db.transaction((tx) => {
@@ -76,15 +77,13 @@ const addExercise = async (title: string, type: string) => {
                 );
             });
         });
-        return { success: true, data };
+        return { success: true, data, error: '' };
     } catch (e) {
-        console.error('addExercise error', e);
-        const errorMessage = e instanceof Error ? e.message : 'Failed to add exercise';
-        return { success: false, error: errorMessage };
+        return handleTransactionError(e, 'Failed to add exercises', 'addExercise')
     }
 };
 
-const fetchExercises = async (): Promise<DBResult<TExercise[]>> => {
+export const fetchExercises = async (): Promise<DBResult<TExercise[]>> => {
     try {
         const data = await new Promise<TExercise[]>((resolve, reject) => {
             db.transaction((tx) => {
@@ -104,9 +103,7 @@ const fetchExercises = async (): Promise<DBResult<TExercise[]>> => {
         });
         return { success: true, data };
     } catch (e) {
-        console.error('fetchExercises error', e);
-        const errorMessage = e instanceof Error ? e.message : 'Failed to fetch exercises';
-        return { success: false, error: errorMessage };
+        return handleTransactionError(e, 'Failed to fetch exercises', 'fetchExercises')
     }
 };
 
@@ -133,7 +130,7 @@ const fetchExercises = async (): Promise<DBResult<TExercise[]>> => {
 // };
 
 // RESULTS
-const addResult = async (exercise, exercise_id, date, muscleGroup, reps, weight, units) => {
+export const addResult = async (exercise: string, exercise_id: number, date: string, muscleGroup: string, reps: number, weight: number, units: string) => {
     try {
         const res = await new Promise((resolve, reject) => {
             db.transaction((tx) => {
@@ -145,18 +142,18 @@ const addResult = async (exercise, exercise_id, date, muscleGroup, reps, weight,
                     },
                     (_, error) => {
                         reject(error);
+                        return false
                     }
                 );
             });
         });
         return { success: true, data: res };
     } catch (e) {
-        console.error('addResult error', e);
-        return { success: false, error: e?.message || 'Failed to add result' };
+        return handleTransactionError(e, 'Failed to add result', 'addResult')
     }
 };
 
-const updateResult = async (id, exercise, exercise_id, date, muscleGroup, reps, weight, units) => {
+export const updateResult = async (id: number, exercise: string, exercise_id: number, date: string, muscleGroup: string, reps: number, weight: number, units: string) => {
     try {
         const res = await new Promise((resolve, reject) => {
             db.transaction((tx) => {
@@ -164,21 +161,23 @@ const updateResult = async (id, exercise, exercise_id, date, muscleGroup, reps, 
                     'UPDATE results SET exercise = ?, exercise_id = ?, date = ?, muscleGroup = ?, reps = ?, weight = ?, units = ? WHERE id = ?',
                     [exercise, exercise_id, date, muscleGroup, reps, weight, units, id],
                     (_, result) => resolve(result.rowsAffected),
-                    (_, error) => reject(error)
+                    (_, error) => {
+                        reject(error)
+                        return false
+                    }
                 );
             });
         });
-        if (res > 0) {
+        if (typeof res === 'number' && res > 0)  {
             return { success: true, data: res };
         }
         return { success: false, error: 'No rows were updated' };
     } catch (e) {
-        console.error('updateResult error', e);
-        return { success: false, error: e?.message || 'Failed to update result' };
+        return handleTransactionError(e, 'Failed to update result', 'updateResult')
     }
 };
 
-const deleteResult = async (id) => {
+export const deleteResult = async (id: number) => {
     try {
         const res = await new Promise((resolve, reject) => {
             db.transaction((tx) => {
@@ -186,21 +185,23 @@ const deleteResult = async (id) => {
                     'DELETE FROM results WHERE id = ?',
                     [id],
                     (_, result) => resolve(result.rowsAffected),
-                    (_, error) => reject(error)
+                    (_, error) => {
+                        reject(error)
+                        return false
+                    }
                 );
             });
         });
-        if (res > 0) {
+        if (typeof res === 'number' && res > 0) {
             return { success: true, data: res };
         }
         return { success: false, error: 'No rows were deleted' };
     } catch (e) {
-        console.error('deleteResult error', e);
-        return { success: false, error: e?.message || 'Failed to delete result' };
+        return handleTransactionError(e, 'Failed to delete result', 'deleteResult')
     }
 };
 
-const fetchResultById = async (id) => {
+export const fetchResultById = async (id: number) => {
     try {
         const res = await new Promise((resolve, reject) => {
             db.transaction((tx) => {
@@ -208,46 +209,55 @@ const fetchResultById = async (id) => {
                     `SELECT * FROM results WHERE id = ?`,
                     [id],
                     (_, result) => resolve(result.rows._array[0]),
-                    (_, error) => reject(error)
+                    (_, error) => {
+                        reject(error)
+                        return false
+                    }
                 );
             });
         });
-        return { success: true, data: res };
+        return { success: true, data: res, error: '' };
     } catch (e) {
-        console.error('fetchResultById error', e);
-        return { success: false, error: e.message || 'Failed to fetch result' };
+        return handleTransactionError(e, 'Failed to fetch result', 'fetchResultById')
     }
 };
 
-const fetchResultsByExerciseId = async (exercise_id) => {
+export const fetchResultsByExerciseId = async (exercise_id: number): Promise<DBResult<TResult[]>>=> {
     try {
-        const res = await new Promise((resolve, reject) => {
+        const res: TResult[] = await new Promise((resolve, reject) => {
             db.transaction((tx) => {
                 tx.executeSql(
                     `SELECT * from results WHERE exercise_id = ?`,
                     [exercise_id],
-                    (_, result) => resolve(result.rows._array),
-                    (_, error) => reject(error)
+                    (_, result) => {
+                        const results: TResult[] = result.rows._array;
+                        resolve(results);
+                    },
+                    (_, error) => {
+                        reject(error)
+                        return false
+                    }
                 );
             });
         });
         return { success: true, data: res };
     } catch (e) {
-        console.error('fetchResultByExercise error', e);
-        return { success: false, error: e?.message || 'Failed to fetch result by exercise id' };
+        return handleTransactionError(e, 'Failed to fetch result by exercise id', 'fetchResultsByExerciseId')
     }
 };
 
-const deleteTables = () => {
+export const deleteTables = () => {
     db.transaction((tx) => {
         tx.executeSql(
             'DROP TABLE exercises',
             [],
             (_, result) => {
                 console.log('Data table exercises', result);
+                return true
             },
             (_, error) => {
                 console.error('Error deleting table exercises', error);
+                return false
             }
         );
     });
@@ -258,26 +268,12 @@ const deleteTables = () => {
             [],
             (_, result) => {
                 console.log('Data table results', result);
+                return true
             },
             (_, error) => {
                 console.error('Error deleting table results', error);
+                return false
             }
         );
     });
-};
-
-export {
-    db,
-    createTables,
-    addExercise,
-    // updateExercise,
-    // deleteExercise,
-    fetchExercises,
-    addResult,
-    updateResult,
-    deleteResult,
-    fetchResultsByExerciseId,
-    fetchResultById,
-    deleteTables,
-    exerciseExist
 };

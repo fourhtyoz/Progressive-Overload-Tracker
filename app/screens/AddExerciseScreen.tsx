@@ -48,8 +48,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
         }
         
         const res = await addExercise(title, muscleGroup);
-        const { success, error } = res;
-        if (success) {
+        if (res.success) {
             Alert.alert(t('alerts.success'), t('alerts.exerciseAdded'), [
                 { text: t('alerts.great'), onPress: handleSucess },
             ]);
@@ -57,7 +56,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
             setTitle('');
             setError('');
         } else {
-            setError(String(error));
+            setError(res.error);
         }
     };
 

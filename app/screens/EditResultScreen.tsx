@@ -123,7 +123,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 setNewWeight(data.weight);
                 setNewUnits(data.units);
             } else {
-                setError(String(error));
+                setError(error);
             }
             setIsLoading(false);
         };
