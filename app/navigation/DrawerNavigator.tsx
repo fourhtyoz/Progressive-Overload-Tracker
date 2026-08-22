@@ -1,6 +1,6 @@
 import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
 import GoBackButton from '@/app/components/buttons/GoBackButton';
 import { COLORS } from '@/app/styles/globalStyles';
 import { useTranslation } from 'react-i18next';
@@ -15,63 +15,49 @@ import SettingsScreen from '@/app/screens/SettingsScreen';
 import EditResultScreen from '@/app/screens/EditResultScreen';
 
 // Stack navigators
-const AddResultStack = createNativeStackNavigator();
-const HistoryStack = createNativeStackNavigator();
+const AddResultStack = createNativeStackNavigator<AddResultStackParamList>();
+const HistoryStack = createNativeStackNavigator<HistoryStackParamList>();
+
+export type AddResultStackParamList = {
+    AddResultMain: undefined;
+    AddExercise: undefined;
+};
+
+export type HistoryStackParamList = {
+    HistoryMain: undefined;
+    EditResult: { resultId: number };
+};
 
 function AddResultStackNavigator() {
     return (
-        <AddResultStack.Navigator>
-            <AddResultStack.Screen
-                name="AddResultMain"
-                component={AddResultScreen}
-                options={({ navigation }) => ({
-                    title: '',
-                    headerRight: () =>
-                        navigation.canGoBack() ? (
-                            <GoBackButton fn={() => navigation.goBack()} />
-                        ) : null,
-                })}
-            />
-            <AddResultStack.Screen
-                name="AddExercise"
-                component={AddExerciseScreen}
-                options={({ navigation }) => ({
-                    title: '',
-                    headerRight: () =>
-                        navigation.canGoBack() ? (
-                            <GoBackButton fn={() => navigation.goBack()} />
-                        ) : null,
-                })}
-            />
+        <AddResultStack.Navigator
+            screenOptions={({ navigation }: { navigation: NativeStackNavigationProp<AddResultStackParamList> }) => ({
+                title: '',
+                headerRight: () =>
+                    navigation.canGoBack() ? (
+                        <GoBackButton fn={() => navigation.goBack()} />
+                    ) : null,
+            })}
+        >
+            <AddResultStack.Screen name="AddResultMain" component={AddResultScreen} />
+            <AddResultStack.Screen name="AddExercise" component={AddExerciseScreen} />
         </AddResultStack.Navigator>
     );
 }
 
 function HistoryStackNavigator() {
     return (
-        <HistoryStack.Navigator>
-            <HistoryStack.Screen
-                name="HistoryMain"
-                component={HistoryScreen}
-                options={({ navigation }) => ({
-                    title: '',
-                    headerRight: () =>
-                        navigation.canGoBack() ? (
-                            <GoBackButton fn={() => navigation.goBack()} />
-                        ) : null,
-                })}
-            />
-            <HistoryStack.Screen
-                name="EditResult"
-                component={EditResultScreen}
-                options={({ navigation }) => ({
-                    title: '',
-                    headerRight: () =>
-                        navigation.canGoBack() ? (
-                            <GoBackButton fn={() => navigation.goBack()} />
-                        ) : null,
-                })}
-            />
+        <HistoryStack.Navigator
+            screenOptions={({ navigation }: { navigation: NativeStackNavigationProp<HistoryStackParamList> }) => ({
+                title: '',
+                headerRight: () =>
+                    navigation.canGoBack() ? (
+                        <GoBackButton fn={() => navigation.goBack()} />
+                    ) : null,
+            })}
+        >
+            <HistoryStack.Screen name="HistoryMain" component={HistoryScreen} />
+            <HistoryStack.Screen name="EditResult" component={EditResultScreen} />
         </HistoryStack.Navigator>
     );
 }
@@ -87,7 +73,7 @@ export type DrawerParamList = {
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
 
-export default function DrawerNavigator({ isDarkTheme }: any) {
+export default function DrawerNavigator({ isDarkTheme }: { isDarkTheme: boolean }) {
     const { t } = useTranslation();
 
     return (

@@ -3,7 +3,11 @@ import { Pressable, Text, StyleSheet } from 'react-native';
 import { settingsStore } from '@/app/store/settingsStore';
 import { useTranslation } from 'react-i18next';
 
-export default function GoBackButton({ fn }: any) {
+type Props = {
+    fn: () => void;
+};
+
+export default function GoBackButton({ fn }: Props) {
     const { t } = useTranslation();
 
     return (

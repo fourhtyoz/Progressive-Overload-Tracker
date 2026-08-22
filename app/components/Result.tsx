@@ -4,9 +4,21 @@ import { settingsStore } from '@/app/store/settingsStore';
 import { getformattedDate } from '@/app/utils/utils';
 import { UNITS } from '@/app/constants/settings';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { FONT_SIZE, COLORS } from '@/app/styles/globalStyles';
+import { TTranslatedItem } from '@/app/types';
+import { HistoryStackParamList } from '@/app/navigation/DrawerNavigator';
+
+type ResultProps = {
+    resultId: number;
+    date: string;
+    weight: number;
+    reps: number;
+    units: string;
+    progress: string;
+    deleteResult: (id: number) => void;
+};
 
 export default function Result({
     resultId,
@@ -16,9 +28,9 @@ export default function Result({
     units,
     progress,
     deleteResult,
-}: any) {
+}: ResultProps) {
     const { t } = useTranslation();
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp<HistoryStackParamList>>();
 
     const handleDeleteRecord = (resultId: number) => {
         Alert.alert(t('alerts.areYouSure'), t('alerts.sureToDeleteRecord'), [
@@ -36,7 +48,7 @@ export default function Result({
                 {
                     text: t('alerts.edit'),
                     onPress: () =>
-                        (navigation as any).navigate('EditResult', { resultId: resultId }),
+                        navigation.navigate('EditResult', { resultId: resultId }),
                 },
                 { text: t('alerts.close') },
             ]
@@ -78,7 +90,7 @@ export default function Result({
                 ]}
             >
                 {weight
-                    ? `${weight} ${UNITS.find((i: any) => i.title === units)?.[settingsStore.language]}`
+                    ? `${weight} ${UNITS.find((i) => i.title === units)?.[settingsStore.language as keyof TTranslatedItem]}`
                     : '-'}
             </Text>
             <Text

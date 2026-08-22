@@ -7,10 +7,18 @@ import { FONT_SIZE, COLORS } from '@/app/styles/globalStyles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { exerciseStore } from '@/app/store/exerciseStore';
 import Result from '@/app/components/Result';
-import { TResult } from '@/app/types';
+import { TResult, TTranslatedItem } from '@/app/types';
 import { MUSCLES } from '@/app/constants/settings';
 
-export default function Exercise({ id, title, type, sorting, setError }: any) {
+type ExerciseProps = {
+    id: number;
+    title: string;
+    type: string;
+    sorting: string;
+    setError: (error: string) => void;
+};
+
+export default function Exercise({ id, title, type, sorting, setError }: ExerciseProps) {
     const { t } = useTranslation();
 
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +38,7 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
             if (res.success && Array.isArray(res.data)) {
                 setResults(res.data);
             } else {
-                setError(res.error);
+                setError(res.error || '');
             }
             setIsLoading(false);
             setIsLoaded(true);
@@ -83,7 +91,7 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
                             ]}
                         >
                             {toTitleCase(title)} (
-                            {MUSCLES.find((item) => item.title === type)?.[settingsStore.language]})
+                            {MUSCLES.find((item) => item.title === type)?.[settingsStore.language as keyof TTranslatedItem]})
                         </Text>
                         <Text
                             style={{

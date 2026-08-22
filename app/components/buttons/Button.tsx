@@ -3,7 +3,7 @@ import { COLORS, FONT_SIZE } from '@/app/styles/globalStyles';
 import { settingsStore } from '@/app/store/settingsStore';
 
 type Props = {
-    onPress: any;
+    onPress: () => void;
     text: string;
     disabled?: boolean;
     bgColor?: string;

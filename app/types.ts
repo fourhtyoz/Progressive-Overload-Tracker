@@ -14,7 +14,7 @@ export type TResult = {
     units: string;
 };
 
-export type TMuscle = {
+export type TTranslatedItem = {
     title: string;
     ru: string;
     en: string;
@@ -23,7 +23,7 @@ export type TMuscle = {
     tr: string;
 };
 
-export interface DBResult<T = any> {
+export interface DBResult<T = unknown> {
   success: boolean;
   data?: T;
   error?: string;

@@ -35,7 +35,7 @@ const SettingsScreen = observer(() => {
         ]);
     };
 
-    const handleChangeLanguage = async (lang: any) => {
+    const handleChangeLanguage = async (lang: { title: string; code: string }) => {
         if (!lang) return;
 
         setError('');
