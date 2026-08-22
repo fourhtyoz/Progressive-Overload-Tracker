@@ -211,7 +211,7 @@ const s = StyleSheet.create({
     text: {
         marginTop: 20,
         fontSize: 16,
-        color: '#555',
+        color: COLORS.textColorLight,
     },
     resetButtonTextDisabled: {
         color: COLORS.black,

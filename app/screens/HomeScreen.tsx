@@ -10,7 +10,7 @@ import {
 import { DrawerScreenProps } from '@react-navigation/drawer';
 import { DrawerParamList } from '@/app/navigation/DrawerNavigator';
 import { useTranslation } from 'react-i18next';
-import { FONT_SIZE } from '@/app/styles/globalStyles';
+import { FONT_SIZE, COLORS } from '@/app/styles/globalStyles';
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
 
@@ -111,10 +111,10 @@ const s = StyleSheet.create({
         height: screenHeight / 2.5,
     },
     cardTitle: {
-        color: '#FFF',
+        color: COLORS.white,
         padding: 10,
         fontSize: FONT_SIZE.huge,
-        backgroundColor: 'rgba(0, 0, 0, .4)',
+        backgroundColor: COLORS.overlayDark,
         fontWeight: 'bold',
     },
     cardImage: {
