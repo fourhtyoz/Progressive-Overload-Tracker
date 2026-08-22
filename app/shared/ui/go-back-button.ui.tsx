@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Pressable, StyleSheet,Text } from 'react-native';
+import { Button as TamaguiButton } from 'tamagui';
 
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
@@ -10,54 +10,28 @@ type Props = {
 
 export default function GoBackButton({ fn }: Props) {
     const { t } = useTranslation();
+    const isDark = settingsStore.isDark;
 
     return (
-        <Pressable
+        <TamaguiButton
             onPress={fn}
-            style={({ pressed }) => [
-                s.button,
-                {
-                    backgroundColor: settingsStore.isDark
-                        ? pressed
-                            ? COLORS.orange
-                            : COLORS.black
-                        : pressed
-                          ? COLORS.black
-                          : COLORS.orange,
-                },
-            ]}
+            accessibilityRole="button"
+            accessibilityLabel={t('general.goBackButton')}
+            chromeless
+            backgroundColor={isDark ? COLORS.black : COLORS.orange}
+            color={isDark ? COLORS.white : COLORS.black}
+            marginRight={10}
+            padding={10}
+            borderRadius={5}
+            pressStyle={{
+                backgroundColor: isDark ? COLORS.orange : COLORS.black,
+                color: isDark ? COLORS.black : COLORS.white,
+            }}
+            fontSize={FONT_SIZE.large}
+            fontWeight="bold"
+            letterSpacing={0.25}
         >
-            {({ pressed }) => (
-                <Text
-                    style={[
-                        s.text,
-                        {
-                            color: settingsStore.isDark
-                                ? pressed
-                                    ? COLORS.black
-                                    : COLORS.white
-                                : pressed
-                                  ? COLORS.white
-                                  : COLORS.black,
-                        },
-                    ]}
-                >
-                    {t('general.goBackButton')}
-                </Text>
-            )}
-        </Pressable>
+            {t('general.goBackButton')}
+        </TamaguiButton>
     );
 }
-
-const s = StyleSheet.create({
-    button: {
-        marginRight: 10,
-        padding: 10,
-        borderRadius: 5,
-    },
-    text: {
-        fontWeight: 'bold',
-        fontSize: FONT_SIZE.large,
-        letterSpacing: 0.25,
-    },
-});

@@ -1,8 +1,8 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { StyleSheet, Text, TouchableOpacity,View } from 'react-native';
+import { Text, TouchableOpacity,XStack } from 'tamagui';
 
-import { COLORS,FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 
 type ErrorMessageProps = {
     message: string;
@@ -11,37 +11,34 @@ type ErrorMessageProps = {
 
 export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
     return (
-        <View style={s.container}>
-            <Text style={s.text}>Error: {message}</Text>
+        <XStack
+            padding={16}
+            borderRadius={8}
+            backgroundColor={COLORS.errorBackground}
+            borderWidth={1}
+            borderColor={COLORS.errorBorder}
+            alignItems="center"
+            justifyContent="space-between"
+            accessibilityRole="alert"
+            accessibilityLabel={`Error: ${message}`}
+        >
+            <Text
+                color={COLORS.errorText}
+                fontSize={FONT_SIZE.normal}
+                fontWeight="600"
+                flex={1}
+            >
+                Error: {message}
+            </Text>
             <TouchableOpacity
                 onPress={() => setError('')}
-                style={s.closeButton}
+                marginLeft={8}
                 testID="close-button"
+                accessibilityRole="button"
+                accessibilityLabel="Dismiss error"
             >
                 <Ionicons name="close" size={20} color={COLORS.errorText} />
             </TouchableOpacity>
-        </View>
+        </XStack>
     );
 }
-
-const s = StyleSheet.create({
-    container: {
-        padding: 16,
-        borderRadius: 8,
-        backgroundColor: COLORS.errorBackground,
-        borderWidth: 1,
-        borderColor: COLORS.errorBorder,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-    },
-    text: {
-        color: COLORS.errorText,
-        fontSize: FONT_SIZE.normal,
-        fontWeight: '600',
-        flex: 1,
-    },
-    closeButton: {
-        marginLeft: 8,
-    },
-});
