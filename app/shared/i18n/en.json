@@ -123,6 +123,7 @@
         "recordDeleted": "Result has been deleted",
         "failedDeletingRecord": "An error occurred while deleting the result",
         "chooseAction": "Choose Action",
+        "chooseActionMessage": "What would you like to do with this result?",
         "delete": "Delete",
         "edit": "Edit",
         "close": "Close",
@@ -149,7 +150,8 @@
         "weightMustBePositive": "Weight must be greater than 0",
         "failedFetchExercises": "Failed to load exercises",
         "failedFetchResults": "Failed to load results",
-        "failedUpdateResult": "Failed to update the result"
+        "failedUpdateResult": "Failed to update the result",
+        "exerciseExists": "This exercise already exists"
     },
 
     "muscles": {

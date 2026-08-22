@@ -3,10 +3,13 @@ export function getformattedDate(date: string | Date) {
         date = date.toISOString();
     }
 
-    const [year, month, day] = date.split('T')[0].split('-');
-    const formattedDate = `${day}.${month}.${year.slice(-2)}`;
+    if (!date || typeof date !== 'string') return '';
 
-    return formattedDate;
+    const parts = date.split('T')[0]?.split('-');
+    if (!parts || parts.length < 3) return date;
+
+    const [year, month, day] = parts;
+    return `${day}.${month}.${year.slice(-2)}`;
 }
 
 export function toTitleCase(str: string) {

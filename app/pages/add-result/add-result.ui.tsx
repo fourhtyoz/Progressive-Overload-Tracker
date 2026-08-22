@@ -102,7 +102,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     };
 
     useEffect(() => {
-        if (exercises.length === 0) {
+        if (!exerciseStore.isLoading && exercises.length === 0) {
             Alert.alert(t('alerts.noExerciseTitle'), t('alerts.noExercise'), [
                 {
                     text: t('alerts.addExercise'),
@@ -110,7 +110,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 },
             ]);
         }
-    }, []);
+    }, [exercises.length]);
 
     const inputBorder = settingsStore.isDark ? COLORS.orange : COLORS.gray;
 

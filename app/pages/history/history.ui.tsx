@@ -104,7 +104,7 @@ export default observer(function HistoryScreen() {
                 </Label>
                 <SelectDropdown
                     data={muscleOptions}
-                    defaultValue={muscleOptions.filter((item) => item === '-')[0]}
+                    defaultValue={undefined}
                     onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}

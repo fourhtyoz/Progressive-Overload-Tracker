@@ -5,14 +5,16 @@ import { DBResult, TExercise, TResult } from '@/app/shared/types';
 
 const DB_NAME = 'progressive_overload_tracker.db';
 
-let database: SQLite.SQLiteDatabase | null = null;
+let dbPromise: Promise<SQLite.SQLiteDatabase> | null = null;
 
 export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
-    if (!database) {
-        database = await SQLite.openDatabaseAsync(DB_NAME);
-        await database.execAsync('PRAGMA foreign_keys = ON');
+    if (!dbPromise) {
+        dbPromise = SQLite.openDatabaseAsync(DB_NAME).then(async (db) => {
+            await db.execAsync('PRAGMA foreign_keys = ON');
+            return db;
+        });
     }
-    return database;
+    return dbPromise;
 }
 
 export async function initializeDatabase(): Promise<void> {
