@@ -1,18 +1,18 @@
-import React from 'react';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
-import GoBackButton from '@/app/shared/ui/go-back-button.ui';
-import { COLORS } from '@/app/shared/theme/global-styles';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
 
+import AboutScreen from '@/app/pages/about/about.ui';
+import AddExerciseScreen from '@/app/pages/add-exercise/add-exercise.ui';
+import AddResultScreen from '@/app/pages/add-result/add-result.ui';
+import EditResultScreen from '@/app/pages/edit-result/edit-result.ui';
+import HistoryScreen from '@/app/pages/history/history.ui';
 // Screens
 import HomeScreen from '@/app/pages/home/home.ui';
-import AboutScreen from '@/app/pages/about/about.ui';
-import AddResultScreen from '@/app/pages/add-result/add-result.ui';
-import AddExerciseScreen from '@/app/pages/add-exercise/add-exercise.ui';
-import HistoryScreen from '@/app/pages/history/history.ui';
 import SettingsScreen from '@/app/pages/settings/settings.ui';
-import EditResultScreen from '@/app/pages/edit-result/edit-result.ui';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import GoBackButton from '@/app/shared/ui/go-back-button.ui';
 
 // Stack navigators
 const AddResultStack = createNativeStackNavigator<AddResultStackParamList>();

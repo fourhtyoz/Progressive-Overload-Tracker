@@ -1,5 +1,6 @@
+import { fireEvent,render } from '@testing-library/react-native';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
+
 import HomeScreen from '../pages/home/home.ui';
 
 jest.mock('react-i18next', () => ({

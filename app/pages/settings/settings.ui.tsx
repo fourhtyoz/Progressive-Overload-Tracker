@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, Alert, Pressable } from 'react-native';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import Button from '@/app/shared/ui/button.ui';
-import SelectDropdown from 'react-native-select-dropdown';
-import { UNIT_KEYS, THEME_KEYS, LANGUAGES } from '@/app/shared/constants/settings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import Toast from 'react-native-toast-message';
-import { useTranslation } from 'react-i18next';
-import { settingsStore } from '@/app/shared/stores/settings.store';
 import { observer } from 'mobx-react-lite';
-import ErrorMessage from '@/app/shared/ui/error-message.ui';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert, Pressable,StyleSheet, Text, View } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import SelectDropdown from 'react-native-select-dropdown';
+import Toast from 'react-native-toast-message';
+
 import { deleteTables, initializeDatabase } from '@/app/shared/api/db';
+import { LANGUAGES,THEME_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import Button from '@/app/shared/ui/button.ui';
+import ErrorMessage from '@/app/shared/ui/error-message.ui';
 
 const SettingsScreen = observer(() => {
     const [error, setError] = useState('');

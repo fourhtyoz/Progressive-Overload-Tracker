@@ -1,13 +1,14 @@
 import { makeAutoObservable, runInAction } from 'mobx';
+
 import {
-    fetchExercises,
-    exerciseExist,
     addExercise as dbAddExercise,
     addResult as dbAddResult,
-    updateResult as dbUpdateResult,
     deleteResult as dbDeleteResult,
+    exerciseExist,
+    fetchExercises,
     fetchResultById as dbFetchResultById,
     fetchResultsByExerciseId as dbFetchResultsByExerciseId,
+    updateResult as dbUpdateResult,
 } from '@/app/shared/api/db';
 import { DBResult, TExercise, TResult } from '@/app/shared/types';
 
@@ -19,7 +20,7 @@ class ExerciseStore {
 
     constructor() {
         makeAutoObservable(this);
-        this.initialize();
+        void this.initialize();
     }
 
     async initialize() {

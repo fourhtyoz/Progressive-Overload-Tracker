@@ -1,25 +1,26 @@
-import React, { useState, useEffect } from 'react';
-import { View, TextInput, Text, Alert } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
+import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { observer } from 'mobx-react-lite';
+import React, { useEffect,useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Alert,Text, TextInput, View } from 'react-native';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import SelectDropdown from 'react-native-select-dropdown';
+import Toast from 'react-native-toast-message';
+
+import { HistoryStackParamList } from '@/app/navigation/drawer.navigator';
 import { MUSCLE_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { getformattedDate, toTitleCase } from '@/app/shared/lib/formatters.lib';
-import SelectDropdown from 'react-native-select-dropdown';
-import { globalStyles } from '@/app/shared/theme/global-styles';
-import Button from '@/app/shared/ui/button.ui';
-import { useTranslation } from 'react-i18next';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
-import { observer } from 'mobx-react-lite';
-import ErrorMessage from '@/app/shared/ui/error-message.ui';
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
-import { Ionicons } from '@expo/vector-icons';
 import { settingsStore } from '@/app/shared/stores/settings.store';
+import { globalStyles } from '@/app/shared/theme/global-styles';
 import { COLORS } from '@/app/shared/theme/global-styles';
-import Toast from 'react-native-toast-message';
-import Loader from '@/app/shared/ui/loader.ui';
 import { TExercise } from '@/app/shared/types';
-import { HistoryStackParamList } from '@/app/navigation/drawer.navigator';
-import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import Button from '@/app/shared/ui/button.ui';
+import ErrorMessage from '@/app/shared/ui/error-message.ui';
+import Loader from '@/app/shared/ui/loader.ui';
 
 type Props = NativeStackScreenProps<HistoryStackParamList, 'EditResult'>;
 
@@ -118,7 +119,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             }
             setIsLoading(false);
         };
-        getResult(route.params.resultId);
+        void getResult(route.params.resultId);
     }, [route]);
 
     const onChange = (_: unknown, selectedDate: Date | undefined) => {

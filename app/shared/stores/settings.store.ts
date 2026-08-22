@@ -1,5 +1,6 @@
-import { makeAutoObservable, runInAction } from 'mobx';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { makeAutoObservable, runInAction } from 'mobx';
+
 import i18n from '@/app/shared/i18n/i18n';
 import { getDeviceLanuguage, getDeviceMeasurementSystem } from '@/app/shared/i18n/i18n';
 
@@ -13,7 +14,7 @@ class SettingsStore {
 
     constructor() {
         makeAutoObservable(this);
-        this.initialize();
+        void this.initialize();
     }
 
     get isDark() {
@@ -30,7 +31,7 @@ class SettingsStore {
 
     setLanguage(value: string) {
         this.language = value;
-        i18n.changeLanguage(value);
+        void i18n.changeLanguage(value);
     }
 
     setUnits(value: string) {

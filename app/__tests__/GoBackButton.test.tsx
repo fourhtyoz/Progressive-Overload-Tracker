@@ -1,7 +1,9 @@
+import { fireEvent,render } from '@testing-library/react-native';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import GoBackButton from '../shared/ui/go-back-button.ui';
+
 import { COLORS } from '@/app/shared/theme/global-styles';
+
+import GoBackButton from '../shared/ui/go-back-button.ui';
 
 describe('GoBackButton Component', () => {
     it('renders correctly with a title', () => {

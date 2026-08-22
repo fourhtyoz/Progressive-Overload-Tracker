@@ -1,17 +1,18 @@
-import React, { useState } from 'react';
-import { View, SafeAreaView, Text, TextInput, Alert } from 'react-native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-import { AddResultStackParamList } from '@/app/navigation/drawer.navigator';
-import SelectDropdown from 'react-native-select-dropdown';
-import { toTitleCase } from '@/app/shared/lib/formatters.lib';
-import Button from '@/app/shared/ui/button.ui';
-import { MUSCLE_KEYS } from '@/app/shared/constants/settings';
-import { exerciseStore } from '@/app/shared/stores/exercise.store';
-import ErrorMessage from '@/app/shared/ui/error-message.ui';
 import { observer } from 'mobx-react-lite';
-import { COLORS, globalStyles } from '@/app/shared/theme/global-styles';
-import { settingsStore } from '@/app/shared/stores/settings.store';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Alert,SafeAreaView, Text, TextInput, View } from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown';
+
+import { AddResultStackParamList } from '@/app/navigation/drawer.navigator';
+import { MUSCLE_KEYS } from '@/app/shared/constants/settings';
+import { toTitleCase } from '@/app/shared/lib/formatters.lib';
+import { exerciseStore } from '@/app/shared/stores/exercise.store';
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import { COLORS, globalStyles } from '@/app/shared/theme/global-styles';
+import Button from '@/app/shared/ui/button.ui';
+import ErrorMessage from '@/app/shared/ui/error-message.ui';
 
 type Props = NativeStackScreenProps<AddResultStackParamList, 'AddExercise'>;
 

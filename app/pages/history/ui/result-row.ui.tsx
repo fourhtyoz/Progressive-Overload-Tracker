@@ -1,12 +1,13 @@
-import React from 'react';
-import { Text, View, TouchableOpacity, Alert, StyleSheet } from 'react-native';
-import { settingsStore } from '@/app/shared/stores/settings.store';
-import { getformattedDate } from '@/app/shared/lib/formatters.lib';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation, NavigationProp } from '@react-navigation/native';
+import { NavigationProp,useNavigation } from '@react-navigation/native';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { FONT_SIZE, COLORS } from '@/app/shared/theme/global-styles';
+import { Alert, StyleSheet,Text, TouchableOpacity, View } from 'react-native';
+
 import { HistoryStackParamList } from '@/app/navigation/drawer.navigator';
+import { getformattedDate } from '@/app/shared/lib/formatters.lib';
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import { COLORS,FONT_SIZE } from '@/app/shared/theme/global-styles';
 
 type ResultProps = {
     resultId: number;

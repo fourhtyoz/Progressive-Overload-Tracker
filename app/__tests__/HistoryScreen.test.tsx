@@ -1,15 +1,17 @@
-import React from 'react';
-import { View, TouchableOpacity } from 'react-native';
-import { render, fireEvent, act } from '@testing-library/react-native';
-import HistoryScreen from '../pages/history/history.ui';
 import { useFocusEffect } from '@react-navigation/native';
+import { act,fireEvent, render } from '@testing-library/react-native';
+import React from 'react';
 import { useTranslation } from 'react-i18next';
+import { TouchableOpacity,View } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
-import { settingsStore } from '@/app/shared/stores/settings.store';
-import { fetchExercises } from '@/app/shared/api/db';
-import Loader from '@/app/shared/ui/loader.ui';
-import ErrorMessage from '@/app/shared/ui/error-message.ui';
+
 import Exercise from '@/app/pages/history/ui/exercise-row.ui';
+import { fetchExercises } from '@/app/shared/api/db';
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import ErrorMessage from '@/app/shared/ui/error-message.ui';
+import Loader from '@/app/shared/ui/loader.ui';
+
+import HistoryScreen from '../pages/history/history.ui';
 
 jest.mock('@react-navigation/native', () => ({
     useFocusEffect: jest.fn(),

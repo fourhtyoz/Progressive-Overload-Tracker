@@ -1,6 +1,7 @@
 import * as SQLite from 'expo-sqlite';
-import { DBResult, TExercise, TResult } from '@/app/shared/types';
+
 import { handleTransactionError } from '@/app/shared/lib/errors.lib';
+import { DBResult, TExercise, TResult } from '@/app/shared/types';
 
 const DB_NAME = 'progressive_overload_tracker.db';
 
