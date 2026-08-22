@@ -9,7 +9,7 @@ import Loader from '@/app/components/Loader';
 import Exercise from '@/app/components/Exercise';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { settingsStore } from '@/app/store/settingsStore';
-import { COLORS, FONT_SIZE } from '@/app/styles/globalStyles';
+import { COLORS, FONT_SIZE, globalStyles } from '@/app/styles/globalStyles';
 import { toTitleCase } from '@/app/utils/utils';
 import { TExercise } from '@/app/types';
 
@@ -57,7 +57,7 @@ export default observer(function HistoryScreen() {
                     defaultValue={{ title: t('history.byDateRecentFirst'), type: 'desc' }}
                     onSelect={(selectedItem, _) => setSelectedSorting(selectedItem)}
                     showsVerticalScrollIndicator={false}
-                    dropdownStyle={s.dropdownMenuStyle}
+                    dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(_) => (
                         <View style={s.dropdownButton}>
                             <Text
@@ -80,7 +80,7 @@ export default observer(function HistoryScreen() {
                             <View
                                 key={index}
                                 style={[
-                                    s.dropdownItemStyle,
+                                    globalStyles.dropdownItemStyle,
                                     item.type === selectedSorting.type && {
                                         backgroundColor: settingsStore.isDark
                                             ? COLORS.orange
@@ -88,7 +88,7 @@ export default observer(function HistoryScreen() {
                                     },
                                 ]}
                             >
-                                <Text style={s.dropdownItemTxtStyle}>
+                                <Text style={globalStyles.dropdownItemTxtStyle}>
                                     {toTitleCase(item.title)}
                                 </Text>
                             </View>
@@ -110,7 +110,7 @@ export default observer(function HistoryScreen() {
                     defaultValue={muscleOptions.filter((item) => item === '-')[0]}
                     onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
                     showsVerticalScrollIndicator={false}
-                    dropdownStyle={s.dropdownMenuStyle}
+                    dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
                         <View style={s.dropdownButton}>
                             {selectedMuscle === '-' ? (
@@ -152,7 +152,7 @@ export default observer(function HistoryScreen() {
                         <View
                             key={index}
                             style={[
-                                s.dropdownItemStyle,
+                                globalStyles.dropdownItemStyle,
                                 isSelected && {
                                     backgroundColor: settingsStore.isDark
                                         ? COLORS.orange
@@ -160,7 +160,7 @@ export default observer(function HistoryScreen() {
                                 },
                             ]}
                         >
-                            <Text style={s.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
                         </View>
                     )}
                 />
@@ -217,7 +217,7 @@ const s = StyleSheet.create({
         color: COLORS.black,
     },
     resetButtonDisabled: {
-        backgroundColor: '#e0e0e0',
+        backgroundColor: COLORS.disabledBackground,
         opacity: 0.5,
     },
     resetButton: {
@@ -231,24 +231,6 @@ const s = StyleSheet.create({
         color: COLORS.white,
         fontSize: FONT_SIZE.large,
         fontWeight: '600',
-    },
-    dropdownItemStyle: {
-        width: '100%',
-        flexDirection: 'row',
-        paddingHorizontal: 12,
-        justifyContent: 'center',
-        alignItems: 'center',
-        paddingVertical: 8,
-    },
-    dropdownItemTxtStyle: {
-        flex: 1,
-        fontSize: FONT_SIZE.normal,
-        fontWeight: '500',
-        color: '#151E26',
-    },
-    dropdownMenuStyle: {
-        backgroundColor: '#E9ECEF',
-        borderRadius: 8,
     },
     dropdownWrapper: {
         paddingHorizontal: 10,

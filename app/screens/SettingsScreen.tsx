@@ -300,7 +300,7 @@ const s = StyleSheet.create({
         justifyContent: 'space-between',
     },
     dropdownMenu: {
-        backgroundColor: '#E9ECEF',
+        backgroundColor: COLORS.dropdownBackground,
         borderRadius: 8,
         width: 'auto',
     },
@@ -312,7 +312,7 @@ const s = StyleSheet.create({
     },
     dropdownText: {
         fontSize: FONT_SIZE.normal,
-        color: '#151E26',
+        color: COLORS.dropdownText,
     },
     dropdownItem: {
         width: 200,
@@ -326,7 +326,7 @@ const s = StyleSheet.create({
         flex: 1,
         fontSize: FONT_SIZE.normal,
         fontWeight: '500',
-        color: '#151E26',
+        color: COLORS.dropdownText,
     },
     optionText: {
         fontSize: FONT_SIZE.normal,
