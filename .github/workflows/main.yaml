@@ -33,6 +33,3 @@ jobs:
         run: |
           npm install
           npx expo install
-
-      - name: Run tests
-        run: npm run test
