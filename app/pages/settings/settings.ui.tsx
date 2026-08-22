@@ -11,7 +11,7 @@ import { deleteTables, initializeDatabase } from '@/app/shared/api/db';
 import { LANGUAGES, THEME_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS, FONT_SIZE, globalStyles } from '@/app/shared/theme/global-styles';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
 
@@ -86,12 +86,6 @@ const SettingsScreen = observer(() => {
         }
     };
 
-    const dropdownMenuStyle = {
-        backgroundColor: COLORS.dropdownBackground,
-        borderRadius: 8,
-        width: 'auto' as const,
-    };
-
     return (
         <YStack flex={1} paddingHorizontal={20} gap={15}>
             {error && <ErrorMessage message={error} setError={setError} />}
@@ -110,7 +104,7 @@ const SettingsScreen = observer(() => {
                         }
                         onSelect={(selectedItem) => handleChangeLanguage(selectedItem)}
                         showsVerticalScrollIndicator={false}
-                        dropdownStyle={dropdownMenuStyle}
+                        dropdownStyle={globalStyles.dropdownMenuStyle}
                         renderButton={(selectedItem) => (
                             <XStack width="auto" justifyContent="center" alignItems="center">
                                 <Text fontSize={FONT_SIZE.normal}
@@ -121,19 +115,15 @@ const SettingsScreen = observer(() => {
                         )}
                         renderItem={(item, _, isSelected) => (
                             <XStack
-                                width={200}
-                                paddingHorizontal={12}
-                                justifyContent="center"
-                                alignItems="center"
-                                paddingVertical={8}
-                                backgroundColor={
-                                    isSelected
-                                        ? isDark ? COLORS.orange : COLORS.selectedLight
-                                        : undefined
-                                }
+                                style={[
+                                    globalStyles.dropdownItemStyle,
+                                    { width: 200 },
+                                    isSelected && {
+                                        backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
+                                    },
+                                ]}
                             >
-                                <Text flex={1} fontSize={FONT_SIZE.normal} fontWeight="500"
-                                    color={COLORS.dropdownText}>
+                                <Text style={globalStyles.dropdownItemTxtStyle}>
                                     {item.title}
                                 </Text>
                             </XStack>
@@ -157,7 +147,7 @@ const SettingsScreen = observer(() => {
                         defaultValue={settingsStore.units}
                         onSelect={(selectedItem) => handleChangeUnits(selectedItem)}
                         showsVerticalScrollIndicator={false}
-                        dropdownStyle={dropdownMenuStyle}
+                        dropdownStyle={globalStyles.dropdownMenuStyle}
                         renderButton={(selectedItem) => (
                             <XStack width="auto" justifyContent="center" alignItems="center">
                                 <Text fontSize={FONT_SIZE.normal}
@@ -169,19 +159,15 @@ const SettingsScreen = observer(() => {
                         )}
                         renderItem={(item, _, isSelected) => (
                             <XStack
-                                width={200}
-                                paddingHorizontal={12}
-                                justifyContent="center"
-                                alignItems="center"
-                                paddingVertical={8}
-                                backgroundColor={
-                                    isSelected
-                                        ? isDark ? COLORS.orange : COLORS.selectedLight
-                                        : undefined
-                                }
+                                style={[
+                                    globalStyles.dropdownItemStyle,
+                                    { width: 200 },
+                                    isSelected && {
+                                        backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
+                                    },
+                                ]}
                             >
-                                <Text flex={1} fontSize={FONT_SIZE.normal} fontWeight="500"
-                                    color={COLORS.dropdownText}>
+                                <Text style={globalStyles.dropdownItemTxtStyle}>
                                     {t('units.' + item)}
                                 </Text>
                             </XStack>
@@ -205,7 +191,7 @@ const SettingsScreen = observer(() => {
                         defaultValue={settingsStore.theme}
                         onSelect={(selectedItem) => handleChangeTheme(selectedItem)}
                         showsVerticalScrollIndicator={false}
-                        dropdownStyle={dropdownMenuStyle}
+                        dropdownStyle={globalStyles.dropdownMenuStyle}
                         renderButton={(selectedItem) => (
                             <XStack width="auto" justifyContent="center" alignItems="center">
                                 <Text fontSize={FONT_SIZE.normal}
@@ -217,19 +203,15 @@ const SettingsScreen = observer(() => {
                         )}
                         renderItem={(item, _, isSelected) => (
                             <XStack
-                                width={200}
-                                paddingHorizontal={12}
-                                justifyContent="center"
-                                alignItems="center"
-                                paddingVertical={8}
-                                backgroundColor={
-                                    isSelected
-                                        ? isDark ? COLORS.orange : COLORS.selectedLight
-                                        : undefined
-                                }
+                                style={[
+                                    globalStyles.dropdownItemStyle,
+                                    { width: 200 },
+                                    isSelected && {
+                                        backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
+                                    },
+                                ]}
                             >
-                                <Text flex={1} fontSize={FONT_SIZE.normal} fontWeight="500"
-                                    color={COLORS.dropdownText}>
+                                <Text style={globalStyles.dropdownItemTxtStyle}>
                                     {t('themes.' + item)}
                                 </Text>
                             </XStack>
