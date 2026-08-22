@@ -1,19 +1,18 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect,useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert,Text, TextInput, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Alert } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
 import Toast from 'react-native-toast-message';
+import { Input, Label, Text, XStack, YStack } from 'tamagui';
 
 import { AddResultStackParamList } from '@/app/navigation/drawer.navigator';
 import { MUSCLE_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { globalStyles } from '@/app/shared/theme/global-styles';
-import { COLORS } from '@/app/shared/theme/global-styles';
+import { COLORS, globalStyles } from '@/app/shared/theme/global-styles';
 import { TExercise } from '@/app/shared/types';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
@@ -113,52 +112,42 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         }
     }, []);
 
+    const inputBorder = settingsStore.isDark ? COLORS.orange : COLORS.gray;
+
     return (
-        <SafeAreaView style={globalStyles.wrapper}>
+        <YStack flex={1} padding={20} gap={16}>
             {error && <ErrorMessage message={error} setError={setError} />}
-            <View style={globalStyles.itemWrapper}>
-                <Text
-                    style={[
-                        globalStyles.inputLabel,
-                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
-                    ]}
-                >
+
+            {/* Muscle Group */}
+            <YStack gap={8}>
+                <Label fontWeight="600" fontSize={16}>
                     {t('result.options.muscle')}:
-                </Text>
+                </Label>
                 <SelectDropdown
                     data={MUSCLE_KEYS}
                     onSelect={(selectedItem) => setMuscleGroup(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View
-                            style={[
-                                globalStyles.input,
-                                { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray },
-                            ]}
+                        <YStack
+                            borderWidth={1}
+                            borderColor={inputBorder}
+                            borderRadius={8}
+                            padding={12}
                         >
                             {muscleGroup ? (
-                                <Text
-                                    style={[
-                                        globalStyles.exerciseText,
-                                        {
-                                            color: settingsStore.isDark
-                                                ? COLORS.textDarkScreen
-                                                : COLORS.black,
-                                        },
-                                    ]}
-                                >
+                                <Text fontSize={16} color="$color">
                                     {toTitleCase(t('muscles.' + selectedItem))}
                                 </Text>
                             ) : (
-                                <Text style={globalStyles.exerciseTextPlaceholder}>
+                                <Text fontSize={16} color="$colorMuted">
                                     {t('result.options.chooseMuscle')}
                                 </Text>
                             )}
-                        </View>
+                        </YStack>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View
+                        <YStack
                             style={[
                                 globalStyles.dropdownItemStyle,
                                 isSelected && {
@@ -171,60 +160,47 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                             <Text style={globalStyles.dropdownItemTxtStyle}>
                                 {toTitleCase(t('muscles.' + item))}
                             </Text>
-                        </View>
+                        </YStack>
                     )}
                 />
-            </View>
-            <View style={globalStyles.itemWrapper}>
-                <Text
-                    style={[
-                        globalStyles.inputLabel,
-                        {
-                            color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black,
-                            opacity: !muscleGroup ? 0.3 : 1,
-                        },
-                    ]}
+            </YStack>
+
+            {/* Exercise */}
+            <YStack gap={8}>
+                <Label
+                    fontWeight="600"
+                    fontSize={16}
+                    opacity={!muscleGroup ? 0.3 : 1}
                 >
                     {t('result.options.exercise')}:
-                </Text>
+                </Label>
                 <SelectDropdown
                     disabled={!muscleGroup}
                     data={exercises.filter((item) => item.type === muscleGroup)}
-                    onSelect={(selectedItem, _) => setExercise(selectedItem)}
+                    onSelect={(_selectedItem, _) => setExercise(_selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View
-                            style={[
-                                globalStyles.input,
-                                {
-                                    borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
-                                    opacity: !muscleGroup ? 0.3 : 1,
-                                },
-                            ]}
+                        <YStack
+                            borderWidth={1}
+                            borderColor={inputBorder}
+                            borderRadius={8}
+                            padding={12}
+                            opacity={!muscleGroup ? 0.3 : 1}
                         >
                             {exercise ? (
-                                <Text
-                                    style={[
-                                        globalStyles.exerciseText,
-                                        {
-                                            color: settingsStore.isDark
-                                                ? COLORS.textDarkScreen
-                                                : COLORS.black,
-                                        },
-                                    ]}
-                                >
+                                <Text fontSize={16} color="$color">
                                     {selectedItem && selectedItem.title}
                                 </Text>
                             ) : (
-                                <Text style={globalStyles.exerciseTextPlaceholder}>
+                                <Text fontSize={16} color="$colorMuted">
                                     {t('result.options.chooseExercise')}
                                 </Text>
                             )}
-                        </View>
+                        </YStack>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View
+                        <YStack
                             style={[
                                 globalStyles.dropdownItemStyle,
                                 isSelected && {
@@ -237,95 +213,90 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                             <Text style={globalStyles.dropdownItemTxtStyle}>
                                 {index + 1}. {item.title}
                             </Text>
-                        </View>
+                        </YStack>
                     )}
                 />
-            </View>
-            <View style={globalStyles.itemWrapper}>
-                <Text
-                    style={[
-                        globalStyles.inputLabel,
-                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
-                    ]}
-                >
+            </YStack>
+
+            {/* Weight + Units */}
+            <YStack gap={8}>
+                <Label fontWeight="600" fontSize={16}>
                     {t('result.options.weight')}:
-                </Text>
-                <TextInput
-                    style={[
-                        globalStyles.inputWithOption,
-                        {
-                            color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black,
-                            borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
-                        },
-                    ]}
-                    value={weightValue}
-                    placeholder={t('result.options.whatWeight')}
-                    placeholderTextColor={COLORS.placeholderTextLight}
-                    onChangeText={(value) => handleChangeWeight(value)}
-                    keyboardType="numeric"
-                />
-                <SelectDropdown
-                    data={UNIT_KEYS}
-                    defaultValue={settingsStore.units}
-                    showsVerticalScrollIndicator={false}
-                    dropdownStyle={globalStyles.dropdownMenuStyle}
-                    onSelect={(selectedItem) => setUnits(selectedItem)}
-                    renderButton={(selectedItem) => (
-                        <View
-                            style={[
-                                globalStyles.dropdownButtonStyle,
-                                { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray },
-                            ]}
-                        >
-                            <Text style={globalStyles.dropdownButtonTxtStyle}>
-                                {(selectedItem && t('units.' + selectedItem)) ||
-                                    settingsStore.units}
-                            </Text>
-                        </View>
-                    )}
-                    renderItem={(item, _, isSelected) => (
-                        <View
-                            style={[
-                                globalStyles.dropdownItemStyle,
-                                isSelected && {
-                                    backgroundColor: settingsStore.isDark
-                                        ? COLORS.orange
-                                        : COLORS.selectedLight,
-                                },
-                            ]}
-                        >
-                            <Text style={globalStyles.dropdownItemTxtStyle}>
-                                {t('units.' + item)}
-                            </Text>
-                        </View>
-                    )}
-                />
-            </View>
-            <View style={globalStyles.itemWrapper}>
-                <Text
-                    style={[
-                        globalStyles.inputLabel,
-                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
-                    ]}
-                >
+                </Label>
+                <XStack gap={8}>
+                    <Input
+                        flex={1}
+                        value={weightValue}
+                        placeholder={t('result.options.whatWeight')}
+                        onChangeText={(value) => handleChangeWeight(value)}
+                        keyboardType="numeric"
+                        borderWidth={1}
+                        borderColor={inputBorder}
+                        borderRadius={8}
+                        padding={12}
+                        fontSize={16}
+                        color="$color"
+                    />
+                    <SelectDropdown
+                        data={UNIT_KEYS}
+                        defaultValue={settingsStore.units}
+                        showsVerticalScrollIndicator={false}
+                        dropdownStyle={globalStyles.dropdownMenuStyle}
+                        onSelect={(selectedItem) => setUnits(selectedItem)}
+                        renderButton={(selectedItem) => (
+                            <YStack
+                                style={[
+                                    globalStyles.dropdownButtonStyle,
+                                    { borderColor: inputBorder },
+                                ]}
+                            >
+                                <Text style={globalStyles.dropdownButtonTxtStyle}>
+                                    {(selectedItem && t('units.' + selectedItem)) ||
+                                        settingsStore.units}
+                                </Text>
+                            </YStack>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <YStack
+                                style={[
+                                    globalStyles.dropdownItemStyle,
+                                    isSelected && {
+                                        backgroundColor: settingsStore.isDark
+                                            ? COLORS.orange
+                                            : COLORS.selectedLight,
+                                    },
+                                ]}
+                            >
+                                <Text style={globalStyles.dropdownItemTxtStyle}>
+                                    {t('units.' + item)}
+                                </Text>
+                            </YStack>
+                        )}
+                    />
+                </XStack>
+            </YStack>
+
+            {/* Reps */}
+            <YStack gap={8}>
+                <Label fontWeight="600" fontSize={16}>
                     {t('result.options.reps')}:
-                </Text>
-                <TextInput
-                    style={[
-                        globalStyles.input,
-                        {
-                            color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black,
-                            borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
-                        },
-                    ]}
+                </Label>
+                <Input
                     value={repsValue}
                     placeholder={t('result.options.howManyReps')}
-                    placeholderTextColor={COLORS.placeholderTextLight}
                     onChangeText={(value) => handleChangeReps(value)}
                     keyboardType="numeric"
+                    borderWidth={1}
+                    borderColor={inputBorder}
+                    borderRadius={8}
+                    padding={12}
+                    fontSize={16}
+                    color="$color"
                 />
-            </View>
-            <View style={globalStyles.buttonWrapper}>
+            </YStack>
+
+            {/* Buttons */}
+            <YStack gap={16} marginTop={8}>
                 <Button
                     onPress={handleSubmitEntry}
                     text={t('result.buttons.submit')}
@@ -345,8 +316,8 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     pressedBgColor={COLORS.orange}
                     borderColor={COLORS.blackTransparentBorder}
                 />
-            </View>
-        </SafeAreaView>
+            </YStack>
+        </YStack>
     );
 });
 

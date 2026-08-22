@@ -25,7 +25,6 @@ export default function GoBackButton({ fn }: Props) {
             borderRadius={5}
             pressStyle={{
                 backgroundColor: isDark ? COLORS.orange : COLORS.black,
-                color: isDark ? COLORS.black : COLORS.white,
             }}
             fontSize={FONT_SIZE.large}
             fontWeight="bold"
