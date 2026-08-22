@@ -14,15 +14,6 @@ export type TResult = {
     units: string;
 };
 
-export type TTranslatedItem = {
-    title: string;
-    ru: string;
-    en: string;
-    de: string;
-    es: string;
-    tr: string;
-};
-
 export interface DBResult<T = unknown> {
   success: boolean;
   data?: T;

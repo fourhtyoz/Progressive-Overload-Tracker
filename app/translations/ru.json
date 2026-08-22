@@ -150,5 +150,29 @@
         "failedFetchExercises": "Не удалось загрузить упражнения",
         "failedFetchResults": "Не удалось загрузить результаты",
         "failedUpdateResult": "Не удалось обновить результат"
+    },
+
+    "muscles": {
+        "trapezius": "Трапеция",
+        "shoulders": "Плечи",
+        "chest": "Грудь",
+        "biceps": "Бицепс",
+        "triceps": "Трицепс",
+        "forearms": "Предплечья",
+        "legs": "Ноги",
+        "glutes": "Ягодицы",
+        "back": "Спина",
+        "abs": "Пресс",
+        "cardio": "Кардио"
+    },
+
+    "units": {
+        "kg": "кг",
+        "lb": "lb"
+    },
+
+    "themes": {
+        "light": "Светлая",
+        "dark": "Темная"
     }
 }

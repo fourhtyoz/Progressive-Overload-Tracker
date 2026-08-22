@@ -1,6 +1,7 @@
 TODO.md
 .vscode/
 
+.qwen/
 specs/
 coverage/
 node_modules/

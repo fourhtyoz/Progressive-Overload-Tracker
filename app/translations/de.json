@@ -150,5 +150,29 @@
         "failedFetchExercises": "Übungen konnten nicht geladen werden",
         "failedFetchResults": "Ergebnisse konnten nicht geladen werden",
         "failedUpdateResult": "Ergebnis konnte nicht aktualisiert werden"
+    },
+
+    "muscles": {
+        "trapezius": "Trapezmuskel",
+        "shoulders": "Schultern",
+        "chest": "Brust",
+        "biceps": "Bizeps",
+        "triceps": "Trizeps",
+        "forearms": "Unterarme",
+        "legs": "Beine",
+        "glutes": "Gesäßmuskeln",
+        "back": "Rücken",
+        "abs": "Bauchmuskeln",
+        "cardio": "Kardio"
+    },
+
+    "units": {
+        "kg": "kg",
+        "lb": "lb"
+    },
+
+    "themes": {
+        "light": "Hell",
+        "dark": "Dunkel"
     }
 }

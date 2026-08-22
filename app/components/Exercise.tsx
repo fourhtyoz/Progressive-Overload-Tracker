@@ -7,8 +7,7 @@ import { FONT_SIZE, COLORS } from '@/app/styles/globalStyles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { exerciseStore } from '@/app/store/exerciseStore';
 import Result from '@/app/components/Result';
-import { TResult, TTranslatedItem } from '@/app/types';
-import { MUSCLES } from '@/app/constants/settings';
+import { TResult } from '@/app/types';
 
 type ExerciseProps = {
     id: number;
@@ -90,8 +89,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                                 },
                             ]}
                         >
-                            {toTitleCase(title)} (
-                            {MUSCLES.find((item) => item.title === type)?.[settingsStore.language as keyof TTranslatedItem]})
+                            {toTitleCase(title)} ({t('muscles.' + type)})
                         </Text>
                         <Text
                             style={{

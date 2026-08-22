@@ -1,9 +1,20 @@
-import { TTranslatedItem } from '@/app/types';
+export const MUSCLE_KEYS = [
+    'trapezius',
+    'shoulders',
+    'chest',
+    'biceps',
+    'triceps',
+    'forearms',
+    'legs',
+    'glutes',
+    'back',
+    'abs',
+    'cardio',
+] as const;
 
-export const UNITS: TTranslatedItem[] = [
-    { title: 'kg', ru: 'кг', en: 'kg', de: 'kg', es: 'kg', tr: 'kg' },
-    { title: 'lb', ru: 'lb', en: 'lb', de: 'lb', es: 'lb', tr: 'lb' },
-];
+export const UNIT_KEYS = ['kg', 'lb'] as const;
+
+export const THEME_KEYS = ['light', 'dark'] as const;
 
 export const LANGUAGES = [
     { title: 'Русский', code: 'ru' },
@@ -11,58 +22,4 @@ export const LANGUAGES = [
     { title: 'Deutsch', code: 'de' },
     { title: 'Español', code: 'es' },
     { title: 'Türkçe', code: 'tr' },
-];
-
-export const THEMES = [
-    { title: 'light', ru: 'Светлая', en: 'Light', de: 'Hell', es: 'Claro', tr: 'Açık' },
-    { title: 'dark', ru: 'Темная', en: 'Dark', de: 'Dunkel', es: 'Oscuro', tr: 'Koyu' },
-];
-
-export const MUSCLES: TTranslatedItem[] = [
-    {
-        title: 'trapezius',
-        ru: 'Трапеция',
-        en: 'Trapezius',
-        de: 'Trapezmuskel',
-        es: 'Trapecio',
-        tr: 'Trapez',
-    },
-    {
-        title: 'shoulders',
-        ru: 'Плечи',
-        en: 'Shoulders',
-        de: 'Schultern',
-        es: 'Hombros',
-        tr: 'Omuzlar',
-    },
-    { title: 'chest', ru: 'Грудь', en: 'Chest', de: 'Brust', es: 'Pecho', tr: 'Göğüs' },
-    { title: 'biceps', ru: 'Бицепс', en: 'Biceps', de: 'Bizeps', es: 'Bíceps', tr: 'Biseps' },
-    { title: 'triceps', ru: 'Трицепс', en: 'Triceps', de: 'Trizeps', es: 'Tríceps', tr: 'Triseps' },
-    {
-        title: 'forearms',
-        ru: 'Предплечья',
-        en: 'Forearms',
-        de: 'Unterarme',
-        es: 'Antebrazos',
-        tr: 'Önkollar',
-    },
-    { title: 'legs', ru: 'Ноги', en: 'Legs', de: 'Beine', es: 'Piernas', tr: 'Bacaklar' },
-    {
-        title: 'glutes',
-        ru: 'Ягодицы',
-        en: 'Glutes',
-        de: 'Gesäßmuskeln',
-        es: 'Glúteos',
-        tr: 'Kalçalar',
-    },
-    { title: 'back', ru: 'Спина', en: 'Back', de: 'Rücken', es: 'Espalda', tr: 'Sırt' },
-    {
-        title: 'abs',
-        ru: 'Пресс',
-        en: 'Abs',
-        de: 'Bauchmuskeln',
-        es: 'Abdominales',
-        tr: 'Karın kasları',
-    },
-    { title: 'cardio', ru: 'Кардио', en: 'Cardio', de: 'Kardio', es: 'Cardio', tr: 'Kardiyo' },
 ];
