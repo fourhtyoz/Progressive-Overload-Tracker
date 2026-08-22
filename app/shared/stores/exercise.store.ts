@@ -20,7 +20,6 @@ class ExerciseStore {
 
     constructor() {
         makeAutoObservable(this);
-        void this.initialize();
     }
 
     async initialize() {

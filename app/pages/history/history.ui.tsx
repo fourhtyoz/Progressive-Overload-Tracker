@@ -2,17 +2,23 @@ import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
 import { Button, Label, Text, XStack, YStack } from 'tamagui';
 
 import Exercise from '@/app/pages/history/ui/exercise-row.ui';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE, globalStyles } from '@/app/shared/theme/global-styles';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 import { TExercise } from '@/app/shared/types';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
 import Loader from '@/app/shared/ui/loader.ui';
+import {
+    DropdownInput,
+    DropdownItem,
+    DropdownItemText,
+    DropdownText,
+    ThemedDropdown,
+} from '@/app/shared/ui/themed-dropdown.ui';
 
 export default observer(function HistoryScreen() {
     const { t } = useTranslation();
@@ -53,41 +59,24 @@ export default observer(function HistoryScreen() {
                 >
                     {t('history.sorting')}:
                 </Label>
-                <SelectDropdown
+                <ThemedDropdown
                     data={[
                         { title: t('history.byDateRecentFirst'), type: 'desc' },
                         { title: t('history.byDateOldestFirst'), type: 'asc' },
                     ]}
                     defaultValue={{ title: t('history.byDateRecentFirst'), type: 'desc' }}
                     onSelect={(selectedItem, _) => setSelectedSorting(selectedItem)}
-                    showsVerticalScrollIndicator={false}
-                    dropdownStyle={globalStyles.dropdownMenuStyle}
-                    renderButton={(_) => (
-                        <XStack width="100%" justifyContent="flex-start">
-                            <Text
-                                backgroundColor={isDark ? COLORS.orange : COLORS.black}
-                                color={isDark ? COLORS.black : COLORS.white}
-                                paddingHorizontal={10}
-                                borderRadius={6}
-                            >
-                                {selectedSorting.title}
-                            </Text>
-                        </XStack>
+                    renderButton={() => (
+                        <DropdownInput>
+                            <DropdownText>{selectedSorting.title}</DropdownText>
+                        </DropdownInput>
                     )}
-                    renderItem={(item, index, _) => (
-                        <YStack
-                            key={index}
-                            style={[
-                                globalStyles.dropdownItemStyle,
-                                item.type === selectedSorting.type && {
-                                    backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
-                                },
-                            ]}
-                        >
-                            <Text style={globalStyles.dropdownItemTxtStyle}>
+                    renderItem={(item, _, isSelected) => (
+                        <DropdownItem isSelected={isSelected}>
+                            <DropdownItemText>
                                 {toTitleCase(item.title)}
-                            </Text>
-                        </YStack>
+                            </DropdownItemText>
+                        </DropdownItem>
                     )}
                 />
             </XStack>
@@ -102,38 +91,21 @@ export default observer(function HistoryScreen() {
                 >
                     {t('history.table.header.muscle')}:
                 </Label>
-                <SelectDropdown
+                <ThemedDropdown
                     data={muscleOptions}
                     defaultValue={undefined}
                     onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
-                    showsVerticalScrollIndicator={false}
-                    dropdownStyle={globalStyles.dropdownMenuStyle}
-                    renderButton={(selectedItem) => (
-                        <XStack width="100%" justifyContent="flex-start">
-                            <Text
-                                backgroundColor={isDark ? COLORS.orange : COLORS.black}
-                                color={isDark ? COLORS.black : COLORS.white}
-                                paddingHorizontal={10}
-                                borderRadius={6}
-                            >
-                                {selectedMuscle === '-' ? '-' : toTitleCase(selectedItem)}
-                            </Text>
-                        </XStack>
+                    renderButton={() => (
+                        <DropdownInput>
+                            <DropdownText>
+                                {selectedMuscle === '-' ? '-' : toTitleCase(selectedMuscle)}
+                            </DropdownText>
+                        </DropdownInput>
                     )}
-                    renderItem={(item, index, isSelected) => (
-                        <YStack
-                            key={index}
-                            style={[
-                                globalStyles.dropdownItemStyle,
-                                isSelected && {
-                                    backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
-                                },
-                            ]}
-                        >
-                            <Text style={globalStyles.dropdownItemTxtStyle}>
-                                {toTitleCase(item)}
-                            </Text>
-                        </YStack>
+                    renderItem={(item, _, isSelected) => (
+                        <DropdownItem isSelected={isSelected}>
+                            <DropdownItemText>{toTitleCase(item)}</DropdownItemText>
+                        </DropdownItem>
                     )}
                 />
             </XStack>
