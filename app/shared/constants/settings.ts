@@ -1,4 +1,4 @@
-export const MUSCLE_KEYS = [
+export const MUSCLE_KEYS: string[] = [
     'trapezius',
     'shoulders',
     'chest',
@@ -10,11 +10,11 @@ export const MUSCLE_KEYS = [
     'back',
     'abs',
     'cardio',
-] as const;
+];
 
-export const UNIT_KEYS = ['kg', 'lb'] as const;
+export const UNIT_KEYS: string[] = ['kg', 'lb'];
 
-export const THEME_KEYS = ['light', 'dark'] as const;
+export const THEME_KEYS: string[] = ['light', 'dark'];
 
 export const LANGUAGES = [
     { title: 'Русский', code: 'ru' },
