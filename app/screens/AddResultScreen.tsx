@@ -9,23 +9,22 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { globalStyles } from '@/app/styles/globalStyles';
 import Button from '@/app/components/buttons/Button';
 import { useTranslation } from 'react-i18next';
-import { addResult } from '@/app/services/db';
+import { exerciseStore } from '@/app/store/exerciseStore';
 import { settingsStore } from '@/app/store/settingsStore';
 import { observer } from 'mobx-react-lite';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { COLORS } from '@/app/styles/globalStyles';
 import Toast from 'react-native-toast-message';
-import { exerciseStore } from '../store/exerciseStore';
 
 type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
 
 const AddResultScreen = observer(({ navigation }: Props) => {
     const { exercises, muscleOptions } = exerciseStore;
 
-    const [muscleGroup, setMuscleGroup] = useState({ title: null, translation: null });
-    const [exercise, setExercise] = useState<any>('');
+    const [muscleGroup, setMuscleGroup] = useState({ title: '', translation: '' });
+    const [exercise, setExercise] = useState('');
     const [repsValue, setRepsValue] = useState('');
-    const [weightValue, setWeightValue] = useState<any>('');
+    const [weightValue, setWeightValue] = useState('');
     const [units, setUnits] = useState(settingsStore.units);
     const [error, setError] = useState('');
 
@@ -44,7 +43,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         setRepsValue('');
         setWeightValue('');
         setExercise('');
-        setMuscleGroup({ title: null, translation: null });
+        setMuscleGroup({ title: '', translation: '' });
         setError('');
     };
 
@@ -80,7 +79,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
     const handleSubmitEntry = async () => {
         const date = new Date().toISOString();
-        const res = await addResult(
+        const res = await exerciseStore.addResult(
             exercise.title,
             exercise.id,
             date,
@@ -265,7 +264,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                             borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
                         },
                     ]}
-                    value={weightValue} //
+                    value={weightValue}
                     placeholder={t('result.options.whatWeight')}
                     placeholderTextColor={COLORS.placeholderTextLight}
                     onChangeText={(value) => handleChangeWeight(value)}

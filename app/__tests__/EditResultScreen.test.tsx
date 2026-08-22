@@ -6,23 +6,31 @@ import { fetchResultById } from '@/app/services/db';
 
 // Mocking modules
 jest.mock('../services/db', () => ({
+    fetchExercises: jest.fn(() =>
+        Promise.resolve({ success: true, data: [{ title: 'Squats', type: 'Legs' }], error: '' })
+    ),
+    exerciseExist: jest.fn(() => Promise.resolve(false)),
+    addExercise: jest.fn(),
+    addResult: jest.fn(),
     updateResult: jest.fn(),
-}));
-
-jest.mock('../services/db', () => ({
-    fetchExercises: jest.fn(() => Promise.resolve([{ title: 'Squats', type: 'Legs' }])),
+    deleteResult: jest.fn(),
     fetchResultById: jest.fn(() =>
         Promise.resolve({
-            date: '2025-01-31T12:54:21.512Z',
-            exercise: 'Squats',
-            exercise_id: 4,
-            id: 8,
-            muscleGroup: 'Legs',
-            reps: 22,
-            units: 'kg',
-            weight: 31,
+            success: true,
+            data: {
+                date: '2025-01-31T12:54:21.512Z',
+                exercise: 'Squats',
+                exercise_id: 4,
+                id: 8,
+                muscleGroup: 'Legs',
+                reps: 22,
+                units: 'kg',
+                weight: 31,
+            },
+            error: '',
         })
     ),
+    fetchResultsByExerciseId: jest.fn(),
 }));
 
 jest.mock('react-native-toast-message', () => ({

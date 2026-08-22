@@ -5,9 +5,8 @@ import { getProgress, toTitleCase } from '@/app/utils/utils';
 import { useTranslation } from 'react-i18next';
 import { FONT_SIZE, COLORS } from '@/app/styles/globalStyles';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { fetchResultsByExerciseId } from '@/app/services/db';
+import { exerciseStore } from '@/app/store/exerciseStore';
 import Result from '@/app/components/Result';
-import { deleteResult } from '@/app/services/db';
 import { TResult } from '@/app/types';
 import { MUSCLES } from '@/app/constants/settings';
 
@@ -28,7 +27,7 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
     useEffect(() => {
         const getResultsByExercise = async () => {
             setIsLoading(true);
-            const res = await fetchResultsByExerciseId(id);
+            const res = await exerciseStore.fetchResultsByExerciseId(id);
             console.log('res', res)
             if (res.success && Array.isArray(res.data)) {
                 setResults(res.data);
@@ -45,7 +44,7 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
     }, [isOpen, isLoaded, isLoading, results, id, setError]);
 
     const handleDeleteResult = async (resultId: number) => {
-        const res = await deleteResult(resultId);
+        const res = await exerciseStore.deleteResult(resultId);
         if (res.success) {
             Alert.alert(t('alerts.success'), t('alerts.recordDeleted'));
 

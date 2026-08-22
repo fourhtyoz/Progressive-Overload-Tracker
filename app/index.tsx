@@ -7,14 +7,14 @@ import i18n from '@/app/translations/i18n';
 import Loader from '@/app/components/Loader';
 import { settingsStore } from '@/app/store/settingsStore';
 import DrawerNavigator from '@/app/navigation/DrawerNavigator';
-import { createTables } from '@/app/services/db';
+import { initializeDatabase } from '@/app/services/db';
 import { LightTheme, DarkTheme, FONT_SIZE } from '@/app/styles/globalStyles';
 
 const App = observer(() => {
     useEffect(() => {
         // for development
         // clearAsyncStorage();
-        createTables();
+        initializeDatabase();
     }, []);
 
     if (settingsStore.isLoading) {

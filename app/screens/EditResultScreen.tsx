@@ -7,7 +7,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { globalStyles } from '@/app/styles/globalStyles';
 import Button from '@/app/components/buttons/Button';
 import { useTranslation } from 'react-i18next';
-import { fetchResultById, updateResult } from '@/app/services/db';
+import { exerciseStore } from '@/app/store/exerciseStore';
 import { observer } from 'mobx-react-lite';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
@@ -17,17 +17,17 @@ import { settingsStore } from '@/app/store/settingsStore';
 import { COLORS } from '@/app/styles/globalStyles';
 import Toast from 'react-native-toast-message';
 import Loader from '@/app/components/Loader';
-import { exerciseStore } from '../store/exerciseStore';
+import { TExercise } from '../types';
 
 const EditResultScreen = observer(({ navigation, route }: any) => {
     const { exercises, muscleOptions } = exerciseStore;
 
-    const [newDate, setNewDate] = useState(new Date());
+    const [newDate, setNewDate] = useState<any>(new Date());
     const [newGroup, setNewGroup] = useState<any>(null);
     const [newExercise, setNewExercise] = useState<any>(null);
-    const [newReps, setNewReps] = useState('');
+    const [newReps, setNewReps] = useState<any>('');
     const [newWeight, setNewWeight] = useState<any>('');
-    const [newUnits, setNewUnits] = useState(null);
+    const [newUnits, setNewUnits] = useState<any>(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -74,12 +74,12 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
 
     const handleSubmitEntry = async () => {
         if (newDate && newGroup && newExercise && newReps && !isNaN(newWeight) && newUnits) {
-            let dateString: string | Date = newDate;
+            let dateString = newDate;
             if (newDate instanceof Date) {
                 dateString = newDate.toISOString();
             }
             const muscle = newGroup?.title || newGroup;
-            const res = await updateResult(
+            const res = await exerciseStore.updateResult(
                 route.params.resultId,
                 newExercise.title,
                 newExercise.id,
@@ -113,16 +113,16 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     useEffect(() => {
         const getResult = async (resultId: number) => {
             setIsLoading(true);
-            const res = await fetchResultById(resultId);
+            const res = await exerciseStore.fetchResultById(resultId);
             const { success, data, error } = res;
             if (success) {
-                setNewDate(data.date);
-                setNewExercise({ id: data.exercise_id, title: data.exercise });
-                setNewGroup(data.muscleGroup);
-                setNewReps(data.reps);
-                setNewWeight(data.weight);
-                setNewUnits(data.units);
-            } else {
+                setNewDate(data?.date);
+                setNewExercise({ id: data?.id, title: data?.exercise });
+                setNewGroup(data?.muscleGroup);
+                setNewReps(data?.reps);
+                setNewWeight(data?.weight);
+                setNewUnits(data?.units);
+            } else if (error) {
                 setError(error);
             }
             setIsLoading(false);
@@ -250,9 +250,11 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 </Text>
                 <SelectDropdown
                     data={
-                        exercises.filter((item) => item.type === newGroup).length === 0
-                            ? exercises.filter((item) => item.type === newGroup.title)
-                            : exercises.filter((item) => item.type === newGroup)
+                        newGroup
+                            ? exercises.filter((item) =>
+                                  item.type === (typeof newGroup === 'string' ? newGroup : newGroup.title)
+                              )
+                            : []
                     }
                     defaultValue={newExercise}
                     onSelect={(selectedItem) => {

@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 import { settingsStore } from '@/app/store/settingsStore';
 import { observer } from 'mobx-react-lite';
 import ErrorMessage from '@/app/components/ErrorMessage';
-import { deleteTables, createTables } from '@/app/services/db';
+import { deleteTables, initializeDatabase } from '@/app/services/db';
 
 const SettingsScreen = observer(() => {
     const [error, setError] = useState('');
@@ -22,9 +22,9 @@ const SettingsScreen = observer(() => {
         Alert.alert(t('settings.getInTouch'), `${t('settings.sendEmailTo')} hualua@gmail.com`);
     };
 
-    const handleDeleteAllData = () => {
-        deleteTables();
-        createTables();
+    const handleDeleteAllData = async () => {
+        await deleteTables();
+        await initializeDatabase();
         Alert.alert(t('alerts.success'), t('settings.dataDeleted'));
     };
 
