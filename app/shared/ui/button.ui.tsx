@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet,Text } from 'react-native';
+import { Button as TamaguiButton } from 'tamagui';
 
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
@@ -20,75 +20,42 @@ export default function Button({
     onPress,
     text,
     disabled = false,
-    bgColor = COLORS.black,
-    pressedBgColor = COLORS.white,
-    borderColor = COLORS.white,
-    pressedBorderColor = COLORS.blackTransparentBorder,
-    textColor = COLORS.white,
-    pressedTextColor = COLORS.black,
+    bgColor,
+    textColor,
+    borderColor,
     testID = '',
 }: Props) {
+    const isDark = settingsStore.isDark;
+
     return (
-        <Pressable
+        <TamaguiButton
             testID={testID}
             onPress={onPress}
             disabled={disabled}
-            style={({ pressed }) => [
-                s.button,
-                {
-                    opacity: disabled ? 0.3 : 1,
-                    backgroundColor: settingsStore.isDark
-                        ? pressed
-                            ? bgColor
-                            : pressedBgColor
-                        : pressed
-                          ? pressedBgColor
-                          : bgColor,
-                    borderColor: settingsStore.isDark
-                        ? pressed
-                            ? borderColor
-                            : pressedBorderColor
-                        : pressed
-                          ? pressedBorderColor
-                          : borderColor,
-                },
-            ]}
+            accessibilityRole="button"
+            accessibilityLabel={text}
+            disabledStyle={{
+                opacity: 0.3,
+            }}
+            chromeless
+            backgroundColor={bgColor ?? (isDark ? COLORS.white : COLORS.black)}
+            color={textColor ?? (isDark ? COLORS.black : COLORS.white)}
+            borderColor={borderColor ?? (isDark ? COLORS.white : COLORS.white)}
+            borderWidth={1}
+            borderRadius={5}
+            paddingVertical={15}
+            alignItems="center"
+            justifyContent="center"
+            pressStyle={{
+                backgroundColor: bgColor ?? (isDark ? COLORS.black : COLORS.white),
+                color: textColor ?? (isDark ? COLORS.white : COLORS.black),
+                borderColor: borderColor ?? (isDark ? COLORS.white : COLORS.blackTransparentBorder),
+            }}
+            fontSize={FONT_SIZE.large}
+            fontWeight="bold"
+            letterSpacing={0.25}
         >
-            {({ pressed }) => (
-                <Text
-                    style={[
-                        s.text,
-                        {
-                            color: settingsStore.isDark
-                                ? pressed
-                                    ? textColor
-                                    : pressedTextColor
-                                : pressed
-                                  ? pressedTextColor
-                                  : textColor,
-                        },
-                    ]}
-                >
-                    {text}
-                </Text>
-            )}
-        </Pressable>
+            {text}
+        </TamaguiButton>
     );
 }
-
-const s = StyleSheet.create({
-    button: {
-        alignItems: 'center',
-        justifyContent: 'center',
-        paddingVertical: 15,
-        backgroundColor: COLORS.black,
-        borderRadius: 5,
-        borderWidth: 1,
-    },
-    text: {
-        fontSize: FONT_SIZE.large,
-        fontWeight: 'bold',
-        letterSpacing: 0.25,
-        color: COLORS.white,
-    },
-});

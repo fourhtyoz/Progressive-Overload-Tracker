@@ -255,7 +255,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                     }}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
-                    renderButton={(selectedItem) => (
+                    renderButton={(_selectedItem) => (
                         <View
                             style={[
                                 globalStyles.input,
