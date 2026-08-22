@@ -95,7 +95,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                         </Text>
                         <Text
                             style={{
-                                color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057',
+                                color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textSecondary,
                                 fontSize: 20,
                             }}
                         >
@@ -110,10 +110,10 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                                 {
                                     backgroundColor: settingsStore.isDark
                                         ? COLORS.darkDarkGrey
-                                        : '#f1f3f5',
+                                        : COLORS.backgroundLightSecondary,
                                     borderBottomColor: settingsStore.isDark
                                         ? COLORS.black
-                                        : '#e9ecef',
+                                        : COLORS.borderLight,
                                 },
                             ]}
                         >
@@ -124,7 +124,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                                     {
                                         color: settingsStore.isDark
                                             ? COLORS.textDarkScreen
-                                            : '#495057',
+                                            : COLORS.textSecondary,
                                     },
                                 ]}
                             >
@@ -137,7 +137,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                                     {
                                         color: settingsStore.isDark
                                             ? COLORS.textDarkScreen
-                                            : '#495057',
+                                            : COLORS.textSecondary,
                                     },
                                 ]}
                             >
@@ -150,7 +150,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                                     {
                                         color: settingsStore.isDark
                                             ? COLORS.textDarkScreen
-                                            : '#495057',
+                                            : COLORS.textSecondary,
                                     },
                                 ]}
                             >
@@ -163,7 +163,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                                     {
                                         color: settingsStore.isDark
                                             ? COLORS.textDarkScreen
-                                            : '#495057',
+                                            : COLORS.textSecondary,
                                     },
                                 ]}
                             >

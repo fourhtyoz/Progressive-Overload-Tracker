@@ -60,7 +60,7 @@ export default function Result({
             style={[
                 s.row,
                 {
-                    borderBottomColor: settingsStore.isDark ? COLORS.black : '#e9ecef',
+                    borderBottomColor: settingsStore.isDark ? COLORS.black : COLORS.borderLight,
                     borderLeftWidth: 5,
                     borderLeftColor:
                         progress === 'worse'
@@ -78,7 +78,7 @@ export default function Result({
             <Text
                 style={[
                     s.cell,
-                    { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057' },
+                    { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textSecondary },
                 ]}
             >
                 {getformattedDate(date)}
@@ -86,7 +86,7 @@ export default function Result({
             <Text
                 style={[
                     s.cell,
-                    { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057' },
+                    { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textSecondary },
                 ]}
             >
                 {weight
@@ -96,7 +96,7 @@ export default function Result({
             <Text
                 style={[
                     s.cell,
-                    { color: settingsStore.isDark ? COLORS.textDarkScreen : '#495057' },
+                    { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textSecondary },
                 ]}
             >
                 {reps}

@@ -20,13 +20,24 @@ export const COLORS = {
     textColorDark: '#F5F5F5',
     textTitleColorLight: '#333',
     textColorLight: '#555',
+    textSecondary: '#495057',
+    borderLight: '#e9ecef',
+    backgroundLightSecondary: '#f1f3f5',
+    backgroundDark: '#171717',
+    backgroundLight: '#f8f9fa',
+    dropdownBackground: '#E9ECEF',
+    dropdownText: '#151E26',
+    disabledBackground: '#e0e0e0',
+    errorBackground: '#f8d7da',
+    errorBorder: '#f5c6cb',
+    errorText: '#721c24',
 };
 
 export const LightTheme = {
     ...DefaultTheme,
     colors: {
         ...DefaultTheme.colors,
-        background: '#f8f9fa',
+        background: COLORS.backgroundLight,
         text: COLORS.black,
     },
 };
@@ -35,7 +46,7 @@ export const DarkTheme = {
     ...DT,
     colors: {
         ...DT.colors,
-        background: '#171717',
+        background: COLORS.backgroundDark,
         text: COLORS.textDarkScreen,
     },
 };
@@ -90,7 +101,7 @@ export const globalStyles = StyleSheet.create({
         fontSize: FONT_SIZE.normal,
     },
     dropdownMenuStyle: {
-        backgroundColor: '#E9ECEF',
+        backgroundColor: COLORS.dropdownBackground,
         borderRadius: 8,
     },
     dropdownItemStyle: {
@@ -105,7 +116,7 @@ export const globalStyles = StyleSheet.create({
         flex: 1,
         fontSize: FONT_SIZE.normal,
         fontWeight: '500',
-        color: '#151E26',
+        color: COLORS.dropdownText,
     },
     dropdownItemIconStyle: {
         fontSize: 28,
@@ -129,7 +140,7 @@ export const globalStyles = StyleSheet.create({
         color: COLORS.black,
     },
     exerciseTextPlaceholder: {
-        color: '#a9a9a9',
+        color: COLORS.placeholderTextLight,
     },
     buttonWrapper: {
         marginVertical: 15,

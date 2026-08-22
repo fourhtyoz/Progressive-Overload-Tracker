@@ -8,7 +8,7 @@ import Loader from '@/app/components/Loader';
 import { settingsStore } from '@/app/store/settingsStore';
 import DrawerNavigator from '@/app/navigation/DrawerNavigator';
 import { initializeDatabase } from '@/app/services/db';
-import { LightTheme, DarkTheme, FONT_SIZE } from '@/app/styles/globalStyles';
+import { LightTheme, DarkTheme, FONT_SIZE, COLORS } from '@/app/styles/globalStyles';
 
 const App = observer(() => {
     useEffect(() => {
@@ -35,16 +35,16 @@ const App = observer(() => {
                             style={{
                                 borderLeftColor: 'lightgreen',
                                 borderLeftWidth: 10,
-                                backgroundColor: settingsStore.isDark ? '#171717' : '#f8f9fa',
+                                backgroundColor: settingsStore.isDark ? COLORS.backgroundDark : COLORS.backgroundLight,
                             }}
                             text1Style={{
                                 fontSize: FONT_SIZE.large,
                                 fontWeight: 'bold',
-                                color: settingsStore.isDark ? '#f8f9fa' : '#171717',
+                                color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
                             }}
                             text2Style={{
                                 fontSize: FONT_SIZE.normal,
-                                color: settingsStore.isDark ? '#f8f9fa' : '#171717',
+                                color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
                             }}
                         />
                     ),
