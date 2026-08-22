@@ -44,7 +44,7 @@ const AboutScreen = observer(() => {
         },
     ];
 
-    const renderItem = ({ item }: { item: { title: string; content: any } }) => (
+    const renderItem = ({ item }: { item: { title: string; content: string } }) => (
         <View style={s.section}>
             <Text
                 style={[

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, SafeAreaView, Text, TextInput, Alert } from 'react-native';
-import { DrawerScreenProps } from '@react-navigation/drawer';
-import { DrawerParamList } from '@/app/navigation/DrawerNavigator';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AddResultStackParamList } from '@/app/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import { toTitleCase } from '@/app/utils/utils';
 import Button from '@/app/components/buttons/Button';
@@ -13,7 +13,7 @@ import { COLORS, globalStyles } from '@/app/styles/globalStyles';
 import { settingsStore } from '@/app/store/settingsStore';
 import { useTranslation } from 'react-i18next';
 
-type Props = DrawerScreenProps<DrawerParamList, 'AddExercise'>;
+type Props = NativeStackScreenProps<AddResultStackParamList, 'AddExercise'>;
 
 const AddExerciseScreen = observer(({ navigation }: Props) => {
     const [muscleGroup, setMuscleGroup] = useState('');

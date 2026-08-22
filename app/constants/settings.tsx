@@ -1,4 +1,6 @@
-export const UNITS: any[] = [
+import { TTranslatedItem } from '@/app/types';
+
+export const UNITS: TTranslatedItem[] = [
     { title: 'kg', ru: 'кг', en: 'kg', de: 'kg', es: 'kg', tr: 'kg' },
     { title: 'lb', ru: 'lb', en: 'lb', de: 'lb', es: 'lb', tr: 'lb' },
 ];
@@ -16,7 +18,7 @@ export const THEMES = [
     { title: 'dark', ru: 'Темная', en: 'Dark', de: 'Dunkel', es: 'Oscuro', tr: 'Koyu' },
 ];
 
-export const MUSCLES: any[] = [
+export const MUSCLES: TTranslatedItem[] = [
     {
         title: 'trapezius',
         ru: 'Трапеция',

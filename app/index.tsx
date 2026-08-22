@@ -29,7 +29,7 @@ const App = observer(() => {
             </NavigationContainer>
             <Toast
                 config={{
-                    success: (props: any) => (
+                    success: (props: object) => (
                         <BaseToast
                             {...props}
                             style={{

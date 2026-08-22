@@ -3,8 +3,8 @@ import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { MUSCLES, UNITS } from '@/app/constants/settings';
 import { toTitleCase } from '@/app/utils/utils';
-import { DrawerScreenProps } from '@react-navigation/drawer';
-import { DrawerParamList } from '@/app/navigation/DrawerNavigator';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+import { AddResultStackParamList } from '@/app/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import { globalStyles } from '@/app/styles/globalStyles';
 import Button from '@/app/components/buttons/Button';
@@ -15,14 +15,15 @@ import { observer } from 'mobx-react-lite';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { COLORS } from '@/app/styles/globalStyles';
 import Toast from 'react-native-toast-message';
+import { TExercise, TTranslatedItem } from '@/app/types';
 
-type Props = DrawerScreenProps<DrawerParamList, 'AddResult'>;
+type Props = NativeStackScreenProps<AddResultStackParamList, 'AddResultMain'>;
 
 const AddResultScreen = observer(({ navigation }: Props) => {
     const { exercises, muscleOptions } = exerciseStore;
 
     const [muscleGroup, setMuscleGroup] = useState({ title: '', translation: '' });
-    const [exercise, setExercise] = useState('');
+    const [exercise, setExercise] = useState<TExercise | null>(null);
     const [repsValue, setRepsValue] = useState('');
     const [weightValue, setWeightValue] = useState('');
     const [units, setUnits] = useState(settingsStore.units);
@@ -32,9 +33,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
     let muscleGroups = [];
     for (let title of muscleOptions) {
-        const translatedName = MUSCLES.find((item: any) => item.title === title)?.[
-            settingsStore.language
-        ];
+        const translatedName = MUSCLES.find((item) => item.title === title)?.[settingsStore.language as keyof TTranslatedItem];
         const muscleObject = { title: title, translation: translatedName };
         muscleGroups.push(muscleObject);
     }
@@ -42,27 +41,27 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const resetAllFields = () => {
         setRepsValue('');
         setWeightValue('');
-        setExercise('');
+        setExercise(null);
         setMuscleGroup({ title: '', translation: '' });
         setError('');
     };
 
-    const handleChangeReps = (value: any) => {
-        value = Number(value);
-        if (isNaN(value)) {
+    const handleChangeReps = (value: string) => {
+        const num = Number(value);
+        if (isNaN(num)) {
             setError(t('errors.repsMustBeNumber'));
             return;
         }
-        if (value && value < 1) {
+        if (num && num < 1) {
             setError(t('errors.repsMustBePositive'));
             return;
         }
         setRepsValue(value);
     };
 
-    const handleChangeWeight = (value: any) => {
-        value = Number(value);
-        if (isNaN(value)) {
+    const handleChangeWeight = (value: string) => {
+        const num = Number(value);
+        if (isNaN(num)) {
             setError(t('errors.weightMustBeNumber'));
             return;
         }
@@ -73,19 +72,20 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         muscleGroup.title &&
         exercise &&
         repsValue &&
-        !isNaN(weightValue) &&
+        !isNaN(Number(weightValue)) &&
         units
     );
 
     const handleSubmitEntry = async () => {
+        if (!exercise) return;
         const date = new Date().toISOString();
         const res = await exerciseStore.addResult(
             exercise.title,
             exercise.id,
             date,
             muscleGroup.title,
-            repsValue,
-            weightValue,
+            Number(repsValue),
+            Number(weightValue),
             units
         );
         if (res.success) {
@@ -96,7 +96,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 text2: t('alerts.newEntryAddedSuccess'),
             });
         } else {
-            setError(res.error || 'Failed to add result');
+            setError('error' in res ? res.error || 'Failed to add result' : 'Failed to add result');
         }
     };
 
@@ -105,7 +105,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     };
 
     const handleHistory = () => {
-        navigation.navigate('History');
+        (navigation.getParent() as any)?.navigate('History');
     };
 
     useEffect(() => {

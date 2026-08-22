@@ -17,17 +17,21 @@ import { settingsStore } from '@/app/store/settingsStore';
 import { COLORS } from '@/app/styles/globalStyles';
 import Toast from 'react-native-toast-message';
 import Loader from '@/app/components/Loader';
-import { TExercise } from '../types';
+import { TExercise, TTranslatedItem } from '../types';
+import { HistoryStackParamList } from '@/app/navigation/DrawerNavigator';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const EditResultScreen = observer(({ navigation, route }: any) => {
+type Props = NativeStackScreenProps<HistoryStackParamList, 'EditResult'>;
+
+const EditResultScreen = observer(({ navigation, route }: Props) => {
     const { exercises, muscleOptions } = exerciseStore;
 
-    const [newDate, setNewDate] = useState<any>(new Date());
-    const [newGroup, setNewGroup] = useState<any>(null);
-    const [newExercise, setNewExercise] = useState<any>(null);
-    const [newReps, setNewReps] = useState<any>('');
-    const [newWeight, setNewWeight] = useState<any>('');
-    const [newUnits, setNewUnits] = useState<any>(null);
+    const [newDate, setNewDate] = useState<Date | string>(new Date());
+    const [newGroup, setNewGroup] = useState<TTranslatedItem | string | null>(null);
+    const [newExercise, setNewExercise] = useState<TExercise | null>(null);
+    const [newReps, setNewReps] = useState<string>('');
+    const [newWeight, setNewWeight] = useState<string>('');
+    const [newUnits, setNewUnits] = useState<string | null>(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
 
@@ -36,36 +40,36 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     let muscleGroups = [];
     for (let title of muscleOptions) {
         const translatedName = MUSCLES.find((item) => item.title === title)?.[
-            settingsStore.language
+            settingsStore.language as keyof TTranslatedItem
         ];
         const muscleObject = { title: title, translation: translatedName };
         muscleGroups.push(muscleObject);
     }
 
-    const handleChangeReps = (value: any) => {
+    const handleChangeReps = (value: string) => {
         if (!value) {
             setNewReps('');
             return;
         }
-        value = Number(value);
-        if (isNaN(value)) {
+        const num = Number(value);
+        if (isNaN(num)) {
             setError(t('errors.repsMustBeNumber'));
             return;
         }
-        if (value && value < 1) {
+        if (num && num < 1) {
             setError(t('errors.repsMustBePositive'));
             return;
         }
         setNewReps(value);
     };
 
-    const handleChangeWeight = (value: any) => {
+    const handleChangeWeight = (value: string) => {
         if (!value) {
             setNewWeight('');
             return;
         }
-        value = Number(value);
-        if (isNaN(value)) {
+        const num = Number(value);
+        if (isNaN(num)) {
             setError(t('errors.weightMustBeNumber'));
             return;
         }
@@ -73,20 +77,17 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
     };
 
     const handleSubmitEntry = async () => {
-        if (newDate && newGroup && newExercise && newReps && !isNaN(newWeight) && newUnits) {
-            let dateString = newDate;
-            if (newDate instanceof Date) {
-                dateString = newDate.toISOString();
-            }
-            const muscle = newGroup?.title || newGroup;
+        if (newDate && newGroup && newExercise && newReps && !isNaN(Number(newWeight)) && newUnits) {
+            const dateString = newDate instanceof Date ? newDate.toISOString() : newDate;
+            const muscle = typeof newGroup === 'string' ? newGroup : newGroup.title;
             const res = await exerciseStore.updateResult(
                 route.params.resultId,
                 newExercise.title,
                 newExercise.id,
                 dateString,
                 muscle,
-                newReps,
-                newWeight,
+                Number(newReps),
+                Number(newWeight),
                 newUnits
             );
             const { success, error } = res;
@@ -94,7 +95,7 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
                 Alert.alert(t('alerts.success'), t('alerts.newEntryAddedSuccess'), [
                     {
                         text: t('alerts.goToHistory'),
-                        onPress: () => navigation.navigate('History'),
+                        onPress: () => (navigation.getParent() as any)?.navigate('History'),
                     },
                 ]);
             } else {
@@ -114,28 +115,29 @@ const EditResultScreen = observer(({ navigation, route }: any) => {
         const getResult = async (resultId: number) => {
             setIsLoading(true);
             const res = await exerciseStore.fetchResultById(resultId);
-            const { success, data, error } = res;
-            if (success) {
-                setNewDate(data?.date);
-                setNewExercise({ id: data?.id, title: data?.exercise });
-                setNewGroup(data?.muscleGroup);
-                setNewReps(data?.reps);
-                setNewWeight(data?.weight);
-                setNewUnits(data?.units);
-            } else if (error) {
-                setError(error);
+            if (res.success && res.data) {
+                const d = res.data;
+                setNewDate(d.date);
+                setNewExercise({ id: d.id, title: d.exercise, type: d.muscleGroup });
+                setNewGroup(d.muscleGroup);
+                setNewReps(String(d.reps));
+                setNewWeight(String(d.weight));
+                setNewUnits(d.units);
+            } else if (!res.success && res.error) {
+                setError(res.error);
             }
             setIsLoading(false);
         };
         getResult(route.params.resultId);
     }, [route]);
 
-    const onChange = (_: any, selectedDate: any) => {
-        const currentDate = selectedDate;
-        setNewDate(currentDate);
+    const onChange = (_: unknown, selectedDate: Date | undefined) => {
+        if (selectedDate) {
+            setNewDate(selectedDate);
+        }
     };
 
-    const showMode = (currentMode: any) => {
+    const showMode = (currentMode: 'date') => {
         DateTimePickerAndroid.open({
             value: new Date(newDate),
             onChange,
