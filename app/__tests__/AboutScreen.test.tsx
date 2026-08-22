@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import AboutScreen from '../screens/AboutScreen';
+import AboutScreen from '../pages/about/about.ui';
 
 // Mock `useTranslation` hook
 jest.mock('react-i18next', () => ({
@@ -26,7 +26,7 @@ jest.mock('react-i18next', () => ({
 }));
 
 // Mock the `settingsStore`
-jest.mock('@/app/store/settingsStore', () => ({
+jest.mock('@/app/shared/stores/settings.store', () => ({
     settingsStore: {
         isDark: false, // Default to light mode for testing
     },

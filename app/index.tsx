@@ -3,12 +3,12 @@ import Toast, { BaseToast } from 'react-native-toast-message';
 import { I18nextProvider } from 'react-i18next';
 import { NavigationContainer } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
-import i18n from '@/app/translations/i18n';
-import Loader from '@/app/components/Loader';
-import { settingsStore } from '@/app/store/settingsStore';
-import DrawerNavigator from '@/app/navigation/DrawerNavigator';
-import { initializeDatabase } from '@/app/services/db';
-import { LightTheme, DarkTheme, FONT_SIZE, COLORS } from '@/app/styles/globalStyles';
+import i18n from '@/app/shared/i18n/i18n';
+import Loader from '@/app/shared/ui/loader.ui';
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import DrawerNavigator from '@/app/navigation/drawer.navigator';
+import { initializeDatabase } from '@/app/shared/api/db';
+import { LightTheme, DarkTheme, FONT_SIZE, COLORS } from '@/app/shared/theme/global-styles';
 
 const App = observer(() => {
     useEffect(() => {

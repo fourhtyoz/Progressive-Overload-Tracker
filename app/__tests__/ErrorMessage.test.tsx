@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native';
-import ErrorMessage from '../components/ErrorMessage';
+import ErrorMessage from '../shared/ui/error-message.ui';
 
 describe('ErrorMessage Component', () => {
     const mockSetError = jest.fn(); // Mock function for setError

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import Loader from '../components/Loader';
+import Loader from '../shared/ui/loader.ui';
 
 describe('Loader Component', () => {
     it('should render the Loader component correctly', () => {

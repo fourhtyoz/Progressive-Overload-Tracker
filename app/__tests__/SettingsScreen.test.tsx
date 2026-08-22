@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, fireEvent, act } from '@testing-library/react-native';
-import SettingsScreen from '../screens/SettingsScreen';
+import SettingsScreen from '../pages/settings/settings.ui';
 import { Alert } from 'react-native';
 
 // Mock dependencies
@@ -41,7 +41,7 @@ jest.mock('react-i18next', () => ({
     }),
 }));
 
-jest.mock('@/app/store/settingsStore', () => ({
+jest.mock('@/app/shared/stores/settings.store', () => ({
     settingsStore: {
         isDark: false,
         language: 'en',
