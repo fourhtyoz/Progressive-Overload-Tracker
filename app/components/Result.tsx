@@ -2,12 +2,10 @@ import React from 'react';
 import { Text, View, TouchableOpacity, Alert, StyleSheet } from 'react-native';
 import { settingsStore } from '@/app/store/settingsStore';
 import { getformattedDate } from '@/app/utils/utils';
-import { UNITS } from '@/app/constants/settings';
 import { Ionicons } from '@expo/vector-icons';
 import { useNavigation, NavigationProp } from '@react-navigation/native';
 import { useTranslation } from 'react-i18next';
 import { FONT_SIZE, COLORS } from '@/app/styles/globalStyles';
-import { TTranslatedItem } from '@/app/types';
 import { HistoryStackParamList } from '@/app/navigation/DrawerNavigator';
 
 type ResultProps = {
@@ -90,7 +88,7 @@ export default function Result({
                 ]}
             >
                 {weight
-                    ? `${weight} ${UNITS.find((i) => i.title === units)?.[settingsStore.language as keyof TTranslatedItem]}`
+                    ? `${weight} ${t('units.' + units)}`
                     : '-'}
             </Text>
             <Text

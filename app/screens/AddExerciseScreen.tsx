@@ -5,7 +5,7 @@ import { AddResultStackParamList } from '@/app/navigation/DrawerNavigator';
 import SelectDropdown from 'react-native-select-dropdown';
 import { toTitleCase } from '@/app/utils/utils';
 import Button from '@/app/components/buttons/Button';
-import { MUSCLES } from '@/app/constants/settings';
+import { MUSCLE_KEYS } from '@/app/constants/settings';
 import { exerciseStore } from '@/app/store/exerciseStore';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { observer } from 'mobx-react-lite';
@@ -78,8 +78,8 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                     {t('result.options.muscle')}:
                 </Text>
                 <SelectDropdown
-                    data={MUSCLES}
-                    onSelect={(selectedItem, _) => setMuscleGroup(selectedItem.title)}
+                    data={MUSCLE_KEYS}
+                    onSelect={(selectedItem, _) => setMuscleGroup(selectedItem)}
                     showsVerticalScrollIndicator={true}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
@@ -100,7 +100,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                                         },
                                     ]}
                                 >
-                                    {toTitleCase(selectedItem[settingsStore.language])}
+                                    {toTitleCase(t('muscles.' + selectedItem))}
                                 </Text>
                             ) : (
                                 <Text style={globalStyles.exerciseTextPlaceholder}>
@@ -121,7 +121,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                             ]}
                         >
                             <Text style={globalStyles.dropdownItemTxtStyle}>
-                                {toTitleCase(item[settingsStore.language])}
+                                {toTitleCase(t('muscles.' + item))}
                             </Text>
                         </View>
                     )}

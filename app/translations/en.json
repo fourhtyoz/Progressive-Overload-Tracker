@@ -150,5 +150,29 @@
         "failedFetchExercises": "Failed to load exercises",
         "failedFetchResults": "Failed to load results",
         "failedUpdateResult": "Failed to update the result"
+    },
+
+    "muscles": {
+        "trapezius": "Trapezius",
+        "shoulders": "Shoulders",
+        "chest": "Chest",
+        "biceps": "Biceps",
+        "triceps": "Triceps",
+        "forearms": "Forearms",
+        "legs": "Legs",
+        "glutes": "Glutes",
+        "back": "Back",
+        "abs": "Abs",
+        "cardio": "Cardio"
+    },
+
+    "units": {
+        "kg": "kg",
+        "lb": "lb"
+    },
+
+    "themes": {
+        "light": "Light",
+        "dark": "Dark"
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { View, TextInput, Text, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MUSCLES, UNITS } from '@/app/constants/settings';
+import { MUSCLE_KEYS, UNIT_KEYS } from '@/app/constants/settings';
 import { getformattedDate, toTitleCase } from '@/app/utils/utils';
 import SelectDropdown from 'react-native-select-dropdown';
 import { globalStyles } from '@/app/styles/globalStyles';
@@ -17,17 +17,17 @@ import { settingsStore } from '@/app/store/settingsStore';
 import { COLORS } from '@/app/styles/globalStyles';
 import Toast from 'react-native-toast-message';
 import Loader from '@/app/components/Loader';
-import { TExercise, TTranslatedItem } from '../types';
+import { TExercise } from '../types';
 import { HistoryStackParamList } from '@/app/navigation/DrawerNavigator';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
 type Props = NativeStackScreenProps<HistoryStackParamList, 'EditResult'>;
 
 const EditResultScreen = observer(({ navigation, route }: Props) => {
-    const { exercises, muscleOptions } = exerciseStore;
+    const { exercises } = exerciseStore;
 
     const [newDate, setNewDate] = useState<Date | string>(new Date());
-    const [newGroup, setNewGroup] = useState<TTranslatedItem | string | null>(null);
+    const [newGroup, setNewGroup] = useState<string | null>(null);
     const [newExercise, setNewExercise] = useState<TExercise | null>(null);
     const [newReps, setNewReps] = useState<string>('');
     const [newWeight, setNewWeight] = useState<string>('');
@@ -36,15 +36,6 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
     const [isLoading, setIsLoading] = useState(false);
 
     const { t } = useTranslation();
-
-    let muscleGroups = [];
-    for (let title of muscleOptions) {
-        const translatedName = MUSCLES.find((item) => item.title === title)?.[
-            settingsStore.language as keyof TTranslatedItem
-        ];
-        const muscleObject = { title: title, translation: translatedName };
-        muscleGroups.push(muscleObject);
-    }
 
     const handleChangeReps = (value: string) => {
         if (!value) {
@@ -79,13 +70,12 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
     const handleSubmitEntry = async () => {
         if (newDate && newGroup && newExercise && newReps && !isNaN(Number(newWeight)) && newUnits) {
             const dateString = newDate instanceof Date ? newDate.toISOString() : newDate;
-            const muscle = typeof newGroup === 'string' ? newGroup : newGroup.title;
             const res = await exerciseStore.updateResult(
                 route.params.resultId,
                 newExercise.title,
                 newExercise.id,
                 dateString,
-                muscle,
+                newGroup,
                 Number(newReps),
                 Number(newWeight),
                 newUnits
@@ -188,9 +178,9 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                     {t('result.options.muscle')}:
                 </Text>
                 <SelectDropdown
-                    data={muscleGroups}
-                    defaultValue={muscleGroups.filter((item) => item.title === newGroup)[0]}
-                    onSelect={(selectedItem, _) => {
+                    data={MUSCLE_KEYS}
+                    defaultValue={newGroup || undefined}
+                    onSelect={(selectedItem) => {
                         setNewGroup(selectedItem);
                         setNewExercise(null);
                     }}
@@ -214,7 +204,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                                         },
                                     ]}
                                 >
-                                    {(selectedItem && selectedItem.translation) || newGroup}
+                                    {(selectedItem && toTitleCase(t('muscles.' + selectedItem))) || newGroup}
                                 </Text>
                             ) : (
                                 <Text style={globalStyles.exerciseTextPlaceholder}>
@@ -235,7 +225,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                             ]}
                         >
                             <Text style={globalStyles.dropdownItemTxtStyle}>
-                                {toTitleCase(item.translation)}
+                                {toTitleCase(t('muscles.' + item))}
                             </Text>
                         </View>
                     )}
@@ -254,7 +244,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                     data={
                         newGroup
                             ? exercises.filter((item) =>
-                                  item.type === (typeof newGroup === 'string' ? newGroup : newGroup.title)
+                                  item.type === newGroup
                               )
                             : []
                     }
@@ -336,9 +326,9 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                     keyboardType="numeric"
                 />
                 <SelectDropdown
-                    data={UNITS}
-                    defaultValue={UNITS.filter((item) => item.title === settingsStore.units)[0]}
-                    onSelect={(selectedItem) => setNewUnits(selectedItem[settingsStore.language])}
+                    data={UNIT_KEYS}
+                    defaultValue={newUnits || undefined}
+                    onSelect={(selectedItem) => setNewUnits(selectedItem)}
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
@@ -349,7 +339,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                             ]}
                         >
                             <Text style={globalStyles.dropdownButtonTxtStyle}>
-                                {(selectedItem && selectedItem[settingsStore.language]) || newUnits}
+                                {(selectedItem && t('units.' + selectedItem)) || newUnits}
                             </Text>
                         </View>
                     )}
@@ -365,7 +355,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                             ]}
                         >
                             <Text style={globalStyles.dropdownItemTxtStyle}>
-                                {item[settingsStore.language]}
+                                {t('units.' + item)}
                             </Text>
                         </View>
                     )}

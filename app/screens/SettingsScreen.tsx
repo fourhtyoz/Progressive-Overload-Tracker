@@ -4,7 +4,7 @@ import { COLORS, FONT_SIZE } from '@/app/styles/globalStyles';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Button from '@/app/components/buttons/Button';
 import SelectDropdown from 'react-native-select-dropdown';
-import { UNITS, THEMES, LANGUAGES } from '@/app/constants/settings';
+import { UNIT_KEYS, THEME_KEYS, LANGUAGES } from '@/app/constants/settings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Toast from 'react-native-toast-message';
 import { useTranslation } from 'react-i18next';
@@ -160,10 +160,10 @@ const SettingsScreen = observer(() => {
                         {t('settings.options.units')}:
                     </Text>
                     <SelectDropdown
-                        data={UNITS}
-                        defaultValue={UNITS.filter((item) => item.title === settingsStore.units)[0]}
+                        data={UNIT_KEYS}
+                        defaultValue={settingsStore.units}
                         onSelect={(selectedItem) =>
-                            handleChangeUnits(selectedItem[settingsStore.language])
+                            handleChangeUnits(selectedItem)
                         }
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
@@ -179,7 +179,7 @@ const SettingsScreen = observer(() => {
                                         },
                                     ]}
                                 >
-                                    {(selectedItem && selectedItem[settingsStore.language]) ||
+                                    {(selectedItem && t('units.' + selectedItem)) ||
                                         settingsStore.units}
                                 </Text>
                             </View>
@@ -196,7 +196,7 @@ const SettingsScreen = observer(() => {
                                 ]}
                             >
                                 <Text style={s.dropdownItemText}>
-                                    {item[settingsStore.language]}
+                                    {t('units.' + item)}
                                 </Text>
                             </View>
                         )}
@@ -217,11 +217,9 @@ const SettingsScreen = observer(() => {
                         {t('settings.options.theme')}:
                     </Text>
                     <SelectDropdown
-                        data={THEMES}
-                        defaultValue={
-                            THEMES.filter((item) => item.title === settingsStore.theme)[0]
-                        }
-                        onSelect={(selectedItem) => handleChangeTheme(selectedItem.title)}
+                        data={THEME_KEYS}
+                        defaultValue={settingsStore.theme}
+                        onSelect={(selectedItem) => handleChangeTheme(selectedItem)}
                         showsVerticalScrollIndicator={false}
                         dropdownStyle={s.dropdownMenu}
                         renderButton={(selectedItem) => (
@@ -236,7 +234,7 @@ const SettingsScreen = observer(() => {
                                         },
                                     ]}
                                 >
-                                    {(selectedItem && selectedItem[settingsStore.language]) ||
+                                    {(selectedItem && t('themes.' + selectedItem)) ||
                                         settingsStore.theme}
                                 </Text>
                             </View>
@@ -253,7 +251,7 @@ const SettingsScreen = observer(() => {
                                 ]}
                             >
                                 <Text style={s.dropdownItemText}>
-                                    {item[settingsStore.language]}
+                                    {t('themes.' + item)}
                                 </Text>
                             </View>
                         )}

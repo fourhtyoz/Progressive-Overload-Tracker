@@ -150,5 +150,29 @@
         "failedFetchExercises": "Egzersizler yüklenemedi",
         "failedFetchResults": "Sonuçlar yüklenemedi",
         "failedUpdateResult": "Sonuç güncellenemedi"
+    },
+
+    "muscles": {
+        "trapezius": "Trapez",
+        "shoulders": "Omuzlar",
+        "chest": "Göğüs",
+        "biceps": "Biseps",
+        "triceps": "Triseps",
+        "forearms": "Önkollar",
+        "legs": "Bacaklar",
+        "glutes": "Kalçalar",
+        "back": "Sırt",
+        "abs": "Karın kasları",
+        "cardio": "Kardiyo"
+    },
+
+    "units": {
+        "kg": "kg",
+        "lb": "lb"
+    },
+
+    "themes": {
+        "light": "Açık",
+        "dark": "Koyu"
     }
 }
