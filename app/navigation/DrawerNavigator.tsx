@@ -1,6 +1,7 @@
 import React from 'react';
-import GoBackButton from '@/app/components/buttons/GoBackButton';
 import { createDrawerNavigator } from '@react-navigation/drawer';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import GoBackButton from '@/app/components/buttons/GoBackButton';
 import { COLORS } from '@/app/styles/globalStyles';
 import { useTranslation } from 'react-i18next';
 
@@ -13,14 +14,75 @@ import HistoryScreen from '@/app/screens/HistoryScreen';
 import SettingsScreen from '@/app/screens/SettingsScreen';
 import EditResultScreen from '@/app/screens/EditResultScreen';
 
+// Stack navigators
+const AddResultStack = createNativeStackNavigator();
+const HistoryStack = createNativeStackNavigator();
+
+function AddResultStackNavigator() {
+    return (
+        <AddResultStack.Navigator>
+            <AddResultStack.Screen
+                name="AddResultMain"
+                component={AddResultScreen}
+                options={({ navigation }) => ({
+                    title: '',
+                    headerRight: () =>
+                        navigation.canGoBack() ? (
+                            <GoBackButton fn={() => navigation.goBack()} />
+                        ) : null,
+                })}
+            />
+            <AddResultStack.Screen
+                name="AddExercise"
+                component={AddExerciseScreen}
+                options={({ navigation }) => ({
+                    title: '',
+                    headerRight: () =>
+                        navigation.canGoBack() ? (
+                            <GoBackButton fn={() => navigation.goBack()} />
+                        ) : null,
+                })}
+            />
+        </AddResultStack.Navigator>
+    );
+}
+
+function HistoryStackNavigator() {
+    return (
+        <HistoryStack.Navigator>
+            <HistoryStack.Screen
+                name="HistoryMain"
+                component={HistoryScreen}
+                options={({ navigation }) => ({
+                    title: '',
+                    headerRight: () =>
+                        navigation.canGoBack() ? (
+                            <GoBackButton fn={() => navigation.goBack()} />
+                        ) : null,
+                })}
+            />
+            <HistoryStack.Screen
+                name="EditResult"
+                component={EditResultScreen}
+                options={({ navigation }) => ({
+                    title: '',
+                    headerRight: () =>
+                        navigation.canGoBack() ? (
+                            <GoBackButton fn={() => navigation.goBack()} />
+                        ) : null,
+                })}
+            />
+        </HistoryStack.Navigator>
+    );
+}
+
+// Drawer
 export type DrawerParamList = {
-    Home: any;
-    AddResult: undefined;
-    AddExercise: undefined;
+    Home: undefined;
     About: undefined;
+    AddResult: undefined;
     History: undefined;
     Settings: undefined;
-    EditResult: undefined;
 };
 
 const Drawer = createDrawerNavigator<DrawerParamList>();
@@ -46,7 +108,6 @@ export default function DrawerNavigator({ isDarkTheme }: any) {
                 },
                 drawerActiveBackgroundColor: isDarkTheme ? COLORS.orange : COLORS.black,
                 drawerActiveTintColor: isDarkTheme ? COLORS.black : COLORS.white,
-
                 headerRight: () => {
                     if (navigation.canGoBack()) {
                         return <GoBackButton fn={() => navigation.goBack()} />;
@@ -66,33 +127,18 @@ export default function DrawerNavigator({ isDarkTheme }: any) {
             />
             <Drawer.Screen
                 name="AddResult"
-                component={AddResultScreen}
+                component={AddResultStackNavigator}
                 options={{ title: t('result.screenName') }}
             />
             <Drawer.Screen
                 name="History"
-                component={HistoryScreen}
+                component={HistoryStackNavigator}
                 options={{ title: t('history.screenName') }}
             />
             <Drawer.Screen
                 name="Settings"
                 component={SettingsScreen}
                 options={{ title: t('settings.screenName') }}
-            />
-
-            {/* Hidden screens */}
-            <Drawer.Screen
-                name="AddExercise"
-                component={AddExerciseScreen}
-                options={{
-                    title: t('newExercise.screenName'),
-                    drawerItemStyle: { display: 'none' },
-                }}
-            />
-            <Drawer.Screen
-                name="EditResult"
-                component={EditResultScreen}
-                options={{ title: t('settings.screenName'), drawerItemStyle: { display: 'none' } }}
             />
         </Drawer.Navigator>
     );
