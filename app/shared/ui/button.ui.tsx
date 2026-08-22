@@ -1,7 +1,8 @@
 import { Button as TamaguiButton } from 'tamagui';
 
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 
 type Props = {
     onPress: () => void;
@@ -26,6 +27,7 @@ export default function Button({
     testID = '',
 }: Props) {
     const isDark = settingsStore.isDark;
+    const fontSize = useFontSize();
 
     return (
         <TamaguiButton
@@ -50,7 +52,7 @@ export default function Button({
                 backgroundColor: bgColor ?? (isDark ? COLORS.black : COLORS.white),
                 borderColor: borderColor ?? (isDark ? COLORS.white : COLORS.blackTransparentBorder),
             }}
-            fontSize={FONT_SIZE.large}
+            fontSize={fontSize.large}
             fontWeight="bold"
             letterSpacing={0.25}
         >

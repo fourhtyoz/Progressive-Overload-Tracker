@@ -9,7 +9,8 @@ import Result from '@/app/pages/history/ui/result-row.ui';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 import { TResult } from '@/app/shared/types';
 
 type ExerciseProps = {
@@ -65,6 +66,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
     };
 
     const isDark = settingsStore.isDark;
+    const fontSize = useFontSize();
 
     return (
         <YStack
@@ -82,7 +84,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
             >
                 <XStack justifyContent="space-between" alignItems="center">
                     <Text
-                        fontSize={FONT_SIZE.large}
+                        fontSize={fontSize.large}
                         fontWeight="bold"
                         marginBottom={10}
                         color={isDark ? COLORS.textDarkScreen : COLORS.textTitleColorLight}
@@ -105,19 +107,19 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                         backgroundColor={isDark ? COLORS.darkDarkGrey : COLORS.backgroundLightSecondary}
                         borderBottomColor={isDark ? COLORS.black : COLORS.borderLight}
                     >
-                        <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal} fontWeight="bold"
+                        <Text flex={1} textAlign="center" fontSize={fontSize.normal} fontWeight="bold"
                             color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                             {t('history.table.header.date')}
                         </Text>
-                        <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal} fontWeight="bold"
+                        <Text flex={1} textAlign="center" fontSize={fontSize.normal} fontWeight="bold"
                             color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                             {t('history.table.header.weight')}
                         </Text>
-                        <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal} fontWeight="bold"
+                        <Text flex={1} textAlign="center" fontSize={fontSize.normal} fontWeight="bold"
                             color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                             {t('history.table.header.reps')}
                         </Text>
-                        <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal} fontWeight="bold"
+                        <Text flex={1} textAlign="center" fontSize={fontSize.normal} fontWeight="bold"
                             color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                             {t('history.table.header.edit')}
                         </Text>

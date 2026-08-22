@@ -1,17 +1,70 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { lazy,Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ActivityIndicator, View } from 'react-native';
 
-import AboutScreen from '@/app/pages/about/about.ui';
 import AddExerciseScreen from '@/app/pages/add-exercise/add-exercise.ui';
-import AddResultScreen from '@/app/pages/add-result/add-result.ui';
 import EditResultScreen from '@/app/pages/edit-result/edit-result.ui';
-import HistoryScreen from '@/app/pages/history/history.ui';
-// Screens
-import HomeScreen from '@/app/pages/home/home.ui';
-import SettingsScreen from '@/app/pages/settings/settings.ui';
 import { COLORS } from '@/app/shared/theme/global-styles';
 import GoBackButton from '@/app/shared/ui/go-back-button.ui';
+
+// Lazy loaded screens
+const HomeScreen = lazy(() => import('@/app/pages/home/home.ui'));
+const AboutScreen = lazy(() => import('@/app/pages/about/about.ui'));
+const HistoryScreen = lazy(() => import('@/app/pages/history/history.ui'));
+const SettingsScreen = lazy(() => import('@/app/pages/settings/settings.ui'));
+const AddResultScreen = lazy(() => import('@/app/pages/add-result/add-result.ui'));
+
+// Loading fallback component
+function ScreenLoader() {
+    return (
+        <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+            <ActivityIndicator size="large" color={COLORS.orange} />
+        </View>
+    );
+}
+
+// Wrapper components for lazy loaded screens
+function HomeScreenWrapper(props: any) {
+    return (
+        <Suspense fallback={<ScreenLoader />}>
+            <HomeScreen {...props} />
+        </Suspense>
+    );
+}
+
+function AboutScreenWrapper(props: any) {
+    return (
+        <Suspense fallback={<ScreenLoader />}>
+            <AboutScreen {...props} />
+        </Suspense>
+    );
+}
+
+function HistoryScreenWrapper(props: any) {
+    return (
+        <Suspense fallback={<ScreenLoader />}>
+            <HistoryScreen {...props} />
+        </Suspense>
+    );
+}
+
+function SettingsScreenWrapper(props: any) {
+    return (
+        <Suspense fallback={<ScreenLoader />}>
+            <SettingsScreen {...props} />
+        </Suspense>
+    );
+}
+
+function AddResultScreenWrapper(props: any) {
+    return (
+        <Suspense fallback={<ScreenLoader />}>
+            <AddResultScreen {...props} />
+        </Suspense>
+    );
+}
 
 // Stack navigators
 const AddResultStack = createNativeStackNavigator<AddResultStackParamList>();
@@ -38,7 +91,7 @@ function AddResultStackNavigator() {
                     ) : null,
             })}
         >
-            <AddResultStack.Screen name="AddResultMain" component={AddResultScreen} />
+            <AddResultStack.Screen name="AddResultMain" component={AddResultScreenWrapper} />
             <AddResultStack.Screen name="AddExercise" component={AddExerciseScreen} />
         </AddResultStack.Navigator>
     );
@@ -55,7 +108,7 @@ function HistoryStackNavigator() {
                     ) : null,
             })}
         >
-            <HistoryStack.Screen name="HistoryMain" component={HistoryScreen} />
+            <HistoryStack.Screen name="HistoryMain" component={HistoryScreenWrapper} />
             <HistoryStack.Screen name="EditResult" component={EditResultScreen} />
         </HistoryStack.Navigator>
     );
@@ -97,12 +150,12 @@ export default function DrawerNavigator({ isDarkTheme }: { isDarkTheme: boolean 
         >
             <Drawer.Screen
                 name="Home"
-                component={HomeScreen}
+                component={HomeScreenWrapper}
                 options={{ title: t('home.screenName') }}
             />
             <Drawer.Screen
                 name="About"
-                component={AboutScreen}
+                component={AboutScreenWrapper}
                 options={{ title: t('about.screenName') }}
             />
             <Drawer.Screen
@@ -117,7 +170,7 @@ export default function DrawerNavigator({ isDarkTheme }: { isDarkTheme: boolean 
             />
             <Drawer.Screen
                 name="Settings"
-                component={SettingsScreen}
+                component={SettingsScreenWrapper}
                 options={{ title: t('settings.screenName') }}
             />
         </Drawer.Navigator>

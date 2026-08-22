@@ -8,7 +8,8 @@ import { ProgressType } from '@/app/features/progress/progress.lib';
 import { HistoryStackParamList } from '@/app/navigation/drawer.navigator';
 import { getformattedDate } from '@/app/shared/lib/formatters.lib';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 
 type ResultProps = {
     resultId: number;
@@ -33,6 +34,7 @@ export default function Result({
     const navigation = useNavigation<NavigationProp<HistoryStackParamList>>();
 
     const isDark = settingsStore.isDark;
+    const fontSize = useFontSize();
 
     const progressColor =
         progress === 'worse'
@@ -71,15 +73,15 @@ export default function Result({
             borderLeftWidth={5}
             borderLeftColor={progressColor}
         >
-            <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal}
+            <Text flex={1} textAlign="center" fontSize={fontSize.normal}
                 color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                 {getformattedDate(date)}
             </Text>
-            <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal}
+            <Text flex={1} textAlign="center" fontSize={fontSize.normal}
                 color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                 {weight ? `${weight} ${t('units.' + units)}` : '-'}
             </Text>
-            <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal}
+            <Text flex={1} textAlign="center" fontSize={fontSize.normal}
                 color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                 {reps}
             </Text>
