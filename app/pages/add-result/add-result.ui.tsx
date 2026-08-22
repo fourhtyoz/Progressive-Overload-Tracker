@@ -1,3 +1,4 @@
+import { NavigationProp } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
@@ -7,7 +8,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import Toast from 'react-native-toast-message';
 import { Input, Label, Text, XStack, YStack } from 'tamagui';
 
-import { AddResultStackParamList } from '@/app/navigation/drawer.navigator';
+import { AddResultStackParamList, DrawerParamList } from '@/app/navigation/drawer.navigator';
 import { MUSCLE_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
@@ -98,7 +99,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     };
 
     const handleHistory = () => {
-        (navigation.getParent() as any)?.navigate('History');
+        (navigation.getParent() as NavigationProp<DrawerParamList>)?.navigate('History');
     };
 
     useEffect(() => {

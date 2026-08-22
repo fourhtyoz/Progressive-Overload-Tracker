@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import { NavigationProp } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
@@ -9,7 +10,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import Toast from 'react-native-toast-message';
 import { Input, Label, Text, XStack, YStack } from 'tamagui';
 
-import { HistoryStackParamList } from '@/app/navigation/drawer.navigator';
+import { DrawerParamList, HistoryStackParamList } from '@/app/navigation/drawer.navigator';
 import { MUSCLE_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { getformattedDate, toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
@@ -84,7 +85,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                 Alert.alert(t('alerts.success'), t('alerts.newEntryAddedSuccess'), [
                     {
                         text: t('alerts.goToHistory'),
-                        onPress: () => (navigation.getParent() as any)?.navigate('History'),
+                        onPress: () => (navigation.getParent() as NavigationProp<DrawerParamList>)?.navigate('History'),
                     },
                 ]);
             } else {
