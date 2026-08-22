@@ -8,44 +8,24 @@ import { addExercise, addResult, getDatabase } from '@/app/services/db';
 export function getProgress(currentSet: TResult, previousSet: TResult) {
     const defaultUnits = settingsStore.units;
 
-    let progress = '';
-
-    let previousScore = previousSet.weight * previousSet.reps;
-    if (previousSet.units !== defaultUnits) {
-        if (defaultUnits === 'kg') {
-            previousScore = previousScore * 0.453; // * 0.453 to kg
-        }
-        if (defaultUnits === 'lb') {
-            previousScore = previousScore * 2.205; // * 2.205 to lb
-        }
+    function toDefaultUnits(weight: number, units: string): number {
+        if (units === defaultUnits) return weight;
+        if (defaultUnits === 'kg') return weight * 0.453;
+        if (defaultUnits === 'lb') return weight * 2.205;
+        return weight;
     }
 
-    let currentScore = currentSet.weight * currentSet.reps;
-    if (currentSet.units !== defaultUnits) {
-        if (defaultUnits === 'kg') {
-            currentScore = currentScore * 0.453;
-        }
-        if (defaultUnits === 'lb') {
-            currentScore = currentScore * 2.205;
-        }
+    function calcScore(set: TResult): number {
+        if (set.weight === 0) return set.reps;
+        return toDefaultUnits(set.weight, set.units) * set.reps;
     }
 
-    if (currentSet.weight === 0) {
-        currentScore = currentSet.reps;
-    }
+    const currentScore = calcScore(currentSet);
+    const previousScore = calcScore(previousSet);
 
-    if (previousSet.weight === 0) {
-        previousScore = previousSet.reps;
-    }
-
-    if (previousScore > currentScore) {
-        progress = 'worse';
-    } else if (previousScore < currentScore) {
-        progress = 'better';
-    } else {
-        progress = 'neutral';
-    }
-    return progress;
+    if (previousScore > currentScore) return 'worse';
+    if (previousScore < currentScore) return 'better';
+    return 'neutral';
 }
 
 export function getformattedDate(date: string | Date) {
@@ -59,10 +39,11 @@ export function getformattedDate(date: string | Date) {
     return formattedDate;
 }
 
-export function toTitleCase(word: string) {
-    if (!word || word.length < 1) return word;
-
-    return word.charAt(0).toUpperCase() + word.slice(1);
+export function toTitleCase(str: string) {
+    if (!str || str.length < 1) return str;
+    return str
+        .toLowerCase()
+        .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
 export function groupByExercise(dataArray: TResult[]) {

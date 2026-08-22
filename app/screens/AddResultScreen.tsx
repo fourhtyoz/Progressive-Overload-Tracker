@@ -96,7 +96,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 text2: t('alerts.newEntryAddedSuccess'),
             });
         } else {
-            setError(error);
+            setError(res.error || 'Failed to add result');
         }
     };
 

@@ -20,28 +20,26 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
 
     const filteredResults =
         sorting === 'asc'
-            ? results.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-            : results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+            ? [...results].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+            : [...results].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-    // TODO: AbortController on closing the exercise
     useEffect(() => {
         const getResultsByExercise = async () => {
             setIsLoading(true);
             const res = await exerciseStore.fetchResultsByExerciseId(id);
-            console.log('res', res)
             if (res.success && Array.isArray(res.data)) {
                 setResults(res.data);
             } else {
                 setError(res.error);
             }
             setIsLoading(false);
-            setIsLoaded(true)
+            setIsLoaded(true);
         };
 
         if (isOpen && !isLoaded) {
-                getResultsByExercise();
+            getResultsByExercise();
         }
-    }, [isOpen, isLoaded, isLoading, results, id, setError]);
+    }, [isOpen, isLoaded, id, setError]);
 
     const handleDeleteResult = async (resultId: number) => {
         const res = await exerciseStore.deleteResult(resultId);
@@ -167,27 +165,23 @@ export default function Exercise({ id, title, type, sorting, setError }: any) {
                     )}
                 </TouchableOpacity>
                 {isOpen && isLoading && <ActivityIndicator />}
+                {isOpen && isLoaded && filteredResults.length === 0 && (
+                    <View style={s.notFound}>
+                        <Text style={s.text}>{t('history.noResults')}</Text>
+                    </View>
+                )}
                 {isOpen && isLoaded &&
-                    filteredResults.map((item, index, arr) => {
-                        if (arr.length < 1) {
-                            return (
-                             <View style={s.notFound}>
-                                <Text style={s.text}>{t('history.noResults')}</Text>
-                            </View>
-                            )
-                        }
-
+                    filteredResults.map((item, index) => {
                         let progress = 'new';
 
                         if (sorting === 'desc') {
-                            const len = results.length;
-                            if (index + 1 < len) {
-                                const previousSet = results[index + 1];
+                            if (index + 1 < filteredResults.length) {
+                                const previousSet = filteredResults[index + 1];
                                 progress = getProgress(item, previousSet);
                             }
                         } else {
                             if (index > 0) {
-                                const previousSet = results[index - 1];
+                                const previousSet = filteredResults[index - 1];
                                 progress = getProgress(item, previousSet);
                             }
                         }
