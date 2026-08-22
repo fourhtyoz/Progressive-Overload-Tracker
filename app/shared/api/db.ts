@@ -41,17 +41,12 @@ export async function initializeDatabase(): Promise<void> {
 
 // EXERCISES
 export const exerciseExist = async (title: string, type: string): Promise<boolean> => {
-    try {
-        const db = await getDatabase();
-        const row = await db.getFirstAsync<{ id: number }>(
-            'SELECT id FROM exercises WHERE title = ? AND type = ? LIMIT 1',
-            [title, type]
-        );
-        return !!row;
-    } catch (e) {
-        console.error('exerciseExist error', e);
-        return false;
-    }
+    const db = await getDatabase();
+    const row = await db.getFirstAsync<{ id: number }>(
+        'SELECT id FROM exercises WHERE title = ? AND type = ? LIMIT 1',
+        [title, type]
+    );
+    return !!row;
 };
 
 export const addExercise = async (title: string, type: string) => {
@@ -169,10 +164,15 @@ export const fetchResultsByExerciseId = async (
     }
 };
 
-export const deleteTables = async () => {
-    const db = await getDatabase();
-    await db.execAsync(`
-        DROP TABLE IF EXISTS results;
-        DROP TABLE IF EXISTS exercises;
-    `);
+export const deleteTables = async (): Promise<{ success: boolean; error?: string }> => {
+    try {
+        const db = await getDatabase();
+        await db.execAsync(`
+            DROP TABLE IF EXISTS results;
+            DROP TABLE IF EXISTS exercises;
+        `);
+        return { success: true };
+    } catch (e) {
+        return handleTransactionError(e, 'Failed to delete tables', 'deleteTables');
+    }
 };

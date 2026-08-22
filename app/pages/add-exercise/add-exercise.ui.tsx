@@ -50,22 +50,26 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     };
 
     const handleCreateExercise = async () => {
-        const exist = await exerciseStore.checkExerciseExists(title, muscleGroup);
-        if (exist) {
-            setError(t('errors.exerciseExists'));
-            return;
-        }
+        try {
+            const exist = await exerciseStore.checkExerciseExists(title, muscleGroup);
+            if (exist) {
+                setError(t('errors.exerciseExists'));
+                return;
+            }
 
-        const res = await exerciseStore.addExercise(title, muscleGroup);
-        if (res.success) {
-            Alert.alert(t('alerts.success'), t('alerts.exerciseAdded'), [
-                { text: t('alerts.great'), onPress: handleSuccess },
-            ]);
-            setMuscleGroup('');
-            setTitle('');
-            setError('');
-        } else {
-            setError(res.error);
+            const res = await exerciseStore.addExercise(title, muscleGroup);
+            if (res.success) {
+                Alert.alert(t('alerts.success'), t('alerts.exerciseAdded'), [
+                    { text: t('alerts.great'), onPress: handleSuccess },
+                ]);
+                setMuscleGroup('');
+                setTitle('');
+                setError('');
+            } else {
+                setError(res.error);
+            }
+        } catch (e) {
+            setError(String(e));
         }
     };
 

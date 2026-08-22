@@ -4,11 +4,16 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import i18n from '@/app/shared/i18n/i18n';
 import { getDeviceLanguage, getDeviceMeasurementSystem } from '@/app/shared/i18n/i18n';
 
+type Theme = 'light' | 'dark';
+type FontSize = 'small' | 'normal' | 'large';
+type Language = 'en' | 'de' | 'es' | 'ru' | 'tr';
+type Units = 'kg' | 'lb';
+
 class SettingsStore {
-    theme = '';
-    fontSize = '';
-    language = '';
-    units = '';
+    theme: Theme = 'light';
+    fontSize: FontSize = 'normal';
+    language: Language = 'en';
+    units: Units = 'kg';
     notifications = false;
     isLoading = true;
 
@@ -17,28 +22,44 @@ class SettingsStore {
     }
 
     get isDark() {
-        return this.theme === 'dark' ? true : false;
+        return this.theme === 'dark';
     }
 
-    setTheme(value: string) {
-        this.theme = value;
+    async setTheme(value: Theme) {
+        runInAction(() => {
+            this.theme = value;
+        });
+        await AsyncStorage.setItem('theme', value);
     }
 
-    setFontsize(value: string) {
-        this.fontSize = value;
+    async setFontsize(value: FontSize) {
+        runInAction(() => {
+            this.fontSize = value;
+        });
+        await AsyncStorage.setItem('fontSize', value);
     }
 
-    setLanguage(value: string) {
-        this.language = value;
+    async setLanguage(value: Language) {
+        runInAction(() => {
+            this.language = value;
+        });
         void i18n.changeLanguage(value);
+        await AsyncStorage.setItem('language', value);
     }
 
-    setUnits(value: string) {
-        this.units = value;
+    async setUnits(value: Units) {
+        runInAction(() => {
+            this.units = value;
+        });
+        await AsyncStorage.setItem('units', value);
     }
 
-    toggleNotifications() {
-        this.notifications = !this.notifications;
+    async toggleNotifications() {
+        const newValue = !this.notifications;
+        runInAction(() => {
+            this.notifications = newValue;
+        });
+        await AsyncStorage.setItem('notifications', JSON.stringify(newValue));
     }
 
     setIsLoading(value: boolean) {
@@ -56,22 +77,23 @@ class SettingsStore {
                 switch (key) {
                     case 'theme':
                         runInAction(() => {
-                            this.theme = value || 'light';
+                            this.theme = (value as Theme) || 'light';
                         });
                         break;
                     case 'fontSize':
                         runInAction(() => {
-                            this.fontSize = value || 'normal';
+                            this.fontSize = (value as FontSize) || 'normal';
                         });
                         break;
                     case 'language':
                         runInAction(() => {
-                            this.setLanguage(value || getDeviceLanguage());
+                            this.language = (value as Language) || getDeviceLanguage();
+                            void i18n.changeLanguage(this.language);
                         });
                         break;
                     case 'units':
                         runInAction(() => {
-                            this.units = value || getDeviceMeasurementSystem();
+                            this.units = (value as Units) || getDeviceMeasurementSystem();
                         });
                         break;
                     case 'notifications':

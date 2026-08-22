@@ -151,7 +151,12 @@
         "failedFetchExercises": "No se pudieron cargar los ejercicios",
         "failedFetchResults": "No se pudieron cargar los resultados",
         "failedUpdateResult": "No se pudo actualizar el resultado",
-        "exerciseExists": "Este ejercicio ya existe"
+        "exerciseExists": "Este ejercicio ya existe",
+        "failedToAddResult": "No se pudo agregar el resultado",
+        "databaseError": "Error de base de datos",
+        "editResult": "Editar resultado",
+        "changeDate": "Cambiar fecha",
+        "loading": "Cargando"
     },
 
     "muscles": {

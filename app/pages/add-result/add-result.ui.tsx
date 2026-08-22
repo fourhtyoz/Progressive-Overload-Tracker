@@ -34,7 +34,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const [exercise, setExercise] = useState<TExercise | null>(null);
     const [repsValue, setRepsValue] = useState('');
     const [weightValue, setWeightValue] = useState('');
-    const [units, setUnits] = useState(settingsStore.units);
+    const [units, setUnits] = useState<'kg' | 'lb'>(settingsStore.units);
     const [error, setError] = useState('');
 
     const { t } = useTranslation();
@@ -64,6 +64,10 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         const num = Number(value);
         if (isNaN(num)) {
             setError(t('errors.weightMustBeNumber'));
+            return;
+        }
+        if (num < 0) {
+            setError(t('errors.weightMustBePositive'));
             return;
         }
         setWeightValue(value);
@@ -97,7 +101,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                 text2: t('alerts.newEntryAddedSuccess'),
             });
         } else {
-            setError('error' in res ? res.error || 'Failed to add result' : 'Failed to add result');
+            setError('error' in res ? res.error || t('errors.failedToAddResult') : t('errors.failedToAddResult'));
         }
     };
 
@@ -215,7 +219,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     <ThemedDropdown
                         data={UNIT_KEYS}
                         defaultValue={settingsStore.units}
-                        onSelect={(selectedItem) => setUnits(selectedItem)}
+                        onSelect={(selectedItem) => setUnits(selectedItem as 'kg' | 'lb')}
                         renderButton={() => (
                             <DropdownInput>
                                 <DropdownText>

@@ -71,6 +71,10 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             setError(t('errors.weightMustBeNumber'));
             return;
         }
+        if (num < 0) {
+            setError(t('errors.weightMustBePositive'));
+            return;
+        }
         setNewWeight(value);
     };
 
@@ -126,7 +130,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             setIsLoading(false);
         };
         void getResult(route.params.resultId);
-    }, [route]);
+    }, [route.params.resultId]);
 
     const onChange = (_: unknown, selectedDate: Date | undefined) => {
         if (selectedDate) {
@@ -165,7 +169,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                     <YStack
                         onPress={() => showMode('date')}
                         accessibilityRole="button"
-                        accessibilityLabel="Change date"
+                        accessibilityLabel={t('errors.changeDate')}
                     >
                         <Ionicons
                             name="calendar-outline"

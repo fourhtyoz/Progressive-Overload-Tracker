@@ -151,7 +151,12 @@
         "failedFetchExercises": "Egzersizler yüklenemedi",
         "failedFetchResults": "Sonuçlar yüklenemedi",
         "failedUpdateResult": "Sonuç güncellenemedi",
-        "exerciseExists": "Bu egzersiz zaten mevcut"
+        "exerciseExists": "Bu egzersiz zaten mevcut",
+        "failedToAddResult": "Sonuç eklenemedi",
+        "databaseError": "Veritabanı hatası",
+        "editResult": "Sonucu düzenle",
+        "changeDate": "Tarihi değiştir",
+        "loading": "Yükleniyor"
     },
 
     "muscles": {

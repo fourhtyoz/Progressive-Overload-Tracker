@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView } from 'react-native';
 import { Button, Label, Text, XStack, YStack } from 'tamagui';
@@ -36,6 +36,13 @@ export default observer(function HistoryScreen() {
 
     const isResetDisabled = selectedMuscle === '-';
     const isDark = settingsStore.isDark;
+
+    const filteredExercises = useMemo(() => {
+        if (selectedMuscle !== '-') {
+            return exercises.filter((item: TExercise) => item.type === selectedMuscle);
+        }
+        return exercises;
+    }, [exercises, selectedMuscle]);
 
     if (isLoading) {
         return <Loader />;
@@ -132,29 +139,16 @@ export default observer(function HistoryScreen() {
             </Button>
 
             {/* Exercise List */}
-            {selectedMuscle !== '-'
-                ? exercises
-                      .filter((item: TExercise) => item.type === selectedMuscle)
-                      .map((item: TExercise) => (
-                          <Exercise
-                              key={item.id}
-                              id={item.id}
-                              title={item.title}
-                              type={item.type}
-                              sorting={selectedSorting.type}
-                              setError={resetError}
-                          />
-                      ))
-                : exercises.map((item: TExercise) => (
-                      <Exercise
-                          key={item.id}
-                          id={item.id}
-                          title={item.title}
-                          type={item.type}
-                          sorting={selectedSorting.type}
-                          setError={resetError}
-                      />
-                  ))}
+            {filteredExercises.map((item: TExercise) => (
+                <Exercise
+                    key={item.id}
+                    id={item.id}
+                    title={item.title}
+                    type={item.type}
+                    sorting={selectedSorting.type}
+                    setError={resetError}
+                />
+            ))}
         </ScrollView>
     );
 });

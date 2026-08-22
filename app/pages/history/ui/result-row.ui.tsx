@@ -87,7 +87,7 @@ export default function Result({
                 onPress={() => handlePressedRecord(resultId)}
                 style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
                 accessibilityRole="button"
-                accessibilityLabel="Edit result"
+                accessibilityLabel={t('errors.editResult')}
             >
                 <Ionicons name="settings" color={COLORS.gray} size={18} />
             </TouchableOpacity>

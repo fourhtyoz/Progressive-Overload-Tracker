@@ -1,5 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import { Spinner, Text, XStack, YStack } from 'tamagui';
@@ -28,10 +28,13 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
     const [isOpen, setIsOpen] = useState(false);
     const [results, setResults] = useState<TResult[]>([]);
 
-    const filteredResults =
-        sorting === 'asc'
-            ? [...results].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-            : [...results].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+    const filteredResults = useMemo(
+        () =>
+            sorting === 'asc'
+                ? [...results].sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+                : [...results].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()),
+        [results, sorting]
+    );
 
     useEffect(() => {
         const getResultsByExercise = async () => {
