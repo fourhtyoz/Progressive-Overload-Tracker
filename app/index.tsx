@@ -12,8 +12,6 @@ import { LightTheme, DarkTheme, FONT_SIZE } from '@/app/styles/globalStyles';
 
 const App = observer(() => {
     useEffect(() => {
-        // for development
-        // clearAsyncStorage();
         initializeDatabase();
     }, []);
 

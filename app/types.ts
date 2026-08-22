@@ -14,10 +14,6 @@ export type TResult = {
     units: string;
 };
 
-export type TGroupedResult = {
-    [key: string]: TResult[];
-};
-
 export type TMuscle = {
     title: string;
     ru: string;

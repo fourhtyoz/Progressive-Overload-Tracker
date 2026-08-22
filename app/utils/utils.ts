@@ -1,9 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { TResult, TGroupedResult } from '../types';
+import { TResult } from '../types';
 import { settingsStore } from '@/app/store/settingsStore';
-import { MUSCLES } from '@/app/constants/settings';
-import { UNITS } from '@/app/constants/settings';
-import { addExercise, addResult, getDatabase } from '@/app/services/db';
 
 export function getProgress(currentSet: TResult, previousSet: TResult) {
     const defaultUnits = settingsStore.units;
@@ -46,110 +42,13 @@ export function toTitleCase(str: string) {
         .replace(/\b\w/g, (char) => char.toUpperCase());
 }
 
-export function groupByExercise(dataArray: TResult[]) {
-    const grouped: TGroupedResult = {};
-
-    dataArray.forEach((item: TResult) => {
-        if (!grouped[item.exercise]) {
-            grouped[item.exercise] = [];
-        }
-        grouped[item.exercise].push(item);
-    });
-
-    return grouped;
-}
-
-export function filterByMuscleGroup(data: any, targetGroup: any) {
-    const filteredData: any = {};
-
-    for (const [exercise, records] of Object.entries(data)) {
-        const filteredRecords = (records as TResult[]).filter(
-            (record: TResult) => record.muscleGroup === targetGroup
-        );
-        if (filteredRecords.length > 0) {
-            filteredData[exercise] = filteredRecords;
-        }
-    }
-    return filteredData;
-}
-
-// for development
-export async function clearAsyncStorage() {
-    try {
-        await AsyncStorage.clear();
-        console.log('All keys cleared successfully.');
-    } catch (e) {
-        console.error('Failed to clear AsyncStorage:', e);
-    }
-}
-
-export function generateExercises(quantity: number = 100) {
-    console.log('generateExercises start');
-    for (let i = 0; i < quantity; i++) {
-        const title = generateRandomString();
-
-        const typeIndex = Math.floor(Math.random() * MUSCLES.length);
-        const type = MUSCLES[typeIndex].title;
-
-        console.log(`${i}, title: ${title} type: ${type}`);
-        addExercise(title, type);
-    }
-    console.log('generateExercises finish');
-}
-
-// export async function generateResults(quantity: number = 1000) {
-//     console.log('generateResults start');
-//     for (let i = 0; i < quantity; i++) {
-//         const exerciseObject: any = await getRandomExercise();
-//         const date = generateRandomDate();
-//         const reps = Math.floor(Math.random() * 20);
-//         const weight = Math.floor(Math.random() * 150);
-//         const unitsIndex = Math.floor(Math.random() * UNITS.length);
-//         const units = UNITS[unitsIndex].title;
-
-//         console.log(`${i}, title: ${exerciseObject.title} type: ${exerciseObject.type}`);
-//         await addResult(exerciseObject.title, date, exerciseObject.type, reps, weight, units);
-//     }
-//     console.log('generateResults finish');
-// }
-
-export async function getRandomExercise() {
-    try {
-        const db = await getDatabase();
-        const result = await db.getFirstAsync<{ title: string; type: string }>(
-            'SELECT title, type FROM exercises ORDER BY RANDOM() LIMIT 1'
-        );
-        return result;
-    } catch (e) {
-        console.error('Error fetching random exercise:', e);
-        throw e;
-    }
-}
-
-export function generateRandomDate(start = new Date(2000, 0, 1), end = new Date()) {
-    const randomTimestamp = Math.random() * (end.getTime() - start.getTime()) + start.getTime();
-    const date = new Date(randomTimestamp);
-    const dateString = date.toISOString();
-    return dateString;
-}
-
-export function generateRandomString(length = 10) {
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < length; i++) {
-        const randomIndex = Math.floor(Math.random() * characters.length);
-        result += characters[randomIndex];
-    }
-    return result;
-}
-
 export function handleTransactionError(error: unknown, message: string, place: string) {
-     console.error(`${place} error`, error);
-        let errorMessage = message
-        if (error instanceof Error) {
-            errorMessage = error.message
-        } else if (typeof error === 'string') {
-            errorMessage = error
-        }
-        return { success: false, error: errorMessage };
+    console.error(`${place} error`, error);
+    let errorMessage = message;
+    if (error instanceof Error) {
+        errorMessage = error.message;
+    } else if (typeof error === 'string') {
+        errorMessage = error;
+    }
+    return { success: false, error: errorMessage };
 }
