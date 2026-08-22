@@ -1,5 +1,5 @@
-import { StyleSheet, Dimensions } from 'react-native';
-import { DefaultTheme, DarkTheme as DT } from '@react-navigation/native';
+import { DarkTheme as DT,DefaultTheme } from '@react-navigation/native';
+import { Dimensions,StyleSheet } from 'react-native';
 
 const { width: screenWidth } = Dimensions.get('window');
 

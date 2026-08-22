@@ -1,10 +1,11 @@
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
-import React, { useState } from 'react';
-import { FlatList, Text, View, StyleSheet, SafeAreaView } from 'react-native';
-import { settingsStore } from '@/app/shared/stores/settings.store';
 import { observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { FlatList, SafeAreaView,StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
+
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 
 const AboutScreen = observer(() => {
     const [showHowTo, setShowHowTo] = useState(false);

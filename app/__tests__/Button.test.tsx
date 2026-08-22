@@ -1,7 +1,9 @@
+import { fireEvent,render } from '@testing-library/react-native';
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react-native';
-import Button from '../shared/ui/button.ui';
+
 import { COLORS } from '@/app/shared/theme/global-styles';
+
+import Button from '../shared/ui/button.ui';
 
 describe('Button Component', () => {
     it('renders correctly with a given text', () => {

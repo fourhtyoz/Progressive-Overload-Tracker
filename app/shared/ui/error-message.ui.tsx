@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { FONT_SIZE, COLORS } from '@/app/shared/theme/global-styles';
+import React from 'react';
+import { StyleSheet, Text, TouchableOpacity,View } from 'react-native';
+
+import { COLORS,FONT_SIZE } from '@/app/shared/theme/global-styles';
 
 type ErrorMessageProps = {
     message: string;

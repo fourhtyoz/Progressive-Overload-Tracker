@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
-import Toast, { BaseToast } from 'react-native-toast-message';
-import { I18nextProvider } from 'react-i18next';
 import { NavigationContainer } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
-import i18n from '@/app/shared/i18n/i18n';
-import Loader from '@/app/shared/ui/loader.ui';
-import { settingsStore } from '@/app/shared/stores/settings.store';
+import React, { useEffect } from 'react';
+import { I18nextProvider } from 'react-i18next';
+import Toast, { BaseToast } from 'react-native-toast-message';
+
 import DrawerNavigator from '@/app/navigation/drawer.navigator';
 import { initializeDatabase } from '@/app/shared/api/db';
-import { LightTheme, DarkTheme, FONT_SIZE, COLORS } from '@/app/shared/theme/global-styles';
+import i18n from '@/app/shared/i18n/i18n';
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import { COLORS,DarkTheme, FONT_SIZE, LightTheme } from '@/app/shared/theme/global-styles';
+import Loader from '@/app/shared/ui/loader.ui';
 
 const App = observer(() => {
     useEffect(() => {
-        initializeDatabase();
+        void initializeDatabase();
     }, []);
 
     if (settingsStore.isLoading) {

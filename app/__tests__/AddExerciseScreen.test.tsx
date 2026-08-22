@@ -1,5 +1,6 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
+import React from 'react';
+
 import AddExerciseScreen from '../pages/add-exercise/add-exercise.ui';
 
 jest.mock('mobx-react-lite', () => ({

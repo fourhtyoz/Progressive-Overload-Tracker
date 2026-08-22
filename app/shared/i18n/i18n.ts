@@ -1,12 +1,12 @@
+import * as Localization from 'expo-localization';
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
-import * as Localization from 'expo-localization';
-import { LANGUAGES } from '@/app/shared/constants/settings';
 
+import { LANGUAGES } from '@/app/shared/constants/settings';
+import de from '@/app/shared/i18n/de.json';
 // translations
 import en from '@/app/shared/i18n/en.json';
 import es from '@/app/shared/i18n/es.json';
-import de from '@/app/shared/i18n/de.json';
 import ru from '@/app/shared/i18n/ru.json';
 import tr from '@/app/shared/i18n/tr.json';
 
@@ -60,7 +60,7 @@ export const getDeviceLanuguage = () => {
     }
 };
 
-i18n.use(initReactI18next).init({
+void i18n.use(initReactI18next).init({
     resources,
     fallbackLng: getDeviceLanuguage() || 'en',
     interpolation: {

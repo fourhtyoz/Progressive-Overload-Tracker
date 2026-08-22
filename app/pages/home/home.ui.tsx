@@ -1,16 +1,17 @@
-import {
-    SafeAreaView,
-    View,
-    Text,
-    StyleSheet,
-    Dimensions,
-    Pressable,
-    ImageBackground,
-} from 'react-native';
 import { DrawerScreenProps } from '@react-navigation/drawer';
-import { DrawerParamList } from '@/app/navigation/drawer.navigator';
 import { useTranslation } from 'react-i18next';
-import { FONT_SIZE, COLORS } from '@/app/shared/theme/global-styles';
+import {
+    Dimensions,
+    ImageBackground,
+    Pressable,
+    SafeAreaView,
+    StyleSheet,
+    Text,
+    View,
+} from 'react-native';
+
+import { DrawerParamList } from '@/app/navigation/drawer.navigator';
+import { COLORS,FONT_SIZE } from '@/app/shared/theme/global-styles';
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
 

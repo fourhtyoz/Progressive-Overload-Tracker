@@ -1,7 +1,8 @@
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
-import { Pressable, Text, StyleSheet } from 'react-native';
-import { settingsStore } from '@/app/shared/stores/settings.store';
 import { useTranslation } from 'react-i18next';
+import { Pressable, StyleSheet,Text } from 'react-native';
+
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 
 type Props = {
     fn: () => void;

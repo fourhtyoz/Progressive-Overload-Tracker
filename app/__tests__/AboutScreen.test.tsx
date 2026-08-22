@@ -1,5 +1,6 @@
-import React from 'react';
 import { render } from '@testing-library/react-native';
+import React from 'react';
+
 import AboutScreen from '../pages/about/about.ui';
 
 // Mock `useTranslation` hook

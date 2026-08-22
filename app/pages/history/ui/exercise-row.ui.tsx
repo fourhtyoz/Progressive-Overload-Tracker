@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, ActivityIndicator, Alert } from 'react-native';
-import { settingsStore } from '@/app/shared/stores/settings.store';
-import { getProgress } from '@/app/features/progress/progress.lib';
-import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { useTranslation } from 'react-i18next';
-import { FONT_SIZE, COLORS } from '@/app/shared/theme/global-styles';
+import { ActivityIndicator, Alert,StyleSheet, Text, View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import { exerciseStore } from '@/app/shared/stores/exercise.store';
+
+import { getProgress } from '@/app/features/progress/progress.lib';
 import Result from '@/app/pages/history/ui/result-row.ui';
+import { toTitleCase } from '@/app/shared/lib/formatters.lib';
+import { exerciseStore } from '@/app/shared/stores/exercise.store';
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import { COLORS,FONT_SIZE } from '@/app/shared/theme/global-styles';
 import { TResult } from '@/app/shared/types';
 
 type ExerciseProps = {
@@ -45,7 +46,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
         };
 
         if (isOpen && !isLoaded) {
-            getResultsByExercise();
+            void getResultsByExercise();
         }
     }, [isOpen, isLoaded, id, setError]);
 

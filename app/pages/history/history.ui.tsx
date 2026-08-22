@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
-import { useTranslation } from 'react-i18next';
-import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { observer } from 'mobx-react-lite';
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Dimensions,ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import SelectDropdown from 'react-native-select-dropdown';
 
-import Loader from '@/app/shared/ui/loader.ui';
 import Exercise from '@/app/pages/history/ui/exercise-row.ui';
-import ErrorMessage from '@/app/shared/ui/error-message.ui';
+import { toTitleCase } from '@/app/shared/lib/formatters.lib';
+import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS, FONT_SIZE, globalStyles } from '@/app/shared/theme/global-styles';
-import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { TExercise } from '@/app/shared/types';
+import ErrorMessage from '@/app/shared/ui/error-message.ui';
+import Loader from '@/app/shared/ui/loader.ui';
 
 export default observer(function HistoryScreen() {
     const { t } = useTranslation();

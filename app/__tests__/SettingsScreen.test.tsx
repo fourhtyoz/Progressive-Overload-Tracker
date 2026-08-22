@@ -1,7 +1,8 @@
+import { act,fireEvent, render } from '@testing-library/react-native';
 import React from 'react';
-import { render, fireEvent, act } from '@testing-library/react-native';
-import SettingsScreen from '../pages/settings/settings.ui';
 import { Alert } from 'react-native';
+
+import SettingsScreen from '../pages/settings/settings.ui';
 
 // Mock dependencies
 jest.mock('react-native-toast-message', () => ({

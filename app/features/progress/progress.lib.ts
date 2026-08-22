@@ -1,5 +1,5 @@
-import { TResult } from '@/app/shared/types';
 import { settingsStore } from '@/app/shared/stores/settings.store';
+import { TResult } from '@/app/shared/types';
 
 export function getProgress(currentSet: TResult, previousSet: TResult) {
     const defaultUnits = settingsStore.units;
