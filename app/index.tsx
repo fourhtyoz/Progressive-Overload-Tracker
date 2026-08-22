@@ -1,7 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
-import { I18nextProvider } from 'react-i18next';
+import { I18nextProvider, useTranslation } from 'react-i18next';
 import Toast, { BaseToast } from 'react-native-toast-message';
 import { TamaguiProvider, Text, YStack } from 'tamagui';
 
@@ -16,6 +16,7 @@ import Loader from '@/app/shared/ui/loader.ui';
 
 const App = observer(() => {
     const [dbError, setDbError] = useState('');
+    const { t } = useTranslation();
 
     useEffect(() => {
         initializeDatabase()
@@ -32,7 +33,7 @@ const App = observer(() => {
         return (
             <YStack flex={1} justifyContent="center" alignItems="center" padding={20}>
                 <Text fontSize={18} fontWeight="bold" color={COLORS.red} marginBottom={10}>
-                    Database Error
+                    {t('errors.databaseError')}
                 </Text>
                 <Text fontSize={14} color="$colorMuted" textAlign="center">
                     {dbError}

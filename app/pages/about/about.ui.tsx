@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { FlatList } from 'react-native';
 import { Text, YStack } from 'tamagui';
@@ -12,7 +12,7 @@ const AboutScreen = observer(() => {
     const { t } = useTranslation();
     const isDark = settingsStore.isDark;
 
-    const content = [
+    const content = useMemo(() => [
         {
             key: '1',
             title: t('about.definitionTitle'),
@@ -43,7 +43,7 @@ const AboutScreen = observer(() => {
             title: t('about.tipsTitle'),
             content: t('about.tipsContent'),
         },
-    ];
+    ], [t]);
 
     const renderItem = ({ item }: { item: { title: string; content: string } }) => (
         <YStack marginBottom={20} borderRadius={8}>

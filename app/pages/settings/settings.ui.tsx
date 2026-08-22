@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -31,10 +30,18 @@ const SettingsScreen = observer(() => {
     };
 
     const handleDeleteAllData = async () => {
-        await deleteTables();
-        await initializeDatabase();
-        await exerciseStore.initialize();
-        Alert.alert(t('alerts.success'), t('settings.dataDeleted'));
+        try {
+            const res = await deleteTables();
+            if (!res.success) {
+                setError(res.error || 'Failed to delete data');
+                return;
+            }
+            await initializeDatabase();
+            await exerciseStore.initialize();
+            Alert.alert(t('alerts.success'), t('settings.dataDeleted'));
+        } catch (e) {
+            setError(String(e));
+        }
     };
 
     const handleDeleteData = () => {
@@ -48,8 +55,7 @@ const SettingsScreen = observer(() => {
         if (!lang) return;
         setError('');
         try {
-            await AsyncStorage.setItem('language', lang.code);
-            settingsStore.setLanguage(lang.code);
+            await settingsStore.setLanguage(lang.code as 'en' | 'de' | 'es' | 'ru' | 'tr');
             Toast.show({
                 type: 'success',
                 text1: t('toasts.success'),
@@ -64,8 +70,7 @@ const SettingsScreen = observer(() => {
         if (!units || typeof units !== 'string') return;
         setError('');
         try {
-            await AsyncStorage.setItem('units', units);
-            settingsStore.setUnits(units);
+            await settingsStore.setUnits(units as 'kg' | 'lb');
             Toast.show({
                 type: 'success',
                 text1: t('toasts.success'),
@@ -80,8 +85,7 @@ const SettingsScreen = observer(() => {
         if (!theme || typeof theme !== 'string') return;
         setError('');
         try {
-            await AsyncStorage.setItem('theme', theme);
-            settingsStore.setTheme(theme);
+            await settingsStore.setTheme(theme as 'light' | 'dark');
             Toast.show({
                 type: 'success',
                 text1: t('toasts.success'),

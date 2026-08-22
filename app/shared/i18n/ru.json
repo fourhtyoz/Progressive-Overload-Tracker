@@ -151,7 +151,12 @@
         "failedFetchExercises": "Не удалось загрузить упражнения",
         "failedFetchResults": "Не удалось загрузить результаты",
         "failedUpdateResult": "Не удалось обновить результат",
-        "exerciseExists": "Это упражнение уже существует"
+        "exerciseExists": "Это упражнение уже существует",
+        "failedToAddResult": "Не удалось добавить результат",
+        "databaseError": "Ошибка базы данных",
+        "editResult": "Редактировать результат",
+        "changeDate": "Изменить дату",
+        "loading": "Загрузка"
     },
 
     "muscles": {
