@@ -3,7 +3,6 @@
         "screenName": "Ana Sayfa",
         "result": "Sonuç Ekle",
         "about": "Hakkımızda",
-        "profile": "Profil",
         "settings": "Ayarlar",
         "history": "Geçmiş"
     },
@@ -84,16 +83,12 @@
         "getInTouch": "Bizimle İletişime Geçin",
         "sendEmailTo": "Bizimle iletişime geçmek için şu adrese e-posta gönderin",
         "options": {
-            "fontSize": "Yazı Boyutu",
-            "fontSizeHelpText": "Uygulamanın yazı boyutunu değiştirin",
             "language": "Dil",
             "languageHelpText": "Uygulamanın dilini değiştirin",
             "theme": "Tema",
             "themeHelpText": "Uygulama temasını değiştirin",
             "units": "Ağırlık Birimi",
-            "unitsHelpText": "Ağırlık ölçüm birimini seçin",
-            "notifications": "Bildirimler",
-            "notificationsHelpText": "Bildirim almak istiyor musunuz?"
+            "unitsHelpText": "Ağırlık ölçüm birimini seçin"
         }
     },
 
@@ -135,10 +130,7 @@
         "success": "Başarılı",
         "changedLanguage": "Dil başarıyla değiştirildi",
         "changedTheme": "Tema başarıyla değiştirildi",
-        "changedFontSize": "Yazı boyutu başarıyla değiştirildi",
-        "changedUnits": "Ölçüm birimi başarıyla değiştirildi",
-        "receiveNotifications": "Bildirim alacaksınız",
-        "notReceiveNotifications": "Bildirim almayacaksınız"
+        "changedUnits": "Ölçüm birimi başarıyla değiştirildi"
     },
 
     "errors": {

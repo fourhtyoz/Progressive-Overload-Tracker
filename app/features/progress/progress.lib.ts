@@ -1,7 +1,9 @@
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { TResult } from '@/app/shared/types';
 
-export function getProgress(currentSet: TResult, previousSet: TResult) {
+export type ProgressType = 'worse' | 'better' | 'neutral';
+
+export function getProgress(currentSet: TResult, previousSet: TResult): ProgressType {
     const defaultUnits = settingsStore.units;
 
     function toDefaultUnits(weight: number, units: string): number {

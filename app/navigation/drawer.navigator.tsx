@@ -1,6 +1,5 @@
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 
 import AboutScreen from '@/app/pages/about/about.ui';
@@ -79,7 +78,7 @@ export default function DrawerNavigator({ isDarkTheme }: { isDarkTheme: boolean 
     return (
         <Drawer.Navigator
             initialRouteName="Home"
-            screenOptions={({ route, navigation }) => ({
+            screenOptions={({ route }) => ({
                 title: route.name,
                 headerTintColor: isDarkTheme ? COLORS.black : COLORS.white,
                 headerTintStyle: {
@@ -94,11 +93,6 @@ export default function DrawerNavigator({ isDarkTheme }: { isDarkTheme: boolean 
                 },
                 drawerActiveBackgroundColor: isDarkTheme ? COLORS.orange : COLORS.black,
                 drawerActiveTintColor: isDarkTheme ? COLORS.black : COLORS.white,
-                headerRight: () => {
-                    if (navigation.canGoBack()) {
-                        return <GoBackButton fn={() => navigation.goBack()} />;
-                    }
-                },
             })}
         >
             <Drawer.Screen

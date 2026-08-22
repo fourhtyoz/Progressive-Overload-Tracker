@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import Toast, { BaseToast } from 'react-native-toast-message';
 import { TamaguiProvider, Text, YStack } from 'tamagui';
@@ -57,7 +57,7 @@ const App = observer(() => {
                 </NavigationContainer>
                 <Toast
                     config={{
-                        success: (props: object) => (
+                        success: (props) => (
                             <BaseToast
                                 {...props}
                                 style={{

@@ -5,16 +5,13 @@ import i18n from '@/app/shared/i18n/i18n';
 import { getDeviceLanguage, getDeviceMeasurementSystem } from '@/app/shared/i18n/i18n';
 
 type Theme = 'light' | 'dark';
-type FontSize = 'small' | 'normal' | 'large';
 type Language = 'en' | 'de' | 'es' | 'ru' | 'tr';
 type Units = 'kg' | 'lb';
 
 class SettingsStore {
     theme: Theme = 'light';
-    fontSize: FontSize = 'normal';
     language: Language = 'en';
     units: Units = 'kg';
-    notifications = false;
     isLoading = true;
 
     constructor() {
@@ -32,13 +29,6 @@ class SettingsStore {
         await AsyncStorage.setItem('theme', value);
     }
 
-    async setFontsize(value: FontSize) {
-        runInAction(() => {
-            this.fontSize = value;
-        });
-        await AsyncStorage.setItem('fontSize', value);
-    }
-
     async setLanguage(value: Language) {
         runInAction(() => {
             this.language = value;
@@ -54,14 +44,6 @@ class SettingsStore {
         await AsyncStorage.setItem('units', value);
     }
 
-    async toggleNotifications() {
-        const newValue = !this.notifications;
-        runInAction(() => {
-            this.notifications = newValue;
-        });
-        await AsyncStorage.setItem('notifications', JSON.stringify(newValue));
-    }
-
     setIsLoading(value: boolean) {
         this.isLoading = value;
     }
@@ -71,18 +53,13 @@ class SettingsStore {
             this.isLoading = true;
         });
         try {
-            const keys = ['theme', 'fontSize', 'language', 'units', 'notifications'];
+            const keys = ['theme', 'language', 'units'];
             const values = await AsyncStorage.multiGet(keys);
             values.forEach(([key, value]) => {
                 switch (key) {
                     case 'theme':
                         runInAction(() => {
                             this.theme = (value as Theme) || 'light';
-                        });
-                        break;
-                    case 'fontSize':
-                        runInAction(() => {
-                            this.fontSize = (value as FontSize) || 'normal';
                         });
                         break;
                     case 'language':
@@ -94,20 +71,6 @@ class SettingsStore {
                     case 'units':
                         runInAction(() => {
                             this.units = (value as Units) || getDeviceMeasurementSystem();
-                        });
-                        break;
-                    case 'notifications':
-                        runInAction(() => {
-                            if (value) {
-                                try {
-                                    const parsedValue = JSON.parse(value);
-                                    this.notifications = parsedValue;
-                                } catch (e) {
-                                    console.error('initialize notifications', e);
-                                }
-                            } else {
-                                this.notifications = true;
-                            }
                         });
                         break;
                     default:

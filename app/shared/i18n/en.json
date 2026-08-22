@@ -3,7 +3,6 @@
         "screenName": "Home Page",
         "result": "Add Result",
         "about": "About Us",
-        "profile": "Profile",
         "settings": "Settings",
         "history": "History"
     },
@@ -84,16 +83,12 @@
         "getInTouch": "Get in Touch",
         "sendEmailTo": "To contact us, send an email to",
         "options": {
-            "fontSize": "Font Size",
-            "fontSizeHelpText": "Change the font size in the app",
             "language": "Language",
             "languageHelpText": "Change the app's language",
             "theme": "Theme",
             "themeHelpText": "Change the app's theme",
             "units": "Weight Units",
-            "unitsHelpText": "Select the weight measurement system",
-            "notifications": "Notifications",
-            "notificationsHelpText": "Do you want to receive notifications?"
+            "unitsHelpText": "Select the weight measurement system"
         }
     },
 
@@ -135,10 +130,7 @@
         "success": "Success",
         "changedLanguage": "Language successfully changed",
         "changedTheme": "Theme successfully changed",
-        "changedFontSize": "Font size successfully changed",
-        "changedUnits": "Weight measurement system successfully changed",
-        "receiveNotifications": "You will receive notifications",
-        "notReceiveNotifications": "You will not receive notifications"
+        "changedUnits": "Weight measurement system successfully changed"
     },
 
     "errors": {

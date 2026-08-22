@@ -3,7 +3,6 @@
         "screenName": "Startseite",
         "result": "Ergebnis hinzufügen",
         "about": "Über uns",
-        "profile": "Profil",
         "settings": "Einstellungen",
         "history": "Verlauf"
     },
@@ -84,16 +83,12 @@
         "getInTouch": "Kontakt aufnehmen",
         "sendEmailTo": "Um uns zu kontaktieren, senden Sie eine E-Mail an",
         "options": {
-            "fontSize": "Schriftgröße",
-            "fontSizeHelpText": "Die Schriftgröße in der App ändern",
             "language": "Sprache",
             "languageHelpText": "Die Sprache der App ändern",
             "theme": "Thema",
             "themeHelpText": "Das App-Thema ändern",
             "units": "Gewichtseinheiten",
-            "unitsHelpText": "Das Gewichtsmesssystem auswählen",
-            "notifications": "Benachrichtigungen",
-            "notificationsHelpText": "Möchten Sie Benachrichtigungen erhalten?"
+            "unitsHelpText": "Das Gewichtsmesssystem auswählen"
         }
     },
 
@@ -135,10 +130,7 @@
         "success": "Erfolg",
         "changedLanguage": "Sprache erfolgreich geändert",
         "changedTheme": "Thema erfolgreich geändert",
-        "changedFontSize": "Schriftgröße erfolgreich geändert",
-        "changedUnits": "Gewichtsmesssystem erfolgreich geändert",
-        "receiveNotifications": "Sie werden Benachrichtigungen erhalten",
-        "notReceiveNotifications": "Sie werden keine Benachrichtigungen erhalten"
+        "changedUnits": "Gewichtsmesssystem erfolgreich geändert"
     },
 
     "errors": {

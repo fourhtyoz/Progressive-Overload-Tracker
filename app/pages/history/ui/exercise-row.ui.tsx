@@ -1,10 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
-import React, { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import { Spinner, Text, XStack, YStack } from 'tamagui';
 
-import { getProgress } from '@/app/features/progress/progress.lib';
+import { getProgress, ProgressType } from '@/app/features/progress/progress.lib';
 import Result from '@/app/pages/history/ui/result-row.ui';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
@@ -138,7 +138,7 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
             {isOpen &&
                 isLoaded &&
                 filteredResults.map((item, index) => {
-                    let progress = 'new';
+                    let progress: ProgressType | 'new' = 'new';
 
                     if (sorting === 'desc') {
                         if (index + 1 < filteredResults.length) {
