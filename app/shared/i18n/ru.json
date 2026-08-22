@@ -3,7 +3,6 @@
         "screenName": "Главная страница",
         "result": "Добавить результат",
         "about": "О нас",
-        "profile": "Профиль",
         "settings": "Настройки",
         "history": "История"
     },
@@ -84,16 +83,12 @@
         "getInTouch": "Связаться с нами",
         "sendEmailTo": "Чтобы связаться с нами, отправьте нам email на",
         "options": {
-            "fontSize": "Размер шрифта",
-            "fontSizeHelpText": "Изменить размер шрифта в приложении",
             "language": "Язык",
             "languageHelpText": "Изменить язык приложения",
             "theme": "Тема",
             "themeHelpText": "Изменить тему",
             "units": "Вес",
-            "unitsHelpText": "Система исчисления веса",
-            "notifications": "Уведомления",
-            "notificationsHelpText": "Хотите ли вы получать уведомления?"
+            "unitsHelpText": "Система исчисления веса"
         }
     },
 
@@ -135,10 +130,7 @@
         "success": "Успех",
         "changedLanguage": "Язык был успешно изменен",
         "changedTheme": "Тема была успешно изменена",
-        "changedFontSize": "Размер шрифта был успешно изменен",
-        "changedUnits": "Система исчисления была успешно изменена",
-        "receiveNotifications": "Вы будете получать уведомления",
-        "notReceiveNotifications": "Вы не будете получать уведомления"
+        "changedUnits": "Система исчисления была успешно изменена"
     },
 
     "errors": {

@@ -1,10 +1,10 @@
 import { Ionicons } from '@expo/vector-icons';
 import { NavigationProp, useNavigation } from '@react-navigation/native';
-import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert, TouchableOpacity } from 'react-native';
 import { Text, XStack } from 'tamagui';
 
+import { ProgressType } from '@/app/features/progress/progress.lib';
 import { HistoryStackParamList } from '@/app/navigation/drawer.navigator';
 import { getformattedDate } from '@/app/shared/lib/formatters.lib';
 import { settingsStore } from '@/app/shared/stores/settings.store';
@@ -16,7 +16,7 @@ type ResultProps = {
     weight: number;
     reps: number;
     units: string;
-    progress: string;
+    progress: ProgressType | 'new';
     deleteResult: (id: number) => void;
 };
 

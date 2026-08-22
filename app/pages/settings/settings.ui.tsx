@@ -1,5 +1,5 @@
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -12,6 +12,7 @@ import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
+import Loader from '@/app/shared/ui/loader.ui';
 import {
     DropdownInput,
     DropdownItem,
@@ -22,6 +23,7 @@ import {
 
 const SettingsScreen = observer(() => {
     const [error, setError] = useState('');
+    const [isDeleting, setIsDeleting] = useState(false);
     const { t } = useTranslation();
     const isDark = settingsStore.isDark;
 
@@ -30,6 +32,7 @@ const SettingsScreen = observer(() => {
     };
 
     const handleDeleteAllData = async () => {
+        setIsDeleting(true);
         try {
             const res = await deleteTables();
             if (!res.success) {
@@ -41,6 +44,8 @@ const SettingsScreen = observer(() => {
             Alert.alert(t('alerts.success'), t('settings.dataDeleted'));
         } catch (e) {
             setError(String(e));
+        } finally {
+            setIsDeleting(false);
         }
     };
 
@@ -207,16 +212,22 @@ const SettingsScreen = observer(() => {
             </YStack>
 
             {/* Delete Data */}
-            <YStack
-                marginTop="auto"
-                marginBottom={20}
-                alignItems="center"
-                onPress={handleDeleteData}
-                accessibilityRole="button"
-                accessibilityLabel={t('settings.deleteData')}
-            >
-                <Text color={COLORS.red}>{t('settings.deleteData')}</Text>
-            </YStack>
+            {isDeleting ? (
+                <YStack marginTop="auto" marginBottom={20} alignItems="center">
+                    <Loader />
+                </YStack>
+            ) : (
+                <YStack
+                    marginTop="auto"
+                    marginBottom={20}
+                    alignItems="center"
+                    onPress={handleDeleteData}
+                    accessibilityRole="button"
+                    accessibilityLabel={t('settings.deleteData')}
+                >
+                    <Text color={COLORS.red}>{t('settings.deleteData')}</Text>
+                </YStack>
+            )}
         </YStack>
     );
 });

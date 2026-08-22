@@ -17,6 +17,14 @@ export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
     return dbPromise;
 }
 
+export async function closeDatabase(): Promise<void> {
+    if (dbPromise) {
+        const db = await dbPromise;
+        await db.closeAsync();
+        dbPromise = null;
+    }
+}
+
 export async function initializeDatabase(): Promise<void> {
     const db = await getDatabase();
     await db.execAsync(`
@@ -49,14 +57,14 @@ export const exerciseExist = async (title: string, type: string): Promise<boolea
     return !!row;
 };
 
-export const addExercise = async (title: string, type: string) => {
+export const addExercise = async (title: string, type: string): Promise<DBResult<number>> => {
     try {
         const db = await getDatabase();
         const result = await db.runAsync(
             'INSERT INTO exercises (title, type) VALUES (?, ?)',
             [title, type]
         );
-        return { success: true, data: result.lastInsertRowId, error: '' };
+        return { success: true, data: result.lastInsertRowId };
     } catch (e) {
         return handleTransactionError(e, 'Failed to add exercises', 'addExercise');
     }
@@ -66,7 +74,7 @@ export const fetchExercises = async (): Promise<DBResult<TExercise[]>> => {
     try {
         const db = await getDatabase();
         const data = await db.getAllAsync<TExercise>('SELECT * FROM exercises ORDER BY title');
-        return { success: true, data, error: '' };
+        return { success: true, data };
     } catch (e) {
         return handleTransactionError(e, 'Failed to fetch exercises', 'fetchExercises');
     }
@@ -81,7 +89,7 @@ export const addResult = async (
     reps: number,
     weight: number,
     units: string
-) => {
+): Promise<DBResult<number>> => {
     try {
         const db = await getDatabase();
         const result = await db.runAsync(
@@ -103,7 +111,7 @@ export const updateResult = async (
     reps: number,
     weight: number,
     units: string
-) => {
+): Promise<DBResult<number>> => {
     try {
         const db = await getDatabase();
         const result = await db.runAsync(
@@ -111,7 +119,7 @@ export const updateResult = async (
             [exercise, exercise_id, date, muscleGroup, reps, weight, units, id]
         );
         if (result.changes > 0) {
-            return { success: true, data: result.changes, error: '' };
+            return { success: true, data: result.changes };
         }
         return { success: false, error: 'No rows were updated' };
     } catch (e) {
@@ -119,7 +127,7 @@ export const updateResult = async (
     }
 };
 
-export const deleteResult = async (id: number) => {
+export const deleteResult = async (id: number): Promise<DBResult<number>> => {
     try {
         const db = await getDatabase();
         const result = await db.runAsync('DELETE FROM results WHERE id = ?', [id]);
@@ -137,7 +145,7 @@ export const fetchResultById = async (id: number): Promise<DBResult<TResult>> =>
         const db = await getDatabase();
         const data = await db.getFirstAsync<TResult>('SELECT * FROM results WHERE id = ?', [id]);
         if (data) {
-            return { success: true, data, error: '' };
+            return { success: true, data };
         }
         return { success: false, error: 'Result not found' };
     } catch (e) {

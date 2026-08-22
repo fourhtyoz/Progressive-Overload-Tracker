@@ -3,7 +3,7 @@ import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { NavigationProp } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -268,6 +268,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                         placeholder={t('result.options.whatWeight')}
                         onChangeText={(value) => handleChangeWeight(value)}
                         keyboardType="numeric"
+                        maxLength={6}
                         borderWidth={1}
                         borderColor={inputBorder}
                         borderRadius={8}
@@ -308,6 +309,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                     placeholder={t('result.options.howManyReps')}
                     onChangeText={(value) => handleChangeReps(value)}
                     keyboardType="numeric"
+                    maxLength={4}
                     borderWidth={1}
                     borderColor={inputBorder}
                     borderRadius={8}

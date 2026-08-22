@@ -1,6 +1,6 @@
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
 import { Input, Label, YStack } from 'tamagui';
@@ -62,11 +62,8 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                 Alert.alert(t('alerts.success'), t('alerts.exerciseAdded'), [
                     { text: t('alerts.great'), onPress: handleSuccess },
                 ]);
-                setMuscleGroup('');
-                setTitle('');
-                setError('');
             } else {
-                setError(res.error);
+                setError(res.error || 'Failed to add exercise');
             }
         } catch (e) {
             setError(String(e));
@@ -116,6 +113,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                     onChangeText={(value) => handleChangeTitle(value)}
                     defaultValue={title}
                     placeholder={t('result.options.titlePlaceholder')}
+                    maxLength={50}
                     borderWidth={1}
                     borderColor={settingsStore.isDark ? COLORS.orange : COLORS.gray}
                     borderRadius={8}

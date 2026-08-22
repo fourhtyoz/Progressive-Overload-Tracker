@@ -61,29 +61,6 @@ export const FONT_SIZE = {
 };
 
 export const globalStyles = StyleSheet.create({
-    date: {
-        marginEnd: 10,
-    },
-    input: {
-        flex: 1,
-        height: 40,
-        borderWidth: 1,
-        padding: 10,
-        borderColor: 'lightgray',
-        borderRadius: 5,
-        color: COLORS.black,
-        fontSize: FONT_SIZE.normal,
-    },
-    inputWithOption: {
-        flex: 1,
-        height: 40,
-        borderWidth: 1,
-        padding: 10,
-        borderColor: 'lightgray',
-        borderTopLeftRadius: 5,
-        borderBottomLeftRadius: 5,
-        color: COLORS.black,
-    },
     dropdownButtonStyle: {
         width: 45,
         height: 40,
@@ -123,29 +100,5 @@ export const globalStyles = StyleSheet.create({
     dropdownItemIconStyle: {
         fontSize: 28,
         marginRight: 8,
-    },
-    itemWrapper: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 15,
-    },
-    inputLabel: {
-        fontWeight: 'bold',
-        width: screenWidth / 3,
-        fontSize: FONT_SIZE.normal,
-    },
-    wrapper: {
-        paddingHorizontal: 20,
-    },
-    exerciseText: {
-        color: COLORS.black,
-    },
-    exerciseTextPlaceholder: {
-        color: COLORS.placeholderTextLight,
-    },
-    buttonWrapper: {
-        marginVertical: 15,
-        gap: 15,
     },
 });
