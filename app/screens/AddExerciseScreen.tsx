@@ -25,7 +25,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     const disabledSaveButton = !(muscleGroup && title);
 
     const handleSucess = () => {
-        navigation.navigate('AddResult');
+        navigation.goBack();
     };
 
     const handleChangeTitle = (value: string) => {
