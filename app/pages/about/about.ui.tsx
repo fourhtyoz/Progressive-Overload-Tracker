@@ -1,8 +1,8 @@
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { FlatList, SafeAreaView,StyleSheet, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { FlatList } from 'react-native';
+import { Text, YStack } from 'tamagui';
 
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
@@ -46,48 +46,52 @@ const AboutScreen = observer(() => {
     ];
 
     const renderItem = ({ item }: { item: { title: string; content: string } }) => (
-        <View style={s.section}>
+        <YStack marginBottom={20} borderRadius={8}>
             <Text
-                style={[
-                    s.subtitle,
-                    { color: isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight },
-                ]}
+                fontSize={FONT_SIZE.large}
+                fontWeight="bold"
+                marginBottom={10}
+                color={isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}
             >
                 {item.title}
             </Text>
             <Text
-                style={[s.text, { color: isDark ? COLORS.textColorDark : COLORS.textColorLight }]}
+                lineHeight={FONT_SIZE.lineHeight}
+                fontSize={FONT_SIZE.normal}
+                color={isDark ? COLORS.textColorDark : COLORS.textColorLight}
             >
                 {item.content}
             </Text>
-        </View>
+        </YStack>
     );
 
     return (
-        <SafeAreaView>
-            <TouchableOpacity
+        <YStack flex={1}>
+            <YStack
                 onPress={() => setShowHowTo((prev) => !prev)}
-                style={[s.howto, { borderColor: isDark ? COLORS.orange : COLORS.black }]}
+                paddingHorizontal={20}
+                paddingTop={15}
+                borderWidth={1}
+                borderColor={isDark ? COLORS.orange : COLORS.black}
+                margin={10}
+                borderRadius={8}
+                accessibilityRole="button"
+                accessibilityLabel={t('about.howToTitle')}
             >
-                <View style={s.section}>
+                <YStack marginBottom={20} borderRadius={8}>
                     <Text
-                        style={[
-                            s.subtitle,
-                            {
-                                color: isDark
-                                    ? COLORS.textTitleColorDark
-                                    : COLORS.textTitleColorLight,
-                            },
-                        ]}
+                        fontSize={FONT_SIZE.large}
+                        fontWeight="bold"
+                        marginBottom={10}
+                        color={isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}
                     >
                         {t('about.howToTitle')}
                     </Text>
                     {showHowTo && (
                         <Text
-                            style={[
-                                s.text,
-                                { color: isDark ? COLORS.textColorDark : COLORS.textColorLight },
-                            ]}
+                            lineHeight={FONT_SIZE.lineHeight}
+                            fontSize={FONT_SIZE.normal}
+                            color={isDark ? COLORS.textColorDark : COLORS.textColorLight}
                         >
                             {t('about.howToContent')}
                             <Text style={{ color: COLORS.green }}>{t('about.green')}</Text>
@@ -96,48 +100,16 @@ const AboutScreen = observer(() => {
                             {t('about.lastSentence')}
                         </Text>
                     )}
-                </View>
-            </TouchableOpacity>
+                </YStack>
+            </YStack>
             <FlatList
-                style={s.wrapper}
                 data={content}
                 renderItem={renderItem}
                 keyExtractor={(item) => item.key}
+                contentContainerStyle={{ paddingHorizontal: 20, paddingVertical: 15 }}
             />
-        </SafeAreaView>
+        </YStack>
     );
 });
 
 export default AboutScreen;
-
-const s = StyleSheet.create({
-    howto: {
-        paddingHorizontal: 20,
-        paddingTop: 15,
-        borderWidth: 1,
-        margin: 10,
-    },
-    wrapper: {
-        paddingHorizontal: 20,
-        paddingVertical: 15,
-    },
-    section: {
-        marginBottom: 20,
-        borderRadius: 8,
-    },
-    subtitle: {
-        fontSize: FONT_SIZE.large,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    text: {
-        // textAlign: 'justify',
-        lineHeight: FONT_SIZE.lineHeight,
-        fontSize: FONT_SIZE.normal,
-    },
-    listItem: {
-        fontSize: FONT_SIZE.normal,
-        lineHeight: FONT_SIZE.lineHeight,
-        marginBottom: 5,
-    },
-});

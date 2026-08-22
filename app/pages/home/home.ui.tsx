@@ -4,123 +4,115 @@ import {
     Dimensions,
     ImageBackground,
     Pressable,
-    SafeAreaView,
-    StyleSheet,
-    Text,
-    View,
 } from 'react-native';
+import { Text, XStack, YStack } from 'tamagui';
 
 import { DrawerParamList } from '@/app/navigation/drawer.navigator';
-import { COLORS,FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
+
+const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
 
 export default function HomeScreen({ navigation }: Props) {
     const { t } = useTranslation();
 
     return (
-        <SafeAreaView style={s.wrapper}>
-            <View style={s.top}>
+        <YStack marginVertical={10}>
+            <XStack alignItems="center" paddingVertical={15} marginHorizontal={10}>
                 <ImageBackground
                     source={require('@/public/images/cards/result.jpg')}
-                    style={s.cardImage}
+                    resizeMode="cover"
+                    style={{ overflow: 'hidden', borderRadius: 15, height: screenHeight / 2.5, width: screenWidth / 2.2 }}
                 >
-                    <Pressable style={s.firstBox} onPress={() => navigation.navigate('AddResult')}>
-                        <Text style={s.cardTitle}>{t('home.result')}</Text>
+                    <Pressable
+                        style={{ flexGrow: 1, borderRadius: 15 }}
+                        onPress={() => navigation.navigate('AddResult')}
+                    >
+                        <Text
+                            color={COLORS.white}
+                            padding={10}
+                            fontSize={FONT_SIZE.huge}
+                            backgroundColor={COLORS.overlayDark}
+                            fontWeight="bold"
+                            borderBottomLeftRadius={15}
+                            borderTopRightRadius={15}
+                        >
+                            {t('home.result')}
+                        </Text>
                     </Pressable>
                 </ImageBackground>
-                <View style={s.secondColumn}>
+                <YStack flexGrow={1} gap={10} marginLeft={10}>
                     <ImageBackground
                         source={require('@/public/images/cards/about.jpg')}
-                        style={s.cardImage}
+                        resizeMode="cover"
+                        style={{ overflow: 'hidden', borderRadius: 15, height: screenHeight / 2.5 / 1.5 }}
                     >
-                        <Pressable style={s.secondBox} onPress={() => navigation.navigate('About')}>
-                            <Text style={s.cardTitle}>{t('home.about')}</Text>
+                        <Pressable
+                            style={{ flexGrow: 1, borderRadius: 15 }}
+                            onPress={() => navigation.navigate('About')}
+                        >
+                            <Text
+                                color={COLORS.white}
+                                padding={10}
+                                fontSize={FONT_SIZE.huge}
+                                backgroundColor={COLORS.overlayDark}
+                                fontWeight="bold"
+                                borderBottomLeftRadius={15}
+                                borderTopRightRadius={15}
+                            >
+                                {t('home.about')}
+                            </Text>
                         </Pressable>
                     </ImageBackground>
                     <ImageBackground
                         source={require('@/public/images/cards/settings.jpg')}
-                        style={s.cardImage}
+                        resizeMode="cover"
+                        style={{ overflow: 'hidden', borderRadius: 15, height: screenHeight / 2.5 / 3 }}
                     >
                         <Pressable
-                            style={s.forthBox}
+                            style={{ flexGrow: 1, borderRadius: 15 }}
                             onPress={() => navigation.navigate('Settings')}
                         >
-                            <Text style={s.cardTitle}>{t('home.settings')}</Text>
+                            <Text
+                                color={COLORS.white}
+                                padding={10}
+                                fontSize={FONT_SIZE.huge}
+                                backgroundColor={COLORS.overlayDark}
+                                fontWeight="bold"
+                                borderBottomLeftRadius={15}
+                                borderTopRightRadius={15}
+                            >
+                                {t('home.settings')}
+                            </Text>
                         </Pressable>
                     </ImageBackground>
-                </View>
-            </View>
-            <View style={s.bottom}>
+                </YStack>
+            </XStack>
+            <YStack marginHorizontal={10}>
                 <ImageBackground
                     source={require('@/public/images/cards/history.jpg')}
-                    style={s.cardImage}
+                    resizeMode="cover"
+                    style={{ overflow: 'hidden', borderRadius: 15, height: screenHeight / 2.5 }}
                 >
-                    <Pressable style={s.fifthBox} onPress={() => navigation.navigate('History')}>
-                        <Text style={s.cardTitle}>{t('home.history')}</Text>
+                    <Pressable
+                        style={{ borderRadius: 15, height: screenHeight / 2.5 }}
+                        onPress={() => navigation.navigate('History')}
+                    >
+                        <Text
+                            color={COLORS.white}
+                            padding={10}
+                            fontSize={FONT_SIZE.huge}
+                            backgroundColor={COLORS.overlayDark}
+                            fontWeight="bold"
+                            borderBottomLeftRadius={15}
+                            borderTopRightRadius={15}
+                        >
+                            {t('home.history')}
+                        </Text>
                     </Pressable>
                 </ImageBackground>
-            </View>
-        </SafeAreaView>
+            </YStack>
+        </YStack>
     );
 }
-
-const { height: screenHeight, width: screenWidth } = Dimensions.get('window');
-const s = StyleSheet.create({
-    wrapper: {
-        marginVertical: 10,
-    },
-    top: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        paddingVertical: 15,
-        marginHorizontal: 10,
-    },
-    bottom: {
-        marginHorizontal: 10,
-    },
-    secondColumn: {
-        display: 'flex',
-        flexGrow: 1,
-        gap: 10,
-        marginLeft: 10,
-    },
-    firstBox: {
-        height: screenHeight / 2.5,
-        flexGrow: 1,
-        borderRadius: 15,
-        width: screenWidth / 2.2,
-    },
-    secondBox: {
-        flexGrow: 1,
-        borderRadius: 15,
-        height: screenHeight / 2.5 / 1.5,
-    },
-    thirdBox: {
-        flexGrow: 1,
-        borderRadius: 15,
-        height: screenHeight / 2.5 / 3,
-    },
-    forthBox: {
-        flexGrow: 1,
-        borderRadius: 15,
-        height: screenHeight / 2.5 / 3,
-    },
-    fifthBox: {
-        borderRadius: 15,
-        height: screenHeight / 2.5,
-    },
-    cardTitle: {
-        color: COLORS.white,
-        padding: 10,
-        fontSize: FONT_SIZE.huge,
-        backgroundColor: COLORS.overlayDark,
-        fontWeight: 'bold',
-    },
-    cardImage: {
-        overflow: 'hidden',
-        borderRadius: 15,
-        resizeMode: 'cover',
-    },
-});

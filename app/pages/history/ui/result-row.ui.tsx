@@ -1,13 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
-import { NavigationProp,useNavigation } from '@react-navigation/native';
+import { NavigationProp, useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, StyleSheet,Text, TouchableOpacity, View } from 'react-native';
+import { Alert, TouchableOpacity } from 'react-native';
+import { Text, XStack } from 'tamagui';
 
 import { HistoryStackParamList } from '@/app/navigation/drawer.navigator';
 import { getformattedDate } from '@/app/shared/lib/formatters.lib';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS,FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 
 type ResultProps = {
     resultId: number;
@@ -31,94 +32,65 @@ export default function Result({
     const { t } = useTranslation();
     const navigation = useNavigation<NavigationProp<HistoryStackParamList>>();
 
-    const handleDeleteRecord = (resultId: number) => {
+    const isDark = settingsStore.isDark;
+
+    const progressColor =
+        progress === 'worse'
+            ? COLORS.red
+            : progress === 'neutral'
+              ? COLORS.orange
+              : progress === 'better'
+                ? COLORS.green
+                : isDark
+                  ? COLORS.darkGrey
+                  : COLORS.white;
+
+    const handleDeleteRecord = (id: number) => {
         Alert.alert(t('alerts.areYouSure'), t('alerts.sureToDeleteRecord'), [
-            { text: t('alerts.yesProceed'), onPress: () => deleteResult(resultId) },
+            { text: t('alerts.yesProceed'), onPress: () => deleteResult(id) },
             { text: t('alerts.noIchangedMyMind') },
         ]);
     };
 
-    const handlePressedRecord = (resultId: number) => {
-        Alert.alert(
-            t('alerts.chooseAction'),
-            '', // TODO: fill it out
-            [
-                { text: t('alerts.delete'), onPress: () => handleDeleteRecord(resultId) },
-                {
-                    text: t('alerts.edit'),
-                    onPress: () =>
-                        navigation.navigate('EditResult', { resultId: resultId }),
-                },
-                { text: t('alerts.close') },
-            ]
-        );
+    const handlePressedRecord = (id: number) => {
+        Alert.alert(t('alerts.chooseAction'), '', [
+            { text: t('alerts.delete'), onPress: () => handleDeleteRecord(id) },
+            {
+                text: t('alerts.edit'),
+                onPress: () => navigation.navigate('EditResult', { resultId: id }),
+            },
+            { text: t('alerts.close') },
+        ]);
     };
 
     return (
-        <View
-            style={[
-                s.row,
-                {
-                    borderBottomColor: settingsStore.isDark ? COLORS.black : COLORS.borderLight,
-                    borderLeftWidth: 5,
-                    borderLeftColor:
-                        progress === 'worse'
-                            ? COLORS.red
-                            : progress === 'neutral'
-                              ? COLORS.orange
-                              : progress === 'better'
-                                ? COLORS.green
-                                : settingsStore.isDark
-                                  ? COLORS.darkGrey
-                                  : COLORS.white,
-                },
-            ]}
+        <XStack
+            paddingVertical={8}
+            borderBottomWidth={1}
+            borderBottomColor={isDark ? COLORS.black : COLORS.borderLight}
+            borderLeftWidth={5}
+            borderLeftColor={progressColor}
         >
-            <Text
-                style={[
-                    s.cell,
-                    { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textSecondary },
-                ]}
-            >
+            <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal}
+                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                 {getformattedDate(date)}
             </Text>
-            <Text
-                style={[
-                    s.cell,
-                    { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textSecondary },
-                ]}
-            >
-                {weight
-                    ? `${weight} ${t('units.' + units)}`
-                    : '-'}
+            <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal}
+                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
+                {weight ? `${weight} ${t('units.' + units)}` : '-'}
             </Text>
-            <Text
-                style={[
-                    s.cell,
-                    { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textSecondary },
-                ]}
-            >
+            <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal}
+                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
                 {reps}
             </Text>
-            <TouchableOpacity style={s.cell} onPress={() => handlePressedRecord(resultId)}>
-                <Ionicons style={s.cellAction} name="settings" color={COLORS.gray} size={18} />
+            <TouchableOpacity
+                onPress={() => handlePressedRecord(resultId)}
+                style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+                accessibilityRole="button"
+                accessibilityLabel="Edit result"
+            >
+                <Ionicons name="settings" color={COLORS.gray} size={18} />
             </TouchableOpacity>
-        </View>
+        </XStack>
     );
 }
-
-const s = StyleSheet.create({
-    row: {
-        flexDirection: 'row',
-        paddingVertical: 8,
-        borderBottomWidth: 1,
-    },
-    cell: {
-        flex: 1,
-        textAlign: 'center',
-        fontSize: FONT_SIZE.normal,
-    },
-    cellAction: {
-        textAlign: 'center',
-    },
-});

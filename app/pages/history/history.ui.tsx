@@ -1,8 +1,9 @@
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Dimensions,ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ScrollView } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import { Button, Label, Text, XStack, YStack } from 'tamagui';
 
 import Exercise from '@/app/pages/history/ui/exercise-row.ui';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
@@ -28,27 +29,30 @@ export default observer(function HistoryScreen() {
     };
 
     const isResetDisabled = selectedMuscle === '-';
+    const isDark = settingsStore.isDark;
 
     if (isLoading) {
         return <Loader />;
     }
 
     return (
-        <ScrollView style={s.container}>
+        <ScrollView style={{ flex: 1, padding: 10, marginTop: 15 }}>
             {error && (
-                <View style={{ marginBottom: 15 }}>
+                <YStack marginBottom={15}>
                     <ErrorMessage message={error} setError={resetError} />
-                </View>
+                </YStack>
             )}
-            <View style={s.filterWrapper}>
-                <Text
-                    style={[
-                        s.filterTitle,
-                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
-                    ]}
+
+            {/* Sorting */}
+            <XStack alignItems="center" marginTop={5}>
+                <Label
+                    fontWeight="700"
+                    paddingHorizontal={10}
+                    width="33%"
+                    color={isDark ? COLORS.textDarkScreen : COLORS.black}
                 >
                     {t('history.sorting')}:
-                </Text>
+                </Label>
                 <SelectDropdown
                     data={[
                         { title: t('history.byDateRecentFirst'), type: 'desc' },
@@ -59,52 +63,45 @@ export default observer(function HistoryScreen() {
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(_) => (
-                        <View style={s.dropdownButton}>
+                        <XStack width="100%" justifyContent="flex-start">
                             <Text
-                                style={[
-                                    s.selectedItem,
-                                    {
-                                        backgroundColor: settingsStore.isDark
-                                            ? COLORS.orange
-                                            : COLORS.black,
-                                        color: settingsStore.isDark ? COLORS.black : COLORS.white,
-                                    },
-                                ]}
+                                backgroundColor={isDark ? COLORS.orange : COLORS.black}
+                                color={isDark ? COLORS.black : COLORS.white}
+                                paddingHorizontal={10}
+                                borderRadius={6}
                             >
                                 {selectedSorting.title}
                             </Text>
-                        </View>
+                        </XStack>
                     )}
-                    renderItem={(item, index, _) => {
-                        return (
-                            <View
-                                key={index}
-                                style={[
-                                    globalStyles.dropdownItemStyle,
-                                    item.type === selectedSorting.type && {
-                                        backgroundColor: settingsStore.isDark
-                                            ? COLORS.orange
-                                            : COLORS.selectedLight,
-                                    },
-                                ]}
-                            >
-                                <Text style={globalStyles.dropdownItemTxtStyle}>
-                                    {toTitleCase(item.title)}
-                                </Text>
-                            </View>
-                        );
-                    }}
+                    renderItem={(item, index, _) => (
+                        <YStack
+                            key={index}
+                            style={[
+                                globalStyles.dropdownItemStyle,
+                                item.type === selectedSorting.type && {
+                                    backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
+                                },
+                            ]}
+                        >
+                            <Text style={globalStyles.dropdownItemTxtStyle}>
+                                {toTitleCase(item.title)}
+                            </Text>
+                        </YStack>
+                    )}
                 />
-            </View>
-            <View style={s.filterWrapper}>
-                <Text
-                    style={[
-                        s.filterTitle,
-                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
-                    ]}
+            </XStack>
+
+            {/* Muscle Filter */}
+            <XStack alignItems="center" marginTop={5}>
+                <Label
+                    fontWeight="700"
+                    paddingHorizontal={10}
+                    width="33%"
+                    color={isDark ? COLORS.textDarkScreen : COLORS.black}
                 >
                     {t('history.table.header.muscle')}:
-                </Text>
+                </Label>
                 <SelectDropdown
                     data={muscleOptions}
                     defaultValue={muscleOptions.filter((item) => item === '-')[0]}
@@ -112,68 +109,57 @@ export default observer(function HistoryScreen() {
                     showsVerticalScrollIndicator={false}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View style={s.dropdownButton}>
-                            {selectedMuscle === '-' ? (
-                                <Text
-                                    style={[
-                                        s.selectedItem,
-                                        {
-                                            backgroundColor: settingsStore.isDark
-                                                ? COLORS.orange
-                                                : COLORS.black,
-                                            color: settingsStore.isDark
-                                                ? COLORS.black
-                                                : COLORS.white,
-                                        },
-                                    ]}
-                                >
-                                    {'-'}
-                                </Text>
-                            ) : (
-                                <Text
-                                    style={[
-                                        s.selectedItem,
-                                        {
-                                            backgroundColor: settingsStore.isDark
-                                                ? COLORS.orange
-                                                : COLORS.black,
-                                            color: settingsStore.isDark
-                                                ? COLORS.black
-                                                : COLORS.white,
-                                        },
-                                    ]}
-                                >
-                                    {toTitleCase(selectedItem)}
-                                </Text>
-                            )}
-                        </View>
+                        <XStack width="100%" justifyContent="flex-start">
+                            <Text
+                                backgroundColor={isDark ? COLORS.orange : COLORS.black}
+                                color={isDark ? COLORS.black : COLORS.white}
+                                paddingHorizontal={10}
+                                borderRadius={6}
+                            >
+                                {selectedMuscle === '-' ? '-' : toTitleCase(selectedItem)}
+                            </Text>
+                        </XStack>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <View
+                        <YStack
                             key={index}
                             style={[
                                 globalStyles.dropdownItemStyle,
                                 isSelected && {
-                                    backgroundColor: settingsStore.isDark
-                                        ? COLORS.orange
-                                        : COLORS.selectedLight,
+                                    backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
                                 },
                             ]}
                         >
-                            <Text style={globalStyles.dropdownItemTxtStyle}>{toTitleCase(item)}</Text>
-                        </View>
+                            <Text style={globalStyles.dropdownItemTxtStyle}>
+                                {toTitleCase(item)}
+                            </Text>
+                        </YStack>
                     )}
                 />
-            </View>
-            <TouchableOpacity
-                style={[s.resetButton, isResetDisabled && s.resetButtonDisabled]}
+            </XStack>
+
+            {/* Reset Button */}
+            <Button
+                backgroundColor={COLORS.red}
+                pressStyle={{ backgroundColor: COLORS.red }}
+                paddingVertical={12}
+                borderRadius={8}
+                alignItems="center"
+                marginVertical={16}
+                opacity={isResetDisabled ? 0.5 : 1}
                 onPress={resetFilters}
                 disabled={isResetDisabled}
             >
-                <Text style={[s.resetButtonText, isResetDisabled && s.resetButtonTextDisabled]}>
+                <Text
+                    color={isResetDisabled ? COLORS.black : COLORS.white}
+                    fontSize={FONT_SIZE.large}
+                    fontWeight="600"
+                >
                     {t('history.resetFilter')}
                 </Text>
-            </TouchableOpacity>
+            </Button>
+
+            {/* Exercise List */}
             {selectedMuscle !== '-'
                 ? exercises
                       .filter((item: TExercise) => item.type === selectedMuscle)
@@ -199,101 +185,4 @@ export default observer(function HistoryScreen() {
                   ))}
         </ScrollView>
     );
-});
-
-const { width: screenWidth } = Dimensions.get('window');
-const s = StyleSheet.create({
-    notFound: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-    },
-    text: {
-        marginTop: 20,
-        fontSize: 16,
-        color: COLORS.textColorLight,
-    },
-    resetButtonTextDisabled: {
-        color: COLORS.black,
-    },
-    resetButtonDisabled: {
-        backgroundColor: COLORS.disabledBackground,
-        opacity: 0.5,
-    },
-    resetButton: {
-        backgroundColor: COLORS.red,
-        paddingVertical: 12,
-        borderRadius: 8,
-        alignItems: 'center',
-        marginVertical: 16,
-    },
-    resetButtonText: {
-        color: COLORS.white,
-        fontSize: FONT_SIZE.large,
-        fontWeight: '600',
-    },
-    dropdownWrapper: {
-        paddingHorizontal: 10,
-    },
-    selectedItem: {
-        backgroundColor: COLORS.black,
-        color: COLORS.white,
-        paddingHorizontal: 10,
-        borderRadius: 6,
-    },
-    filterTitle: {
-        fontWeight: '700',
-        paddingHorizontal: 10,
-        alignItems: 'center',
-        width: screenWidth / 3,
-    },
-    filterWrapper: {
-        flexDirection: 'row',
-        textAlign: 'center',
-        alignItems: 'center',
-        marginTop: 5,
-    },
-    dropdownButton: {
-        width: '100%',
-        justifyContent: 'flex-start',
-        flexDirection: 'row',
-    },
-    container: {
-        flex: 1,
-        padding: 10,
-        marginTop: 15,
-    },
-    exerciseSection: {
-        marginBottom: 20,
-        borderRadius: 8,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: COLORS.blackTransparentBorder,
-    },
-    exerciseHeader: {
-        fontSize: FONT_SIZE.large,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    row: {
-        flexDirection: 'row',
-        paddingVertical: 8,
-        borderBottomWidth: 1,
-    },
-    headerRow: {
-        borderBottomWidth: 2,
-        borderTopRightRadius: 5,
-        borderTopLeftRadius: 5,
-    },
-    cell: {
-        flex: 1,
-        textAlign: 'center',
-        fontSize: FONT_SIZE.normal,
-    },
-    cellAction: {
-        textAlign: 'center',
-    },
-    headerCell: {
-        fontWeight: 'bold',
-    },
 });
