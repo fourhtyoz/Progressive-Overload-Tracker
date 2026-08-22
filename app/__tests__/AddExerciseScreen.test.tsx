@@ -1,6 +1,6 @@
 import React from 'react';
 import { render } from '@testing-library/react-native';
-import AddExerciseScreen from '../screens/AddExerciseScreen';
+import AddExerciseScreen from '../pages/add-exercise/add-exercise.ui';
 
 jest.mock('mobx-react-lite', () => ({
     observer: jest.fn((component) => component),
@@ -11,7 +11,7 @@ jest.mock('react-native-toast-message', () => ({
 }));
 
 // Mock external dependencies
-jest.mock('../services/db', () => ({
+jest.mock('@/app/shared/api/db', () => ({
     fetchExercises: jest.fn(() => Promise.resolve({ success: true, data: [], error: '' })),
     exerciseExist: jest.fn(() => Promise.resolve(false)),
     addExercise: jest.fn(() => Promise.resolve({ success: true, data: 1, error: '' })),

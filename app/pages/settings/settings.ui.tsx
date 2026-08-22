@@ -1,0 +1,347 @@
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Alert, Pressable } from 'react-native';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import Button from '@/app/shared/ui/button.ui';
+import SelectDropdown from 'react-native-select-dropdown';
+import { UNIT_KEYS, THEME_KEYS, LANGUAGES } from '@/app/shared/constants/settings';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Toast from 'react-native-toast-message';
+import { useTranslation } from 'react-i18next';
+import { settingsStore } from '@/app/shared/stores/settings.store';
+import { observer } from 'mobx-react-lite';
+import ErrorMessage from '@/app/shared/ui/error-message.ui';
+import { deleteTables, initializeDatabase } from '@/app/shared/api/db';
+
+const SettingsScreen = observer(() => {
+    const [error, setError] = useState('');
+
+    const { t } = useTranslation();
+
+    const handleGetInTouch = () => {
+        Alert.alert(t('settings.getInTouch'), `${t('settings.sendEmailTo')} hualua@gmail.com`);
+    };
+
+    const handleDeleteAllData = async () => {
+        await deleteTables();
+        await initializeDatabase();
+        Alert.alert(t('alerts.success'), t('settings.dataDeleted'));
+    };
+
+    const handleDeleteData = () => {
+        Alert.alert(t('alerts.areYouSure'), t('alerts.wantToDelete'), [
+            { text: t('alerts.yesProceed'), onPress: handleDeleteAllData },
+            { text: t('alerts.noIchangedMyMind') },
+        ]);
+    };
+
+    const handleChangeLanguage = async (lang: { title: string; code: string }) => {
+        if (!lang) return;
+
+        setError('');
+
+        try {
+            await AsyncStorage.setItem('language', lang.code);
+            settingsStore.setLanguage(lang.code);
+
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('toasts.changedLanguage'),
+            });
+        } catch (e) {
+            setError(String(e));
+        }
+    };
+
+    const handleChangeUnits = async (units: string) => {
+        if (!units || typeof units !== 'string') return;
+
+        setError('');
+
+        try {
+            await AsyncStorage.setItem('units', units);
+            settingsStore.setUnits(units);
+
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('toasts.changedUnits'),
+            });
+        } catch (e) {
+            setError(String(e));
+        }
+    };
+
+    const handleChangeTheme = async (theme: string) => {
+        if (!theme || typeof theme !== 'string') return;
+
+        setError('');
+
+        try {
+            await AsyncStorage.setItem('theme', theme);
+            settingsStore.setTheme(theme);
+
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('toasts.changedTheme'),
+            });
+        } catch (e) {
+            setError(String(e));
+        }
+    };
+
+    return (
+        <SafeAreaView style={s.wrapper}>
+            {error && <ErrorMessage message={error} setError={setError} />}
+            <View style={{ marginBottom: 10 }}>
+                <View style={s.row}>
+                    <Text
+                        style={[
+                            s.title,
+                            { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
+                        ]}
+                    >
+                        {t('settings.options.language')}:
+                    </Text>
+                    <SelectDropdown
+                        data={LANGUAGES}
+                        defaultValue={
+                            LANGUAGES.filter((item) => item.code === settingsStore.language)[0]
+                        }
+                        onSelect={(selectedItem) => handleChangeLanguage(selectedItem)}
+                        showsVerticalScrollIndicator={false}
+                        dropdownStyle={s.dropdownMenu}
+                        renderButton={(selectedItem) => (
+                            <View style={s.dropdownButton}>
+                                <Text
+                                    style={[
+                                        s.dropdownText,
+                                        {
+                                            color: settingsStore.isDark
+                                                ? COLORS.textDarkScreen
+                                                : COLORS.black,
+                                        },
+                                    ]}
+                                >
+                                    {selectedItem?.title || settingsStore.language}
+                                </Text>
+                            </View>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <View
+                                style={[
+                                    s.dropdownItem,
+                                    isSelected && {
+                                        backgroundColor: settingsStore.isDark
+                                            ? COLORS.orange
+                                            : COLORS.selectedLight,
+                                    },
+                                ]}
+                            >
+                                <Text style={s.dropdownItemText}>{item.title}</Text>
+                            </View>
+                        )}
+                    />
+                </View>
+                <Text style={[s.helpText, { marginVertical: 10 }]}>
+                    {t('settings.options.languageHelpText')}
+                </Text>
+            </View>
+            <View style={{ marginBottom: 10 }}>
+                <View style={s.row}>
+                    <Text
+                        style={[
+                            s.title,
+                            { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
+                        ]}
+                    >
+                        {t('settings.options.units')}:
+                    </Text>
+                    <SelectDropdown
+                        data={UNIT_KEYS}
+                        defaultValue={settingsStore.units}
+                        onSelect={(selectedItem) =>
+                            handleChangeUnits(selectedItem)
+                        }
+                        showsVerticalScrollIndicator={false}
+                        dropdownStyle={s.dropdownMenu}
+                        renderButton={(selectedItem) => (
+                            <View style={s.dropdownButton}>
+                                <Text
+                                    style={[
+                                        s.dropdownText,
+                                        {
+                                            color: settingsStore.isDark
+                                                ? COLORS.textDarkScreen
+                                                : COLORS.black,
+                                        },
+                                    ]}
+                                >
+                                    {(selectedItem && t('units.' + selectedItem)) ||
+                                        settingsStore.units}
+                                </Text>
+                            </View>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <View
+                                style={[
+                                    s.dropdownItem,
+                                    isSelected && {
+                                        backgroundColor: settingsStore.isDark
+                                            ? COLORS.orange
+                                            : COLORS.selectedLight,
+                                    },
+                                ]}
+                            >
+                                <Text style={s.dropdownItemText}>
+                                    {t('units.' + item)}
+                                </Text>
+                            </View>
+                        )}
+                    />
+                </View>
+                <Text style={[s.helpText, { marginVertical: 10 }]}>
+                    {t('settings.options.unitsHelpText')}
+                </Text>
+            </View>
+            <View style={{ marginBottom: 10 }}>
+                <View style={s.row}>
+                    <Text
+                        style={[
+                            s.title,
+                            { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
+                        ]}
+                    >
+                        {t('settings.options.theme')}:
+                    </Text>
+                    <SelectDropdown
+                        data={THEME_KEYS}
+                        defaultValue={settingsStore.theme}
+                        onSelect={(selectedItem) => handleChangeTheme(selectedItem)}
+                        showsVerticalScrollIndicator={false}
+                        dropdownStyle={s.dropdownMenu}
+                        renderButton={(selectedItem) => (
+                            <View style={s.dropdownButton}>
+                                <Text
+                                    style={[
+                                        s.dropdownText,
+                                        {
+                                            color: settingsStore.isDark
+                                                ? COLORS.textDarkScreen
+                                                : COLORS.black,
+                                        },
+                                    ]}
+                                >
+                                    {(selectedItem && t('themes.' + selectedItem)) ||
+                                        settingsStore.theme}
+                                </Text>
+                            </View>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <View
+                                style={[
+                                    s.dropdownItem,
+                                    isSelected && {
+                                        backgroundColor: settingsStore.isDark
+                                            ? COLORS.orange
+                                            : COLORS.selectedLight,
+                                    },
+                                ]}
+                            >
+                                <Text style={s.dropdownItemText}>
+                                    {t('themes.' + item)}
+                                </Text>
+                            </View>
+                        )}
+                    />
+                </View>
+                <Text style={[s.helpText, { marginVertical: 10 }]}>
+                    {t('settings.options.themeHelpText')}
+                </Text>
+            </View>
+            <View>
+                <Button
+                    text={t('settings.getInTouch')}
+                    onPress={handleGetInTouch}
+                    pressedBgColor={COLORS.orange}
+                    borderColor={COLORS.blackTransparentBorder}
+                />
+            </View>
+            <Pressable style={s.delete} onPress={handleDeleteData}>
+                <Text style={s.deleteText}>{t('settings.deleteData')}</Text>
+            </Pressable>
+        </SafeAreaView>
+    );
+});
+
+const s = StyleSheet.create({
+    wrapper: {
+        flex: 1,
+        paddingHorizontal: 20,
+        gap: 15,
+    },
+    delete: {
+        marginTop: 'auto',
+        marginBottom: 20,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    deleteText: {
+        color: COLORS.red,
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+    },
+    dropdownMenu: {
+        backgroundColor: COLORS.dropdownBackground,
+        borderRadius: 8,
+        width: 'auto',
+    },
+    dropdownButton: {
+        width: 'auto',
+        flexDirection: 'row',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    dropdownText: {
+        fontSize: FONT_SIZE.normal,
+        color: COLORS.dropdownText,
+    },
+    dropdownItem: {
+        width: 200,
+        flexDirection: 'row',
+        paddingHorizontal: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 8,
+    },
+    dropdownItemText: {
+        flex: 1,
+        fontSize: FONT_SIZE.normal,
+        fontWeight: '500',
+        color: COLORS.dropdownText,
+    },
+    optionText: {
+        fontSize: FONT_SIZE.normal,
+    },
+    options: {
+        flexDirection: 'row',
+        borderWidth: 1,
+        borderColor: COLORS.gray,
+    },
+    title: {
+        fontSize: FONT_SIZE.normal,
+        fontWeight: 'bold',
+    },
+    helpText: {
+        color: COLORS.gray,
+        fontSize: FONT_SIZE.small,
+    },
+});
+
+export default SettingsScreen;

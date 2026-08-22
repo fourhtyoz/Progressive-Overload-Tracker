@@ -1,11 +1,11 @@
 import React from 'react';
 import { render, fireEvent, waitFor, act } from '@testing-library/react-native';
-import EditResultScreen from '../screens/EditResultScreen';
+import EditResultScreen from '../pages/edit-result/edit-result.ui';
 import { Alert } from 'react-native';
-import { fetchResultById } from '@/app/services/db';
+import { fetchResultById } from '@/app/shared/api/db';
 
 // Mocking modules
-jest.mock('../services/db', () => ({
+jest.mock('@/app/shared/api/db', () => ({
     fetchExercises: jest.fn(() =>
         Promise.resolve({ success: true, data: [{ title: 'Squats', type: 'Legs' }], error: '' })
     ),
