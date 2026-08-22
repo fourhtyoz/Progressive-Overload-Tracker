@@ -8,6 +8,7 @@ import { TamaguiProvider, Text, YStack } from 'tamagui';
 import DrawerNavigator from '@/app/navigation/drawer.navigator';
 import { initializeDatabase } from '@/app/shared/api/db';
 import i18n from '@/app/shared/i18n/i18n';
+import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS, DarkTheme, FONT_SIZE, LightTheme } from '@/app/shared/theme/global-styles';
 import { config } from '@/app/shared/theme/tamagui.config';
@@ -17,9 +18,14 @@ const App = observer(() => {
     const [dbError, setDbError] = useState('');
 
     useEffect(() => {
-        initializeDatabase().catch((e) => {
-            setDbError(String(e));
-        });
+        initializeDatabase()
+            .then(() => {
+                void settingsStore.initialize();
+                void exerciseStore.initialize();
+            })
+            .catch((e) => {
+                setDbError(String(e));
+            });
     }, []);
 
     if (dbError) {

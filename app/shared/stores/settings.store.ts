@@ -14,7 +14,6 @@ class SettingsStore {
 
     constructor() {
         makeAutoObservable(this);
-        void this.initialize();
     }
 
     get isDark() {

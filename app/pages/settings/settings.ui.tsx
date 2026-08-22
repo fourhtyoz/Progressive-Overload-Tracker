@@ -3,7 +3,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
 import Toast from 'react-native-toast-message';
 import { Label, Text, XStack, YStack } from 'tamagui';
 
@@ -11,9 +10,16 @@ import { deleteTables, initializeDatabase } from '@/app/shared/api/db';
 import { LANGUAGES, THEME_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE, globalStyles } from '@/app/shared/theme/global-styles';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
+import {
+    DropdownInput,
+    DropdownItem,
+    DropdownItemText,
+    DropdownText,
+    ThemedDropdown,
+} from '@/app/shared/ui/themed-dropdown.ui';
 
 const SettingsScreen = observer(() => {
     const [error, setError] = useState('');
@@ -97,36 +103,23 @@ const SettingsScreen = observer(() => {
                         color={isDark ? COLORS.textDarkScreen : COLORS.black}>
                         {t('settings.options.language')}:
                     </Label>
-                    <SelectDropdown
+                    <ThemedDropdown
                         data={LANGUAGES}
                         defaultValue={
                             LANGUAGES.filter((item) => item.code === settingsStore.language)[0]
                         }
                         onSelect={(selectedItem) => handleChangeLanguage(selectedItem)}
-                        showsVerticalScrollIndicator={false}
-                        dropdownStyle={globalStyles.dropdownMenuStyle}
-                        renderButton={(selectedItem) => (
-                            <XStack width="auto" justifyContent="center" alignItems="center">
-                                <Text fontSize={FONT_SIZE.normal}
-                                    color={isDark ? COLORS.textDarkScreen : COLORS.black}>
-                                    {selectedItem?.title || settingsStore.language}
-                                </Text>
-                            </XStack>
+                        renderButton={() => (
+                            <DropdownInput>
+                                <DropdownText>
+                                    {settingsStore.language}
+                                </DropdownText>
+                            </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <XStack
-                                style={[
-                                    globalStyles.dropdownItemStyle,
-                                    { width: 200 },
-                                    isSelected && {
-                                        backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
-                                    },
-                                ]}
-                            >
-                                <Text style={globalStyles.dropdownItemTxtStyle}>
-                                    {item.title}
-                                </Text>
-                            </XStack>
+                            <DropdownItem isSelected={isSelected} width={200}>
+                                <DropdownItemText>{item.title}</DropdownItemText>
+                            </DropdownItem>
                         )}
                     />
                 </XStack>
@@ -142,35 +135,23 @@ const SettingsScreen = observer(() => {
                         color={isDark ? COLORS.textDarkScreen : COLORS.black}>
                         {t('settings.options.units')}:
                     </Label>
-                    <SelectDropdown
+                    <ThemedDropdown
                         data={UNIT_KEYS}
                         defaultValue={settingsStore.units}
                         onSelect={(selectedItem) => handleChangeUnits(selectedItem)}
-                        showsVerticalScrollIndicator={false}
-                        dropdownStyle={globalStyles.dropdownMenuStyle}
-                        renderButton={(selectedItem) => (
-                            <XStack width="auto" justifyContent="center" alignItems="center">
-                                <Text fontSize={FONT_SIZE.normal}
-                                    color={isDark ? COLORS.textDarkScreen : COLORS.black}>
-                                    {(selectedItem && t('units.' + selectedItem)) ||
-                                        settingsStore.units}
-                                </Text>
-                            </XStack>
+                        renderButton={() => (
+                            <DropdownInput>
+                                <DropdownText>
+                                    {t('units.' + settingsStore.units)}
+                                </DropdownText>
+                            </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <XStack
-                                style={[
-                                    globalStyles.dropdownItemStyle,
-                                    { width: 200 },
-                                    isSelected && {
-                                        backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
-                                    },
-                                ]}
-                            >
-                                <Text style={globalStyles.dropdownItemTxtStyle}>
+                            <DropdownItem isSelected={isSelected} width={200}>
+                                <DropdownItemText>
                                     {t('units.' + item)}
-                                </Text>
-                            </XStack>
+                                </DropdownItemText>
+                            </DropdownItem>
                         )}
                     />
                 </XStack>
@@ -186,35 +167,23 @@ const SettingsScreen = observer(() => {
                         color={isDark ? COLORS.textDarkScreen : COLORS.black}>
                         {t('settings.options.theme')}:
                     </Label>
-                    <SelectDropdown
+                    <ThemedDropdown
                         data={THEME_KEYS}
                         defaultValue={settingsStore.theme}
                         onSelect={(selectedItem) => handleChangeTheme(selectedItem)}
-                        showsVerticalScrollIndicator={false}
-                        dropdownStyle={globalStyles.dropdownMenuStyle}
-                        renderButton={(selectedItem) => (
-                            <XStack width="auto" justifyContent="center" alignItems="center">
-                                <Text fontSize={FONT_SIZE.normal}
-                                    color={isDark ? COLORS.textDarkScreen : COLORS.black}>
-                                    {(selectedItem && t('themes.' + selectedItem)) ||
-                                        settingsStore.theme}
-                                </Text>
-                            </XStack>
+                        renderButton={() => (
+                            <DropdownInput>
+                                <DropdownText>
+                                    {t('themes.' + settingsStore.theme)}
+                                </DropdownText>
+                            </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <XStack
-                                style={[
-                                    globalStyles.dropdownItemStyle,
-                                    { width: 200 },
-                                    isSelected && {
-                                        backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
-                                    },
-                                ]}
-                            >
-                                <Text style={globalStyles.dropdownItemTxtStyle}>
+                            <DropdownItem isSelected={isSelected} width={200}>
+                                <DropdownItemText>
                                     {t('themes.' + item)}
-                                </Text>
-                            </XStack>
+                                </DropdownItemText>
+                            </DropdownItem>
                         )}
                     />
                 </XStack>

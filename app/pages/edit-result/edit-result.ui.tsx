@@ -6,7 +6,6 @@ import { observer } from 'mobx-react-lite';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
-import SelectDropdown from 'react-native-select-dropdown';
 import Toast from 'react-native-toast-message';
 import { Input, Label, Text, XStack, YStack } from 'tamagui';
 
@@ -15,11 +14,19 @@ import { MUSCLE_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { getformattedDate, toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, globalStyles } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
 import { TExercise } from '@/app/shared/types';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
 import Loader from '@/app/shared/ui/loader.ui';
+import {
+    DropdownInput,
+    DropdownItem,
+    DropdownItemText,
+    DropdownPlaceholder,
+    DropdownText,
+    ThemedDropdown,
+} from '@/app/shared/ui/themed-dropdown.ui';
 
 type Props = NativeStackScreenProps<HistoryStackParamList, 'EditResult'>;
 
@@ -47,7 +54,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             setError(t('errors.repsMustBeNumber'));
             return;
         }
-        if (num && num < 1) {
+        if (num < 1) {
             setError(t('errors.repsMustBePositive'));
             return;
         }
@@ -174,48 +181,33 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                 <Label fontWeight="600" fontSize={16}>
                     {t('result.options.muscle')}:
                 </Label>
-                <SelectDropdown
+                <ThemedDropdown
                     data={MUSCLE_KEYS}
                     defaultValue={newGroup || undefined}
                     onSelect={(selectedItem) => {
                         setNewGroup(selectedItem);
                         setNewExercise(null);
                     }}
-                    showsVerticalScrollIndicator={false}
-                    dropdownStyle={globalStyles.dropdownMenuStyle}
-                    renderButton={(selectedItem) => (
-                        <YStack
-                            borderWidth={1}
-                            borderColor={inputBorder}
-                            borderRadius={8}
-                            padding={12}
-                        >
+                    showsVerticalScrollIndicator
+                    renderButton={() => (
+                        <DropdownInput>
                             {newGroup ? (
-                                <Text fontSize={16} color="$color">
-                                    {(selectedItem && toTitleCase(t('muscles.' + selectedItem))) || newGroup}
-                                </Text>
+                                <DropdownText>
+                                    {toTitleCase(t('muscles.' + newGroup))}
+                                </DropdownText>
                             ) : (
-                                <Text fontSize={16} color="$colorMuted">
+                                <DropdownPlaceholder>
                                     {t('result.options.chooseMuscle')}
-                                </Text>
+                                </DropdownPlaceholder>
                             )}
-                        </YStack>
+                        </DropdownInput>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <YStack
-                            style={[
-                                globalStyles.dropdownItemStyle,
-                                isSelected && {
-                                    backgroundColor: settingsStore.isDark
-                                        ? COLORS.orange
-                                        : COLORS.selectedLight,
-                                },
-                            ]}
-                        >
-                            <Text style={globalStyles.dropdownItemTxtStyle}>
+                        <DropdownItem isSelected={isSelected}>
+                            <DropdownItemText>
                                 {toTitleCase(t('muscles.' + item))}
-                            </Text>
-                        </YStack>
+                            </DropdownItemText>
+                        </DropdownItem>
                     )}
                 />
             </YStack>
@@ -225,7 +217,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                 <Label fontWeight="600" fontSize={16}>
                     {t('result.options.exercise')}:
                 </Label>
-                <SelectDropdown
+                <ThemedDropdown
                     data={
                         newGroup
                             ? exercises.filter((item) => item.type === newGroup)
@@ -235,41 +227,26 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                     onSelect={(selectedItem) => {
                         setNewExercise(selectedItem);
                     }}
-                    showsVerticalScrollIndicator={false}
-                    dropdownStyle={globalStyles.dropdownMenuStyle}
-                    renderButton={(_selectedItem) => (
-                        <YStack
-                            borderWidth={1}
-                            borderColor={inputBorder}
-                            borderRadius={8}
-                            padding={12}
-                        >
+                    showsVerticalScrollIndicator
+                    renderButton={() => (
+                        <DropdownInput>
                             {newExercise ? (
-                                <Text fontSize={16} color="$color">
+                                <DropdownText>
                                     {toTitleCase(newExercise.title)}
-                                </Text>
+                                </DropdownText>
                             ) : (
-                                <Text fontSize={16} color="$colorMuted">
+                                <DropdownPlaceholder>
                                     {t('result.options.chooseExercise')}
-                                </Text>
+                                </DropdownPlaceholder>
                             )}
-                        </YStack>
+                        </DropdownInput>
                     )}
                     renderItem={(item, index, isSelected) => (
-                        <YStack
-                            style={[
-                                globalStyles.dropdownItemStyle,
-                                isSelected && {
-                                    backgroundColor: settingsStore.isDark
-                                        ? COLORS.orange
-                                        : COLORS.selectedLight,
-                                },
-                            ]}
-                        >
-                            <Text style={globalStyles.dropdownItemTxtStyle}>
+                        <DropdownItem isSelected={isSelected}>
+                            <DropdownItemText>
                                 {index + 1}. {item.title}
-                            </Text>
-                        </YStack>
+                            </DropdownItemText>
+                        </DropdownItem>
                     )}
                 />
             </YStack>
@@ -294,39 +271,23 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                         fontSize={16}
                         color="$color"
                     />
-                    <SelectDropdown
+                    <ThemedDropdown
                         data={UNIT_KEYS}
                         defaultValue={newUnits || undefined}
                         onSelect={(selectedItem) => setNewUnits(selectedItem)}
-                        showsVerticalScrollIndicator={false}
-                        dropdownStyle={globalStyles.dropdownMenuStyle}
-                        renderButton={(selectedItem) => (
-                            <YStack
-                                style={[
-                                    globalStyles.dropdownButtonStyle,
-                                    { borderColor: inputBorder },
-                                ]}
-                            >
-                                <Text style={globalStyles.dropdownButtonTxtStyle}>
-                                    {(selectedItem && t('units.' + selectedItem)) || newUnits}
-                                </Text>
-                            </YStack>
+                        renderButton={() => (
+                            <DropdownInput>
+                                <DropdownText>
+                                    {newUnits ? t('units.' + newUnits) : ''}
+                                </DropdownText>
+                            </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <YStack
-                                style={[
-                                    globalStyles.dropdownItemStyle,
-                                    isSelected && {
-                                        backgroundColor: settingsStore.isDark
-                                            ? COLORS.orange
-                                            : COLORS.selectedLight,
-                                    },
-                                ]}
-                            >
-                                <Text style={globalStyles.dropdownItemTxtStyle}>
+                            <DropdownItem isSelected={isSelected}>
+                                <DropdownItemText>
                                     {t('units.' + item)}
-                                </Text>
-                            </YStack>
+                                </DropdownItemText>
+                            </DropdownItem>
                         )}
                     />
                 </XStack>
