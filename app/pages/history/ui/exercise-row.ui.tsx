@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Alert } from 'react-native';
@@ -85,12 +86,11 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
                     >
                         {toTitleCase(title)} ({t('muscles.' + type)})
                     </Text>
-                    <Text
-                        fontSize={20}
+                    <Ionicons
+                        name={isOpen ? 'chevron-up' : 'chevron-down'}
+                        size={24}
                         color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
-                    >
-                        {isOpen ? '↑' : '↓'}
-                    </Text>
+                    />
                 </XStack>
 
                 {isOpen && (

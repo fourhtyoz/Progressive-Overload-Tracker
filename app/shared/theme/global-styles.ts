@@ -104,6 +104,7 @@ export const globalStyles = StyleSheet.create({
     dropdownMenuStyle: {
         backgroundColor: COLORS.dropdownBackground,
         borderRadius: 8,
+        width: 'auto' as const,
     },
     dropdownItemStyle: {
         width: '100%',
