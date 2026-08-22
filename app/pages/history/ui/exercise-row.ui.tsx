@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, Alert,StyleSheet, Text, View } from 'react-native';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import { Alert } from 'react-native';
+import { Spinner, Text, XStack, YStack } from 'tamagui';
 
 import { getProgress } from '@/app/features/progress/progress.lib';
 import Result from '@/app/pages/history/ui/result-row.ui';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS,FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 import { TResult } from '@/app/shared/types';
 
 type ExerciseProps = {
@@ -54,203 +54,114 @@ export default function Exercise({ id, title, type, sorting, setError }: Exercis
         const res = await exerciseStore.deleteResult(resultId);
         if (res.success) {
             Alert.alert(t('alerts.success'), t('alerts.recordDeleted'));
-
-            setResults((prevResults) => {
-                const updatedResults = prevResults.filter((item) => item.id !== resultId);
-                return updatedResults;
-            });
+            setResults((prevResults) => prevResults.filter((item) => item.id !== resultId));
         } else {
             Alert.alert(t('alerts.error'), t('alerts.failedDeletingRecord'));
         }
     };
 
+    const isDark = settingsStore.isDark;
+
     return (
-        <>
-            <View
-                style={[
-                    s.exerciseSection,
-                    { backgroundColor: settingsStore.isDark ? COLORS.darkGrey : COLORS.white },
-                ]}
+        <YStack
+            marginBottom={20}
+            borderRadius={8}
+            padding={10}
+            borderWidth={1}
+            borderColor={COLORS.blackTransparentBorder}
+            backgroundColor={isDark ? COLORS.darkGrey : COLORS.white}
+        >
+            <YStack
+                onPress={() => setIsOpen((prev) => !prev)}
+                accessibilityRole="button"
+                accessibilityLabel={`${toTitleCase(title)} - ${isOpen ? 'collapse' : 'expand'}`}
             >
-                <TouchableOpacity onPress={() => setIsOpen((prev) => !prev)}>
-                    <View
-                        style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                        }}
+                <XStack justifyContent="space-between" alignItems="center">
+                    <Text
+                        fontSize={FONT_SIZE.large}
+                        fontWeight="bold"
+                        marginBottom={10}
+                        color={isDark ? COLORS.textDarkScreen : COLORS.textTitleColorLight}
                     >
-                        <Text
-                            style={[
-                                s.exerciseHeader,
-                                {
-                                    color: settingsStore.isDark
-                                        ? COLORS.textDarkScreen
-                                        : COLORS.textTitleColorLight,
-                                },
-                            ]}
-                        >
-                            {toTitleCase(title)} ({t('muscles.' + type)})
+                        {toTitleCase(title)} ({t('muscles.' + type)})
+                    </Text>
+                    <Text
+                        fontSize={20}
+                        color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
+                    >
+                        {isOpen ? '↑' : '↓'}
+                    </Text>
+                </XStack>
+
+                {isOpen && (
+                    <XStack
+                        paddingVertical={8}
+                        borderBottomWidth={2}
+                        borderTopRightRadius={5}
+                        borderTopLeftRadius={5}
+                        backgroundColor={isDark ? COLORS.darkDarkGrey : COLORS.backgroundLightSecondary}
+                        borderBottomColor={isDark ? COLORS.black : COLORS.borderLight}
+                    >
+                        <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal} fontWeight="bold"
+                            color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
+                            {t('history.table.header.date')}
                         </Text>
-                        <Text
-                            style={{
-                                color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.textSecondary,
-                                fontSize: 20,
-                            }}
-                        >
-                            {isOpen ? '↑' : '↓'}
+                        <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal} fontWeight="bold"
+                            color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
+                            {t('history.table.header.weight')}
                         </Text>
-                    </View>
-                    {isOpen && (
-                        <View
-                            style={[
-                                s.row,
-                                s.headerRow,
-                                {
-                                    backgroundColor: settingsStore.isDark
-                                        ? COLORS.darkDarkGrey
-                                        : COLORS.backgroundLightSecondary,
-                                    borderBottomColor: settingsStore.isDark
-                                        ? COLORS.black
-                                        : COLORS.borderLight,
-                                },
-                            ]}
-                        >
-                            <Text
-                                style={[
-                                    s.cell,
-                                    s.headerCell,
-                                    {
-                                        color: settingsStore.isDark
-                                            ? COLORS.textDarkScreen
-                                            : COLORS.textSecondary,
-                                    },
-                                ]}
-                            >
-                                {t('history.table.header.date')}
-                            </Text>
-                            <Text
-                                style={[
-                                    s.cell,
-                                    s.headerCell,
-                                    {
-                                        color: settingsStore.isDark
-                                            ? COLORS.textDarkScreen
-                                            : COLORS.textSecondary,
-                                    },
-                                ]}
-                            >
-                                {t('history.table.header.weight')}
-                            </Text>
-                            <Text
-                                style={[
-                                    s.cell,
-                                    s.headerCell,
-                                    {
-                                        color: settingsStore.isDark
-                                            ? COLORS.textDarkScreen
-                                            : COLORS.textSecondary,
-                                    },
-                                ]}
-                            >
-                                {t('history.table.header.reps')}
-                            </Text>
-                            <Text
-                                style={[
-                                    s.cell,
-                                    s.headerCell,
-                                    {
-                                        color: settingsStore.isDark
-                                            ? COLORS.textDarkScreen
-                                            : COLORS.textSecondary,
-                                    },
-                                ]}
-                            >
-                                {t('history.table.header.edit')}
-                            </Text>
-                        </View>
-                    )}
-                </TouchableOpacity>
-                {isOpen && isLoading && <ActivityIndicator />}
-                {isOpen && isLoaded && filteredResults.length === 0 && (
-                    <View style={s.notFound}>
-                        <Text style={s.text}>{t('history.noResults')}</Text>
-                    </View>
+                        <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal} fontWeight="bold"
+                            color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
+                            {t('history.table.header.reps')}
+                        </Text>
+                        <Text flex={1} textAlign="center" fontSize={FONT_SIZE.normal} fontWeight="bold"
+                            color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
+                            {t('history.table.header.edit')}
+                        </Text>
+                    </XStack>
                 )}
-                {isOpen && isLoaded &&
-                    filteredResults.map((item, index) => {
-                        let progress = 'new';
+            </YStack>
 
-                        if (sorting === 'desc') {
-                            if (index + 1 < filteredResults.length) {
-                                const previousSet = filteredResults[index + 1];
-                                progress = getProgress(item, previousSet);
-                            }
-                        } else {
-                            if (index > 0) {
-                                const previousSet = filteredResults[index - 1];
-                                progress = getProgress(item, previousSet);
-                            }
+            {isOpen && isLoading && <Spinner size="small" color={COLORS.orange} marginTop={10} />}
+
+            {isOpen && isLoaded && filteredResults.length === 0 && (
+                <YStack justifyContent="center" alignItems="center" padding={20}>
+                    <Text fontSize={16} color="$colorMuted">
+                        {t('history.noResults')}
+                    </Text>
+                </YStack>
+            )}
+
+            {isOpen &&
+                isLoaded &&
+                filteredResults.map((item, index) => {
+                    let progress = 'new';
+
+                    if (sorting === 'desc') {
+                        if (index + 1 < filteredResults.length) {
+                            const previousSet = filteredResults[index + 1];
+                            progress = getProgress(item, previousSet);
                         }
+                    } else {
+                        if (index > 0) {
+                            const previousSet = filteredResults[index - 1];
+                            progress = getProgress(item, previousSet);
+                        }
+                    }
 
-                        return (
-                            <Result
-                                key={item.id}
-                                resultId={item.id}
-                                date={item.date}
-                                weight={item.weight}
-                                reps={item.reps}
-                                units={item.units}
-                                progress={progress}
-                                deleteResult={handleDeleteResult}
-                            />
-                        );
-                    })}
-            </View>
-        </>
+                    return (
+                        <Result
+                            key={item.id}
+                            resultId={item.id}
+                            date={item.date}
+                            weight={item.weight}
+                            reps={item.reps}
+                            units={item.units}
+                            progress={progress}
+                            deleteResult={handleDeleteResult}
+                        />
+                    );
+                })}
+        </YStack>
     );
 }
-
-const s = StyleSheet.create({
-    notFound: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        flex: 1,
-    },
-    text: {
-        marginTop: 20,
-        fontSize: 16,
-        color: COLORS.textColorLight,
-    },
-    exerciseSection: {
-        marginBottom: 20,
-        borderRadius: 8,
-        padding: 10,
-        borderWidth: 1,
-        borderColor: COLORS.blackTransparentBorder,
-    },
-    exerciseHeader: {
-        fontSize: FONT_SIZE.large,
-        fontWeight: 'bold',
-        marginBottom: 10,
-    },
-    row: {
-        flexDirection: 'row',
-        paddingVertical: 8,
-        borderBottomWidth: 1,
-    },
-    headerRow: {
-        borderBottomWidth: 2,
-        borderTopRightRadius: 5,
-        borderTopLeftRadius: 5,
-    },
-    cell: {
-        flex: 1,
-        textAlign: 'center',
-        fontSize: FONT_SIZE.normal,
-    },
-    headerCell: {
-        fontWeight: 'bold',
-    },
-});
