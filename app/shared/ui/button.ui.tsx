@@ -48,7 +48,6 @@ export default function Button({
             justifyContent="center"
             pressStyle={{
                 backgroundColor: bgColor ?? (isDark ? COLORS.black : COLORS.white),
-                color: textColor ?? (isDark ? COLORS.white : COLORS.black),
                 borderColor: borderColor ?? (isDark ? COLORS.white : COLORS.blackTransparentBorder),
             }}
             fontSize={FONT_SIZE.large}

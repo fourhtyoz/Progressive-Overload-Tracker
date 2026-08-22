@@ -2,8 +2,9 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert,SafeAreaView, Text, TextInput, View } from 'react-native';
+import { Alert } from 'react-native';
 import SelectDropdown from 'react-native-select-dropdown';
+import { Input, Label, Text, YStack } from 'tamagui';
 
 import { AddResultStackParamList } from '@/app/navigation/drawer.navigator';
 import { MUSCLE_KEYS } from '@/app/shared/constants/settings';
@@ -62,56 +63,38 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     };
 
     return (
-        <SafeAreaView style={[globalStyles.wrapper, { marginTop: 25 }]}>
-            {error && (
-                <View style={{ marginTop: 25 }}>
-                    <ErrorMessage message={error} setError={setError} />
-                </View>
-            )}
-            <View style={globalStyles.itemWrapper}>
-                <Text
-                    testID="result-muscle"
-                    style={[
-                        globalStyles.inputLabel,
-                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
-                    ]}
-                >
+        <YStack flex={1} padding={20} paddingTop={25} gap={16}>
+            {error && <ErrorMessage message={error} setError={setError} />}
+
+            <YStack gap={8}>
+                <Label fontWeight="600" fontSize={16}>
                     {t('result.options.muscle')}:
-                </Text>
+                </Label>
                 <SelectDropdown
                     data={MUSCLE_KEYS}
                     onSelect={(selectedItem, _) => setMuscleGroup(selectedItem)}
                     showsVerticalScrollIndicator={true}
                     dropdownStyle={globalStyles.dropdownMenuStyle}
                     renderButton={(selectedItem) => (
-                        <View
-                            style={[
-                                globalStyles.input,
-                                { borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray },
-                            ]}
+                        <YStack
+                            borderWidth={1}
+                            borderColor={settingsStore.isDark ? COLORS.orange : COLORS.gray}
+                            borderRadius={8}
+                            padding={12}
                         >
                             {muscleGroup ? (
-                                <Text
-                                    style={[
-                                        globalStyles.exerciseText,
-                                        {
-                                            color: settingsStore.isDark
-                                                ? COLORS.textDarkScreen
-                                                : COLORS.black,
-                                        },
-                                    ]}
-                                >
+                                <Text fontSize={16} color="$color">
                                     {toTitleCase(t('muscles.' + selectedItem))}
                                 </Text>
                             ) : (
-                                <Text style={globalStyles.exerciseTextPlaceholder}>
+                                <Text fontSize={16} color="$colorMuted">
                                     {t('result.options.chooseMuscle')}
                                 </Text>
                             )}
-                        </View>
+                        </YStack>
                     )}
                     renderItem={(item, _, isSelected) => (
-                        <View
+                        <YStack
                             style={[
                                 globalStyles.dropdownItemStyle,
                                 isSelected && {
@@ -124,34 +107,28 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                             <Text style={globalStyles.dropdownItemTxtStyle}>
                                 {toTitleCase(t('muscles.' + item))}
                             </Text>
-                        </View>
+                        </YStack>
                     )}
                 />
-            </View>
-            <View style={globalStyles.itemWrapper}>
-                <Text
-                    testID="result-title"
-                    style={[
-                        globalStyles.inputLabel,
-                        { color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black },
-                    ]}
-                >
+            </YStack>
+
+            <YStack gap={8}>
+                <Label fontWeight="600" fontSize={16}>
                     {t('result.options.title')}:
-                </Text>
-                <TextInput
+                </Label>
+                <Input
                     onChangeText={(value) => handleChangeTitle(value)}
                     defaultValue={title}
                     placeholder={t('result.options.titlePlaceholder')}
-                    placeholderTextColor={COLORS.placeholderTextLight}
-                    style={[
-                        globalStyles.input,
-                        {
-                            color: settingsStore.isDark ? COLORS.textDarkScreen : COLORS.black,
-                            borderColor: settingsStore.isDark ? COLORS.orange : COLORS.gray,
-                        },
-                    ]}
+                    borderWidth={1}
+                    borderColor={settingsStore.isDark ? COLORS.orange : COLORS.gray}
+                    borderRadius={8}
+                    padding={12}
+                    fontSize={16}
+                    color="$color"
                 />
-            </View>
+            </YStack>
+
             <Button
                 testID="result-createExercise"
                 onPress={handleCreateExercise}
@@ -160,7 +137,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                 borderColor={COLORS.blackTransparentBorder}
                 disabled={disabledSaveButton}
             />
-        </SafeAreaView>
+        </YStack>
     );
 });
 

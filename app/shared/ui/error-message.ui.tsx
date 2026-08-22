@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import React from 'react';
-import { Text, TouchableOpacity,XStack } from 'tamagui';
+import { TouchableOpacity } from 'react-native';
+import { Text, XStack } from 'tamagui';
 
 import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 
@@ -23,7 +24,7 @@ export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
             accessibilityLabel={`Error: ${message}`}
         >
             <Text
-                color={COLORS.errorText}
+                style={{ color: COLORS.errorText }}
                 fontSize={FONT_SIZE.normal}
                 fontWeight="600"
                 flex={1}
@@ -32,7 +33,7 @@ export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
             </Text>
             <TouchableOpacity
                 onPress={() => setError('')}
-                marginLeft={8}
+                style={{ marginLeft: 8 }}
                 testID="close-button"
                 accessibilityRole="button"
                 accessibilityLabel="Dismiss error"
