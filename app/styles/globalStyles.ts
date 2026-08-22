@@ -31,6 +31,7 @@ export const COLORS = {
     errorBackground: '#f8d7da',
     errorBorder: '#f5c6cb',
     errorText: '#721c24',
+    overlayDark: 'rgba(0, 0, 0, .4)',
 };
 
 export const LightTheme = {
