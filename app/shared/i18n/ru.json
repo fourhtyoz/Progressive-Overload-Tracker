@@ -123,6 +123,7 @@
         "recordDeleted": "Результат был удален",
         "failedDeletingRecord": "Произошла ошибка при удалении результата",
         "chooseAction": "Выберите действие",
+        "chooseActionMessage": "Что вы хотите сделать с этим результатом?",
         "delete": "Удалить",
         "edit": "Изменить",
         "close": "Закрыть",
@@ -149,7 +150,8 @@
         "weightMustBePositive": "Вес должен быть больше 0",
         "failedFetchExercises": "Не удалось загрузить упражнения",
         "failedFetchResults": "Не удалось загрузить результаты",
-        "failedUpdateResult": "Не удалось обновить результат"
+        "failedUpdateResult": "Не удалось обновить результат",
+        "exerciseExists": "Это упражнение уже существует"
     },
 
     "muscles": {

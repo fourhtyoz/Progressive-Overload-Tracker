@@ -53,7 +53,7 @@ export default function Result({
     };
 
     const handlePressedRecord = (id: number) => {
-        Alert.alert(t('alerts.chooseAction'), '', [
+        Alert.alert(t('alerts.chooseAction'), t('alerts.chooseActionMessage'), [
             { text: t('alerts.delete'), onPress: () => handleDeleteRecord(id) },
             {
                 text: t('alerts.edit'),

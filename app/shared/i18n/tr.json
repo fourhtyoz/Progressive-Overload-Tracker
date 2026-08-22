@@ -123,6 +123,7 @@
         "recordDeleted": "Sonuç silindi",
         "failedDeletingRecord": "Sonuç silinirken bir hata oluştu",
         "chooseAction": "Bir eylem seçin",
+        "chooseActionMessage": "Bu sonuçla ne yapmak istersiniz?",
         "delete": "Sil",
         "edit": "Düzenle",
         "close": "Kapat",
@@ -149,7 +150,8 @@
         "weightMustBePositive": "Ağırlık 0'dan büyük olmalıdır",
         "failedFetchExercises": "Egzersizler yüklenemedi",
         "failedFetchResults": "Sonuçlar yüklenemedi",
-        "failedUpdateResult": "Sonuç güncellenemedi"
+        "failedUpdateResult": "Sonuç güncellenemedi",
+        "exerciseExists": "Bu egzersiz zaten mevcut"
     },
 
     "muscles": {

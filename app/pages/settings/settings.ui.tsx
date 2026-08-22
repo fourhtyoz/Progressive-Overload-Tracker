@@ -9,6 +9,7 @@ import { Label, Text, XStack, YStack } from 'tamagui';
 
 import { deleteTables, initializeDatabase } from '@/app/shared/api/db';
 import { LANGUAGES, THEME_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
+import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
 import Button from '@/app/shared/ui/button.ui';
@@ -26,6 +27,7 @@ const SettingsScreen = observer(() => {
     const handleDeleteAllData = async () => {
         await deleteTables();
         await initializeDatabase();
+        await exerciseStore.initialize();
         Alert.alert(t('alerts.success'), t('settings.dataDeleted'));
     };
 

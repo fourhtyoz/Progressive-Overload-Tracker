@@ -123,6 +123,7 @@
         "recordDeleted": "Ergebnis wurde gelöscht",
         "failedDeletingRecord": "Fehler beim Löschen des Ergebnisses aufgetreten",
         "chooseAction": "Aktion auswählen",
+        "chooseActionMessage": "Was möchten Sie mit diesem Ergebnis tun?",
         "delete": "Löschen",
         "edit": "Bearbeiten",
         "close": "Schließen",
@@ -149,7 +150,8 @@
         "weightMustBePositive": "Gewicht muss größer als 0 sein",
         "failedFetchExercises": "Übungen konnten nicht geladen werden",
         "failedFetchResults": "Ergebnisse konnten nicht geladen werden",
-        "failedUpdateResult": "Ergebnis konnte nicht aktualisiert werden"
+        "failedUpdateResult": "Ergebnis konnte nicht aktualisiert werden",
+        "exerciseExists": "Diese Übung existiert bereits"
     },
 
     "muscles": {

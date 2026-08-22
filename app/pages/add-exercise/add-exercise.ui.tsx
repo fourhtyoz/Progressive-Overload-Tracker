@@ -26,7 +26,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
 
     const disabledSaveButton = !(muscleGroup && title);
 
-    const handleSucess = () => {
+    const handleSuccess = () => {
         navigation.goBack();
     };
 
@@ -45,14 +45,14 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     const handleCreateExercise = async () => {
         const exist = await exerciseStore.checkExerciseExists(title, muscleGroup);
         if (exist) {
-            setError('Exercise exists');
+            setError(t('errors.exerciseExists'));
             return;
         }
 
         const res = await exerciseStore.addExercise(title, muscleGroup);
         if (res.success) {
             Alert.alert(t('alerts.success'), t('alerts.exerciseAdded'), [
-                { text: t('alerts.great'), onPress: handleSucess },
+                { text: t('alerts.great'), onPress: handleSuccess },
             ]);
             setMuscleGroup('');
             setTitle('');

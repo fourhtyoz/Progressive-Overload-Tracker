@@ -1,9 +1,9 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { observer } from 'mobx-react-lite';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import Toast, { BaseToast } from 'react-native-toast-message';
-import { TamaguiProvider } from 'tamagui';
+import { TamaguiProvider, Text, YStack } from 'tamagui';
 
 import DrawerNavigator from '@/app/navigation/drawer.navigator';
 import { initializeDatabase } from '@/app/shared/api/db';
@@ -14,9 +14,26 @@ import { config } from '@/app/shared/theme/tamagui.config';
 import Loader from '@/app/shared/ui/loader.ui';
 
 const App = observer(() => {
+    const [dbError, setDbError] = useState('');
+
     useEffect(() => {
-        void initializeDatabase();
+        initializeDatabase().catch((e) => {
+            setDbError(String(e));
+        });
     }, []);
+
+    if (dbError) {
+        return (
+            <YStack flex={1} justifyContent="center" alignItems="center" padding={20}>
+                <Text fontSize={18} fontWeight="bold" color={COLORS.red} marginBottom={10}>
+                    Database Error
+                </Text>
+                <Text fontSize={14} color="$colorMuted" textAlign="center">
+                    {dbError}
+                </Text>
+            </YStack>
+        );
+    }
 
     if (settingsStore.isLoading) {
         return <Loader />;

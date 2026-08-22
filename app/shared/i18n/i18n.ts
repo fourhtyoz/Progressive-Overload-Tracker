@@ -43,7 +43,7 @@ export const getDeviceMeasurementSystem = () => {
     }
 };
 
-export const getDeviceLanuguage = () => {
+export const getDeviceLanguage = () => {
     try {
         const supportedLanguages = LANGUAGES.map((item) => item.code);
 
@@ -55,14 +55,14 @@ export const getDeviceLanuguage = () => {
             return 'en';
         }
     } catch (e) {
-        console.error(`getDeviceLanuguage error: ${e}`);
+        console.error(`getDeviceLanguage error: ${e}`);
         return 'en';
     }
 };
 
 void i18n.use(initReactI18next).init({
     resources,
-    fallbackLng: getDeviceLanuguage() || 'en',
+    fallbackLng: getDeviceLanguage() || 'en',
     interpolation: {
         escapeValue: false,
     },

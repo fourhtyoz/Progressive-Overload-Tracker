@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { makeAutoObservable, runInAction } from 'mobx';
 
 import i18n from '@/app/shared/i18n/i18n';
-import { getDeviceLanuguage, getDeviceMeasurementSystem } from '@/app/shared/i18n/i18n';
+import { getDeviceLanguage, getDeviceMeasurementSystem } from '@/app/shared/i18n/i18n';
 
 class SettingsStore {
     theme = '';
@@ -67,7 +67,7 @@ class SettingsStore {
                         break;
                     case 'language':
                         runInAction(() => {
-                            this.setLanguage(value || getDeviceLanuguage());
+                            this.setLanguage(value || getDeviceLanguage());
                         });
                         break;
                     case 'units':
