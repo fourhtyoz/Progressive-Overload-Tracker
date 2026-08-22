@@ -6,7 +6,7 @@ import SelectDropdown from 'react-native-select-dropdown';
 import { toTitleCase } from '@/app/utils/utils';
 import Button from '@/app/components/buttons/Button';
 import { MUSCLES } from '@/app/constants/settings';
-import { addExercise, exerciseExist } from '@/app/services/db';
+import { exerciseStore } from '@/app/store/exerciseStore';
 import ErrorMessage from '@/app/components/ErrorMessage';
 import { observer } from 'mobx-react-lite';
 import { COLORS, globalStyles } from '@/app/styles/globalStyles';
@@ -41,13 +41,13 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     };
 
     const handleCreateExercise = async () => {
-        const exist = await exerciseExist(title, muscleGroup)
+        const exist = await exerciseStore.checkExerciseExists(title, muscleGroup);
         if (exist) {
             setError('Exercise exists');
-            return
+            return;
         }
-        
-        const res = await addExercise(title, muscleGroup);
+
+        const res = await exerciseStore.addExercise(title, muscleGroup);
         if (res.success) {
             Alert.alert(t('alerts.success'), t('alerts.exerciseAdded'), [
                 { text: t('alerts.great'), onPress: handleSucess },

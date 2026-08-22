@@ -12,7 +12,14 @@ jest.mock('react-native-toast-message', () => ({
 
 // Mock external dependencies
 jest.mock('../services/db', () => ({
-    addExercise: jest.fn(),
+    fetchExercises: jest.fn(() => Promise.resolve({ success: true, data: [], error: '' })),
+    exerciseExist: jest.fn(() => Promise.resolve(false)),
+    addExercise: jest.fn(() => Promise.resolve({ success: true, data: 1, error: '' })),
+    addResult: jest.fn(),
+    updateResult: jest.fn(),
+    deleteResult: jest.fn(),
+    fetchResultById: jest.fn(),
+    fetchResultsByExerciseId: jest.fn(),
 }));
 
 describe('AddExerciseScreen', () => {
