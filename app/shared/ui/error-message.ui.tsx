@@ -2,7 +2,8 @@ import { Ionicons } from '@expo/vector-icons';
 import { TouchableOpacity } from 'react-native';
 import { Text, XStack } from 'tamagui';
 
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 
 type ErrorMessageProps = {
     message: string;
@@ -10,6 +11,7 @@ type ErrorMessageProps = {
 };
 
 export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
+    const fontSize = useFontSize();
     return (
         <XStack
             padding={16}
@@ -24,7 +26,7 @@ export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
         >
             <Text
                 style={{ color: COLORS.errorText }}
-                fontSize={FONT_SIZE.normal}
+                fontSize={fontSize.normal}
                 fontWeight="600"
                 flex={1}
             >

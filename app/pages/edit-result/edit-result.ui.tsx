@@ -112,24 +112,26 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
         }
     };
 
+    const fetchResult = async (resultId: number) => {
+        setIsLoading(true);
+        setError('');
+        const res = await exerciseStore.fetchResultById(resultId);
+        if (res.success && res.data) {
+            const d = res.data;
+            setNewDate(d.date);
+            setNewExercise({ id: d.id, title: d.exercise, type: d.muscleGroup });
+            setNewGroup(d.muscleGroup);
+            setNewReps(String(d.reps));
+            setNewWeight(String(d.weight));
+            setNewUnits(d.units);
+        } else if (!res.success && res.error) {
+            setError(res.error);
+        }
+        setIsLoading(false);
+    };
+
     useEffect(() => {
-        const getResult = async (resultId: number) => {
-            setIsLoading(true);
-            const res = await exerciseStore.fetchResultById(resultId);
-            if (res.success && res.data) {
-                const d = res.data;
-                setNewDate(d.date);
-                setNewExercise({ id: d.id, title: d.exercise, type: d.muscleGroup });
-                setNewGroup(d.muscleGroup);
-                setNewReps(String(d.reps));
-                setNewWeight(String(d.weight));
-                setNewUnits(d.units);
-            } else if (!res.success && res.error) {
-                setError(res.error);
-            }
-            setIsLoading(false);
-        };
-        void getResult(route.params.resultId);
+        void fetchResult(route.params.resultId);
     }, [route.params.resultId]);
 
     const onChange = (_: unknown, selectedDate: Date | undefined) => {
@@ -155,7 +157,17 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
 
     return (
         <YStack flex={1} padding={20} gap={16}>
-            {error && <ErrorMessage message={error} setError={setError} />}
+            {error && (
+                <YStack gap={8}>
+                    <ErrorMessage message={error} setError={setError} />
+                    <Button
+                        text={t('alerts.retry')}
+                        onPress={() => fetchResult(route.params.resultId)}
+                        pressedBgColor={COLORS.orange}
+                        borderColor={COLORS.blackTransparentBorder}
+                    />
+                </YStack>
+            )}
 
             {/* Date */}
             <YStack gap={8}>

@@ -10,13 +10,15 @@ import { initializeDatabase } from '@/app/shared/api/db';
 import i18n from '@/app/shared/i18n/i18n';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, DarkTheme, FONT_SIZE, LightTheme } from '@/app/shared/theme/global-styles';
+import { COLORS, DarkTheme, LightTheme } from '@/app/shared/theme/global-styles';
 import { config } from '@/app/shared/theme/tamagui.config';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 import Loader from '@/app/shared/ui/loader.ui';
 
 const App = observer(() => {
     const [dbError, setDbError] = useState('');
     const { t } = useTranslation();
+    const fontSize = useFontSize();
 
     useEffect(() => {
         initializeDatabase()
@@ -66,12 +68,12 @@ const App = observer(() => {
                                     backgroundColor: settingsStore.isDark ? COLORS.backgroundDark : COLORS.backgroundLight,
                                 }}
                                 text1Style={{
-                                    fontSize: FONT_SIZE.large,
+                                    fontSize: fontSize.large,
                                     fontWeight: 'bold',
                                     color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
                                 }}
                                 text2Style={{
-                                    fontSize: FONT_SIZE.normal,
+                                    fontSize: fontSize.normal,
                                     color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
                                 }}
                             />

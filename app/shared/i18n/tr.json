@@ -122,7 +122,8 @@
         "delete": "Sil",
         "edit": "Düzenle",
         "close": "Kapat",
-        "goToHistory": "Geçmişe Git"
+        "goToHistory": "Geçmişe Git",
+        "retry": "Tekrar Dene"
     },
 
     "toasts": {

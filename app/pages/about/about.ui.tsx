@@ -5,12 +5,14 @@ import { FlatList } from 'react-native';
 import { Text, YStack } from 'tamagui';
 
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 
 const AboutScreen = observer(() => {
     const [showHowTo, setShowHowTo] = useState(false);
     const { t } = useTranslation();
     const isDark = settingsStore.isDark;
+    const fontSize = useFontSize();
 
     const content = useMemo(() => [
         {
@@ -48,7 +50,7 @@ const AboutScreen = observer(() => {
     const renderItem = ({ item }: { item: { title: string; content: string } }) => (
         <YStack marginBottom={20} borderRadius={8}>
             <Text
-                fontSize={FONT_SIZE.large}
+                fontSize={fontSize.large}
                 fontWeight="bold"
                 marginBottom={10}
                 color={isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}
@@ -56,8 +58,8 @@ const AboutScreen = observer(() => {
                 {item.title}
             </Text>
             <Text
-                lineHeight={FONT_SIZE.lineHeight}
-                fontSize={FONT_SIZE.normal}
+                lineHeight={fontSize.lineHeight}
+                fontSize={fontSize.normal}
                 color={isDark ? COLORS.textColorDark : COLORS.textColorLight}
             >
                 {item.content}
@@ -80,7 +82,7 @@ const AboutScreen = observer(() => {
             >
                 <YStack marginBottom={20} borderRadius={8}>
                     <Text
-                        fontSize={FONT_SIZE.large}
+                        fontSize={fontSize.large}
                         fontWeight="bold"
                         marginBottom={10}
                         color={isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}
@@ -89,8 +91,8 @@ const AboutScreen = observer(() => {
                     </Text>
                     {showHowTo && (
                         <Text
-                            lineHeight={FONT_SIZE.lineHeight}
-                            fontSize={FONT_SIZE.normal}
+                            lineHeight={fontSize.lineHeight}
+                            fontSize={fontSize.normal}
                             color={isDark ? COLORS.textColorDark : COLORS.textColorLight}
                         >
                             {t('about.howToContent')}

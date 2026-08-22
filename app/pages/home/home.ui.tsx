@@ -4,12 +4,14 @@ import { ImageBackground, Pressable } from 'react-native';
 import { Text, XStack, YStack } from 'tamagui';
 
 import { DrawerParamList } from '@/app/navigation/drawer.navigator';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 
 type Props = DrawerScreenProps<DrawerParamList, 'Home'>;
 
 export default function HomeScreen({ navigation }: Props) {
     const { t } = useTranslation();
+    const fontSize = useFontSize();
 
     return (
         <YStack flex={1} marginVertical={10}>
@@ -28,7 +30,7 @@ export default function HomeScreen({ navigation }: Props) {
                         <Text
                             color={COLORS.white}
                             padding={10}
-                            fontSize={FONT_SIZE.huge}
+                            fontSize={fontSize.huge}
                             backgroundColor={COLORS.overlayDark}
                             fontWeight="bold"
                             borderBottomLeftRadius={15}
@@ -53,7 +55,7 @@ export default function HomeScreen({ navigation }: Props) {
                             <Text
                                 color={COLORS.white}
                                 padding={10}
-                                fontSize={FONT_SIZE.huge}
+                                fontSize={fontSize.huge}
                                 backgroundColor={COLORS.overlayDark}
                                 fontWeight="bold"
                                 borderBottomLeftRadius={15}
@@ -77,7 +79,7 @@ export default function HomeScreen({ navigation }: Props) {
                             <Text
                                 color={COLORS.white}
                                 padding={10}
-                                fontSize={FONT_SIZE.huge}
+                                fontSize={fontSize.huge}
                                 backgroundColor={COLORS.overlayDark}
                                 fontWeight="bold"
                                 borderBottomLeftRadius={15}
@@ -104,7 +106,7 @@ export default function HomeScreen({ navigation }: Props) {
                         <Text
                             color={COLORS.white}
                             padding={10}
-                            fontSize={FONT_SIZE.huge}
+                            fontSize={fontSize.huge}
                             backgroundColor={COLORS.overlayDark}
                             fontWeight="bold"
                             borderBottomLeftRadius={15}

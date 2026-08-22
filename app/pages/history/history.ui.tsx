@@ -8,7 +8,8 @@ import Exercise from '@/app/pages/history/ui/exercise-row.ui';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 import { TExercise } from '@/app/shared/types';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
 import Loader from '@/app/shared/ui/loader.ui';
@@ -36,6 +37,7 @@ export default observer(function HistoryScreen() {
 
     const isResetDisabled = selectedMuscle === '-';
     const isDark = settingsStore.isDark;
+    const fontSize = useFontSize();
 
     const filteredExercises = useMemo(() => {
         if (selectedMuscle !== '-') {
@@ -131,7 +133,7 @@ export default observer(function HistoryScreen() {
             >
                 <Text
                     color={isResetDisabled ? COLORS.black : COLORS.white}
-                    fontSize={FONT_SIZE.large}
+                    fontSize={fontSize.large}
                     fontWeight="600"
                 >
                     {t('history.resetFilter')}

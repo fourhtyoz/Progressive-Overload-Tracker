@@ -2,7 +2,8 @@ import { useTranslation } from 'react-i18next';
 import { Button as TamaguiButton } from 'tamagui';
 
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 
 type Props = {
     fn: () => void;
@@ -11,6 +12,7 @@ type Props = {
 export default function GoBackButton({ fn }: Props) {
     const { t } = useTranslation();
     const isDark = settingsStore.isDark;
+    const fontSize = useFontSize();
 
     return (
         <TamaguiButton
@@ -26,7 +28,7 @@ export default function GoBackButton({ fn }: Props) {
             pressStyle={{
                 backgroundColor: isDark ? COLORS.orange : COLORS.black,
             }}
-            fontSize={FONT_SIZE.large}
+            fontSize={fontSize.large}
             fontWeight="bold"
             letterSpacing={0.25}
         >

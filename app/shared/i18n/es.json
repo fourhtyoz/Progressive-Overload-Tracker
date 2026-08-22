@@ -122,7 +122,8 @@
         "delete": "Eliminar",
         "edit": "Editar",
         "close": "Cerrar",
-        "goToHistory": "Ir al Historial"
+        "goToHistory": "Ir al Historial",
+        "retry": "Reintentar"
     },
 
     "toasts": {

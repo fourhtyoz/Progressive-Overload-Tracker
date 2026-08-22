@@ -9,7 +9,8 @@ import { deleteTables, initializeDatabase } from '@/app/shared/api/db';
 import { LANGUAGES, THEME_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
-import { COLORS, FONT_SIZE } from '@/app/shared/theme/global-styles';
+import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
 import Loader from '@/app/shared/ui/loader.ui';
@@ -26,6 +27,7 @@ const SettingsScreen = observer(() => {
     const [isDeleting, setIsDeleting] = useState(false);
     const { t } = useTranslation();
     const isDark = settingsStore.isDark;
+    const fontSize = useFontSize();
 
     const handleGetInTouch = () => {
         Alert.alert(t('settings.getInTouch'), `${t('settings.sendEmailTo')} hualua@gmail.com`);
@@ -108,7 +110,7 @@ const SettingsScreen = observer(() => {
             {/* Language */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label fontSize={FONT_SIZE.normal} fontWeight="bold"
+                    <Label fontSize={fontSize.normal} fontWeight="bold"
                         color={isDark ? COLORS.textDarkScreen : COLORS.black}>
                         {t('settings.options.language')}:
                     </Label>
@@ -132,7 +134,7 @@ const SettingsScreen = observer(() => {
                         )}
                     />
                 </XStack>
-                <Text color={COLORS.gray} fontSize={FONT_SIZE.small} marginVertical={10}>
+                <Text color={COLORS.gray} fontSize={fontSize.small} marginVertical={10}>
                     {t('settings.options.languageHelpText')}
                 </Text>
             </YStack>
@@ -140,7 +142,7 @@ const SettingsScreen = observer(() => {
             {/* Units */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label fontSize={FONT_SIZE.normal} fontWeight="bold"
+                    <Label fontSize={fontSize.normal} fontWeight="bold"
                         color={isDark ? COLORS.textDarkScreen : COLORS.black}>
                         {t('settings.options.units')}:
                     </Label>
@@ -164,7 +166,7 @@ const SettingsScreen = observer(() => {
                         )}
                     />
                 </XStack>
-                <Text color={COLORS.gray} fontSize={FONT_SIZE.small} marginVertical={10}>
+                <Text color={COLORS.gray} fontSize={fontSize.small} marginVertical={10}>
                     {t('settings.options.unitsHelpText')}
                 </Text>
             </YStack>
@@ -172,7 +174,7 @@ const SettingsScreen = observer(() => {
             {/* Theme */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label fontSize={FONT_SIZE.normal} fontWeight="bold"
+                    <Label fontSize={fontSize.normal} fontWeight="bold"
                         color={isDark ? COLORS.textDarkScreen : COLORS.black}>
                         {t('settings.options.theme')}:
                     </Label>
@@ -196,7 +198,7 @@ const SettingsScreen = observer(() => {
                         )}
                     />
                 </XStack>
-                <Text color={COLORS.gray} fontSize={FONT_SIZE.small} marginVertical={10}>
+                <Text color={COLORS.gray} fontSize={fontSize.small} marginVertical={10}>
                     {t('settings.options.themeHelpText')}
                 </Text>
             </YStack>
