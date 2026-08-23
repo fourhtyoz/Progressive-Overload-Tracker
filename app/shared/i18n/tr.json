@@ -21,7 +21,9 @@
             "title": "Başlık",
             "titlePlaceholder": "Egzersiz adı",
             "createExercise": "Egzersiz Oluştur",
-            "date": "Tarih"
+            "date": "Tarih",
+            "lastTime": "Son kez",
+            "bodyweight": "Vücut ağırlığı"
         },
         "buttons": {
             "history": "Geçmiş",
@@ -76,6 +78,11 @@
         "noResults": "Sonuç Yok",
         "collapse": "daralt",
         "expand": "genişlet",
+        "renameExercise": "Egzersizi yeniden adlandır",
+        "deleteExercise": "Egzersizi sil",
+        "pr": "PR",
+        "last": "Son",
+        "vsPr": "vs PR",
         "legend": {
             "better": "İlerleme",
             "neutral": "Değişiklik yok",
@@ -126,6 +133,8 @@
         "delete": "Sil",
         "edit": "Düzenle",
         "close": "Kapat",
+        "save": "Kaydet",
+        "sureToDeleteExercise": "Bu egzersizi silmek istediğinize emin misiniz? Tüm sonuçları silinecek.",
         "goToHistory": "Geçmişe Git",
         "retry": "Tekrar Dene"
     },
@@ -135,7 +144,9 @@
         "success": "Başarılı",
         "changedLanguage": "Dil başarıyla değiştirildi",
         "changedTheme": "Tema başarıyla değiştirildi",
-        "changedUnits": "Ölçüm birimi başarıyla değiştirildi"
+        "changedUnits": "Ölçüm birimi başarıyla değiştirildi",
+        "exerciseRenamed": "Egzersiz yeniden adlandırıldı",
+        "exerciseDeleted": "Egzersiz silindi"
     },
 
     "errors": {

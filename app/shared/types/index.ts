@@ -7,16 +7,14 @@ export type TExercise = {
 export type TResult = {
     id: number;
     exercise_id: number;
-    exercise: string;
     date: string;
-    muscleGroup: string;
     reps: number;
     weight: number;
     units: string;
 };
 
 export interface DBResult<T = unknown> {
-  success: boolean;
-  data?: T;
-  error?: string;
+    success: boolean;
+    data?: T;
+    error?: string;
 }

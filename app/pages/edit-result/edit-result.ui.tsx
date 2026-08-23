@@ -2,7 +2,7 @@ import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -101,10 +101,8 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             const dateString = newDate instanceof Date ? toLocalDateString(newDate) : newDate;
             const res = await exerciseStore.updateResult(
                 route.params.resultId,
-                newExercise.title,
                 newExercise.id,
                 dateString,
-                newGroup,
                 Number(newReps),
                 Number(newWeight),
                 newUnits
@@ -130,27 +128,31 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
         }
     };
 
-    const fetchResult = async (resultId: number) => {
-        setIsLoading(true);
-        setError('');
-        const res = await exerciseStore.fetchResultById(resultId);
-        if (res.success && res.data) {
-            const d = res.data;
-            setNewDate(d.date);
-            setNewExercise({ id: d.exercise_id, title: d.exercise, type: d.muscleGroup });
-            setNewGroup(d.muscleGroup);
-            setNewReps(String(d.reps));
-            setNewWeight(String(d.weight));
-            setNewUnits(d.units);
-        } else if (!res.success && res.error) {
-            setError(res.error);
-        }
-        setIsLoading(false);
-    };
+    const fetchResult = useCallback(
+        async (resultId: number) => {
+            setIsLoading(true);
+            setError('');
+            const res = await exerciseStore.fetchResultById(resultId);
+            if (res.success && res.data) {
+                const d = res.data;
+                setNewDate(d.date);
+                const exercise = exercises.find((item) => item.id === d.exercise_id) ?? null;
+                setNewExercise(exercise);
+                setNewGroup(exercise ? exercise.type : null);
+                setNewReps(String(d.reps));
+                setNewWeight(String(d.weight));
+                setNewUnits(d.units);
+            } else if (!res.success && res.error) {
+                setError(res.error);
+            }
+            setIsLoading(false);
+        },
+        [exercises]
+    );
 
     useEffect(() => {
         void fetchResult(route.params.resultId);
-    }, [route.params.resultId]);
+    }, [route.params.resultId, fetchResult]);
 
     const onChange = (_: unknown, selectedDate?: Date) => {
         setShowPicker(false);

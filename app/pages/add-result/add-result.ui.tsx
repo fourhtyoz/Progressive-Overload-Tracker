@@ -1,7 +1,7 @@
 import { NavigationProp } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -14,7 +14,7 @@ import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS } from '@/app/shared/theme/global-styles';
 import { useFontSize } from '@/app/shared/theme/use-font-size';
-import { TExercise } from '@/app/shared/types';
+import { TExercise, TResult } from '@/app/shared/types';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
 import {
@@ -37,9 +37,18 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const [weightValue, setWeightValue] = useState('');
     const [units, setUnits] = useState<'kg' | 'lb'>(settingsStore.units);
     const [error, setError] = useState('');
+    const [lastResult, setLastResult] = useState<TResult | null>(null);
 
     const { t } = useTranslation();
     const fontSize = useFontSize();
+
+    useEffect(() => {
+        if (exercise) {
+            void exerciseStore.fetchLatestResult(exercise.id).then(setLastResult);
+        } else {
+            setLastResult(null);
+        }
+    }, [exercise]);
 
     const resetAllFields = () => {
         setRepsValue('');
@@ -99,10 +108,8 @@ const AddResultScreen = observer(({ navigation }: Props) => {
         if (!exercise) return;
         const date = toLocalDateString(new Date());
         const res = await exerciseStore.addResult(
-            exercise.title,
             exercise.id,
             date,
-            muscleGroup,
             Number(repsValue),
             Number(weightValue),
             units
@@ -226,6 +233,14 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                                 </DropdownItem>
                             )}
                         />
+                        {lastResult && (
+                            <Text fontSize={fontSize.normal} color="$colorMuted">
+                                {t('result.lastTime')}:{' '}
+                                {lastResult.weight
+                                    ? `${lastResult.weight} ${t('units.' + lastResult.units)} × ${lastResult.reps}`
+                                    : `${t('result.bodyweight')} × ${lastResult.reps}`}
+                            </Text>
+                        )}
                     </YStack>
 
                     {/* Weight + Units */}

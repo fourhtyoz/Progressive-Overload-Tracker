@@ -21,7 +21,9 @@
             "title": "Titel",
             "titlePlaceholder": "Übungstitel",
             "createExercise": "Übung erstellen",
-            "date": "Datum"
+            "date": "Datum",
+            "lastTime": "Letztes Mal",
+            "bodyweight": "Körpergewicht"
         },
         "buttons": {
             "history": "Verlauf",
@@ -76,6 +78,11 @@
         "noResults": "Keine Ergebnisse",
         "collapse": "einklappen",
         "expand": "ausklappen",
+        "renameExercise": "Übung umbenennen",
+        "deleteExercise": "Übung löschen",
+        "pr": "PR",
+        "last": "Letzte",
+        "vsPr": "vs. PR",
         "legend": {
             "better": "Fortschritt",
             "neutral": "Keine Änderung",
@@ -126,6 +133,8 @@
         "delete": "Löschen",
         "edit": "Bearbeiten",
         "close": "Schließen",
+        "save": "Speichern",
+        "sureToDeleteExercise": "Möchten Sie diese Übung wirklich löschen? Alle ihre Ergebnisse werden entfernt.",
         "goToHistory": "Zum Verlauf gehen",
         "retry": "Wiederholen"
     },
@@ -135,7 +144,9 @@
         "success": "Erfolg",
         "changedLanguage": "Sprache erfolgreich geändert",
         "changedTheme": "Thema erfolgreich geändert",
-        "changedUnits": "Gewichtsmesssystem erfolgreich geändert"
+        "changedUnits": "Gewichtsmesssystem erfolgreich geändert",
+        "exerciseRenamed": "Übung umbenannt",
+        "exerciseDeleted": "Übung gelöscht"
     },
 
     "errors": {

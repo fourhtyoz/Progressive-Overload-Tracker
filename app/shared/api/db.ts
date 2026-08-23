@@ -19,23 +19,30 @@ export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
 
 export async function initializeDatabase(): Promise<void> {
     const db = await getDatabase();
+    // Dev-only: recreate the schema fresh on every launch. Replace with a `PRAGMA user_version`
+    // migration runner before shipping with real data.
     await db.execAsync(`
-        CREATE TABLE IF NOT EXISTS exercises (
+        DROP TABLE IF EXISTS results;
+        DROP TABLE IF EXISTS exercises;
+        CREATE TABLE exercises (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL,
-            type TEXT NOT NULL
+            title TEXT NOT NULL COLLATE NOCASE,
+            type TEXT NOT NULL CHECK (type IN (
+                'trapezius', 'shoulders', 'chest', 'biceps', 'triceps', 'forearms',
+                'legs', 'glutes', 'back', 'abs', 'cardio'
+            )),
+            UNIQUE (title, type)
         );
-        CREATE TABLE IF NOT EXISTS results (
+        CREATE TABLE results (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             exercise_id INTEGER NOT NULL,
-            exercise TEXT NOT NULL,
             date TEXT NOT NULL,
-            muscleGroup TEXT NOT NULL,
-            reps INTEGER NOT NULL,
-            weight REAL NOT NULL,
-            units TEXT NOT NULL,
+            reps INTEGER NOT NULL CHECK (reps > 0),
+            weight REAL NOT NULL CHECK (weight >= 0),
+            units TEXT NOT NULL CHECK (units IN ('kg', 'lb')),
             FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
         );
+        CREATE INDEX idx_results_exercise_id ON results(exercise_id);
     `);
 }
 
@@ -43,7 +50,7 @@ export async function initializeDatabase(): Promise<void> {
 export const exerciseExist = async (title: string, type: string): Promise<boolean> => {
     const db = await getDatabase();
     const row = await db.getFirstAsync<{ id: number }>(
-        'SELECT id FROM exercises WHERE title = ? AND type = ? LIMIT 1',
+        'SELECT id FROM exercises WHERE LOWER(title) = LOWER(?) AND type = ? LIMIT 1',
         [title, type]
     );
     return !!row;
@@ -52,10 +59,10 @@ export const exerciseExist = async (title: string, type: string): Promise<boolea
 export const addExercise = async (title: string, type: string): Promise<DBResult<number>> => {
     try {
         const db = await getDatabase();
-        const result = await db.runAsync(
-            'INSERT INTO exercises (title, type) VALUES (?, ?)',
-            [title, type]
-        );
+        const result = await db.runAsync('INSERT INTO exercises (title, type) VALUES (?, ?)', [
+            title,
+            type,
+        ]);
         return { success: true, data: result.lastInsertRowId };
     } catch (e) {
         return handleTransactionError(e, 'Failed to add exercises', 'addExercise');
@@ -72,12 +79,33 @@ export const fetchExercises = async (): Promise<DBResult<TExercise[]>> => {
     }
 };
 
+export const renameExercise = async (id: number, title: string): Promise<DBResult<number>> => {
+    try {
+        const db = await getDatabase();
+        await db.runAsync('UPDATE exercises SET title = ? WHERE id = ?', [title, id]);
+        return { success: true, data: id };
+    } catch (e) {
+        return handleTransactionError(e, 'Failed to rename exercise', 'renameExercise');
+    }
+};
+
+export const deleteExercise = async (id: number): Promise<DBResult<number>> => {
+    try {
+        const db = await getDatabase();
+        const result = await db.runAsync('DELETE FROM exercises WHERE id = ?', [id]);
+        if (result.changes > 0) {
+            return { success: true, data: result.changes };
+        }
+        return { success: false, error: 'No exercise was deleted' };
+    } catch (e) {
+        return handleTransactionError(e, 'Failed to delete exercise', 'deleteExercise');
+    }
+};
+
 // RESULTS
 export const addResult = async (
-    exercise: string,
     exercise_id: number,
     date: string,
-    muscleGroup: string,
     reps: number,
     weight: number,
     units: string
@@ -85,8 +113,8 @@ export const addResult = async (
     try {
         const db = await getDatabase();
         const result = await db.runAsync(
-            'INSERT INTO results (exercise, exercise_id, date, muscleGroup, reps, weight, units) VALUES (?, ?, ?, ?, ?, ?, ?)',
-            [exercise, exercise_id, date, muscleGroup, reps, weight, units]
+            'INSERT INTO results (exercise_id, date, reps, weight, units) VALUES (?, ?, ?, ?, ?)',
+            [exercise_id, date, reps, weight, units]
         );
         return { success: true, data: result.lastInsertRowId };
     } catch (e) {
@@ -96,10 +124,8 @@ export const addResult = async (
 
 export const updateResult = async (
     id: number,
-    exercise: string,
     exercise_id: number,
     date: string,
-    muscleGroup: string,
     reps: number,
     weight: number,
     units: string
@@ -107,8 +133,8 @@ export const updateResult = async (
     try {
         const db = await getDatabase();
         const result = await db.runAsync(
-            'UPDATE results SET exercise = ?, exercise_id = ?, date = ?, muscleGroup = ?, reps = ?, weight = ?, units = ? WHERE id = ?',
-            [exercise, exercise_id, date, muscleGroup, reps, weight, units, id]
+            'UPDATE results SET exercise_id = ?, date = ?, reps = ?, weight = ?, units = ? WHERE id = ?',
+            [exercise_id, date, reps, weight, units, id]
         );
         return { success: true, data: result.changes };
     } catch (e) {
@@ -147,16 +173,37 @@ export const fetchResultsByExerciseId = async (
 ): Promise<DBResult<TResult[]>> => {
     try {
         const db = await getDatabase();
-        const data = await db.getAllAsync<TResult>(
-            'SELECT * FROM results WHERE exercise_id = ?',
-            [exercise_id]
-        );
+        const data = await db.getAllAsync<TResult>('SELECT * FROM results WHERE exercise_id = ?', [
+            exercise_id,
+        ]);
         return { success: true, data };
     } catch (e) {
         return handleTransactionError(
             e,
             'Failed to fetch result by exercise id',
             'fetchResultsByExerciseId'
+        );
+    }
+};
+
+export const fetchLatestResultByExerciseId = async (
+    exercise_id: number
+): Promise<DBResult<TResult>> => {
+    try {
+        const db = await getDatabase();
+        const data = await db.getFirstAsync<TResult>(
+            'SELECT * FROM results WHERE exercise_id = ? ORDER BY date DESC, id DESC LIMIT 1',
+            [exercise_id]
+        );
+        if (data) {
+            return { success: true, data };
+        }
+        return { success: false, error: 'No results found' };
+    } catch (e) {
+        return handleTransactionError(
+            e,
+            'Failed to fetch latest result',
+            'fetchLatestResultByExerciseId'
         );
     }
 };

@@ -3,11 +3,14 @@ import { makeAutoObservable, runInAction } from 'mobx';
 import {
     addExercise as dbAddExercise,
     addResult as dbAddResult,
+    deleteExercise as dbDeleteExercise,
     deleteResult as dbDeleteResult,
     exerciseExist,
     fetchExercises,
+    fetchLatestResultByExerciseId,
     fetchResultById as dbFetchResultById,
     fetchResultsByExerciseId as dbFetchResultsByExerciseId,
+    renameExercise as dbRenameExercise,
     updateResult as dbUpdateResult,
 } from '@/app/shared/api/db';
 import { DBResult, TExercise, TResult } from '@/app/shared/types';
@@ -77,16 +80,8 @@ class ExerciseStore {
     }
 
     // RESULTS
-    async addResult(
-        exercise: string,
-        exerciseId: number,
-        date: string,
-        muscleGroup: string,
-        reps: number,
-        weight: number,
-        units: string
-    ) {
-        const res = await dbAddResult(exercise, exerciseId, date, muscleGroup, reps, weight, units);
+    async addResult(exerciseId: number, date: string, reps: number, weight: number, units: string) {
+        const res = await dbAddResult(exerciseId, date, reps, weight, units);
         if (res.success) {
             runInAction(() => {
                 this.resultsCache.clear();
@@ -97,15 +92,13 @@ class ExerciseStore {
 
     async updateResult(
         id: number,
-        exercise: string,
         exerciseId: number,
         date: string,
-        muscleGroup: string,
         reps: number,
         weight: number,
         units: string
     ) {
-        const res = await dbUpdateResult(id, exercise, exerciseId, date, muscleGroup, reps, weight, units);
+        const res = await dbUpdateResult(id, exerciseId, date, reps, weight, units);
         if (res.success) {
             runInAction(() => {
                 this.resultsCache.clear();
@@ -143,6 +136,42 @@ class ExerciseStore {
             runInAction(() => {
                 this.resultsCache.set(exerciseId, data);
             });
+        }
+        return res;
+    }
+
+    async fetchLatestResult(exerciseId: number): Promise<TResult | null> {
+        const res = await fetchLatestResultByExerciseId(exerciseId);
+        return res.success && res.data ? res.data : null;
+    }
+
+    isTitleTaken(title: string, type: string, excludeId?: number): boolean {
+        return this.exercises.some(
+            (item) =>
+                item.type === type &&
+                item.title.toLowerCase() === title.toLowerCase() &&
+                item.id !== excludeId
+        );
+    }
+
+    async renameExercise(id: number, newTitle: string) {
+        const res = await dbRenameExercise(id, newTitle);
+        if (res.success) {
+            runInAction(() => {
+                this.resultsCache.clear();
+            });
+            await this.refreshExercises();
+        }
+        return res;
+    }
+
+    async deleteExercise(id: number) {
+        const res = await dbDeleteExercise(id);
+        if (res.success) {
+            runInAction(() => {
+                this.resultsCache.delete(id);
+            });
+            await this.refreshExercises();
         }
         return res;
     }
