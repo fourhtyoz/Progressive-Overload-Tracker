@@ -52,7 +52,6 @@ const App = observer(() => {
         <I18nextProvider i18n={i18n}>
             <TamaguiProvider config={config} defaultTheme={settingsStore.isDark ? 'dark' : 'light'}>
                 <NavigationContainer
-                    independent={true}
                     theme={settingsStore.isDark ? DarkTheme : LightTheme}
                 >
                     <DrawerNavigator isDarkTheme={settingsStore.isDark} />
@@ -63,7 +62,26 @@ const App = observer(() => {
                             <BaseToast
                                 {...props}
                                 style={{
-                                    borderLeftColor: 'lightgreen',
+                                    borderLeftColor: COLORS.green,
+                                    borderLeftWidth: 10,
+                                    backgroundColor: settingsStore.isDark ? COLORS.backgroundDark : COLORS.backgroundLight,
+                                }}
+                                text1Style={{
+                                    fontSize: fontSize.large,
+                                    fontWeight: 'bold',
+                                    color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
+                                }}
+                                text2Style={{
+                                    fontSize: fontSize.normal,
+                                    color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
+                                }}
+                            />
+                        ),
+                        error: (props) => (
+                            <BaseToast
+                                {...props}
+                                style={{
+                                    borderLeftColor: COLORS.red,
                                     borderLeftWidth: 10,
                                     backgroundColor: settingsStore.isDark ? COLORS.backgroundDark : COLORS.backgroundLight,
                                 }}

@@ -93,11 +93,7 @@
     },
 
     "general": {
-        "goBackButton": "Geri Dön",
-        "metrics": {
-            "kg": "kg",
-            "lb": "lb"
-        }
+        "goBackButton": "Geri Dön"
     },
 
     "alerts": {
@@ -105,6 +101,7 @@
         "error": "Hata",
         "toAddFieldsRequired": "Yeni bir sonuç eklemek için tüm alanlar doldurulmalıdır",
         "newEntryAddedSuccess": "Yeni sonuç başarıyla eklendi",
+        "newEntryUpdatedSuccess": "Yeni sonuç başarıyla güncellendi",
         "areYouSure": "Emin misiniz?",
         "yesProceed": "Evet, eminim",
         "noIchangedMyMind": "Hayır, fikrimi değiştirdim",
@@ -140,9 +137,7 @@
         "repsMustBeNumber": "Tekrarlar bir sayı olmalıdır",
         "repsMustBePositive": "Tekrarlar 0'dan büyük olmalıdır",
         "weightMustBeNumber": "Ağırlık bir sayı olmalıdır",
-        "weightMustBePositive": "Ağırlık 0'dan büyük olmalıdır",
-        "failedFetchExercises": "Egzersizler yüklenemedi",
-        "failedFetchResults": "Sonuçlar yüklenemedi",
+        "weightMustBePositive": "Ağırlık negatif olamaz",
         "failedUpdateResult": "Sonuç güncellenemedi",
         "exerciseExists": "Bu egzersiz zaten mevcut",
         "failedToAddResult": "Sonuç eklenemedi",

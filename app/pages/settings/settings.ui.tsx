@@ -6,7 +6,7 @@ import Toast from 'react-native-toast-message';
 import { Label, Text, XStack, YStack } from 'tamagui';
 
 import { deleteTables, initializeDatabase } from '@/app/shared/api/db';
-import { LANGUAGES, THEME_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
+import { CONTACT_EMAIL, LANGUAGES, THEME_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS } from '@/app/shared/theme/global-styles';
@@ -30,7 +30,7 @@ const SettingsScreen = observer(() => {
     const fontSize = useFontSize();
 
     const handleGetInTouch = () => {
-        Alert.alert(t('settings.getInTouch'), `${t('settings.sendEmailTo')} hualua@gmail.com`);
+        Alert.alert(t('settings.getInTouch'), `${t('settings.sendEmailTo')} ${CONTACT_EMAIL}`);
     };
 
     const handleDeleteAllData = async () => {
@@ -123,7 +123,8 @@ const SettingsScreen = observer(() => {
                         renderButton={() => (
                             <DropdownInput>
                                 <DropdownText>
-                                    {settingsStore.language}
+                                    {LANGUAGES.find((item) => item.code === settingsStore.language)
+                                        ?.title ?? settingsStore.language}
                                 </DropdownText>
                             </DropdownInput>
                         )}

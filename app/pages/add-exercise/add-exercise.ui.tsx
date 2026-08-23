@@ -31,33 +31,33 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
 
     const { t } = useTranslation();
 
-    const disabledSaveButton = !(muscleGroup && title);
+    const disabledSaveButton = !(muscleGroup && title.trim());
 
     const handleSuccess = () => {
         navigation.goBack();
     };
 
     const handleChangeTitle = (value: string) => {
-        if (!value) {
-            setError(t('errors.titleCantBeEmpty'));
-            return;
-        }
-        if (value === '-') {
-            setError(t('errors.titleCantBeThis'));
-            return;
-        }
         setTitle(value);
+        if (!value.trim()) {
+            setError(t('errors.titleCantBeEmpty'));
+        } else if (value === '-') {
+            setError(t('errors.titleCantBeThis'));
+        } else {
+            setError('');
+        }
     };
 
     const handleCreateExercise = async () => {
         try {
-            const exist = await exerciseStore.checkExerciseExists(title, muscleGroup);
+            const titleToSave = title.trim();
+            const exist = await exerciseStore.checkExerciseExists(titleToSave, muscleGroup);
             if (exist) {
                 setError(t('errors.exerciseExists'));
                 return;
             }
 
-            const res = await exerciseStore.addExercise(title, muscleGroup);
+            const res = await exerciseStore.addExercise(titleToSave, muscleGroup);
             if (res.success) {
                 Alert.alert(t('alerts.success'), t('alerts.exerciseAdded'), [
                     { text: t('alerts.great'), onPress: handleSuccess },
@@ -111,7 +111,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                 </Label>
                 <Input
                     onChangeText={(value) => handleChangeTitle(value)}
-                    defaultValue={title}
+                    value={title}
                     placeholder={t('result.options.titlePlaceholder')}
                     maxLength={50}
                     borderWidth={1}

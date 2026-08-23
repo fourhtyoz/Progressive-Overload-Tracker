@@ -23,7 +23,7 @@ import {
 
 export default observer(function HistoryScreen() {
     const { t } = useTranslation();
-    const { exercises, isLoading, error, muscleOptions, resetError } = exerciseStore;
+    const { exercises, isLoading, error, muscleOptions, resetError, setError } = exerciseStore;
 
     const [selectedMuscle, setSelectedMuscle] = useState('-');
     const [selectedSorting, setSelectedSorting] = useState({
@@ -33,9 +33,10 @@ export default observer(function HistoryScreen() {
 
     const resetFilters = () => {
         setSelectedMuscle('-');
+        setSelectedSorting({ title: t('history.byDateRecentFirst'), type: 'desc' });
     };
 
-    const isResetDisabled = selectedMuscle === '-';
+    const isResetDisabled = selectedMuscle === '-' && selectedSorting.type === 'desc';
     const isDark = settingsStore.isDark;
     const fontSize = useFontSize();
 
@@ -107,13 +108,13 @@ export default observer(function HistoryScreen() {
                     renderButton={() => (
                         <DropdownInput>
                             <DropdownText>
-                                {selectedMuscle === '-' ? '-' : toTitleCase(selectedMuscle)}
+                                {selectedMuscle === '-' ? '-' : t('muscles.' + selectedMuscle)}
                             </DropdownText>
                         </DropdownInput>
                     )}
                     renderItem={(item, _, isSelected) => (
                         <DropdownItem isSelected={isSelected}>
-                            <DropdownItemText>{toTitleCase(item)}</DropdownItemText>
+                            <DropdownItemText>{t('muscles.' + item)}</DropdownItemText>
                         </DropdownItem>
                     )}
                 />
@@ -148,7 +149,7 @@ export default observer(function HistoryScreen() {
                     title={item.title}
                     type={item.type}
                     sorting={selectedSorting.type}
-                    setError={resetError}
+                    setError={setError}
                 />
             ))}
         </ScrollView>

@@ -48,6 +48,11 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     };
 
     const handleChangeReps = (value: string) => {
+        if (value === '') {
+            setRepsValue('');
+            setError('');
+            return;
+        }
         const num = Number(value);
         if (isNaN(num)) {
             setError(t('errors.repsMustBeNumber'));
@@ -58,9 +63,15 @@ const AddResultScreen = observer(({ navigation }: Props) => {
             return;
         }
         setRepsValue(value);
+        setError('');
     };
 
     const handleChangeWeight = (value: string) => {
+        if (value === '') {
+            setWeightValue('');
+            setError('');
+            return;
+        }
         const num = Number(value);
         if (isNaN(num)) {
             setError(t('errors.weightMustBeNumber'));
@@ -71,6 +82,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
             return;
         }
         setWeightValue(value);
+        setError('');
     };
 
     const disabledSaveButton = !(
@@ -219,7 +231,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                     />
                     <ThemedDropdown
                         data={UNIT_KEYS}
-                        defaultValue={settingsStore.units}
+                        defaultValue={units}
                         onSelect={(selectedItem) => setUnits(selectedItem as 'kg' | 'lb')}
                         renderButton={() => (
                             <DropdownInput>

@@ -46,6 +46,12 @@ class ExerciseStore {
         });
     };
 
+    setError = (message: string) => {
+        runInAction(() => {
+            this.error = message;
+        });
+    };
+
     private refreshExercises = async () => {
         const res = await fetchExercises();
         runInAction(() => {

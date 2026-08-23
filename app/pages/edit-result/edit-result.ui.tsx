@@ -1,11 +1,11 @@
 import { Ionicons } from '@expo/vector-icons';
-import { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
+import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
 import { NavigationProp } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert } from 'react-native';
+import { Alert, Platform } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { Input, Label, Text, XStack, YStack } from 'tamagui';
 
@@ -41,12 +41,14 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
     const [newUnits, setNewUnits] = useState<string | null>(null);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [showPicker, setShowPicker] = useState(false);
 
     const { t } = useTranslation();
 
     const handleChangeReps = (value: string) => {
         if (!value) {
             setNewReps('');
+            setError('');
             return;
         }
         const num = Number(value);
@@ -59,11 +61,13 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             return;
         }
         setNewReps(value);
+        setError('');
     };
 
     const handleChangeWeight = (value: string) => {
         if (!value) {
             setNewWeight('');
+            setError('');
             return;
         }
         const num = Number(value);
@@ -76,6 +80,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             return;
         }
         setNewWeight(value);
+        setError('');
     };
 
     const handleSubmitEntry = async () => {
@@ -93,7 +98,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             );
             const { success, error } = res;
             if (success) {
-                Alert.alert(t('alerts.success'), t('alerts.newEntryAddedSuccess'), [
+                Alert.alert(t('alerts.success'), t('alerts.newEntryUpdatedSuccess'), [
                     {
                         text: t('alerts.goToHistory'),
                         onPress: () => (navigation.getParent() as NavigationProp<DrawerParamList>)?.navigate('History'),
@@ -119,7 +124,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
         if (res.success && res.data) {
             const d = res.data;
             setNewDate(d.date);
-            setNewExercise({ id: d.id, title: d.exercise, type: d.muscleGroup });
+            setNewExercise({ id: d.exercise_id, title: d.exercise, type: d.muscleGroup });
             setNewGroup(d.muscleGroup);
             setNewReps(String(d.reps));
             setNewWeight(String(d.weight));
@@ -134,19 +139,24 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
         void fetchResult(route.params.resultId);
     }, [route.params.resultId]);
 
-    const onChange = (_: unknown, selectedDate: Date | undefined) => {
+    const onChange = (_: unknown, selectedDate?: Date) => {
+        setShowPicker(false);
         if (selectedDate) {
             setNewDate(selectedDate);
         }
     };
 
-    const showMode = (currentMode: 'date') => {
-        DateTimePickerAndroid.open({
-            value: new Date(newDate),
-            onChange,
-            mode: currentMode,
-            is24Hour: true,
-        });
+    const showMode = () => {
+        if (Platform.OS === 'android') {
+            DateTimePickerAndroid.open({
+                value: new Date(newDate),
+                onChange,
+                mode: 'date',
+                is24Hour: true,
+            });
+        } else {
+            setShowPicker(true);
+        }
     };
 
     if (isLoading) {
@@ -179,7 +189,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                         {getformattedDate(newDate)}
                     </Text>
                     <YStack
-                        onPress={() => showMode('date')}
+                        onPress={showMode}
                         accessibilityRole="button"
                         accessibilityLabel={t('errors.changeDate')}
                     >
@@ -190,6 +200,14 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                         />
                     </YStack>
                 </XStack>
+                {showPicker && Platform.OS === 'ios' && (
+                    <DateTimePicker
+                        value={new Date(newDate)}
+                        mode="date"
+                        display="spinner"
+                        onChange={onChange}
+                    />
+                )}
             </YStack>
 
             {/* Muscle Group */}

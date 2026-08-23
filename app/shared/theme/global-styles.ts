@@ -61,23 +61,6 @@ export const FONT_SIZE = {
 };
 
 export const globalStyles = StyleSheet.create({
-    dropdownButtonStyle: {
-        width: 45,
-        height: 40,
-        backgroundColor: COLORS.black,
-        borderTopRightRadius: 5,
-        borderBottomRightRadius: 5,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center',
-        borderWidth: 1,
-    },
-    dropdownButtonTxtStyle: {
-        color: COLORS.white,
-    },
-    dropdownButtonArrowStyle: {
-        fontSize: FONT_SIZE.normal,
-    },
     dropdownMenuStyle: {
         backgroundColor: COLORS.dropdownBackground,
         borderRadius: 8,
@@ -96,9 +79,5 @@ export const globalStyles = StyleSheet.create({
         fontSize: FONT_SIZE.normal,
         fontWeight: '500',
         color: COLORS.dropdownText,
-    },
-    dropdownItemIconStyle: {
-        fontSize: 28,
-        marginRight: 8,
     },
 });

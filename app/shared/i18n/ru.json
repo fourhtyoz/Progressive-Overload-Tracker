@@ -93,11 +93,7 @@
     },
 
     "general": {
-        "goBackButton": "Назад",
-        "metrics": {
-            "kg": "кг",
-            "lb": "фунт"
-        }
+        "goBackButton": "Назад"
     },
 
     "alerts": {
@@ -105,6 +101,7 @@
         "error": "Ошибка",
         "toAddFieldsRequired": "Необходимо заполнить все поля, чтобы добавить новый результат",
         "newEntryAddedSuccess": "Новый результат был успешно добавлен",
+        "newEntryUpdatedSuccess": "Новый результат был успешно обновлён",
         "areYouSure": "Вы уверены?",
         "yesProceed": "Да, я уверен",
         "noIchangedMyMind": "Нет, я передумал",
@@ -140,9 +137,7 @@
         "repsMustBeNumber": "Повторения должны быть числом",
         "repsMustBePositive": "Повторения должны быть больше 0",
         "weightMustBeNumber": "Вес должен быть числом",
-        "weightMustBePositive": "Вес должен быть больше 0",
-        "failedFetchExercises": "Не удалось загрузить упражнения",
-        "failedFetchResults": "Не удалось загрузить результаты",
+        "weightMustBePositive": "Вес не может быть отрицательным",
         "failedUpdateResult": "Не удалось обновить результат",
         "exerciseExists": "Это упражнение уже существует",
         "failedToAddResult": "Не удалось добавить результат",

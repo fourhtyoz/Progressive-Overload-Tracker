@@ -24,6 +24,9 @@ export default function Button({
     bgColor,
     textColor,
     borderColor,
+    pressedBgColor,
+    pressedBorderColor,
+    pressedTextColor,
     testID = '',
 }: Props) {
     const isDark = settingsStore.isDark;
@@ -49,8 +52,10 @@ export default function Button({
             alignItems="center"
             justifyContent="center"
             pressStyle={{
-                backgroundColor: bgColor ?? (isDark ? COLORS.black : COLORS.white),
-                borderColor: borderColor ?? (isDark ? COLORS.white : COLORS.blackTransparentBorder),
+                backgroundColor: pressedBgColor ?? bgColor ?? (isDark ? COLORS.black : COLORS.white),
+                borderColor:
+                    pressedBorderColor ?? borderColor ?? (isDark ? COLORS.white : COLORS.blackTransparentBorder),
+                ...(pressedTextColor ? { color: pressedTextColor } : {}),
             }}
             fontSize={fontSize.large}
             fontWeight="bold"

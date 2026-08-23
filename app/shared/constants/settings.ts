@@ -16,6 +16,8 @@ export const UNIT_KEYS: string[] = ['kg', 'lb'];
 
 export const THEME_KEYS: string[] = ['light', 'dark'];
 
+export const CONTACT_EMAIL = 'hualua@gmail.com';
+
 export const LANGUAGES = [
     { title: 'Русский', code: 'ru' },
     { title: 'English', code: 'en' },

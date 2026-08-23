@@ -93,11 +93,7 @@
     },
 
     "general": {
-        "goBackButton": "Zurück",
-        "metrics": {
-            "kg": "kg",
-            "lb": "Pfund"
-        }
+        "goBackButton": "Zurück"
     },
 
     "alerts": {
@@ -105,6 +101,7 @@
         "error": "Fehler",
         "toAddFieldsRequired": "Alle Felder müssen ausgefüllt sein, um ein neues Ergebnis hinzuzufügen",
         "newEntryAddedSuccess": "Neues Ergebnis erfolgreich hinzugefügt",
+        "newEntryUpdatedSuccess": "Neues Ergebnis erfolgreich aktualisiert",
         "areYouSure": "Sind Sie sicher?",
         "yesProceed": "Ja, ich bin sicher",
         "noIchangedMyMind": "Nein, ich habe es mir anders überlegt",
@@ -140,9 +137,7 @@
         "repsMustBeNumber": "Wiederholungen müssen eine Zahl sein",
         "repsMustBePositive": "Wiederholungen müssen größer als 0 sein",
         "weightMustBeNumber": "Gewicht muss eine Zahl sein",
-        "weightMustBePositive": "Gewicht muss größer als 0 sein",
-        "failedFetchExercises": "Übungen konnten nicht geladen werden",
-        "failedFetchResults": "Ergebnisse konnten nicht geladen werden",
+        "weightMustBePositive": "Gewicht darf nicht negativ sein",
         "failedUpdateResult": "Ergebnis konnte nicht aktualisiert werden",
         "exerciseExists": "Diese Übung existiert bereits",
         "failedToAddResult": "Ergebnis konnte nicht hinzugefügt werden",

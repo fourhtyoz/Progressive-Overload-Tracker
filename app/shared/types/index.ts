@@ -6,6 +6,7 @@ export type TExercise = {
 
 export type TResult = {
     id: number;
+    exercise_id: number;
     exercise: string;
     date: string;
     muscleGroup: string;

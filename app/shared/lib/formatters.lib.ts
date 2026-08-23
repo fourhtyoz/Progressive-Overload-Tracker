@@ -13,8 +13,6 @@ export function getformattedDate(date: string | Date) {
 }
 
 export function toTitleCase(str: string) {
-    if (!str || str.length < 1) return str;
-    return str
-        .toLowerCase()
-        .replace(/\b\w/g, (char) => char.toUpperCase());
+    if (!str) return str;
+    return str.replace(/\b\w/g, (char) => char.toUpperCase());
 }

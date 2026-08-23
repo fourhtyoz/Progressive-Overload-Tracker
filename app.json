@@ -27,16 +27,9 @@
       "output": "static"
     },
     "plugins": [
-      "expo-router",
       "expo-localization"
     ],
-    "experiments": {
-      "typedRoutes": true
-    },
     "extra": {
-      "router": {
-        "origin": false
-      },
       "eas": {
         "projectId": "38b99c0a-6c65-4a5d-a2e1-a37b9b959659"
       }

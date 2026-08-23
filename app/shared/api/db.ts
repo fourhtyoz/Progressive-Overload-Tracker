@@ -17,14 +17,6 @@ export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
     return dbPromise;
 }
 
-export async function closeDatabase(): Promise<void> {
-    if (dbPromise) {
-        const db = await dbPromise;
-        await db.closeAsync();
-        dbPromise = null;
-    }
-}
-
 export async function initializeDatabase(): Promise<void> {
     const db = await getDatabase();
     await db.execAsync(`
@@ -118,10 +110,7 @@ export const updateResult = async (
             'UPDATE results SET exercise = ?, exercise_id = ?, date = ?, muscleGroup = ?, reps = ?, weight = ?, units = ? WHERE id = ?',
             [exercise, exercise_id, date, muscleGroup, reps, weight, units, id]
         );
-        if (result.changes > 0) {
-            return { success: true, data: result.changes };
-        }
-        return { success: false, error: 'No rows were updated' };
+        return { success: true, data: result.changes };
     } catch (e) {
         return handleTransactionError(e, 'Failed to update result', 'updateResult');
     }

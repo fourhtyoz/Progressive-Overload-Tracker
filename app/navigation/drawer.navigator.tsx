@@ -134,7 +134,7 @@ export default function DrawerNavigator({ isDarkTheme }: { isDarkTheme: boolean 
             screenOptions={({ route }) => ({
                 title: route.name,
                 headerTintColor: isDarkTheme ? COLORS.black : COLORS.white,
-                headerTintStyle: {
+                headerTitleStyle: {
                     fontWeight: 'bold',
                 },
                 headerShadowVisible: false,
