@@ -4,6 +4,7 @@ import { Text, XStack } from 'tamagui';
 
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS, globalStyles } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 
 type ThemedDropdownProps<T> = {
     data: T[];
@@ -38,9 +39,7 @@ export function ThemedDropdown<T>({
                 width: 'auto' as const,
             }}
             renderButton={(selectedItem) => renderButton(selectedItem as T | undefined)}
-            renderItem={(item, index, isSelected) =>
-                renderItem(item as T, index, isSelected)
-            }
+            renderItem={(item, index, isSelected) => renderItem(item as T, index, isSelected)}
         />
     );
 }
@@ -62,16 +61,18 @@ export function DropdownInput({ children }: { children: React.ReactNode }) {
 }
 
 export function DropdownText({ children }: { children: React.ReactNode }) {
+    const fontSize = useFontSize();
     return (
-        <Text fontSize={16} color="$color">
+        <Text fontSize={fontSize.large} color="$color">
             {children}
         </Text>
     );
 }
 
 export function DropdownPlaceholder({ children }: { children: React.ReactNode }) {
+    const fontSize = useFontSize();
     return (
-        <Text fontSize={16} color="$colorMuted">
+        <Text fontSize={fontSize.large} color="$colorMuted">
             {children}
         </Text>
     );
@@ -80,18 +81,15 @@ export function DropdownPlaceholder({ children }: { children: React.ReactNode })
 export function DropdownItem({
     isSelected,
     children,
-    width,
 }: {
     isSelected: boolean;
     children: React.ReactNode;
-    width?: number;
 }) {
     const isDark = settingsStore.isDark;
     return (
         <XStack
             style={[
                 globalStyles.dropdownItemStyle,
-                width ? { width } : undefined,
                 isSelected && {
                     backgroundColor: isDark ? COLORS.darkGrey : COLORS.selectedLight,
                 },
@@ -104,12 +102,14 @@ export function DropdownItem({
 
 export function DropdownItemText({ children }: { children: React.ReactNode }) {
     const isDark = settingsStore.isDark;
+    const fontSize = useFontSize();
     return (
         <Text
             style={[
                 globalStyles.dropdownItemTxtStyle,
                 { color: isDark ? COLORS.textDarkScreen : COLORS.dropdownText },
             ]}
+            fontSize={fontSize.normal}
         >
             {children}
         </Text>

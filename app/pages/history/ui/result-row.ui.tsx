@@ -87,28 +87,13 @@ export default function Result({
                     <Ionicons name={progressIcon} size={16} color={progressColor} />
                 ) : null}
             </XStack>
-            <Text
-                flex={1}
-                textAlign="center"
-                fontSize={fontSize.normal}
-                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
-            >
+            <Text flex={1} textAlign="center" fontSize={fontSize.normal} color="$colorMuted">
                 {getformattedDate(date)}
             </Text>
-            <Text
-                flex={1}
-                textAlign="center"
-                fontSize={fontSize.normal}
-                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
-            >
+            <Text flex={1} textAlign="center" fontSize={fontSize.normal} color="$colorMuted">
                 {weight ? `${weight} ${t('units.' + units)}` : '-'}
             </Text>
-            <Text
-                flex={1}
-                textAlign="center"
-                fontSize={fontSize.normal}
-                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
-            >
+            <Text flex={1} textAlign="center" fontSize={fontSize.normal} color="$colorMuted">
                 {reps}
             </Text>
             <TouchableOpacity

@@ -1,4 +1,5 @@
 import { Ionicons } from '@expo/vector-icons';
+import { useTranslation } from 'react-i18next';
 import { TouchableOpacity } from 'react-native';
 import { Text, XStack } from 'tamagui';
 
@@ -11,6 +12,7 @@ type ErrorMessageProps = {
 };
 
 export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
+    const { t } = useTranslation();
     const fontSize = useFontSize();
     return (
         <XStack
@@ -22,7 +24,7 @@ export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
             alignItems="center"
             justifyContent="space-between"
             accessibilityRole="alert"
-            accessibilityLabel={`Error: ${message}`}
+            accessibilityLabel={`${t('errors.errorPrefix')} ${message}`}
         >
             <Text
                 style={{ color: COLORS.errorText }}
@@ -30,14 +32,14 @@ export default function ErrorMessage({ message, setError }: ErrorMessageProps) {
                 fontWeight="600"
                 flex={1}
             >
-                Error: {message}
+                {t('errors.errorPrefix')} {message}
             </Text>
             <TouchableOpacity
                 onPress={() => setError('')}
                 style={{ marginLeft: 8 }}
                 testID="close-button"
                 accessibilityRole="button"
-                accessibilityLabel="Dismiss error"
+                accessibilityLabel={t('errors.dismissError')}
             >
                 <Ionicons name="close" size={20} color={COLORS.errorText} />
             </TouchableOpacity>

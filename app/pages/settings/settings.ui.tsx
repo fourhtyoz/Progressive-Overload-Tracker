@@ -26,7 +26,6 @@ const SettingsScreen = observer(() => {
     const [error, setError] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const { t } = useTranslation();
-    const isDark = settingsStore.isDark;
     const fontSize = useFontSize();
 
     const handleGetInTouch = () => {
@@ -114,11 +113,7 @@ const SettingsScreen = observer(() => {
             {/* Language */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label
-                        fontSize={fontSize.normal}
-                        fontWeight="bold"
-                        color={isDark ? COLORS.textDarkScreen : COLORS.black}
-                    >
+                    <Label fontSize={fontSize.normal} fontWeight="bold" color="$color">
                         {t('settings.options.language')}:
                     </Label>
                     <ThemedDropdown
@@ -136,7 +131,7 @@ const SettingsScreen = observer(() => {
                             </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <DropdownItem isSelected={isSelected} width={200}>
+                            <DropdownItem isSelected={isSelected}>
                                 <DropdownItemText>{item.title}</DropdownItemText>
                             </DropdownItem>
                         )}
@@ -150,11 +145,7 @@ const SettingsScreen = observer(() => {
             {/* Units */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label
-                        fontSize={fontSize.normal}
-                        fontWeight="bold"
-                        color={isDark ? COLORS.textDarkScreen : COLORS.black}
-                    >
+                    <Label fontSize={fontSize.normal} fontWeight="bold" color="$color">
                         {t('settings.options.units')}:
                     </Label>
                     <ThemedDropdown
@@ -167,7 +158,7 @@ const SettingsScreen = observer(() => {
                             </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <DropdownItem isSelected={isSelected} width={200}>
+                            <DropdownItem isSelected={isSelected}>
                                 <DropdownItemText>{t('units.' + item)}</DropdownItemText>
                             </DropdownItem>
                         )}
@@ -181,11 +172,7 @@ const SettingsScreen = observer(() => {
             {/* Theme */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label
-                        fontSize={fontSize.normal}
-                        fontWeight="bold"
-                        color={isDark ? COLORS.textDarkScreen : COLORS.black}
-                    >
+                    <Label fontSize={fontSize.normal} fontWeight="bold" color="$color">
                         {t('settings.options.theme')}:
                     </Label>
                     <ThemedDropdown
@@ -198,7 +185,7 @@ const SettingsScreen = observer(() => {
                             </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
-                            <DropdownItem isSelected={isSelected} width={200}>
+                            <DropdownItem isSelected={isSelected}>
                                 <DropdownItemText>{t('themes.' + item)}</DropdownItemText>
                             </DropdownItem>
                         )}

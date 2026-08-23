@@ -1,7 +1,5 @@
-import { DarkTheme as DT,DefaultTheme } from '@react-navigation/native';
-import { Dimensions,StyleSheet } from 'react-native';
-
-const { width: screenWidth } = Dimensions.get('window');
+import { DarkTheme as DT, DefaultTheme } from '@react-navigation/native';
+import { StyleSheet } from 'react-native';
 
 export const COLORS = {
     black: '#000',
@@ -52,14 +50,6 @@ export const DarkTheme = {
     },
 };
 
-export const FONT_SIZE = {
-    normal: screenWidth <= 360 ? 16 : 14,
-    small: screenWidth <= 360 ? 14 : 12,
-    large: screenWidth <= 360 ? 18 : 16,
-    huge: screenWidth <= 360 ? 20 : 18,
-    lineHeight: screenWidth <= 360 ? 24 : 21,
-};
-
 export const globalStyles = StyleSheet.create({
     dropdownItemStyle: {
         width: '100%',
@@ -71,7 +61,6 @@ export const globalStyles = StyleSheet.create({
     },
     dropdownItemTxtStyle: {
         flex: 1,
-        fontSize: FONT_SIZE.normal,
         fontWeight: '500',
         color: COLORS.dropdownText,
     },

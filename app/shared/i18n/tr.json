@@ -74,6 +74,8 @@
         "byDateRecentFirst": "Tarihe Göre (En Yeni İlk)",
         "byDateOldestFirst": "Tarihe Göre (En Eski İlk)",
         "noResults": "Sonuç Yok",
+        "collapse": "daralt",
+        "expand": "genişlet",
         "legend": {
             "better": "İlerleme",
             "neutral": "Değişiklik yok",
@@ -149,7 +151,9 @@
         "databaseError": "Veritabanı hatası",
         "editResult": "Sonucu düzenle",
         "changeDate": "Tarihi değiştir",
-        "loading": "Yükleniyor"
+        "loading": "Yükleniyor",
+        "errorPrefix": "Hata:",
+        "dismissError": "Hatayı kapat"
     },
 
     "muscles": {

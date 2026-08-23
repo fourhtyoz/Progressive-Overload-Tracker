@@ -14,54 +14,48 @@ const AboutScreen = observer(() => {
     const isDark = settingsStore.isDark;
     const fontSize = useFontSize();
 
-    const content = useMemo(() => [
-        {
-            key: '1',
-            title: t('about.definitionTitle'),
-            content: t('about.definitionContent'),
-        },
-        {
-            key: '2',
-            title: t('about.conceptTitle'),
-            content: t('about.conceptContent'),
-        },
-        {
-            key: '3',
-            title: t('about.methodsTitle'),
-            content: t('about.methodsContent'),
-        },
-        {
-            key: '4',
-            title: t('about.importanceTitle'),
-            content: t('about.importanceContent'),
-        },
-        {
-            key: '5',
-            title: t('about.exampleTitle'),
-            content: t('about.exampleContent'),
-        },
-        {
-            key: '6',
-            title: t('about.tipsTitle'),
-            content: t('about.tipsContent'),
-        },
-    ], [t]);
+    const content = useMemo(
+        () => [
+            {
+                key: '1',
+                title: t('about.definitionTitle'),
+                content: t('about.definitionContent'),
+            },
+            {
+                key: '2',
+                title: t('about.conceptTitle'),
+                content: t('about.conceptContent'),
+            },
+            {
+                key: '3',
+                title: t('about.methodsTitle'),
+                content: t('about.methodsContent'),
+            },
+            {
+                key: '4',
+                title: t('about.importanceTitle'),
+                content: t('about.importanceContent'),
+            },
+            {
+                key: '5',
+                title: t('about.exampleTitle'),
+                content: t('about.exampleContent'),
+            },
+            {
+                key: '6',
+                title: t('about.tipsTitle'),
+                content: t('about.tipsContent'),
+            },
+        ],
+        [t]
+    );
 
     const renderItem = ({ item }: { item: { title: string; content: string } }) => (
         <YStack marginBottom={20} borderRadius={8}>
-            <Text
-                fontSize={fontSize.large}
-                fontWeight="bold"
-                marginBottom={10}
-                color={isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}
-            >
+            <Text fontSize={fontSize.large} fontWeight="bold" marginBottom={10} color="$color">
                 {item.title}
             </Text>
-            <Text
-                lineHeight={fontSize.lineHeight}
-                fontSize={fontSize.normal}
-                color={isDark ? COLORS.textColorDark : COLORS.textColorLight}
-            >
+            <Text lineHeight={fontSize.lineHeight} fontSize={fontSize.normal} color="$color">
                 {item.content}
             </Text>
         </YStack>
@@ -85,7 +79,7 @@ const AboutScreen = observer(() => {
                         fontSize={fontSize.large}
                         fontWeight="bold"
                         marginBottom={10}
-                        color={isDark ? COLORS.textTitleColorDark : COLORS.textTitleColorLight}
+                        color="$color"
                     >
                         {t('about.howToTitle')}
                     </Text>
@@ -93,7 +87,7 @@ const AboutScreen = observer(() => {
                         <Text
                             lineHeight={fontSize.lineHeight}
                             fontSize={fontSize.normal}
-                            color={isDark ? COLORS.textColorDark : COLORS.textColorLight}
+                            color="$color"
                         >
                             {t('about.howToContent')}
                             <Text style={{ color: COLORS.green }}>{t('about.green')}</Text>

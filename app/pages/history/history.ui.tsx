@@ -8,7 +8,6 @@ import { Button, Label, Text, XStack, YStack } from 'tamagui';
 import Exercise from '@/app/pages/history/ui/exercise-row.ui';
 import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
-import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS } from '@/app/shared/theme/global-styles';
 import { useFontSize } from '@/app/shared/theme/use-font-size';
 import { TExercise } from '@/app/shared/types';
@@ -38,7 +37,6 @@ export default observer(function HistoryScreen() {
     };
 
     const isResetDisabled = selectedMuscle === '-' && selectedSorting.type === 'desc';
-    const isDark = settingsStore.isDark;
     const fontSize = useFontSize();
 
     const filteredExercises = useMemo(() => {
@@ -61,62 +59,56 @@ export default observer(function HistoryScreen() {
             )}
 
             {/* Sorting */}
-            <XStack alignItems="center" marginTop={5}>
-                <Label
-                    fontWeight="700"
-                    paddingHorizontal={10}
-                    width="33%"
-                    color={isDark ? COLORS.textDarkScreen : COLORS.black}
-                >
+            <XStack alignItems="center" gap={10} marginTop={5}>
+                <Label flex={1} fontWeight="700" color="$color">
                     {t('history.sorting')}:
                 </Label>
-                <ThemedDropdown
-                    data={[
-                        { title: t('history.byDateRecentFirst'), type: 'desc' },
-                        { title: t('history.byDateOldestFirst'), type: 'asc' },
-                    ]}
-                    defaultValue={{ title: t('history.byDateRecentFirst'), type: 'desc' }}
-                    onSelect={(selectedItem, _) => setSelectedSorting(selectedItem)}
-                    renderButton={() => (
-                        <DropdownInput>
-                            <DropdownText>{selectedSorting.title}</DropdownText>
-                        </DropdownInput>
-                    )}
-                    renderItem={(item, _, isSelected) => (
-                        <DropdownItem isSelected={isSelected}>
-                            <DropdownItemText>{toTitleCase(item.title)}</DropdownItemText>
-                        </DropdownItem>
-                    )}
-                />
+                <XStack flex={2}>
+                    <ThemedDropdown
+                        data={[
+                            { title: t('history.byDateRecentFirst'), type: 'desc' },
+                            { title: t('history.byDateOldestFirst'), type: 'asc' },
+                        ]}
+                        defaultValue={{ title: t('history.byDateRecentFirst'), type: 'desc' }}
+                        onSelect={(selectedItem, _) => setSelectedSorting(selectedItem)}
+                        renderButton={() => (
+                            <DropdownInput>
+                                <DropdownText>{selectedSorting.title}</DropdownText>
+                            </DropdownInput>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <DropdownItem isSelected={isSelected}>
+                                <DropdownItemText>{toTitleCase(item.title)}</DropdownItemText>
+                            </DropdownItem>
+                        )}
+                    />
+                </XStack>
             </XStack>
 
             {/* Muscle Filter */}
-            <XStack alignItems="center" marginTop={5}>
-                <Label
-                    fontWeight="700"
-                    paddingHorizontal={10}
-                    width="33%"
-                    color={isDark ? COLORS.textDarkScreen : COLORS.black}
-                >
+            <XStack alignItems="center" gap={10} marginTop={5}>
+                <Label flex={1} fontWeight="700" color="$color">
                     {t('history.table.header.muscle')}:
                 </Label>
-                <ThemedDropdown
-                    data={muscleOptions}
-                    defaultValue={undefined}
-                    onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
-                    renderButton={() => (
-                        <DropdownInput>
-                            <DropdownText>
-                                {selectedMuscle === '-' ? '-' : t('muscles.' + selectedMuscle)}
-                            </DropdownText>
-                        </DropdownInput>
-                    )}
-                    renderItem={(item, _, isSelected) => (
-                        <DropdownItem isSelected={isSelected}>
-                            <DropdownItemText>{t('muscles.' + item)}</DropdownItemText>
-                        </DropdownItem>
-                    )}
-                />
+                <XStack flex={2}>
+                    <ThemedDropdown
+                        data={muscleOptions}
+                        defaultValue={undefined}
+                        onSelect={(selectedItem, _) => setSelectedMuscle(selectedItem)}
+                        renderButton={() => (
+                            <DropdownInput>
+                                <DropdownText>
+                                    {selectedMuscle === '-' ? '-' : t('muscles.' + selectedMuscle)}
+                                </DropdownText>
+                            </DropdownInput>
+                        )}
+                        renderItem={(item, _, isSelected) => (
+                            <DropdownItem isSelected={isSelected}>
+                                <DropdownItemText>{t('muscles.' + item)}</DropdownItemText>
+                            </DropdownItem>
+                        )}
+                    />
+                </XStack>
             </XStack>
 
             {/* Reset Button */}

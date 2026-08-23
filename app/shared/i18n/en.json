@@ -74,6 +74,8 @@
         "byDateRecentFirst": "By Date (Newest First)",
         "byDateOldestFirst": "By Date (Oldest First)",
         "noResults": "No Results",
+        "collapse": "collapse",
+        "expand": "expand",
         "legend": {
             "better": "Progress",
             "neutral": "No change",
@@ -149,7 +151,9 @@
         "databaseError": "Database Error",
         "editResult": "Edit result",
         "changeDate": "Change date",
-        "loading": "Loading"
+        "loading": "Loading",
+        "errorPrefix": "Error:",
+        "dismissError": "Dismiss error"
     },
 
     "muscles": {

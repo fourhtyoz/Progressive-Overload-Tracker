@@ -12,6 +12,7 @@ import { toTitleCase } from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
 import {
@@ -31,6 +32,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     const [error, setError] = useState('');
 
     const { t } = useTranslation();
+    const fontSize = useFontSize();
 
     const disabledSaveButton = !(muscleGroup && title.trim());
 
@@ -84,7 +86,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                     {error && <ErrorMessage message={error} setError={setError} />}
 
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.muscle')}:
                         </Label>
                         <ThemedDropdown
@@ -115,7 +117,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                     </YStack>
 
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.title')}:
                         </Label>
                         <Input
@@ -127,7 +129,7 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
                             borderColor={settingsStore.isDark ? COLORS.orange : COLORS.gray}
                             borderRadius={8}
                             padding={12}
-                            fontSize={16}
+                            fontSize={fontSize.large}
                             color="$color"
                         />
                     </YStack>

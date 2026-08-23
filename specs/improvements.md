@@ -4,10 +4,10 @@
 > look less "raw". It is a planning spec, not a bug list — see `problems.md` for correctness
 > issues that were already fixed.
 >
-> **Status:** Phase 1 (1.1–1.5) and Phase 2 (2.1–2.4) are complete. The Phase 4.1 correctness
-> bugs 4.1.1–4.1.3 have been promoted to `problems.md` and fixed (bugs #11–#13). Two of the 4.3
-> minor items (conversion factors, `getProgress` global state) were resolved by the same fix.
-> Remaining work: Phase 3, and Phase 4.1.4 / 4.2 / remaining 4.3 items.
+> **Status:** Phase 1 (1.1–1.5), Phase 2 (2.1–2.4), and Phase 3 (3.1–3.5) are complete. The Phase
+> 4.1 correctness bugs 4.1.1–4.1.3 have been promoted to `problems.md` and fixed (bugs #11–#13).
+> Two of the 4.3 minor items (conversion factors, `getProgress` global state) were resolved by the
+> same fix. Remaining work: Phase 4.1.4 / 4.2 / remaining 4.3 items.
 
 ## Main idea & business model
 
@@ -150,6 +150,11 @@ Components reference `COLORS.textDarkScreen`, `COLORS.textSecondary`, etc. direc
 **Impact:** deletes hundreds of `isDark ? ... : ...` ternaries and makes theming correct by
 construction. This is the biggest long-term fix but touches every screen.
 
+**Status: ✅ Done** — Tamagui components now use `$color`, `$colorMuted`, `$backgroundStrong`, and
+`$backgroundSubtle` tokens for theme-dependent colors. Non-Tamagui surfaces (react-navigation
+headers, Ionicons, Spinner, raw styles, the inverse button, and the accent input/separator borders)
+intentionally keep raw `COLORS` since tokens can't resolve there.
+
 ### 3.2 Unify font sizes (single source of truth)
 `use-font-size.ts` and `FONT_SIZE` in `global-styles.ts` duplicate the same logic. Many screens
 also hardcode `fontSize={16}`/`18` (e.g. `add-result.ui.tsx:147`, `edit-result.ui.tsx:184`)
@@ -158,6 +163,9 @@ instead of using the hook.
 **Fix:** keep one `useFontSize` (or Tamagui font tokens), delete `FONT_SIZE`, and replace all
 hardcoded sizes.
 
+**Status: ✅ Done** — removed `FONT_SIZE` from `global-styles.ts`; all hardcoded
+`fontSize={16}`/`18`/`14` now use `useFontSize()` (`large`/`huge`/`normal`).
+
 ### 3.3 Remove hardcoded layout widths
 History filter labels use `width="33%"` (`history.ui.tsx:67`); settings dropdown items use
 `width={200}` (`settings.ui.tsx:132`); home uses ad-hoc `flex` ratios. Fragile across screen
@@ -165,11 +173,18 @@ sizes.
 
 **Fix:** use flexible Tamagui layout (`flex`, `gap`, tokens) instead of fixed widths/percentages.
 
+**Status: ✅ Done** — History filter labels use `flex={1}`/`flex={2}` + `gap` instead of
+`width="33%"`; settings dropdown items dropped `width={200}` (and the now-unused `width` prop on
+`DropdownItem`).
+
 ### 3.4 Localize remaining strings
 - `error-message.ui.tsx:33` hardcodes `"Error:"` prefix and `"Dismiss error"`.
 - `exercise-row.ui.tsx:83` hardcodes `'collapse'/'expand'`.
 
 **Fix:** move these into the i18n JSON files.
+
+**Status: ✅ Done** — `error-message.ui.tsx` uses `errors.errorPrefix`/`errors.dismissError`;
+`exercise-row.ui.tsx` uses `history.collapse`/`history.expand`; keys added to all 5 locales.
 
 ### 3.5 Reduce N+1 data loading in History
 Each expandable exercise fetches its own results on open (`exercise-row.ui.tsx:41`) and never
@@ -178,6 +193,9 @@ virtualized list.
 
 **Fix:** cache per-exercise results in the store, and consider `FlatList`/section list for large
 histories.
+
+**Status: ✅ Done** — per-exercise results are cached in `exerciseStore.resultsCache` and invalidated
+after add/update/delete (from bug #13). `FlatList`/section-list virtualization is deferred.
 
 ---
 
@@ -282,11 +300,9 @@ way to back up or migrate a user's progress history.
 1. ~~**Phase 1** (1.1–1.5)~~ — ✅ Done.
 2. ~~**Phase 2** (2.1–2.4)~~ — ✅ Done.
 3. ~~**Phase 4.1.1–4.1.3** correctness bugs~~ — ✅ Fixed (promoted to `problems.md` as #11–#13).
-4. **Phase 3** (3.1–3.5) — long-term cleanup; touches every screen. **Next up.**
+4. ~~**Phase 3** (3.1–3.5)~~ — ✅ Done.
 5. **Phase 4** (4.1.4, 4.2.x product gaps) — larger design decisions (1RM metric, sets, PR/trend
-   view, export); each should be its own spec and decided with the user before building.
+   view, export); each should be its own spec and decided with the user before building. **Next up.**
 
-Each phase can ship independently. Phase 3.1 (Tamagui tokens) is the foundational change that
-would make future theming work trivial, but it is the largest and should be done deliberately.
 The remaining Phase 4 correctness bug (4.1.4 bodyweight comparison) could alternatively be
 promoted into `problems.md`, since it is a bug rather than polish.

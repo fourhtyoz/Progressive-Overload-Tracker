@@ -163,7 +163,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
                     {/* Muscle Group */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.muscle')}:
                         </Label>
                         <ThemedDropdown
@@ -195,7 +195,11 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
                     {/* Exercise */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16} opacity={!muscleGroup ? 0.3 : 1}>
+                        <Label
+                            fontWeight="600"
+                            fontSize={fontSize.large}
+                            opacity={!muscleGroup ? 0.3 : 1}
+                        >
                             {t('result.options.exercise')}:
                         </Label>
                         <ThemedDropdown
@@ -226,7 +230,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
                     {/* Weight + Units */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.weight')}:
                         </Label>
                         <XStack gap={8}>
@@ -241,7 +245,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                                 borderColor={inputBorder}
                                 borderRadius={8}
                                 padding={12}
-                                fontSize={16}
+                                fontSize={fontSize.large}
                                 color="$color"
                             />
                             <ThemedDropdown
@@ -264,7 +268,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
                     {/* Reps */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.reps')}:
                         </Label>
                         <Input
@@ -277,7 +281,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                             borderColor={inputBorder}
                             borderRadius={8}
                             padding={12}
-                            fontSize={16}
+                            fontSize={fontSize.large}
                             color="$color"
                         />
                     </YStack>

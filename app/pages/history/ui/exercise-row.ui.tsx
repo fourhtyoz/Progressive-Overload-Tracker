@@ -70,19 +70,19 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
             padding={10}
             borderWidth={1}
             borderColor={COLORS.blackTransparentBorder}
-            backgroundColor={isDark ? COLORS.darkGrey : COLORS.white}
+            backgroundColor="$backgroundStrong"
         >
             <YStack
                 onPress={() => setIsOpen((prev) => !prev)}
                 accessibilityRole="button"
-                accessibilityLabel={`${toTitleCase(title)} - ${isOpen ? 'collapse' : 'expand'}`}
+                accessibilityLabel={`${toTitleCase(title)} - ${isOpen ? t('history.collapse') : t('history.expand')}`}
             >
                 <XStack justifyContent="space-between" alignItems="center">
                     <Text
                         fontSize={fontSize.large}
                         fontWeight="bold"
                         marginBottom={10}
-                        color={isDark ? COLORS.textDarkScreen : COLORS.textTitleColorLight}
+                        color="$color"
                     >
                         {toTitleCase(title)} ({t('muscles.' + type)})
                     </Text>
@@ -99,9 +99,7 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
                         borderBottomWidth={2}
                         borderTopRightRadius={5}
                         borderTopLeftRadius={5}
-                        backgroundColor={
-                            isDark ? COLORS.darkDarkGrey : COLORS.backgroundLightSecondary
-                        }
+                        backgroundColor="$backgroundSubtle"
                         borderBottomColor={isDark ? COLORS.black : COLORS.borderLight}
                     >
                         <XStack width={24} />
@@ -110,7 +108,7 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
                             textAlign="center"
                             fontSize={fontSize.normal}
                             fontWeight="bold"
-                            color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
+                            color="$colorMuted"
                         >
                             {t('history.table.header.date')}
                         </Text>
@@ -119,7 +117,7 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
                             textAlign="center"
                             fontSize={fontSize.normal}
                             fontWeight="bold"
-                            color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
+                            color="$colorMuted"
                         >
                             {t('history.table.header.weight')}
                         </Text>
@@ -128,7 +126,7 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
                             textAlign="center"
                             fontSize={fontSize.normal}
                             fontWeight="bold"
-                            color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
+                            color="$colorMuted"
                         >
                             {t('history.table.header.reps')}
                         </Text>
@@ -137,7 +135,7 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
                             textAlign="center"
                             fontSize={fontSize.normal}
                             fontWeight="bold"
-                            color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
+                            color="$colorMuted"
                         >
                             {t('history.table.header.edit')}
                         </Text>
@@ -149,7 +147,7 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
 
             {isOpen && results && filteredResults.length === 0 && (
                 <YStack justifyContent="center" alignItems="center" padding={20}>
-                    <Text fontSize={16} color="$colorMuted">
+                    <Text fontSize={fontSize.large} color="$colorMuted">
                         {t('history.noResults')}
                     </Text>
                 </YStack>

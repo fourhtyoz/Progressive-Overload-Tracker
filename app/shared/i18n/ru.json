@@ -74,6 +74,8 @@
         "byDateRecentFirst": "По дате (новые вначале)",
         "byDateOldestFirst": "По дате (старые вначале)",
         "noResults": "Нет результатов",
+        "collapse": "свернуть",
+        "expand": "развернуть",
         "legend": {
             "better": "Прогресс",
             "neutral": "Без изменений",
@@ -149,7 +151,9 @@
         "databaseError": "Ошибка базы данных",
         "editResult": "Редактировать результат",
         "changeDate": "Изменить дату",
-        "loading": "Загрузка"
+        "loading": "Загрузка",
+        "errorPrefix": "Ошибка:",
+        "dismissError": "Скрыть ошибку"
     },
 
     "muscles": {

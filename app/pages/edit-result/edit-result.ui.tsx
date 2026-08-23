@@ -19,6 +19,7 @@ import {
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS } from '@/app/shared/theme/global-styles';
+import { useFontSize } from '@/app/shared/theme/use-font-size';
 import { TExercise } from '@/app/shared/types';
 import Button from '@/app/shared/ui/button.ui';
 import ErrorMessage from '@/app/shared/ui/error-message.ui';
@@ -48,6 +49,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
     const [showPicker, setShowPicker] = useState(false);
 
     const { t } = useTranslation();
+    const fontSize = useFontSize();
 
     const handleChangeReps = (value: string) => {
         if (!value) {
@@ -197,11 +199,11 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
 
                     {/* Date */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.date')}:
                         </Label>
                         <XStack alignItems="center" gap={12}>
-                            <Text fontSize={16} color="$color" flex={1}>
+                            <Text fontSize={fontSize.large} color="$color" flex={1}>
                                 {getformattedDate(newDate)}
                             </Text>
                             <YStack
@@ -230,7 +232,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
 
                     {/* Muscle Group */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.muscle')}:
                         </Label>
                         <ThemedDropdown
@@ -266,7 +268,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
 
                     {/* Exercise */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.exercise')}:
                         </Label>
                         <ThemedDropdown
@@ -303,7 +305,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
 
                     {/* Weight + Units */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.weight')}:
                         </Label>
                         <XStack gap={8}>
@@ -319,7 +321,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                                 borderColor={inputBorder}
                                 borderRadius={8}
                                 padding={12}
-                                fontSize={16}
+                                fontSize={fontSize.large}
                                 color="$color"
                             />
                             <ThemedDropdown
@@ -344,7 +346,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
 
                     {/* Reps */}
                     <YStack gap={8}>
-                        <Label fontWeight="600" fontSize={16}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
                             {t('result.options.reps')}:
                         </Label>
                         <Input
@@ -358,7 +360,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                             borderColor={inputBorder}
                             borderRadius={8}
                             padding={12}
-                            fontSize={16}
+                            fontSize={fontSize.large}
                             color="$color"
                         />
                     </YStack>

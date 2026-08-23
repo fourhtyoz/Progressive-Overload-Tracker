@@ -34,10 +34,15 @@ const App = observer(() => {
     if (dbError) {
         return (
             <YStack flex={1} justifyContent="center" alignItems="center" padding={20}>
-                <Text fontSize={18} fontWeight="bold" color={COLORS.red} marginBottom={10}>
+                <Text
+                    fontSize={fontSize.huge}
+                    fontWeight="bold"
+                    color={COLORS.red}
+                    marginBottom={10}
+                >
                     {t('errors.databaseError')}
                 </Text>
-                <Text fontSize={14} color="$colorMuted" textAlign="center">
+                <Text fontSize={fontSize.normal} color="$colorMuted" textAlign="center">
                     {dbError}
                 </Text>
             </YStack>
@@ -51,9 +56,7 @@ const App = observer(() => {
     return (
         <I18nextProvider i18n={i18n}>
             <TamaguiProvider config={config} defaultTheme={settingsStore.isDark ? 'dark' : 'light'}>
-                <NavigationContainer
-                    theme={settingsStore.isDark ? DarkTheme : LightTheme}
-                >
+                <NavigationContainer theme={settingsStore.isDark ? DarkTheme : LightTheme}>
                     <DrawerNavigator isDarkTheme={settingsStore.isDark} />
                 </NavigationContainer>
                 <Toast
@@ -64,16 +67,22 @@ const App = observer(() => {
                                 style={{
                                     borderLeftColor: COLORS.green,
                                     borderLeftWidth: 10,
-                                    backgroundColor: settingsStore.isDark ? COLORS.backgroundDark : COLORS.backgroundLight,
+                                    backgroundColor: settingsStore.isDark
+                                        ? COLORS.backgroundDark
+                                        : COLORS.backgroundLight,
                                 }}
                                 text1Style={{
                                     fontSize: fontSize.large,
                                     fontWeight: 'bold',
-                                    color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
+                                    color: settingsStore.isDark
+                                        ? COLORS.backgroundLight
+                                        : COLORS.backgroundDark,
                                 }}
                                 text2Style={{
                                     fontSize: fontSize.normal,
-                                    color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
+                                    color: settingsStore.isDark
+                                        ? COLORS.backgroundLight
+                                        : COLORS.backgroundDark,
                                 }}
                             />
                         ),
@@ -83,16 +92,22 @@ const App = observer(() => {
                                 style={{
                                     borderLeftColor: COLORS.red,
                                     borderLeftWidth: 10,
-                                    backgroundColor: settingsStore.isDark ? COLORS.backgroundDark : COLORS.backgroundLight,
+                                    backgroundColor: settingsStore.isDark
+                                        ? COLORS.backgroundDark
+                                        : COLORS.backgroundLight,
                                 }}
                                 text1Style={{
                                     fontSize: fontSize.large,
                                     fontWeight: 'bold',
-                                    color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
+                                    color: settingsStore.isDark
+                                        ? COLORS.backgroundLight
+                                        : COLORS.backgroundDark,
                                 }}
                                 text2Style={{
                                     fontSize: fontSize.normal,
-                                    color: settingsStore.isDark ? COLORS.backgroundLight : COLORS.backgroundDark,
+                                    color: settingsStore.isDark
+                                        ? COLORS.backgroundLight
+                                        : COLORS.backgroundDark,
                                 }}
                             />
                         ),
