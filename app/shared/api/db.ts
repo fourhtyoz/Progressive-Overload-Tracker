@@ -17,33 +17,54 @@ export async function getDatabase(): Promise<SQLite.SQLiteDatabase> {
     return dbPromise;
 }
 
+type Migration = {
+    version: number;
+    up: (db: SQLite.SQLiteDatabase) => Promise<void>;
+};
+
+// Append new migrations here (never edit existing ones) and bump the version.
+const MIGRATIONS: Migration[] = [
+    {
+        version: 1,
+        up: async (db) => {
+            await db.execAsync(`
+                CREATE TABLE IF NOT EXISTS exercises (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    title TEXT NOT NULL COLLATE NOCASE,
+                    type TEXT NOT NULL CHECK (type IN (
+                        'trapezius', 'shoulders', 'chest', 'biceps', 'triceps', 'forearms',
+                        'legs', 'glutes', 'back', 'abs', 'cardio'
+                    )),
+                    UNIQUE (title, type)
+                );
+                CREATE TABLE IF NOT EXISTS results (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    exercise_id INTEGER NOT NULL,
+                    date TEXT NOT NULL,
+                    reps INTEGER NOT NULL CHECK (reps > 0),
+                    weight REAL NOT NULL CHECK (weight >= 0),
+                    units TEXT NOT NULL CHECK (units IN ('kg', 'lb')),
+                    FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
+                );
+                CREATE INDEX IF NOT EXISTS idx_results_exercise_id ON results(exercise_id);
+            `);
+        },
+    },
+];
+
 export async function initializeDatabase(): Promise<void> {
     const db = await getDatabase();
-    // Dev-only: recreate the schema fresh on every launch. Replace with a `PRAGMA user_version`
-    // migration runner before shipping with real data.
-    await db.execAsync(`
-        DROP TABLE IF EXISTS results;
-        DROP TABLE IF EXISTS exercises;
-        CREATE TABLE exercises (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            title TEXT NOT NULL COLLATE NOCASE,
-            type TEXT NOT NULL CHECK (type IN (
-                'trapezius', 'shoulders', 'chest', 'biceps', 'triceps', 'forearms',
-                'legs', 'glutes', 'back', 'abs', 'cardio'
-            )),
-            UNIQUE (title, type)
-        );
-        CREATE TABLE results (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            exercise_id INTEGER NOT NULL,
-            date TEXT NOT NULL,
-            reps INTEGER NOT NULL CHECK (reps > 0),
-            weight REAL NOT NULL CHECK (weight >= 0),
-            units TEXT NOT NULL CHECK (units IN ('kg', 'lb')),
-            FOREIGN KEY (exercise_id) REFERENCES exercises(id) ON DELETE CASCADE
-        );
-        CREATE INDEX idx_results_exercise_id ON results(exercise_id);
-    `);
+    const row = await db.getFirstAsync<{ user_version: number }>('PRAGMA user_version');
+    let current = row?.user_version ?? 0;
+
+    for (const migration of MIGRATIONS) {
+        if (migration.version <= current) continue;
+        await db.withExclusiveTransactionAsync(async (txn) => {
+            await migration.up(txn);
+            await txn.execAsync(`PRAGMA user_version = ${migration.version}`);
+        });
+        current = migration.version;
+    }
 }
 
 // EXERCISES
@@ -214,6 +235,7 @@ export const deleteTables = async (): Promise<{ success: boolean; error?: string
         await db.execAsync(`
             DROP TABLE IF EXISTS results;
             DROP TABLE IF EXISTS exercises;
+            PRAGMA user_version = 0;
         `);
         return { success: true };
     } catch (e) {
