@@ -43,7 +43,11 @@ const SettingsScreen = observer(() => {
             }
             await initializeDatabase();
             await exerciseStore.initialize();
-            Alert.alert(t('alerts.success'), t('settings.dataDeleted'));
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('settings.dataDeleted'),
+            });
         } catch (e) {
             setError(String(e));
         } finally {
@@ -110,8 +114,11 @@ const SettingsScreen = observer(() => {
             {/* Language */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label fontSize={fontSize.normal} fontWeight="bold"
-                        color={isDark ? COLORS.textDarkScreen : COLORS.black}>
+                    <Label
+                        fontSize={fontSize.normal}
+                        fontWeight="bold"
+                        color={isDark ? COLORS.textDarkScreen : COLORS.black}
+                    >
                         {t('settings.options.language')}:
                     </Label>
                     <ThemedDropdown
@@ -143,8 +150,11 @@ const SettingsScreen = observer(() => {
             {/* Units */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label fontSize={fontSize.normal} fontWeight="bold"
-                        color={isDark ? COLORS.textDarkScreen : COLORS.black}>
+                    <Label
+                        fontSize={fontSize.normal}
+                        fontWeight="bold"
+                        color={isDark ? COLORS.textDarkScreen : COLORS.black}
+                    >
                         {t('settings.options.units')}:
                     </Label>
                     <ThemedDropdown
@@ -153,16 +163,12 @@ const SettingsScreen = observer(() => {
                         onSelect={(selectedItem) => handleChangeUnits(selectedItem)}
                         renderButton={() => (
                             <DropdownInput>
-                                <DropdownText>
-                                    {t('units.' + settingsStore.units)}
-                                </DropdownText>
+                                <DropdownText>{t('units.' + settingsStore.units)}</DropdownText>
                             </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
                             <DropdownItem isSelected={isSelected} width={200}>
-                                <DropdownItemText>
-                                    {t('units.' + item)}
-                                </DropdownItemText>
+                                <DropdownItemText>{t('units.' + item)}</DropdownItemText>
                             </DropdownItem>
                         )}
                     />
@@ -175,8 +181,11 @@ const SettingsScreen = observer(() => {
             {/* Theme */}
             <YStack marginBottom={10}>
                 <XStack alignItems="center" justifyContent="space-between">
-                    <Label fontSize={fontSize.normal} fontWeight="bold"
-                        color={isDark ? COLORS.textDarkScreen : COLORS.black}>
+                    <Label
+                        fontSize={fontSize.normal}
+                        fontWeight="bold"
+                        color={isDark ? COLORS.textDarkScreen : COLORS.black}
+                    >
                         {t('settings.options.theme')}:
                     </Label>
                     <ThemedDropdown
@@ -185,16 +194,12 @@ const SettingsScreen = observer(() => {
                         onSelect={(selectedItem) => handleChangeTheme(selectedItem)}
                         renderButton={() => (
                             <DropdownInput>
-                                <DropdownText>
-                                    {t('themes.' + settingsStore.theme)}
-                                </DropdownText>
+                                <DropdownText>{t('themes.' + settingsStore.theme)}</DropdownText>
                             </DropdownInput>
                         )}
                         renderItem={(item, _, isSelected) => (
                             <DropdownItem isSelected={isSelected} width={200}>
-                                <DropdownItemText>
-                                    {t('themes.' + item)}
-                                </DropdownItemText>
+                                <DropdownItemText>{t('themes.' + item)}</DropdownItemText>
                             </DropdownItem>
                         )}
                     />

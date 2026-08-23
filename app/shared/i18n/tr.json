@@ -73,7 +73,12 @@
         "sorting": "Sıralama",
         "byDateRecentFirst": "Tarihe Göre (En Yeni İlk)",
         "byDateOldestFirst": "Tarihe Göre (En Eski İlk)",
-        "noResults": "Sonuç Yok"
+        "noResults": "Sonuç Yok",
+        "legend": {
+            "better": "İlerleme",
+            "neutral": "Değişiklik yok",
+            "worse": "Gerileme"
+        }
     },
 
     "settings": {

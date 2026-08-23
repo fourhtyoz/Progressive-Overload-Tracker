@@ -73,7 +73,12 @@
         "sorting": "Sortierung",
         "byDateRecentFirst": "Nach Datum (neueste zuerst)",
         "byDateOldestFirst": "Nach Datum (älteste zuerst)",
-        "noResults": "Keine Ergebnisse"
+        "noResults": "Keine Ergebnisse",
+        "legend": {
+            "better": "Fortschritt",
+            "neutral": "Keine Änderung",
+            "worse": "Rückschritt"
+        }
     },
 
     "settings": {

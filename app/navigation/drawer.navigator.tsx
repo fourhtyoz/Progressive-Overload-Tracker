@@ -1,13 +1,16 @@
+import { Ionicons } from '@expo/vector-icons';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createNativeStackNavigator, NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { lazy,Suspense } from 'react';
+import { DrawerActions } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { observer } from 'mobx-react-lite';
+import { lazy, Suspense } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ActivityIndicator, View } from 'react-native';
+import { ActivityIndicator, Pressable, View } from 'react-native';
 
 import AddExerciseScreen from '@/app/pages/add-exercise/add-exercise.ui';
 import EditResultScreen from '@/app/pages/edit-result/edit-result.ui';
+import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS } from '@/app/shared/theme/global-styles';
-import GoBackButton from '@/app/shared/ui/go-back-button.ui';
 
 // Lazy loaded screens
 const HomeScreen = lazy(() => import('@/app/pages/home/home.ui'));
@@ -66,6 +69,21 @@ function AddResultScreenWrapper(props: any) {
     );
 }
 
+function MenuButton({ navigation }: { navigation: any }) {
+    const isDark = settingsStore.isDark;
+    return (
+        <Pressable
+            onPress={() => navigation.dispatch(DrawerActions.openDrawer())}
+            hitSlop={8}
+            style={{ paddingHorizontal: 12 }}
+            accessibilityRole="button"
+            accessibilityLabel="Menu"
+        >
+            <Ionicons name="menu" size={24} color={isDark ? COLORS.textDarkScreen : COLORS.black} />
+        </Pressable>
+    );
+}
+
 // Stack navigators
 const AddResultStack = createNativeStackNavigator<AddResultStackParamList>();
 const HistoryStack = createNativeStackNavigator<HistoryStackParamList>();
@@ -80,39 +98,65 @@ export type HistoryStackParamList = {
     EditResult: { resultId: number };
 };
 
-function AddResultStackNavigator() {
+const AddResultStackNavigator = observer(function AddResultStackNavigator() {
+    const { t } = useTranslation();
+    const isDark = settingsStore.isDark;
+
     return (
         <AddResultStack.Navigator
-            screenOptions={({ navigation }: { navigation: NativeStackNavigationProp<AddResultStackParamList> }) => ({
-                title: '',
-                headerRight: () =>
-                    navigation.canGoBack() ? (
-                        <GoBackButton fn={() => navigation.goBack()} />
-                    ) : null,
-            })}
+            screenOptions={{
+                headerStyle: { backgroundColor: isDark ? COLORS.backgroundDark : COLORS.white },
+                headerTintColor: isDark ? COLORS.textDarkScreen : COLORS.black,
+                headerTitleStyle: { fontWeight: 'bold' },
+                headerShadowVisible: false,
+            }}
         >
-            <AddResultStack.Screen name="AddResultMain" component={AddResultScreenWrapper} />
-            <AddResultStack.Screen name="AddExercise" component={AddExerciseScreen} />
+            <AddResultStack.Screen
+                name="AddResultMain"
+                component={AddResultScreenWrapper}
+                options={({ navigation }) => ({
+                    title: t('result.screenName'),
+                    headerLeft: () => <MenuButton navigation={navigation} />,
+                })}
+            />
+            <AddResultStack.Screen
+                name="AddExercise"
+                component={AddExerciseScreen}
+                options={{ title: t('newExercise.screenName') }}
+            />
         </AddResultStack.Navigator>
     );
-}
+});
 
-function HistoryStackNavigator() {
+const HistoryStackNavigator = observer(function HistoryStackNavigator() {
+    const { t } = useTranslation();
+    const isDark = settingsStore.isDark;
+
     return (
         <HistoryStack.Navigator
-            screenOptions={({ navigation }: { navigation: NativeStackNavigationProp<HistoryStackParamList> }) => ({
-                title: '',
-                headerRight: () =>
-                    navigation.canGoBack() ? (
-                        <GoBackButton fn={() => navigation.goBack()} />
-                    ) : null,
-            })}
+            screenOptions={{
+                headerStyle: { backgroundColor: isDark ? COLORS.backgroundDark : COLORS.white },
+                headerTintColor: isDark ? COLORS.textDarkScreen : COLORS.black,
+                headerTitleStyle: { fontWeight: 'bold' },
+                headerShadowVisible: false,
+            }}
         >
-            <HistoryStack.Screen name="HistoryMain" component={HistoryScreenWrapper} />
-            <HistoryStack.Screen name="EditResult" component={EditResultScreen} />
+            <HistoryStack.Screen
+                name="HistoryMain"
+                component={HistoryScreenWrapper}
+                options={({ navigation }) => ({
+                    title: t('history.screenName'),
+                    headerLeft: () => <MenuButton navigation={navigation} />,
+                })}
+            />
+            <HistoryStack.Screen
+                name="EditResult"
+                component={EditResultScreen}
+                options={{ title: t('errors.editResult') }}
+            />
         </HistoryStack.Navigator>
     );
-}
+});
 
 // Drawer
 export type DrawerParamList = {
@@ -133,19 +177,20 @@ export default function DrawerNavigator({ isDarkTheme }: { isDarkTheme: boolean 
             initialRouteName="Home"
             screenOptions={({ route }) => ({
                 title: route.name,
-                headerTintColor: isDarkTheme ? COLORS.black : COLORS.white,
+                headerTintColor: isDarkTheme ? COLORS.textDarkScreen : COLORS.black,
                 headerTitleStyle: {
                     fontWeight: 'bold',
                 },
                 headerShadowVisible: false,
                 headerStyle: {
-                    backgroundColor: isDarkTheme ? COLORS.orange : COLORS.black,
+                    backgroundColor: isDarkTheme ? COLORS.backgroundDark : COLORS.white,
                 },
                 drawerContentStyle: {
-                    backgroundColor: isDarkTheme ? COLORS.black : COLORS.orange,
+                    backgroundColor: isDarkTheme ? COLORS.backgroundDark : COLORS.backgroundLight,
                 },
-                drawerActiveBackgroundColor: isDarkTheme ? COLORS.orange : COLORS.black,
-                drawerActiveTintColor: isDarkTheme ? COLORS.black : COLORS.white,
+                drawerActiveBackgroundColor: COLORS.orange,
+                drawerActiveTintColor: COLORS.black,
+                drawerInactiveTintColor: isDarkTheme ? COLORS.textDarkScreen : COLORS.textSecondary,
             })}
         >
             <Drawer.Screen
@@ -161,12 +206,12 @@ export default function DrawerNavigator({ isDarkTheme }: { isDarkTheme: boolean 
             <Drawer.Screen
                 name="AddResult"
                 component={AddResultStackNavigator}
-                options={{ title: t('result.screenName') }}
+                options={{ title: t('result.screenName'), headerShown: false }}
             />
             <Drawer.Screen
                 name="History"
                 component={HistoryStackNavigator}
-                options={{ title: t('history.screenName') }}
+                options={{ title: t('history.screenName'), headerShown: false }}
             />
             <Drawer.Screen
                 name="Settings"

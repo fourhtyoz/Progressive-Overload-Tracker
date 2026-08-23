@@ -2,7 +2,8 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
+import Toast from 'react-native-toast-message';
 import { Input, Label, YStack } from 'tamagui';
 
 import { AddResultStackParamList } from '@/app/navigation/drawer.navigator';
@@ -59,9 +60,12 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
 
             const res = await exerciseStore.addExercise(titleToSave, muscleGroup);
             if (res.success) {
-                Alert.alert(t('alerts.success'), t('alerts.exerciseAdded'), [
-                    { text: t('alerts.great'), onPress: handleSuccess },
-                ]);
+                Toast.show({
+                    type: 'success',
+                    text1: t('toasts.success'),
+                    text2: t('alerts.exerciseAdded'),
+                });
+                handleSuccess();
             } else {
                 setError(res.error || 'Failed to add exercise');
             }
@@ -71,67 +75,74 @@ const AddExerciseScreen = observer(({ navigation }: Props) => {
     };
 
     return (
-        <YStack flex={1} padding={20} paddingTop={25} gap={16}>
-            {error && <ErrorMessage message={error} setError={setError} />}
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+                <YStack flex={1} padding={20} paddingTop={25} gap={16}>
+                    {error && <ErrorMessage message={error} setError={setError} />}
 
-            <YStack gap={8}>
-                <Label fontWeight="600" fontSize={16}>
-                    {t('result.options.muscle')}:
-                </Label>
-                <ThemedDropdown
-                    data={MUSCLE_KEYS}
-                    onSelect={(selectedItem) => setMuscleGroup(selectedItem)}
-                    showsVerticalScrollIndicator
-                    renderButton={() => (
-                        <DropdownInput>
-                            {muscleGroup ? (
-                                <DropdownText>
-                                    {toTitleCase(t('muscles.' + muscleGroup))}
-                                </DropdownText>
-                            ) : (
-                                <DropdownPlaceholder>
-                                    {t('result.options.chooseMuscle')}
-                                </DropdownPlaceholder>
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={16}>
+                            {t('result.options.muscle')}:
+                        </Label>
+                        <ThemedDropdown
+                            data={MUSCLE_KEYS}
+                            onSelect={(selectedItem) => setMuscleGroup(selectedItem)}
+                            showsVerticalScrollIndicator
+                            renderButton={() => (
+                                <DropdownInput>
+                                    {muscleGroup ? (
+                                        <DropdownText>
+                                            {toTitleCase(t('muscles.' + muscleGroup))}
+                                        </DropdownText>
+                                    ) : (
+                                        <DropdownPlaceholder>
+                                            {t('result.options.chooseMuscle')}
+                                        </DropdownPlaceholder>
+                                    )}
+                                </DropdownInput>
                             )}
-                        </DropdownInput>
-                    )}
-                    renderItem={(item, _, isSelected) => (
-                        <DropdownItem isSelected={isSelected}>
-                            <DropdownItemText>
-                                {toTitleCase(t('muscles.' + item))}
-                            </DropdownItemText>
-                        </DropdownItem>
-                    )}
-                />
-            </YStack>
+                            renderItem={(item, _, isSelected) => (
+                                <DropdownItem isSelected={isSelected}>
+                                    <DropdownItemText>
+                                        {toTitleCase(t('muscles.' + item))}
+                                    </DropdownItemText>
+                                </DropdownItem>
+                            )}
+                        />
+                    </YStack>
 
-            <YStack gap={8}>
-                <Label fontWeight="600" fontSize={16}>
-                    {t('result.options.title')}:
-                </Label>
-                <Input
-                    onChangeText={(value) => handleChangeTitle(value)}
-                    value={title}
-                    placeholder={t('result.options.titlePlaceholder')}
-                    maxLength={50}
-                    borderWidth={1}
-                    borderColor={settingsStore.isDark ? COLORS.orange : COLORS.gray}
-                    borderRadius={8}
-                    padding={12}
-                    fontSize={16}
-                    color="$color"
-                />
-            </YStack>
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={16}>
+                            {t('result.options.title')}:
+                        </Label>
+                        <Input
+                            onChangeText={(value) => handleChangeTitle(value)}
+                            value={title}
+                            placeholder={t('result.options.titlePlaceholder')}
+                            maxLength={50}
+                            borderWidth={1}
+                            borderColor={settingsStore.isDark ? COLORS.orange : COLORS.gray}
+                            borderRadius={8}
+                            padding={12}
+                            fontSize={16}
+                            color="$color"
+                        />
+                    </YStack>
 
-            <Button
-                testID="result-createExercise"
-                onPress={handleCreateExercise}
-                text={t('result.options.createExercise')}
-                pressedBgColor={COLORS.orange}
-                borderColor={COLORS.blackTransparentBorder}
-                disabled={disabledSaveButton}
-            />
-        </YStack>
+                    <Button
+                        testID="result-createExercise"
+                        onPress={handleCreateExercise}
+                        text={t('result.options.createExercise')}
+                        pressedBgColor={COLORS.orange}
+                        borderColor={COLORS.blackTransparentBorder}
+                        disabled={disabledSaveButton}
+                    />
+                </YStack>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 });
 

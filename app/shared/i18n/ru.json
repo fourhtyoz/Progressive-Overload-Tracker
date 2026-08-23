@@ -73,7 +73,12 @@
         "sorting": "Сортировка",
         "byDateRecentFirst": "По дате (новые вначале)",
         "byDateOldestFirst": "По дате (старые вначале)",
-        "noResults": "Нет результатов"
+        "noResults": "Нет результатов",
+        "legend": {
+            "better": "Прогресс",
+            "neutral": "Без изменений",
+            "worse": "Регресс"
+        }
     },
 
     "settings": {

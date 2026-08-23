@@ -24,6 +24,7 @@ export function ThemedDropdown<T>({
     renderButton,
     showsVerticalScrollIndicator = false,
 }: ThemedDropdownProps<T>) {
+    const isDark = settingsStore.isDark;
     return (
         <SelectDropdown
             data={data as object[]}
@@ -31,7 +32,11 @@ export function ThemedDropdown<T>({
             onSelect={(selectedItem, index) => onSelect(selectedItem as T, index)}
             disabled={disabled}
             showsVerticalScrollIndicator={showsVerticalScrollIndicator}
-            dropdownStyle={globalStyles.dropdownMenuStyle}
+            dropdownStyle={{
+                backgroundColor: isDark ? COLORS.darkDarkGrey : COLORS.dropdownBackground,
+                borderRadius: 8,
+                width: 'auto' as const,
+            }}
             renderButton={(selectedItem) => renderButton(selectedItem as T | undefined)}
             renderItem={(item, index, isSelected) =>
                 renderItem(item as T, index, isSelected)
@@ -88,7 +93,7 @@ export function DropdownItem({
                 globalStyles.dropdownItemStyle,
                 width ? { width } : undefined,
                 isSelected && {
-                    backgroundColor: isDark ? COLORS.orange : COLORS.selectedLight,
+                    backgroundColor: isDark ? COLORS.darkGrey : COLORS.selectedLight,
                 },
             ]}
         >
@@ -98,5 +103,15 @@ export function DropdownItem({
 }
 
 export function DropdownItemText({ children }: { children: React.ReactNode }) {
-    return <Text style={globalStyles.dropdownItemTxtStyle}>{children}</Text>;
+    const isDark = settingsStore.isDark;
+    return (
+        <Text
+            style={[
+                globalStyles.dropdownItemTxtStyle,
+                { color: isDark ? COLORS.textDarkScreen : COLORS.dropdownText },
+            ]}
+        >
+            {children}
+        </Text>
+    );
 }

@@ -1,23 +1,20 @@
-import { settingsStore } from '@/app/shared/stores/settings.store';
 import { TResult } from '@/app/shared/types';
 
 export type ProgressType = 'worse' | 'better' | 'neutral';
 
+const KG_PER_LB = 0.45359237;
+
+function toKilograms(weight: number, units: string): number {
+    if (units === 'lb') return weight * KG_PER_LB;
+    return weight;
+}
+
+function calcScore(set: TResult): number {
+    if (set.weight === 0) return set.reps;
+    return toKilograms(set.weight, set.units) * set.reps;
+}
+
 export function getProgress(currentSet: TResult, previousSet: TResult): ProgressType {
-    const defaultUnits = settingsStore.units;
-
-    function toDefaultUnits(weight: number, units: string): number {
-        if (units === defaultUnits) return weight;
-        if (defaultUnits === 'kg') return weight * 0.453;
-        if (defaultUnits === 'lb') return weight * 2.205;
-        return weight;
-    }
-
-    function calcScore(set: TResult): number {
-        if (set.weight === 0) return set.reps;
-        return toDefaultUnits(set.weight, set.units) * set.reps;
-    }
-
     const currentScore = calcScore(currentSet);
     const previousScore = calcScore(previousSet);
 

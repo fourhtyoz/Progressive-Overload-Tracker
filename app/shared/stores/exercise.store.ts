@@ -17,6 +17,7 @@ class ExerciseStore {
     error = '';
     exercises: TExercise[] = [];
     muscleOptions: string[] = [];
+    resultsCache = new Map<number, TResult[]>();
 
     constructor() {
         makeAutoObservable(this);
@@ -85,7 +86,13 @@ class ExerciseStore {
         weight: number,
         units: string
     ) {
-        return dbAddResult(exercise, exerciseId, date, muscleGroup, reps, weight, units);
+        const res = await dbAddResult(exercise, exerciseId, date, muscleGroup, reps, weight, units);
+        if (res.success) {
+            runInAction(() => {
+                this.resultsCache.clear();
+            });
+        }
+        return res;
     }
 
     async updateResult(
@@ -98,19 +105,46 @@ class ExerciseStore {
         weight: number,
         units: string
     ) {
-        return dbUpdateResult(id, exercise, exerciseId, date, muscleGroup, reps, weight, units);
+        const res = await dbUpdateResult(id, exercise, exerciseId, date, muscleGroup, reps, weight, units);
+        if (res.success) {
+            runInAction(() => {
+                this.resultsCache.clear();
+            });
+        }
+        return res;
     }
 
     async deleteResult(id: number) {
-        return dbDeleteResult(id);
+        const res = await dbDeleteResult(id);
+        if (res.success) {
+            runInAction(() => {
+                for (const [exerciseId, rows] of this.resultsCache) {
+                    const filtered = rows.filter((row) => row.id !== id);
+                    if (filtered.length !== rows.length) {
+                        this.resultsCache.set(exerciseId, filtered);
+                    }
+                }
+            });
+        }
+        return res;
     }
 
     async fetchResultById(id: number): Promise<DBResult<TResult>> {
         return dbFetchResultById(id);
     }
 
-    async fetchResultsByExerciseId(exerciseId: number): Promise<DBResult<TResult[]>> {
-        return dbFetchResultsByExerciseId(exerciseId);
+    async loadResults(exerciseId: number): Promise<DBResult<TResult[]>> {
+        const cached = this.resultsCache.get(exerciseId);
+        if (cached) return { success: true, data: cached };
+
+        const res = await dbFetchResultsByExerciseId(exerciseId);
+        if (res.success && res.data) {
+            const data = res.data;
+            runInAction(() => {
+                this.resultsCache.set(exerciseId, data);
+            });
+        }
+        return res;
     }
 }
 

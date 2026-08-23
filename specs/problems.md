@@ -4,6 +4,7 @@
 `npm audit` still reports 52 vulnerabilities (4 critical, 27 high) in dev/CLI transitive deps
 (`@remix-run/*`, `@xmldom/xmldom`, `@babel/core`). Fixing them requires a breaking `expo@57`
 upgrade and is out of scope for this pass. Defer to an explicit Expo upgrade.
+
 - **No tests** — ⚠️ REMAINING: there is still no test suite or test setup.
 
 ## Remaining

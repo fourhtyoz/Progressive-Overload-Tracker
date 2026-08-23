@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }: Props) {
                     style={{ overflow: 'hidden', borderRadius: 15, flex: 1 }}
                 >
                     <Pressable
-                        style={{ flexGrow: 1, borderRadius: 15 }}
+                        style={({ pressed }) => ({ flexGrow: 1, borderRadius: 15, opacity: pressed ? 0.7 : 1 })}
                         onPress={() => navigation.navigate('AddResult')}
                         accessibilityRole="button"
                         accessibilityLabel={t('home.result')}
@@ -47,7 +47,7 @@ export default function HomeScreen({ navigation }: Props) {
                         style={{ overflow: 'hidden', borderRadius: 15, flex: 2 }}
                     >
                         <Pressable
-                            style={{ flexGrow: 1, borderRadius: 15 }}
+                            style={({ pressed }) => ({ flexGrow: 1, borderRadius: 15, opacity: pressed ? 0.7 : 1 })}
                             onPress={() => navigation.navigate('About')}
                             accessibilityRole="button"
                             accessibilityLabel={t('home.about')}
@@ -71,7 +71,7 @@ export default function HomeScreen({ navigation }: Props) {
                         style={{ overflow: 'hidden', borderRadius: 15, flex: 1 }}
                     >
                         <Pressable
-                            style={{ flexGrow: 1, borderRadius: 15 }}
+                            style={({ pressed }) => ({ flexGrow: 1, borderRadius: 15, opacity: pressed ? 0.7 : 1 })}
                             onPress={() => navigation.navigate('Settings')}
                             accessibilityRole="button"
                             accessibilityLabel={t('home.settings')}
@@ -98,7 +98,7 @@ export default function HomeScreen({ navigation }: Props) {
                     style={{ overflow: 'hidden', borderRadius: 15, flex: 1 }}
                 >
                     <Pressable
-                        style={{ flexGrow: 1, borderRadius: 15 }}
+                        style={({ pressed }) => ({ flexGrow: 1, borderRadius: 15, opacity: pressed ? 0.7 : 1 })}
                         onPress={() => navigation.navigate('History')}
                         accessibilityRole="button"
                         accessibilityLabel={t('home.history')}

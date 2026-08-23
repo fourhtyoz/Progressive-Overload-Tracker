@@ -1,3 +1,4 @@
+import { Ionicons } from '@expo/vector-icons';
 import { observer } from 'mobx-react-lite';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -83,9 +84,7 @@ export default observer(function HistoryScreen() {
                     )}
                     renderItem={(item, _, isSelected) => (
                         <DropdownItem isSelected={isSelected}>
-                            <DropdownItemText>
-                                {toTitleCase(item.title)}
-                            </DropdownItemText>
+                            <DropdownItemText>{toTitleCase(item.title)}</DropdownItemText>
                         </DropdownItem>
                     )}
                 />
@@ -141,17 +140,52 @@ export default observer(function HistoryScreen() {
                 </Text>
             </Button>
 
+            {/* Legend */}
+            {filteredExercises.length > 0 && (
+                <XStack gap={16} alignItems="center" justifyContent="center" marginBottom={10}>
+                    <XStack alignItems="center" gap={6}>
+                        <Ionicons name="trending-up" size={16} color={COLORS.green} />
+                        <Text fontSize={fontSize.normal} color="$colorMuted">
+                            {t('history.legend.better')}
+                        </Text>
+                    </XStack>
+                    <XStack alignItems="center" gap={6}>
+                        <Ionicons name="remove" size={16} color={COLORS.orange} />
+                        <Text fontSize={fontSize.normal} color="$colorMuted">
+                            {t('history.legend.neutral')}
+                        </Text>
+                    </XStack>
+                    <XStack alignItems="center" gap={6}>
+                        <Ionicons name="trending-down" size={16} color={COLORS.red} />
+                        <Text fontSize={fontSize.normal} color="$colorMuted">
+                            {t('history.legend.worse')}
+                        </Text>
+                    </XStack>
+                </XStack>
+            )}
+
             {/* Exercise List */}
-            {filteredExercises.map((item: TExercise) => (
-                <Exercise
-                    key={item.id}
-                    id={item.id}
-                    title={item.title}
-                    type={item.type}
-                    sorting={selectedSorting.type}
-                    setError={setError}
-                />
-            ))}
+            {filteredExercises.length === 0 ? (
+                <YStack alignItems="center" paddingVertical={40} gap={8}>
+                    <Text fontSize={fontSize.large} fontWeight="600" color="$colorMuted">
+                        {t('alerts.noExerciseTitle')}
+                    </Text>
+                    <Text fontSize={fontSize.normal} color="$colorMuted" textAlign="center">
+                        {t('alerts.noExercise')}
+                    </Text>
+                </YStack>
+            ) : (
+                filteredExercises.map((item: TExercise) => (
+                    <Exercise
+                        key={item.id}
+                        id={item.id}
+                        title={item.title}
+                        type={item.type}
+                        sorting={selectedSorting.type}
+                        setError={setError}
+                    />
+                ))
+            )}
         </ScrollView>
     );
 });

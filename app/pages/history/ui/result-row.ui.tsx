@@ -47,6 +47,15 @@ export default function Result({
                   ? COLORS.darkGrey
                   : COLORS.white;
 
+    const progressIcon =
+        progress === 'better'
+            ? 'trending-up'
+            : progress === 'worse'
+              ? 'trending-down'
+              : progress === 'neutral'
+                ? 'remove'
+                : undefined;
+
     const handleDeleteRecord = (id: number) => {
         Alert.alert(t('alerts.areYouSure'), t('alerts.sureToDeleteRecord'), [
             { text: t('alerts.yesProceed'), onPress: () => deleteResult(id) },
@@ -73,16 +82,33 @@ export default function Result({
             borderLeftWidth={5}
             borderLeftColor={progressColor}
         >
-            <Text flex={1} textAlign="center" fontSize={fontSize.normal}
-                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
+            <XStack width={24} alignItems="center" justifyContent="center">
+                {progressIcon ? (
+                    <Ionicons name={progressIcon} size={16} color={progressColor} />
+                ) : null}
+            </XStack>
+            <Text
+                flex={1}
+                textAlign="center"
+                fontSize={fontSize.normal}
+                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
+            >
                 {getformattedDate(date)}
             </Text>
-            <Text flex={1} textAlign="center" fontSize={fontSize.normal}
-                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
+            <Text
+                flex={1}
+                textAlign="center"
+                fontSize={fontSize.normal}
+                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
+            >
                 {weight ? `${weight} ${t('units.' + units)}` : '-'}
             </Text>
-            <Text flex={1} textAlign="center" fontSize={fontSize.normal}
-                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}>
+            <Text
+                flex={1}
+                textAlign="center"
+                fontSize={fontSize.normal}
+                color={isDark ? COLORS.textDarkScreen : COLORS.textSecondary}
+            >
                 {reps}
             </Text>
             <TouchableOpacity

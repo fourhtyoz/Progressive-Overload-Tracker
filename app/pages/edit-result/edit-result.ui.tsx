@@ -1,17 +1,21 @@
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker, { DateTimePickerAndroid } from '@react-native-community/datetimepicker';
-import { NavigationProp } from '@react-navigation/native';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { observer } from 'mobx-react-lite';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Alert, Platform } from 'react-native';
+import { KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import Toast from 'react-native-toast-message';
 import { Input, Label, Text, XStack, YStack } from 'tamagui';
 
-import { DrawerParamList, HistoryStackParamList } from '@/app/navigation/drawer.navigator';
+import { HistoryStackParamList } from '@/app/navigation/drawer.navigator';
 import { MUSCLE_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
-import { getformattedDate, toTitleCase } from '@/app/shared/lib/formatters.lib';
+import {
+    getformattedDate,
+    toLocalDate,
+    toLocalDateString,
+    toTitleCase,
+} from '@/app/shared/lib/formatters.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS } from '@/app/shared/theme/global-styles';
@@ -84,8 +88,15 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
     };
 
     const handleSubmitEntry = async () => {
-        if (newDate && newGroup && newExercise && newReps && !isNaN(Number(newWeight)) && newUnits) {
-            const dateString = newDate instanceof Date ? newDate.toISOString() : newDate;
+        if (
+            newDate &&
+            newGroup &&
+            newExercise &&
+            newReps &&
+            !isNaN(Number(newWeight)) &&
+            newUnits
+        ) {
+            const dateString = newDate instanceof Date ? toLocalDateString(newDate) : newDate;
             const res = await exerciseStore.updateResult(
                 route.params.resultId,
                 newExercise.title,
@@ -98,12 +109,12 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             );
             const { success, error } = res;
             if (success) {
-                Alert.alert(t('alerts.success'), t('alerts.newEntryUpdatedSuccess'), [
-                    {
-                        text: t('alerts.goToHistory'),
-                        onPress: () => (navigation.getParent() as NavigationProp<DrawerParamList>)?.navigate('History'),
-                    },
-                ]);
+                Toast.show({
+                    type: 'success',
+                    text1: t('toasts.success'),
+                    text2: t('alerts.newEntryUpdatedSuccess'),
+                });
+                navigation.goBack();
             } else {
                 const e = `${t('errors.failedUpdateResult')} ${error}`;
                 setError(e);
@@ -149,7 +160,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
     const showMode = () => {
         if (Platform.OS === 'android') {
             DateTimePickerAndroid.open({
-                value: new Date(newDate),
+                value: toLocalDate(newDate),
                 onChange,
                 mode: 'date',
                 is24Hour: true,
@@ -166,199 +177,204 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
     const inputBorder = settingsStore.isDark ? COLORS.orange : COLORS.gray;
 
     return (
-        <YStack flex={1} padding={20} gap={16}>
-            {error && (
-                <YStack gap={8}>
-                    <ErrorMessage message={error} setError={setError} />
-                    <Button
-                        text={t('alerts.retry')}
-                        onPress={() => fetchResult(route.params.resultId)}
-                        pressedBgColor={COLORS.orange}
-                        borderColor={COLORS.blackTransparentBorder}
-                    />
-                </YStack>
-            )}
+        <KeyboardAvoidingView
+            style={{ flex: 1 }}
+            behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+        >
+            <ScrollView contentContainerStyle={{ flexGrow: 1 }} keyboardShouldPersistTaps="handled">
+                <YStack flex={1} padding={20} gap={16}>
+                    {error && (
+                        <YStack gap={8}>
+                            <ErrorMessage message={error} setError={setError} />
+                            <Button
+                                text={t('alerts.retry')}
+                                onPress={() => fetchResult(route.params.resultId)}
+                                pressedBgColor={COLORS.orange}
+                                borderColor={COLORS.blackTransparentBorder}
+                            />
+                        </YStack>
+                    )}
 
-            {/* Date */}
-            <YStack gap={8}>
-                <Label fontWeight="600" fontSize={16}>
-                    {t('result.options.date')}:
-                </Label>
-                <XStack alignItems="center" gap={12}>
-                    <Text fontSize={16} color="$color" flex={1}>
-                        {getformattedDate(newDate)}
-                    </Text>
-                    <YStack
-                        onPress={showMode}
-                        accessibilityRole="button"
-                        accessibilityLabel={t('errors.changeDate')}
-                    >
-                        <Ionicons
-                            name="calendar-outline"
-                            size={24}
-                            color={settingsStore.isDark ? COLORS.textDarkScreen : COLORS.gray}
+                    {/* Date */}
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={16}>
+                            {t('result.options.date')}:
+                        </Label>
+                        <XStack alignItems="center" gap={12}>
+                            <Text fontSize={16} color="$color" flex={1}>
+                                {getformattedDate(newDate)}
+                            </Text>
+                            <YStack
+                                onPress={showMode}
+                                accessibilityRole="button"
+                                accessibilityLabel={t('errors.changeDate')}
+                            >
+                                <Ionicons
+                                    name="calendar-outline"
+                                    size={24}
+                                    color={
+                                        settingsStore.isDark ? COLORS.textDarkScreen : COLORS.gray
+                                    }
+                                />
+                            </YStack>
+                        </XStack>
+                        {showPicker && Platform.OS === 'ios' && (
+                            <DateTimePicker
+                                value={toLocalDate(newDate)}
+                                mode="date"
+                                display="spinner"
+                                onChange={onChange}
+                            />
+                        )}
+                    </YStack>
+
+                    {/* Muscle Group */}
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={16}>
+                            {t('result.options.muscle')}:
+                        </Label>
+                        <ThemedDropdown
+                            data={MUSCLE_KEYS}
+                            defaultValue={newGroup || undefined}
+                            onSelect={(selectedItem) => {
+                                setNewGroup(selectedItem);
+                                setNewExercise(null);
+                            }}
+                            showsVerticalScrollIndicator
+                            renderButton={() => (
+                                <DropdownInput>
+                                    {newGroup ? (
+                                        <DropdownText>
+                                            {toTitleCase(t('muscles.' + newGroup))}
+                                        </DropdownText>
+                                    ) : (
+                                        <DropdownPlaceholder>
+                                            {t('result.options.chooseMuscle')}
+                                        </DropdownPlaceholder>
+                                    )}
+                                </DropdownInput>
+                            )}
+                            renderItem={(item, _, isSelected) => (
+                                <DropdownItem isSelected={isSelected}>
+                                    <DropdownItemText>
+                                        {toTitleCase(t('muscles.' + item))}
+                                    </DropdownItemText>
+                                </DropdownItem>
+                            )}
                         />
                     </YStack>
-                </XStack>
-                {showPicker && Platform.OS === 'ios' && (
-                    <DateTimePicker
-                        value={new Date(newDate)}
-                        mode="date"
-                        display="spinner"
-                        onChange={onChange}
-                    />
-                )}
-            </YStack>
 
-            {/* Muscle Group */}
-            <YStack gap={8}>
-                <Label fontWeight="600" fontSize={16}>
-                    {t('result.options.muscle')}:
-                </Label>
-                <ThemedDropdown
-                    data={MUSCLE_KEYS}
-                    defaultValue={newGroup || undefined}
-                    onSelect={(selectedItem) => {
-                        setNewGroup(selectedItem);
-                        setNewExercise(null);
-                    }}
-                    showsVerticalScrollIndicator
-                    renderButton={() => (
-                        <DropdownInput>
-                            {newGroup ? (
-                                <DropdownText>
-                                    {toTitleCase(t('muscles.' + newGroup))}
-                                </DropdownText>
-                            ) : (
-                                <DropdownPlaceholder>
-                                    {t('result.options.chooseMuscle')}
-                                </DropdownPlaceholder>
+                    {/* Exercise */}
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={16}>
+                            {t('result.options.exercise')}:
+                        </Label>
+                        <ThemedDropdown
+                            data={
+                                newGroup ? exercises.filter((item) => item.type === newGroup) : []
+                            }
+                            defaultValue={newExercise || undefined}
+                            onSelect={(selectedItem) => {
+                                setNewExercise(selectedItem);
+                            }}
+                            showsVerticalScrollIndicator
+                            renderButton={() => (
+                                <DropdownInput>
+                                    {newExercise ? (
+                                        <DropdownText>
+                                            {toTitleCase(newExercise.title)}
+                                        </DropdownText>
+                                    ) : (
+                                        <DropdownPlaceholder>
+                                            {t('result.options.chooseExercise')}
+                                        </DropdownPlaceholder>
+                                    )}
+                                </DropdownInput>
                             )}
-                        </DropdownInput>
-                    )}
-                    renderItem={(item, _, isSelected) => (
-                        <DropdownItem isSelected={isSelected}>
-                            <DropdownItemText>
-                                {toTitleCase(t('muscles.' + item))}
-                            </DropdownItemText>
-                        </DropdownItem>
-                    )}
-                />
-            </YStack>
-
-            {/* Exercise */}
-            <YStack gap={8}>
-                <Label fontWeight="600" fontSize={16}>
-                    {t('result.options.exercise')}:
-                </Label>
-                <ThemedDropdown
-                    data={
-                        newGroup
-                            ? exercises.filter((item) => item.type === newGroup)
-                            : []
-                    }
-                    defaultValue={newExercise || undefined}
-                    onSelect={(selectedItem) => {
-                        setNewExercise(selectedItem);
-                    }}
-                    showsVerticalScrollIndicator
-                    renderButton={() => (
-                        <DropdownInput>
-                            {newExercise ? (
-                                <DropdownText>
-                                    {toTitleCase(newExercise.title)}
-                                </DropdownText>
-                            ) : (
-                                <DropdownPlaceholder>
-                                    {t('result.options.chooseExercise')}
-                                </DropdownPlaceholder>
+                            renderItem={(item, index, isSelected) => (
+                                <DropdownItem isSelected={isSelected}>
+                                    <DropdownItemText>
+                                        {index + 1}. {item.title}
+                                    </DropdownItemText>
+                                </DropdownItem>
                             )}
-                        </DropdownInput>
-                    )}
-                    renderItem={(item, index, isSelected) => (
-                        <DropdownItem isSelected={isSelected}>
-                            <DropdownItemText>
-                                {index + 1}. {item.title}
-                            </DropdownItemText>
-                        </DropdownItem>
-                    )}
-                />
-            </YStack>
+                        />
+                    </YStack>
 
-            {/* Weight + Units */}
-            <YStack gap={8}>
-                <Label fontWeight="600" fontSize={16}>
-                    {t('result.options.weight')}:
-                </Label>
-                <XStack gap={8}>
-                    <Input
-                        testID="input-weight"
-                        flex={1}
-                        value={`${newWeight}`}
-                        placeholder={t('result.options.whatWeight')}
-                        onChangeText={(value) => handleChangeWeight(value)}
-                        keyboardType="numeric"
-                        maxLength={6}
-                        borderWidth={1}
-                        borderColor={inputBorder}
-                        borderRadius={8}
-                        padding={12}
-                        fontSize={16}
-                        color="$color"
-                    />
-                    <ThemedDropdown
-                        data={UNIT_KEYS}
-                        defaultValue={newUnits || undefined}
-                        onSelect={(selectedItem) => setNewUnits(selectedItem)}
-                        renderButton={() => (
-                            <DropdownInput>
-                                <DropdownText>
-                                    {newUnits ? t('units.' + newUnits) : ''}
-                                </DropdownText>
-                            </DropdownInput>
-                        )}
-                        renderItem={(item, _, isSelected) => (
-                            <DropdownItem isSelected={isSelected}>
-                                <DropdownItemText>
-                                    {t('units.' + item)}
-                                </DropdownItemText>
-                            </DropdownItem>
-                        )}
-                    />
-                </XStack>
-            </YStack>
+                    {/* Weight + Units */}
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={16}>
+                            {t('result.options.weight')}:
+                        </Label>
+                        <XStack gap={8}>
+                            <Input
+                                testID="input-weight"
+                                flex={1}
+                                value={`${newWeight}`}
+                                placeholder={t('result.options.whatWeight')}
+                                onChangeText={(value) => handleChangeWeight(value)}
+                                keyboardType="numeric"
+                                maxLength={6}
+                                borderWidth={1}
+                                borderColor={inputBorder}
+                                borderRadius={8}
+                                padding={12}
+                                fontSize={16}
+                                color="$color"
+                            />
+                            <ThemedDropdown
+                                data={UNIT_KEYS}
+                                defaultValue={newUnits || undefined}
+                                onSelect={(selectedItem) => setNewUnits(selectedItem)}
+                                renderButton={() => (
+                                    <DropdownInput>
+                                        <DropdownText>
+                                            {newUnits ? t('units.' + newUnits) : ''}
+                                        </DropdownText>
+                                    </DropdownInput>
+                                )}
+                                renderItem={(item, _, isSelected) => (
+                                    <DropdownItem isSelected={isSelected}>
+                                        <DropdownItemText>{t('units.' + item)}</DropdownItemText>
+                                    </DropdownItem>
+                                )}
+                            />
+                        </XStack>
+                    </YStack>
 
-            {/* Reps */}
-            <YStack gap={8}>
-                <Label fontWeight="600" fontSize={16}>
-                    {t('result.options.reps')}:
-                </Label>
-                <Input
-                    testID="input-reps"
-                    value={`${newReps}`}
-                    placeholder={t('result.options.howManyReps')}
-                    onChangeText={(value) => handleChangeReps(value)}
-                    keyboardType="numeric"
-                    maxLength={4}
-                    borderWidth={1}
-                    borderColor={inputBorder}
-                    borderRadius={8}
-                    padding={12}
-                    fontSize={16}
-                    color="$color"
-                />
-            </YStack>
+                    {/* Reps */}
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={16}>
+                            {t('result.options.reps')}:
+                        </Label>
+                        <Input
+                            testID="input-reps"
+                            value={`${newReps}`}
+                            placeholder={t('result.options.howManyReps')}
+                            onChangeText={(value) => handleChangeReps(value)}
+                            keyboardType="numeric"
+                            maxLength={4}
+                            borderWidth={1}
+                            borderColor={inputBorder}
+                            borderRadius={8}
+                            padding={12}
+                            fontSize={16}
+                            color="$color"
+                        />
+                    </YStack>
 
-            {/* Submit */}
-            <YStack gap={16} marginTop={8}>
-                <Button
-                    onPress={handleSubmitEntry}
-                    text={t('result.buttons.updateResult')}
-                    pressedBgColor={COLORS.orange}
-                    borderColor={COLORS.blackTransparentBorder}
-                />
-            </YStack>
-        </YStack>
+                    {/* Submit */}
+                    <YStack gap={16} marginTop={8}>
+                        <Button
+                            onPress={handleSubmitEntry}
+                            text={t('result.buttons.updateResult')}
+                            pressedBgColor={COLORS.orange}
+                            borderColor={COLORS.blackTransparentBorder}
+                        />
+                    </YStack>
+                </YStack>
+            </ScrollView>
+        </KeyboardAvoidingView>
     );
 });
 
