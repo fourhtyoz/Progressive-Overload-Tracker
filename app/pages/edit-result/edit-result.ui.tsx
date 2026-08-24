@@ -41,6 +41,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
     const [newDate, setNewDate] = useState<Date | string>(new Date());
     const [newGroup, setNewGroup] = useState<string | null>(null);
     const [newExercise, setNewExercise] = useState<TExercise | null>(null);
+    const [newSets, setNewSets] = useState<string>('1');
     const [newReps, setNewReps] = useState<string>('');
     const [newWeight, setNewWeight] = useState<string>('');
     const [newUnits, setNewUnits] = useState<string | null>(null);
@@ -50,6 +51,25 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
 
     const { t } = useTranslation();
     const fontSize = useFontSize();
+
+    const handleChangeSets = (value: string) => {
+        if (!value) {
+            setNewSets('');
+            setError('');
+            return;
+        }
+        const num = Number(value);
+        if (isNaN(num)) {
+            setError(t('errors.setsMustBeNumber'));
+            return;
+        }
+        if (num < 1) {
+            setError(t('errors.setsMustBePositive'));
+            return;
+        }
+        setNewSets(value);
+        setError('');
+    };
 
     const handleChangeReps = (value: string) => {
         if (!value) {
@@ -94,6 +114,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
             newDate &&
             newGroup &&
             newExercise &&
+            newSets &&
             newReps &&
             !isNaN(Number(newWeight)) &&
             newUnits
@@ -105,7 +126,8 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                 dateString,
                 Number(newReps),
                 Number(newWeight),
-                newUnits
+                newUnits,
+                Number(newSets)
             );
             const { success, error } = res;
             if (success) {
@@ -139,6 +161,7 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                 const exercise = exercises.find((item) => item.id === d.exercise_id) ?? null;
                 setNewExercise(exercise);
                 setNewGroup(exercise ? exercise.type : null);
+                setNewSets(String(d.sets));
                 setNewReps(String(d.reps));
                 setNewWeight(String(d.weight));
                 setNewUnits(d.units);
@@ -302,6 +325,26 @@ const EditResultScreen = observer(({ navigation, route }: Props) => {
                                     </DropdownItemText>
                                 </DropdownItem>
                             )}
+                        />
+                    </YStack>
+
+                    {/* Sets */}
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
+                            {t('result.options.sets')}:
+                        </Label>
+                        <Input
+                            value={newSets}
+                            placeholder={t('result.options.howManySets')}
+                            onChangeText={(value) => handleChangeSets(value)}
+                            keyboardType="numeric"
+                            maxLength={4}
+                            borderWidth={1}
+                            borderColor={inputBorder}
+                            borderRadius={8}
+                            padding={12}
+                            fontSize={fontSize.large}
+                            color="$color"
                         />
                     </YStack>
 

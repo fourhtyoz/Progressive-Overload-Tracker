@@ -80,8 +80,15 @@ class ExerciseStore {
     }
 
     // RESULTS
-    async addResult(exerciseId: number, date: string, reps: number, weight: number, units: string) {
-        const res = await dbAddResult(exerciseId, date, reps, weight, units);
+    async addResult(
+        exerciseId: number,
+        date: string,
+        reps: number,
+        weight: number,
+        units: string,
+        sets: number
+    ) {
+        const res = await dbAddResult(exerciseId, date, reps, weight, units, sets);
         if (res.success) {
             runInAction(() => {
                 this.resultsCache.clear();
@@ -96,9 +103,10 @@ class ExerciseStore {
         date: string,
         reps: number,
         weight: number,
-        units: string
+        units: string,
+        sets: number
     ) {
-        const res = await dbUpdateResult(id, exerciseId, date, reps, weight, units);
+        const res = await dbUpdateResult(id, exerciseId, date, reps, weight, units, sets);
         if (res.success) {
             runInAction(() => {
                 this.resultsCache.clear();

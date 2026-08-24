@@ -33,6 +33,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
 
     const [muscleGroup, setMuscleGroup] = useState('');
     const [exercise, setExercise] = useState<TExercise | null>(null);
+    const [setsValue, setSetsValue] = useState('1');
     const [repsValue, setRepsValue] = useState('');
     const [weightValue, setWeightValue] = useState('');
     const [units, setUnits] = useState<'kg' | 'lb'>(settingsStore.units);
@@ -51,10 +52,30 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     }, [exercise]);
 
     const resetAllFields = () => {
+        setSetsValue('1');
         setRepsValue('');
         setWeightValue('');
         setExercise(null);
         setMuscleGroup('');
+        setError('');
+    };
+
+    const handleChangeSets = (value: string) => {
+        if (value === '') {
+            setSetsValue('');
+            setError('');
+            return;
+        }
+        const num = Number(value);
+        if (isNaN(num)) {
+            setError(t('errors.setsMustBeNumber'));
+            return;
+        }
+        if (num < 1) {
+            setError(t('errors.setsMustBePositive'));
+            return;
+        }
+        setSetsValue(value);
         setError('');
     };
 
@@ -99,6 +120,7 @@ const AddResultScreen = observer(({ navigation }: Props) => {
     const disabledSaveButton = !(
         muscleGroup &&
         exercise &&
+        setsValue &&
         repsValue &&
         !isNaN(Number(weightValue)) &&
         units
@@ -112,7 +134,8 @@ const AddResultScreen = observer(({ navigation }: Props) => {
             date,
             Number(repsValue),
             Number(weightValue),
-            units
+            units,
+            Number(setsValue)
         );
         if (res.success) {
             resetAllFields();
@@ -241,6 +264,26 @@ const AddResultScreen = observer(({ navigation }: Props) => {
                                     : `${t('result.bodyweight')} × ${lastResult.reps}`}
                             </Text>
                         )}
+                    </YStack>
+
+                    {/* Sets */}
+                    <YStack gap={8}>
+                        <Label fontWeight="600" fontSize={fontSize.large}>
+                            {t('result.options.sets')}:
+                        </Label>
+                        <Input
+                            value={setsValue}
+                            placeholder={t('result.options.howManySets')}
+                            onChangeText={(value) => handleChangeSets(value)}
+                            keyboardType="numeric"
+                            maxLength={4}
+                            borderWidth={1}
+                            borderColor={inputBorder}
+                            borderRadius={8}
+                            padding={12}
+                            fontSize={fontSize.large}
+                            color="$color"
+                        />
                     </YStack>
 
                     {/* Weight + Units */}

@@ -11,6 +11,7 @@ export type TResult = {
     reps: number;
     weight: number;
     units: string;
+    sets: number;
 };
 
 export interface DBResult<T = unknown> {

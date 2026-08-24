@@ -118,8 +118,9 @@ Changes from current:
 
 ### Deferred / optional (do not build now)
 
-- **`sets` column (4.2.2)** — additive: `ALTER TABLE results ADD COLUMN sets INTEGER NOT NULL
-  DEFAULT 1`. Wait until it's specced on its own.
+- **`sets` column (4.2.2)** — **done** (migration v2): `ALTER TABLE results ADD COLUMN sets
+  INTEGER NOT NULL DEFAULT 1 CHECK (sets > 0)`. Recorded and displayed everywhere; does not affect
+  the 1RM marker.
 - **Cardio (4.2.6)** — likely a separate entry model (duration/distance) rather than overloading
   `reps`; own spec, own migration.
 - **Canonical units** — store kg + a per-user display unit instead of per-row `units`. Larger

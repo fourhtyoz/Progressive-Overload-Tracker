@@ -50,6 +50,14 @@ const MIGRATIONS: Migration[] = [
             `);
         },
     },
+    {
+        version: 2,
+        up: async (db) => {
+            await db.execAsync(
+                'ALTER TABLE results ADD COLUMN sets INTEGER NOT NULL DEFAULT 1 CHECK (sets > 0);'
+            );
+        },
+    },
 ];
 
 export async function initializeDatabase(): Promise<void> {
@@ -129,13 +137,14 @@ export const addResult = async (
     date: string,
     reps: number,
     weight: number,
-    units: string
+    units: string,
+    sets: number
 ): Promise<DBResult<number>> => {
     try {
         const db = await getDatabase();
         const result = await db.runAsync(
-            'INSERT INTO results (exercise_id, date, reps, weight, units) VALUES (?, ?, ?, ?, ?)',
-            [exercise_id, date, reps, weight, units]
+            'INSERT INTO results (exercise_id, date, reps, weight, units, sets) VALUES (?, ?, ?, ?, ?, ?)',
+            [exercise_id, date, reps, weight, units, sets]
         );
         return { success: true, data: result.lastInsertRowId };
     } catch (e) {
@@ -149,13 +158,14 @@ export const updateResult = async (
     date: string,
     reps: number,
     weight: number,
-    units: string
+    units: string,
+    sets: number
 ): Promise<DBResult<number>> => {
     try {
         const db = await getDatabase();
         const result = await db.runAsync(
-            'UPDATE results SET exercise_id = ?, date = ?, reps = ?, weight = ?, units = ? WHERE id = ?',
-            [exercise_id, date, reps, weight, units, id]
+            'UPDATE results SET exercise_id = ?, date = ?, reps = ?, weight = ?, units = ?, sets = ? WHERE id = ?',
+            [exercise_id, date, reps, weight, units, sets, id]
         );
         return { success: true, data: result.changes };
     } catch (e) {

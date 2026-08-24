@@ -14,6 +14,7 @@ import { useFontSize } from '@/app/shared/theme/use-font-size';
 type ResultProps = {
     resultId: number;
     date: string;
+    sets: number;
     weight: number;
     reps: number;
     units: string;
@@ -24,6 +25,7 @@ type ResultProps = {
 export default function Result({
     resultId,
     date,
+    sets,
     weight,
     reps,
     units,
@@ -89,6 +91,9 @@ export default function Result({
             </XStack>
             <Text flex={1} textAlign="center" fontSize={fontSize.normal} color="$colorMuted">
                 {getformattedDate(date)}
+            </Text>
+            <Text flex={1} textAlign="center" fontSize={fontSize.normal} color="$colorMuted">
+                {sets}
             </Text>
             <Text flex={1} textAlign="center" fontSize={fontSize.normal} color="$colorMuted">
                 {weight ? `${weight} ${t('units.' + units)}` : '-'}

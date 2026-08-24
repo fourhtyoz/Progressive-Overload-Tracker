@@ -140,8 +140,8 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
 
     const formatSet = (set: TResult) =>
         set.weight
-            ? `${set.weight} ${t('units.' + set.units)} × ${set.reps}`
-            : `${t('result.bodyweight')} × ${set.reps}`;
+            ? `${set.sets} × ${set.weight} ${t('units.' + set.units)} × ${set.reps}`
+            : `${set.sets} × ${t('result.bodyweight')} × ${set.reps}`;
 
     const formatPct = (value: number) => {
         const rounded = Math.round(value);
@@ -280,6 +280,15 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
                             fontWeight="bold"
                             color="$colorMuted"
                         >
+                            {t('history.table.header.sets')}
+                        </Text>
+                        <Text
+                            flex={1}
+                            textAlign="center"
+                            fontSize={fontSize.normal}
+                            fontWeight="bold"
+                            color="$colorMuted"
+                        >
                             {t('history.table.header.weight')}
                         </Text>
                         <Text
@@ -336,6 +345,7 @@ export default observer(function Exercise({ id, title, type, sorting, setError }
                             key={item.id}
                             resultId={item.id}
                             date={item.date}
+                            sets={item.sets}
                             weight={item.weight}
                             reps={item.reps}
                             units={item.units}
