@@ -50,6 +50,12 @@ class ExerciseStore {
         });
     };
 
+    clearResultsCache = () => {
+        runInAction(() => {
+            this.resultsCache.clear();
+        });
+    };
+
     setError = (message: string) => {
         runInAction(() => {
             this.error = message;

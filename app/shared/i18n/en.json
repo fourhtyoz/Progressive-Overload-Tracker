@@ -99,6 +99,11 @@
         "dataDeleted": "Your data has been successfully deleted",
         "getInTouch": "Get in Touch",
         "sendEmailTo": "To contact us, send an email to",
+        "export": "Export Data",
+        "import": "Import Data",
+        "exportSuccess": "Your data has been exported successfully",
+        "importSuccess": "Your data has been imported successfully",
+        "importWarning": "Importing will replace all current data with the backup. Continue?",
         "options": {
             "language": "Language",
             "languageHelpText": "Change the app's language",

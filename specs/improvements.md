@@ -3,8 +3,9 @@
 > Analysis date: 2026-08-23. This document originally captured opportunities to make the app feel
 > and look less "raw". Phases 1–3 (visual / UX / architecture polish), the Phase 4 correctness
 > bugs (4.1.1–4.1.4), the small UX wins (4.2.4, 4.2.5, 4.3), and the model gaps 4.2.1 (1RM),
-> 4.2.2 (sets) and 4.2.3 (PR stat header) are complete and have been removed. Remaining work:
-> the two product / model gaps below.
+> 4.2.2 (sets), 4.2.3 (PR stat header) and 4.2.7 (export/backup) are complete and have been
+> removed. Remaining work: 4.2.6 (cardio), now specced in `specs/cardio.md` and awaiting a
+> decision on its open questions.
 
 ## Main idea & business model
 
@@ -41,6 +42,7 @@ user before building.
 "Cardio" is a muscle group, but every entry requires reps + weight. Logging a run means `weight = 0`
 with "reps" standing in for duration/distance — an awkward fit.
 
-### 4.2.7 No export / backup
-All data is local SQLite with no export/import. "Delete data" exists in Settings, but there's no
-way to back up or migrate a user's progress history.
+**Spec:** `specs/cardio.md` — proposes a separate `cardio_results` table (duration + optional
+distance) with its own progress score. Awaiting a decision on the open questions (metrics, progress
+signal, distance units, UI flow).
+

@@ -99,6 +99,11 @@
         "dataDeleted": "Sus datos han sido eliminados correctamente",
         "getInTouch": "Contáctanos",
         "sendEmailTo": "Para contactarnos, envíenos un correo electrónico a",
+        "export": "Exportar Datos",
+        "import": "Importar Datos",
+        "exportSuccess": "Sus datos han sido exportados correctamente",
+        "importSuccess": "Sus datos han sido importados correctamente",
+        "importWarning": "La importación reemplazará todos los datos actuales con la copia de seguridad. ¿Continuar?",
         "options": {
             "language": "Idioma",
             "languageHelpText": "Cambiar el idioma de la aplicación",

@@ -99,6 +99,11 @@
         "dataDeleted": "Ihre Daten wurden erfolgreich gelöscht",
         "getInTouch": "Kontakt aufnehmen",
         "sendEmailTo": "Um uns zu kontaktieren, senden Sie eine E-Mail an",
+        "export": "Daten exportieren",
+        "import": "Daten importieren",
+        "exportSuccess": "Ihre Daten wurden erfolgreich exportiert",
+        "importSuccess": "Ihre Daten wurden erfolgreich importiert",
+        "importWarning": "Der Import ersetzt alle aktuellen Daten durch die Sicherung. Fortfahren?",
         "options": {
             "language": "Sprache",
             "languageHelpText": "Die Sprache der App ändern",

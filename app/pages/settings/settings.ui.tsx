@@ -7,6 +7,7 @@ import { Label, Text, XStack, YStack } from 'tamagui';
 
 import { deleteTables, initializeDatabase } from '@/app/shared/api/db';
 import { CONTACT_EMAIL, LANGUAGES, THEME_KEYS, UNIT_KEYS } from '@/app/shared/constants/settings';
+import { exportBackup, importBackup } from '@/app/shared/lib/backup.lib';
 import { exerciseStore } from '@/app/shared/stores/exercise.store';
 import { settingsStore } from '@/app/shared/stores/settings.store';
 import { COLORS } from '@/app/shared/theme/global-styles';
@@ -25,6 +26,7 @@ import {
 const SettingsScreen = observer(() => {
     const [error, setError] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
+    const [isBackingUp, setIsBackingUp] = useState(false);
     const { t } = useTranslation();
     const fontSize = useFontSize();
 
@@ -57,6 +59,50 @@ const SettingsScreen = observer(() => {
     const handleDeleteData = () => {
         Alert.alert(t('alerts.areYouSure'), t('alerts.wantToDelete'), [
             { text: t('alerts.yesProceed'), onPress: handleDeleteAllData },
+            { text: t('alerts.noIchangedMyMind') },
+        ]);
+    };
+
+    const handleExport = async () => {
+        setIsBackingUp(true);
+        setError('');
+        try {
+            await exportBackup();
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('settings.exportSuccess'),
+            });
+        } catch (e) {
+            setError(e instanceof Error ? e.message : String(e));
+        } finally {
+            setIsBackingUp(false);
+        }
+    };
+
+    const handleImportConfirmed = async () => {
+        setIsBackingUp(true);
+        setError('');
+        try {
+            const imported = await importBackup();
+            if (imported === 0) return;
+            exerciseStore.clearResultsCache();
+            await exerciseStore.initialize();
+            Toast.show({
+                type: 'success',
+                text1: t('toasts.success'),
+                text2: t('settings.importSuccess'),
+            });
+        } catch (e) {
+            setError(e instanceof Error ? e.message : String(e));
+        } finally {
+            setIsBackingUp(false);
+        }
+    };
+
+    const handleImport = () => {
+        Alert.alert(t('alerts.areYouSure'), t('settings.importWarning'), [
+            { text: t('alerts.yesProceed'), onPress: () => void handleImportConfirmed() },
             { text: t('alerts.noIchangedMyMind') },
         ]);
     };
@@ -205,6 +251,28 @@ const SettingsScreen = observer(() => {
                     borderColor={COLORS.blackTransparentBorder}
                 />
             </YStack>
+
+            {/* Backup */}
+            {isBackingUp ? (
+                <YStack alignItems="center">
+                    <Loader />
+                </YStack>
+            ) : (
+                <YStack gap={12}>
+                    <Button
+                        text={t('settings.export')}
+                        onPress={handleExport}
+                        pressedBgColor={COLORS.orange}
+                        borderColor={COLORS.blackTransparentBorder}
+                    />
+                    <Button
+                        text={t('settings.import')}
+                        onPress={handleImport}
+                        pressedBgColor={COLORS.orange}
+                        borderColor={COLORS.blackTransparentBorder}
+                    />
+                </YStack>
+            )}
 
             {/* Delete Data */}
             {isDeleting ? (

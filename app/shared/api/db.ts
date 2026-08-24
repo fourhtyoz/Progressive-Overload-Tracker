@@ -252,3 +252,46 @@ export const deleteTables = async (): Promise<{ success: boolean; error?: string
         return handleTransactionError(e, 'Failed to delete tables', 'deleteTables');
     }
 };
+
+// BACKUP
+export const fetchAllData = async (): Promise<
+    DBResult<{ exercises: TExercise[]; results: TResult[] }>
+> => {
+    try {
+        const db = await getDatabase();
+        const exercises = await db.getAllAsync<TExercise>('SELECT * FROM exercises ORDER BY id');
+        const results = await db.getAllAsync<TResult>('SELECT * FROM results ORDER BY id');
+        return { success: true, data: { exercises, results } };
+    } catch (e) {
+        return handleTransactionError(e, 'Failed to export data', 'fetchAllData');
+    }
+};
+
+export const replaceAllData = async (
+    exercises: TExercise[],
+    results: TResult[]
+): Promise<DBResult<number>> => {
+    try {
+        const db = await getDatabase();
+        await db.withExclusiveTransactionAsync(async (txn) => {
+            await txn.runAsync('DELETE FROM results');
+            await txn.runAsync('DELETE FROM exercises');
+            for (const ex of exercises) {
+                await txn.runAsync('INSERT INTO exercises (id, title, type) VALUES (?, ?, ?)', [
+                    ex.id,
+                    ex.title,
+                    ex.type,
+                ]);
+            }
+            for (const r of results) {
+                await txn.runAsync(
+                    'INSERT INTO results (id, exercise_id, date, reps, weight, units, sets) VALUES (?, ?, ?, ?, ?, ?, ?)',
+                    [r.id, r.exercise_id, r.date, r.reps, r.weight, r.units, r.sets]
+                );
+            }
+        });
+        return { success: true, data: exercises.length + results.length };
+    } catch (e) {
+        return handleTransactionError(e, 'Failed to import data', 'replaceAllData');
+    }
+};

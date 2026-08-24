@@ -99,6 +99,11 @@
         "dataDeleted": "Verileriniz başarıyla silindi",
         "getInTouch": "Bizimle İletişime Geçin",
         "sendEmailTo": "Bizimle iletişime geçmek için şu adrese e-posta gönderin",
+        "export": "Verileri Dışa Aktar",
+        "import": "Verileri İçe Aktar",
+        "exportSuccess": "Verileriniz başarıyla dışa aktarıldı",
+        "importSuccess": "Verileriniz başarıyla içe aktarıldı",
+        "importWarning": "İçe aktarma, mevcut tüm verileri yedekle değiştirecek. Devam edilsin mi?",
         "options": {
             "language": "Dil",
             "languageHelpText": "Uygulamanın dilini değiştirin",
